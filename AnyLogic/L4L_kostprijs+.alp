@@ -12510,6 +12510,7 @@ import java.io.*;]]></Import>
 				<Variable Class="PlainVariable">
 					<Id>1670254349157</Id>
 					<Name><![CDATA[v_enable_nfATO_b]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>1120</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -13767,6 +13768,7 @@ import java.io.*;]]></Import>
 				<Event>
 					<Id>1668981173495</Id>
 					<Name><![CDATA[e_startNonFirmATO]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>1120</X><Y>100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -14510,7 +14512,7 @@ for(EnergyAsset e : c_consumptionAssets) {
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[f_instantiateEnergyAssets();
 f_connectToParentNode();
-f_setAllowedCapacity();
+//f_setAllowedCapacity();
 f_setOperatingSwitches();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -14692,6 +14694,7 @@ if ( p_BuildingThermalAsset == null ) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1669193537955</Id>
 					<Name><![CDATA[f_setAllowedCapacity]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>801</X><Y>113</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -14701,8 +14704,7 @@ if ( p_BuildingThermalAsset == null ) {
 //if(p_nfatoLvl_kW == 0 && p_nfatoStart_HR == 0 && p_nfatoEnd_HR == 0){
 if(!v_enable_nfATO_b){
 	e_startNonFirmATO.reset();
-	e_endNonFirmATO.reset();
-			
+	e_endNonFirmATO.reset();			
 }
 else {
 	e_startNonFirmATO.restartTo(p_nfatoStart_h, HOUR);
@@ -24409,13 +24411,13 @@ ea 2
 					<Body><![CDATA[gridConnections.connectTo(ConnectingChildNode);
 v_ownedGridConnection = ConnectingChildNode;
 //traceln("f_connectToChild in connectionOwner agent, connection contract type: " + v_contractConnection.connectionContractType);
-if (v_contractConnection.connectionContractType.equals(OL_ConnectionContractType.NFATO)) {
+/*if (v_contractConnection.connectionContractType.equals(OL_ConnectionContractType.NFATO)) {
 	ConnectingChildNode.v_enable_nfATO_b = true;
 	ConnectingChildNode.p_nfatoStart_h = v_contractConnection.nfATOstart_h;
 	ConnectingChildNode.p_nfatoEnd_h = v_contractConnection.nfATOend_h;
 	ConnectingChildNode.p_nfatoLvl_kW = v_contractConnection.nfATOpower_kW;
 	traceln("Setting nfATO TRUE for gridConnection: " + ConnectingChildNode.p_agentID);
-}
+}*/
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -27134,7 +27136,7 @@ Supplier]]></Text>
 				<Variable Class="PlainVariable">
 					<Id>1668587453344</Id>
 					<Name><![CDATA[v_balanceMembers_eur]]></Name>
-					<X>690</X><Y>600</Y>
+					<X>690</X><Y>620</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -27358,6 +27360,7 @@ Supplier]]></Text>
 				<Variable Class="PlainVariable">
 					<Id>1670254434536</Id>
 					<Name><![CDATA[v_enable_nfATO_b]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>383</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -27592,7 +27595,7 @@ Supplier]]></Text>
 				<Variable Class="PlainVariable">
 					<Id>1692113346724</Id>
 					<Name><![CDATA[v_totalBalanceCoop_eur]]></Name>
-					<X>660</X><Y>640</Y>
+					<X>660</X><Y>660</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -27631,6 +27634,21 @@ Supplier]]></Text>
 						<Type><![CDATA[double]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[min(1, 0.8*1.2 * main.p_timeStep_h) //0.2 ]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692631118805</Id>
+					<Name><![CDATA[v_assetDepreciation_eur]]></Name>
+					<X>690</X><Y>580</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -27929,7 +27947,7 @@ Supplier]]></Text>
 					<Id>1692112528722</Id>
 					<Name><![CDATA[p_yearlyOperationalCosts_eur]]></Name>
 					<Description><![CDATA[TODO: This is still hardcoded! How should Coop know where to 'gather' this data? (Capacity of shared connection)]]></Description>
-					<X>690</X><Y>620</Y>
+					<X>690</X><Y>640</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -28009,6 +28027,7 @@ Supplier]]></Text>
 				<Event>
 					<Id>1669035973262</Id>
 					<Name><![CDATA[e_startNonFirmATO]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>383</X><Y>590</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -28040,6 +28059,7 @@ Supplier]]></Text>
 				<Event>
 					<Id>1669035973267</Id>
 					<Name><![CDATA[e_endNonFirmATO]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>383</X><Y>610</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -28706,7 +28726,7 @@ if (p_gridNodeUnderResponsibility != null){
 }
 
 v_allowedCapacity_kW = p_connectionCapacity_kW;
-if(!v_enable_nfATO_b){
+/*if(!v_enable_nfATO_b){
 	e_startNonFirmATO.reset();
 	e_endNonFirmATO.reset();
 }
@@ -28714,7 +28734,7 @@ else {
 	e_startNonFirmATO.restartTo(v_contractConnection.nfATOstart_h, HOUR);
 	e_endNonFirmATO.restartTo(v_contractConnection.nfATOend_h, HOUR);
 	if(v_contractConnection.nfATOpower_kW == 0.0) { v_contractConnection.nfATOpower_kW = p_connectionCapacity_kW; }
-}
+}*/
 
 f_setInitPriceBands();]]></Body>
 				</Function>
@@ -28843,8 +28863,8 @@ if( p_congestionTariffApplicable ){
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// Depreciation costs
-double depreciationCosts_eur = f_totalAssetDepreciation();
-v_totalBalanceCoop_eur -= depreciationCosts_eur;
+v_assetDepreciation_eur = f_totalAssetDepreciation();
+v_totalBalanceCoop_eur -= v_assetDepreciation_eur;
 // Operational costs: local parameter p_yearlyOperationalCosts_eur
 v_totalBalanceCoop_eur -= p_yearlyOperationalCosts_eur;
 // EPEX balance: take from local variable v_balanceElectricityDelivery_eur
@@ -28854,7 +28874,7 @@ v_totalBalanceCoop_eur += v_balanceElectricity_eur;
 f_totalMembersBalance();
 v_totalBalanceCoop_eur += v_balanceMembers_eur;
 
-]]></Body>
+ch_coopBalance.updateData();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -28900,7 +28920,7 @@ return depreciationCosts_eur;
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1692112229224</Id>
 					<Name><![CDATA[f_totalMembersBalance]]></Name>
-					<X>690</X><Y>580</Y>
+					<X>690</X><Y>600</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -29092,6 +29112,85 @@ for(Agent a :  subConnectionsElectricity.getConnections() ) {
 					<Z>0</Z>
 					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
 
+			<Presentation>
+    			<BarChart>
+					<Id>1692631026123</Id>
+					<Name><![CDATA[ch_coopBalance]]></Name>
+					<X>910</X><Y>340</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1692691200000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>390</Width>
+					<Height>390</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>30</YOffset>
+						<Width>310</Width>
+						<Height>300</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<DataItem>
+					<Id>1692631027262</Id>
+					<Expression><![CDATA[v_balanceMembers_eur]]></Expression>
+					<Color>-3137392</Color>
+						<Title><![CDATA[Inkomsten leden]]></Title>
+					</DataItem>
+					<DataItem>
+					<Id>1692631063902</Id>
+					<Expression><![CDATA[v_balanceElectricityDelivery_eur]]></Expression>
+					<Color>-32944</Color>
+						<Title><![CDATA[Inkomsten EPEX]]></Title>
+					</DataItem>
+					<DataItem>
+					<Id>1692631086718</Id>
+					<Expression><![CDATA[-v_assetDepreciation_eur]]></Expression>
+					<Color>-13447886</Color>
+						<Title><![CDATA[Afschrijving assets]]></Title>
+					</DataItem>
+					<DataItem>
+					<Id>1692631175228</Id>
+					<Expression><![CDATA[-p_yearlyOperationalCosts_eur]]></Expression>
+					<Color>-9404272</Color>
+						<Title><![CDATA[OPEX]]></Title>
+					</DataItem>
+					<ScaleFromExpression><![CDATA[0]]></ScaleFromExpression>
+					<ScaleToExpression><![CDATA[1]]></ScaleToExpression>
+					<ScaleType>AUTO</ScaleType>
+					<Bars>
+						<Direction>UP</Direction>
+						<RelativeWidth>0.8</RelativeWidth>
+					</Bars>
+    			</BarChart>
+			</Presentation>
 
 				</Level>
 			</Presentation>
