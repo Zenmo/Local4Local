@@ -1035,7 +1035,7 @@ v_hourOfYearStart=hourOfYearPerMonth[getMonth()] + (getDayOfMonth()-1)*24;
 
 // Populate the model
 f_configureBackBone();
-if( b_addKpiVisuals ) { add_kpiVisuals() ;}
+//if( b_addKpiVisuals ) { add_kpiVisuals() ;}
 
 j_dataOut = new DataOut();
 j_experimentSettingsData = new J_ExperimentSettingsData();
@@ -1745,18 +1745,6 @@ traceln(" ");
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1677070829387</Id>
-					<Name><![CDATA[v_cumulativeHouseholdDemand_fr]]></Name>
-					<X>950</X><Y>930</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double]]></Type>        
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1678980412868</Id>
 					<Name><![CDATA[v_cumulativeGridCapacityMSLS_kW]]></Name>
 					<X>-570</X><Y>1020</Y>
@@ -2012,7 +2000,7 @@ traceln(" ");
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[false]]></Code>
+							<Code><![CDATA[true]]></Code>
 						</DefaultValue>
 						<ParameterEditor>
 							<Id>1658752734131</Id>
@@ -2811,15 +2799,15 @@ f_updatePricesForNextTimestep();
 v_incentivesRuntime_ms += (System.currentTimeMillis()-startTime);
 
 if (b_addKpiVisuals) {
-	kpiVisuals(0).f_updateVisuals();
-}
-v_cumulativeHouseholdDemand_fr += v_currentHouseHoldHotWaterDemand_fr;
-v_timeStepsElapsed ++;
-
-if ( b_addKpiVisuals ) {
+	//kpiVisuals(0).f_updateVisuals();
 	pl_gasVerbruik.updateData();
 	pl_netBelasting.updateData();
-}]]></Action>
+	pl_electricityConsumptionStack.updateData();
+	pl_electricityProductionStack.updateData();
+}
+
+v_timeStepsElapsed ++;
+]]></Action>
 				</Event>
 				<Event>
 					<Id>1674058522977</Id>
@@ -9804,7 +9792,7 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
     			<TimePlot>
 					<Id>1690271885086</Id>
 					<Name><![CDATA[pl_netBelasting]]></Name>
-					<X>20</X><Y>340</Y>
+					<X>700</X><Y>570</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9823,14 +9811,14 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 					</RecurrenceCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Width>580</Width>
-					<Height>380</Height>
+					<Height>190</Height>
 					<BackgroundColor/>
 					<BorderColor/>
 					<ChartArea>
 						<XOffset>50</XOffset>
 						<YOffset>30</YOffset>
 						<Width>500</Width>
-						<Height>290</Height>
+						<Height>100</Height>
 						<BackgroundColor>-1</BackgroundColor>
 						<BorderColor>-16777216</BorderColor>
 						<GridColor>-12566464</GridColor>
@@ -9871,7 +9859,7 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
     			<TimePlot>
 					<Id>1690280530087</Id>
 					<Name><![CDATA[pl_gasVerbruik]]></Name>
-					<X>640</X><Y>340</Y>
+					<X>50</X><Y>350</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9938,7 +9926,7 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 				<Text>
 					<Id>1690975123923</Id>
 					<Name><![CDATA[text37]]></Name>
-					<X>656</X><Y>169</Y>
+					<X>550</X><Y>30</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9957,6 +9945,168 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+    			<TimeStackChart>
+					<Id>1692628719495</Id>
+					<Name><![CDATA[pl_electricityConsumptionStack]]></Name>
+					<X>700</X><Y>40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1692691200000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>580</Width>
+					<Height>250</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>30</YOffset>
+						<Width>500</Width>
+						<Height>160</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
+					<DatasetExpression>
+					<Id>1692628720996</Id>
+					<Expression><![CDATA[my_dataset]]></Expression>
+					<Color>-9728477</Color>
+					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_fixedConsumptionElectric_kW)]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+							<Title><![CDATA[Huishoudelijke apparaten]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Id>1692629007733</Id>
+					<Expression><![CDATA[my_dataset3]]></Expression>
+					<Color>-2354116</Color>
+					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_evChargingPowerElectric_kW)]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+							<Title><![CDATA[Laden EVs]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Id>1692629800346</Id>
+					<Expression><![CDATA[my_dataset4]]></Expression>
+					<Color>-10496</Color>
+					<Expression2><![CDATA[sum(c_gridConnections, g->max(0,g.v_batteryPowerElectric_kW))]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+							<Title><![CDATA[Batterijen opladen]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Id>1692629871763</Id>
+					<Expression><![CDATA[my_dataset5]]></Expression>
+					<Color>-6632142</Color>
+					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_electricHobConsumption_kW)]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+							<Title><![CDATA[Elektrisch koken]]></Title>
+					</DatasetExpression>
+					<SamplesToKeep>400</SamplesToKeep>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
+    			</TimeStackChart>
+    			<TimeStackChart>
+					<Id>1692629344071</Id>
+					<Name><![CDATA[pl_electricityProductionStack]]></Name>
+					<X>700</X><Y>290</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<AutoUpdate>false</AutoUpdate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1692691200000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</RecurrenceCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Width>580</Width>
+					<Height>250</Height>
+					<BackgroundColor/>
+					<BorderColor/>
+					<ChartArea>
+						<XOffset>50</XOffset>
+						<YOffset>30</YOffset>
+						<Width>500</Width>
+						<Height>160</Height>
+						<BackgroundColor>-1</BackgroundColor>
+						<BorderColor>-16777216</BorderColor>
+						<GridColor>-12566464</GridColor>
+					</ChartArea>
+					<Legend>
+						<Place>SOUTH</Place>
+						<TextColor>-16777216</TextColor>
+						<Size>30</Size>
+					</Legend>
+					<Labels>
+						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
+						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
+						<TextColor>-12566464</TextColor>
+					</Labels>
+					<ShowLegend>true</ShowLegend>
+					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
+					<TimeWindowUnits>MODEL_TIME_UNIT</TimeWindowUnits>
+					<TimeWindowExpression><![CDATA[100]]></TimeWindowExpression>
+					<DatasetExpression>
+					<Id>1692629344066</Id>
+					<Expression><![CDATA[my_dataset1]]></Expression>
+					<Color>-16728065</Color>
+					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_pvProductionElectric_kW)]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+							<Title><![CDATA[Opwek zonnepanelen]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Id>1692629344067</Id>
+					<Expression><![CDATA[my_dataset2]]></Expression>
+					<Color>-4565549</Color>
+					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_windProductionElectric_kW)]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+							<Title><![CDATA[Opwek windmolens]]></Title>
+					</DatasetExpression>
+					<DatasetExpression>
+					<Id>1692629741744</Id>
+					<Expression><![CDATA[my_dataset3]]></Expression>
+					<Color>-2354116</Color>
+					<Expression2><![CDATA[sum(c_gridConnections, g->max(0,-g.v_batteryPowerElectric_kW))]]></Expression2>
+					<Expression2Flag>true</Expression2Flag>
+							<Title><![CDATA[Batterij teruglevering]]></Title>
+					</DatasetExpression>
+					<SamplesToKeep>400</SamplesToKeep>
+					<VerScaleToExpression><![CDATA[1]]></VerScaleToExpression>
+					<VerScaleType>AUTO</VerScaleType>
+					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
+    			</TimeStackChart>
 			</Presentation>
 
 				</Level>
@@ -17423,6 +17573,7 @@ return v_currentConsumptionElectricity_kW;
 		<ActiveObjectClass>
 			<Id>1658752695711</Id>
 			<Name><![CDATA[KpiVisuals]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
 			<StartupCode><![CDATA[f_plotAgents();]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -18977,6 +19128,7 @@ f_checkModelConsistency();
 		<ActiveObjectClass>
 			<Id>1658752913454</Id>
 			<Name><![CDATA[UI_GridNode]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
 			<StartupCode><![CDATA[f_setNodeVisual();]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -20107,6 +20259,7 @@ for(UI_GridNode n : kpiVisuals.uI_GridNodes){
 		<ActiveObjectClass>
 			<Id>1658764971887</Id>
 			<Name><![CDATA[UI_GridConnection]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
 			<StartupCode><![CDATA[f_setNetConnectionVisual();
 pl_powerFlows.setVisible(false);]]></StartupCode>
 			<Generic>false</Generic>
@@ -25317,6 +25470,7 @@ traceln("f_getElectricityPrice(-10) " + f_getElectricityPrice(-10));
 		<ActiveObjectClass>
 			<Id>1660572036696</Id>
 			<Name><![CDATA[UI_Actor]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1660572036694</Id>
@@ -26672,9 +26826,6 @@ Supplier]]></Text>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_actorSubgroup]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_applyKostprijsPlus]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
