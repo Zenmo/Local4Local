@@ -5942,7 +5942,7 @@ t_numberOfRooftopPV.setText(count(Houses, x->x.v_hasPV == true));]]></Body>
 					<Url><![CDATA[]]></Url>
 					<ResourceReference>
 						<PackageName><![CDATA[zero]]></PackageName>
-						<ClassName><![CDATA[exampleAnylogicInput.json]]></ClassName>
+						<ClassName><![CDATA[exampleAnylogicInput_noHOBs.json]]></ClassName>
 					</ResourceReference>
 					<FileMode>READ</FileMode>
 					<CharsetName>null</CharsetName>
@@ -9443,7 +9443,7 @@ if( sl_EV.getValue()/100.0*Houses.size() < HouseholdEVs){
 		double energyConsumption_kWhpkm = t.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScalingElectric = t.hasNonNull("vehicleScaling")? t.required("vehicleScaling").doubleValue() : 1.0;
 		storageAsset.p_energyAssetInstance = new J_EAEV(storageAsset, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric );  
-
+		storageAsset.f_getHouseholdTrips();
 		storageAsset.f_connectToParentNode( this );
 		c_storageAssets.add(storageAsset);
 		
@@ -13782,6 +13782,7 @@ import java.io.*;]]></Import>
 				<Variable Class="CollectionVariable">
 					<Id>1667744410260</Id>
 					<Name><![CDATA[c_mobilityTrackers]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>470</X><Y>120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -14010,7 +14011,7 @@ if (EA.p_energyAssetInstance instanceof J_EAConsumption ) {
 		c_vehicleAssets.add( EA );
 		c_dieselVehicles.add( EA );
 		c_vehicleAssets.get( v_vehicleIndex ).v_powerFraction_fr = 1;
-		MobilityTracker m = main.add_mobilityTrackers();
+		/*MobilityTracker m = main.add_mobilityTrackers();
 		c_mobilityTrackers.add( m );
 		m.p_vehicleIndex = v_vehicleIndex;
 		m.p_gridConnection = this;
@@ -14019,7 +14020,7 @@ if (EA.p_energyAssetInstance instanceof J_EAConsumption ) {
 		m.p_vehicleInstance = (J_EADieselVehicle)m.p_vehicleInstance;
 		m.p_mobilityPatternType = OL_MobilityPatternType.TRUCK;
 		((J_EADieselVehicle)m.p_vehicleInstance).setMobilityTracker( m );
-		m.f_getData();
+		m.f_getData();*/
 		v_vehicleIndex ++;
 	}
 	c_consumptionAssets.add(EA);
@@ -14041,8 +14042,8 @@ else if (EA.p_energyAssetInstance instanceof J_EAStorage ) {
 		if(EA.p_energyAssetInstance instanceof J_EAEV && ((J_EAEV)EA.p_energyAssetInstance).getStorageCapacity_kWh() !=0) {
 			c_storageAssets.add(EA);
 			c_vehicleAssets.add( EA );
-			EA.v_powerFraction_fr = 1; //Waarom staat dit op 1? 29-01-23 PH
-			MobilityTracker m = main.add_mobilityTrackers();
+			//EA.v_powerFraction_fr = 1; //Waarom staat dit op 1? 29-01-23 PH
+			/*MobilityTracker m = main.add_mobilityTrackers();
 			c_mobilityTrackers.add( m );
 			m.p_vehicleIndex = v_vehicleIndex;
 			m.p_gridConnection = this;
@@ -14050,7 +14051,7 @@ else if (EA.p_energyAssetInstance instanceof J_EAStorage ) {
 			m.p_vehicleInstance = (J_EAEV)m.p_energyAsset.p_energyAssetInstance;
  			m.p_mobilityPatternType = OL_MobilityPatternType.TRUCK;
 			((J_EAEV)m.p_vehicleInstance).setMobilityTracker( m );
-			m.f_getData();
+			m.f_getData();*/
 			v_vehicleIndex ++;
 		}
 		else if (((J_EAStorageElectric)EA.p_energyAssetInstance).getStorageCapacity_kWh() != 0) {
@@ -14905,9 +14906,9 @@ for ( int i = 0; i < copiedVehicleList.size(); i++ ){
 		if (ev.vehicleScaling != 0) {
 			double chargingSpeed = min (maxChargingSpeed, ev.capacityElectric_kW / ev.vehicleScaling );
 			double ratio = chargingSpeed / (ev.capacityElectric_kW / ev.vehicleScaling);
-			if ( ev.getChargingTimeToFull_MIN() > ev.getMobilityTracker().nextActivityStartTimer.getRest(MINUTE) - main.p_timeStep_h * 60 ){
+			/*if ( ev.getChargingTimeToFull_MIN() > EA.nextEventStartTime_min - main.p_timeStep_h * 60 ){
 				ratio = 1;
-			}
+			}*/
 			v_evChargingPowerElectric_kW += EA.f_updateElectricityFlows( ratio );
 		}
 	}
@@ -14948,8 +14949,8 @@ for ( int i = 0; i < copiedVehicleList.size(); i++ ){
 		double chargeNeedForNextTrip_kWh = max(0, vehicle.energyNeedForNextTrip_kWh - vehicle.getStorageCapacity_kWh()*vehicle.getCurrentStateOfCharge());
 		//double timeToNexTrip_min = vehicle.getMobilityTracker().v_nextTripStartTime_min - time( MINUTE );
 		double maxChargingPower_kW = vehicle.getElectricCapacity_kW();
-		double timeToNextTrip_min = vehicle.getMobilityTracker().v_nextTripStartTime_min - time ( MINUTE );
-		double chargeDeadline_min = floor((vehicle.getMobilityTracker().v_nextTripStartTime_min / 60 - chargeNeedForNextTrip_kWh / maxChargingPower_kW) / main.p_timeStep_h) * 60 * main.p_timeStep_h;
+		double timeToNextTrip_min = EA.v_nextEventStartTime_min - time ( MINUTE );
+		double chargeDeadline_min = floor((EA.v_nextEventStartTime_min / 60 - chargeNeedForNextTrip_kWh / maxChargingPower_kW) / main.p_timeStep_h) * 60 * main.p_timeStep_h;
 
 		double priceGain_kWhpeur = 0.50; // When WTP is higher than current electricity price, ramp up charging power with this gain based on the price-delta.
 		double flexibilityGain_eurpkWh = 0.5; // How strongly WTP-price shifts based on charging flexibility
@@ -16556,6 +16557,110 @@ return level;]]></Body>
 						<Type><![CDATA[double]]></Type>        
 					</Properties>
 				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692717492327</Id>
+					<Name><![CDATA[v_eventIndex]]></Name>
+					<X>1022</X><Y>253</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[0]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692717492334</Id>
+					<Name><![CDATA[v_idleTimeToNextTrip_min]]></Name>
+					<Description><![CDATA[[Minutes]]]></Description>
+					<X>1022</X><Y>293</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692717492338</Id>
+					<Name><![CDATA[v_nextEventStartTime_min]]></Name>
+					<Description><![CDATA[[Minutes]]]></Description>
+					<X>1022</X><Y>313</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692717492341</Id>
+					<Name><![CDATA[v_nextEventEndTime_min]]></Name>
+					<Description><![CDATA[[Minutes]]]></Description>
+					<X>1022</X><Y>334</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692717739863</Id>
+					<Name><![CDATA[v_tripPatternName]]></Name>
+					<X>1180</X><Y>120</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692717739869</Id>
+					<Name><![CDATA[v_tripPatternIndex]]></Name>
+					<X>1180</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[int]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692717777318</Id>
+					<Name><![CDATA[v_tripDist_km]]></Name>
+					<Description><![CDATA[[km]]]></Description>
+					<X>1022</X><Y>272</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1692775937500</Id>
+					<Name><![CDATA[v_energyNeedForNextTrip_kWh]]></Name>
+					<Description><![CDATA[[Minutes]]]></Description>
+					<X>1023</X><Y>355</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1659090642877</Id>
 					<Name><![CDATA[p_energyAssetInstance]]></Name>
@@ -16686,6 +16791,51 @@ return level;]]></Body>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1692717434007</Id>
+					<Name><![CDATA[starttimes]]></Name>
+					<X>1020</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1692717434016</Id>
+					<Name><![CDATA[distances]]></Name>
+					<X>1020</X><Y>210</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1692717434021</Id>
+					<Name><![CDATA[endtimes]]></Name>
+					<X>1020</X><Y>180</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[Double]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
 			</Variables>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
@@ -16781,6 +16931,7 @@ if( ProvidedParentConnection instanceof GridConnection ) {
 					<Body><![CDATA[if (assetType == OL_EnergyAssetType.DIESEL_VEHICLE) {
 	p_energyAssetInstance = (J_EADieselVehicle)p_energyAssetInstance;
 	p_energyAssetInstance = new J_EADieselVehicle(this, energyConsumption_kWhpkm, main.p_timeStep_h, vehicleScaling);
+	f_getHouseholdTrips();
 	//traceln("New diesel vehicle with energyConsumption_kWhpkm = " + energyConsumption_kWhpkm + " and vehicleScaling " + vehicleScaling);
 } else {
 	p_energyAssetInstance = (J_EAConsumption)p_energyAssetInstance;
@@ -16815,6 +16966,9 @@ v_currentProductionHydrogen_kW = 0;
 v_currentConsumptionHeat_kW = 0;
 v_currentConsumptionDiesel_kW = 0;
 
+if (p_energyAssetType.equals(OL_EnergyAssetType.DIESEL_VEHICLE) || p_energyAssetType.equals(OL_EnergyAssetType.ELECTRIC_VEHICLE) ) {
+	f_manageTrips();
+}
 
 double[] arr = p_energyAssetInstance.operateBounded( v_powerFraction_fr );
 
@@ -17085,15 +17239,20 @@ p_energyAssetType = assetType;]]></Body>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Parameter>
-						<Name><![CDATA[powerFraction]]></Name>
+						<Name><![CDATA[powerFraction_fr]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[v_powerFraction_fr = powerFraction;
+					<Body><![CDATA[v_powerFraction_fr = powerFraction_fr;
 
 v_currentProductionElectricity_kW = 0;
 v_currentConsumptionElectricity_kW = 0;
 //p_energyAssetInstance.resetFlows();
-double[] arr = p_energyAssetInstance.operateBounded( powerFraction );
+
+if (p_energyAssetType.equals(OL_EnergyAssetType.ELECTRIC_VEHICLE)) {
+	f_manageTrips();
+}
+
+double[] arr = p_energyAssetInstance.operateBounded( powerFraction_fr );
 v_currentProductionElectricity_kW=arr[0];
 v_currentConsumptionElectricity_kW=arr[4];
 v_currentStateOfCharge_r = (p_energyAssetInstance.getCurrentStateOfCharge());
@@ -17135,6 +17294,159 @@ return v_currentConsumptionElectricity_kW;
 					default:
 						traceln("EXCEPTION: ENERGY ASSET WITH A NON-EXISTENT AMBIENT TEMPERATURE TYPE");				
 				}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1692717530126</Id>
+					<Name><![CDATA[f_getTruckTrips]]></Name>
+					<X>1020</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[starttimes.clear();
+endtimes.clear();
+distances.clear();
+
+int rowIndex = uniform_discr(2, 9); //nu hardcoded maar kunnen we zo met input files doen.
+v_tripPatternName = main.inputTruckTrips.getCellStringValue("sheet1", rowIndex, 1);
+int nbTrips = roundToInt(main.inputTruckTrips.getCellNumericValue("sheet1", rowIndex, 2));
+
+for (int i = 0; i < nbTrips; i++){
+	starttimes.add(main.inputTruckTrips.getCellNumericValue("sheet1", rowIndex, 3 + i * 3));
+	endtimes.add(main.inputTruckTrips.getCellNumericValue("sheet1", rowIndex, 4 + i * 3));
+	distances.add(main.inputTruckTrips.getCellNumericValue("sheet1", rowIndex, 5 + i * 3));
+}
+
+//traceln(v_tripIndex + " trip index at truc " + this.getIndex());
+
+//If truck has just six trips in a week
+if (v_eventIndex > starttimes.size() - 1){
+	v_eventIndex = 0;
+}
+
+while ( starttimes.get(v_eventIndex) - (time(HOUR) * 60) < 0) {
+	starttimes.set( v_eventIndex, starttimes.get(v_eventIndex) + 10080 );
+	endtimes.set( v_eventIndex, endtimes.get(v_eventIndex) + 10080 );
+	v_eventIndex++;
+	if ( v_eventIndex > starttimes.size() - 1 ) {
+		v_eventIndex = 0;
+	}
+}
+
+
+v_nextEventStartTime_min = starttimes.get(v_eventIndex);
+v_nextEventEndTime_min = endtimes.get(v_eventIndex);
+//nextActivityStartTimer.restart( starttimes.get(v_tripIndex) - time( MINUTE ), MINUTE);
+//nextActivityEndTimer.restart( endtimes.get(v_tripIndex) - time( MINUTE ), MINUTE);
+v_tripDist_km = distances.get(v_eventIndex);
+
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1692717859852</Id>
+					<Name><![CDATA[f_manageTrips]]></Name>
+					<X>1020</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[
+if (p_energyAssetInstance instanceof J_EADieselVehicle) {
+	boolean available = ((J_EADieselVehicle)p_energyAssetInstance).getAvailability();
+	if (available) {
+		if (time(HOUR) == roundToInt(v_nextEventStartTime_min / (60*main.p_timeStep_h)) * main.p_timeStep_h ) {
+			((J_EADieselVehicle)p_energyAssetInstance).startTrip();
+		}
+	} else {
+		if (!available && time(HOUR) == roundToInt(v_nextEventEndTime_min / (60*main.p_timeStep_h)) * main.p_timeStep_h ) {
+			((J_EADieselVehicle)p_energyAssetInstance).endTrip(v_tripDist_km);
+			starttimes.set( v_eventIndex, starttimes.get(v_eventIndex) + 10080 );
+			endtimes.set( v_eventIndex, endtimes.get(v_eventIndex) + 10080 );
+			v_eventIndex++;
+			if ( v_eventIndex > starttimes.size() - 1 ) {
+				v_eventIndex = 0;
+			}
+			
+			v_idleTimeToNextTrip_min = starttimes.get(v_eventIndex);
+			v_nextEventStartTime_min = starttimes.get(v_eventIndex);
+			v_nextEventEndTime_min = endtimes.get(v_eventIndex);
+			
+			v_tripDist_km = distances.get( v_eventIndex ); // Update upcoming trip distance
+			v_energyNeedForNextTrip_kWh = ((J_EADieselVehicle)p_energyAssetInstance).energyConsumption_kWhpkm * v_tripDist_km;
+		}
+		
+	}
+} else if (p_energyAssetInstance instanceof J_EAEV) {
+	boolean available = ((J_EAEV)p_energyAssetInstance).getAvailability();
+	if (available) {
+		if (time(HOUR) == roundToInt(v_nextEventStartTime_min / (60*main.p_timeStep_h)) * main.p_timeStep_h ) {
+			((J_EAEV)p_energyAssetInstance).startTrip();
+		}
+	} else {
+		if (!available && time(HOUR) == roundToInt(v_nextEventEndTime_min / (60*main.p_timeStep_h)) * main.p_timeStep_h ) {
+			
+			starttimes.set( v_eventIndex, starttimes.get(v_eventIndex) + 10080 );
+			endtimes.set( v_eventIndex, endtimes.get(v_eventIndex) + 10080 );
+			v_eventIndex++;
+			if ( v_eventIndex > starttimes.size() - 1 ) {
+				v_eventIndex = 0;
+			}
+			
+			v_idleTimeToNextTrip_min = starttimes.get(v_eventIndex) - time(MINUTE);
+			v_nextEventStartTime_min = starttimes.get(v_eventIndex);
+			v_nextEventEndTime_min = endtimes.get(v_eventIndex);
+			((J_EAEV)p_energyAssetInstance).endTrip(v_tripDist_km, v_idleTimeToNextTrip_min);
+			
+			v_tripDist_km = distances.get( v_eventIndex ); // Update upcoming trip distance
+			v_energyNeedForNextTrip_kWh = ((J_EAEV)p_energyAssetInstance).energyConsumption_kWhpkm * v_tripDist_km;
+		}
+		
+	}
+
+}
+
+	
+
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1692775372792</Id>
+					<Name><![CDATA[f_getHouseholdTrips]]></Name>
+					<X>1020</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[int rowIndex = uniform_discr(1, 200);//getIndex() % 200;
+v_tripPatternIndex = rowIndex;
+
+int nbTrips = roundToInt(main.inputHouseholdTrips.getCellNumericValue("sheet1", rowIndex + 2, 2));
+
+for (int i = 0; i < nbTrips; i++){
+	starttimes.add(main.inputHouseholdTrips.getCellNumericValue("sheet1", rowIndex + 2, 3 + i * 3));
+	endtimes.add(main.inputHouseholdTrips.getCellNumericValue("sheet1", rowIndex + 2, 4 + i * 3));
+	distances.add(main.inputHouseholdTrips.getCellNumericValue("sheet1", rowIndex + 2, 5 + i * 3));
+}
+
+while ( starttimes.get(v_eventIndex) - time( MINUTE ) < 0) {
+	starttimes.set( v_eventIndex, starttimes.get(v_eventIndex) + 10080 );
+	endtimes.set( v_eventIndex, endtimes.get(v_eventIndex) + 10080 );
+	v_eventIndex++;
+	if ( v_eventIndex > starttimes.size() - 1 ) {
+		v_eventIndex = 0;
+	}
+}
+
+v_nextEventStartTime_min = starttimes.get(v_eventIndex) ;
+v_nextEventEndTime_min = endtimes.get(v_eventIndex) ;
+v_tripDist_km = distances.get(v_eventIndex);
+]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -31623,7 +31935,7 @@ void f_heatWithHybridHeatpump() {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[J_EAEV]]></Type>
+						<Type><![CDATA[EnergyAsset]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
 						<ParameterEditor>
@@ -31830,7 +32142,9 @@ v_electricityPriceLowPassed_eurpkWh += v_lowPassFactor_fr * ( v_currentElectrici
 v_currentPriceLevel = f_getPriceLevel( v_currentElectricityPriceConsumption_eurpkWh );
 double availablePowerAtPrice_kW = ((ConnectionOwner)l_ownerActor.getConnectedAgent()).f_getAvailablePowerAtPrice( v_currentPowerElectricity_kW );
 
-f_determineChargingDemandOfEV(); //we do this here because with smart assets the heatpumps will need information of the SOC of the EV
+if (p_householdEV != null ){
+	f_determineChargingDemandOfEV(); //we do this here because with smart assets the heatpumps will need information of the SOC of the EV
+}
 
 f_manageHeatingAssets();
 
@@ -31906,7 +32220,7 @@ if (j_instance instanceof J_EAConsumption) {
 		c_vehicleAssets.add( EA );
 		c_dieselVehicles.add( EA );
 		//c_vehicleAssets.get( v_vehicleIndex ).v_powerFraction_fr = 1; // what's this??
-		if (c_mobilityTrackers.size() == 0) {
+		/*if (c_mobilityTrackers.size() == 0) {
 			MobilityTracker m = main.add_mobilityTrackers();
 			c_mobilityTrackers.add( m );
 			m.p_gridConnection = this;
@@ -31923,6 +32237,7 @@ if (j_instance instanceof J_EAConsumption) {
 			c_mobilityTrackers.get(v_vehicleIndex).p_vehicleInstance = (J_EADieselVehicle)EA.p_energyAssetInstance;
 		}
 		((J_EADieselVehicle)EA.p_energyAssetInstance).setMobilityTracker( c_mobilityTrackers.get(v_vehicleIndex) );
+		*/
 	
 		v_vehicleIndex ++;
 	}
@@ -31955,7 +32270,7 @@ else if (j_instance instanceof J_EAStorage ) {
 		c_storageAssets.add(EA);
 		c_vehicleAssets.add( EA );
 		//EA.v_powerFraction_fr = 1;
-		if (c_mobilityTrackers.size() == 0) {
+		/*if (c_mobilityTrackers.size() == 0) {
 			MobilityTracker m = main.add_mobilityTrackers();
 			c_mobilityTrackers.add( m );
 			m.p_vehicleIndex = v_vehicleIndex;
@@ -31972,7 +32287,8 @@ else if (j_instance instanceof J_EAStorage ) {
 			c_mobilityTrackers.get(v_vehicleIndex).p_vehicleInstance = EA.p_energyAssetInstance;
 		}	
 		((J_EAEV)EA.p_energyAssetInstance).setMobilityTracker( c_mobilityTrackers.get(v_vehicleIndex) );
-		p_householdEV = (J_EAEV)j_instance;
+		*/
+		p_householdEV = EA;
 		v_vehicleIndex ++;
 	}
 	else if(j_instance instanceof J_EAStorageElectric && ((J_EAStorageElectric)j_instance).getStorageCapacity_kWh() !=0) {
@@ -32162,12 +32478,14 @@ if( ambientTempType != null && ambientTempType.equals("AIR") ) {
 						<Name><![CDATA[availablePowerOnGC_kW]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[double chargingRatio = 0.0; // needs to be set at zero! 
+					<Body><![CDATA[J_EAEV EV_instance = (J_EAEV)p_householdEV.p_energyAssetInstance;
+
+double chargingRatio = 0.0; // needs to be set at zero! 
 double powerAvailableAtPrice_kW = 0;
 double powerAvailableAtLastLoop_kW = 0;
 double currentPowerDrawn_kW = v_currentPowerElectricity_kW;
 boolean continueLoop = true;
-double maxChargingPower_kW = p_householdEV.capacityElectric_kW;
+double maxChargingPower_kW = EV_instance.getElectricCapacity_kW();
 ConnectionOwner owner = (ConnectionOwner)l_ownerActor.getConnectedAgent();
 double electricityPrice_eurpkWh = 0;
 String lastLoopsPriceLevel = "";
@@ -32175,7 +32493,7 @@ OL_priceLevels priceLevel;
 int index = 0; // purely to not let loop go wild, if something goes wrong
 
 
-if( p_householdEV.getAvailability() && p_householdEV.chargingNeed != OL_EVChargingNeed.NONE ){
+if( EV_instance.getAvailability() && EV_instance.chargingNeed != OL_EVChargingNeed.NONE ){
 	while ( continueLoop && index < 5 ){	
 		powerAvailableAtPrice_kW += owner.f_getAvailablePowerAtPrice( currentPowerDrawn_kW );
 		electricityPrice_eurpkWh = owner.f_getElectricityPrice( currentPowerDrawn_kW );
@@ -32183,9 +32501,9 @@ if( p_householdEV.getAvailability() && p_householdEV.chargingNeed != OL_EVChargi
 		
 		if (powerAvailableAtPrice_kW > p_minChargingPower_kW){ // only charge if there is at least 2 OR 1 kW availablE
 			// SCENARIO LOW CHARGING NEED -> Only when price is low
-			if ( p_householdEV.chargingNeed == OL_EVChargingNeed.LOW) { 
+			if ( EV_instance.chargingNeed == OL_EVChargingNeed.LOW) { 
 				if( priceLevel == OL_priceLevels.LOW ) {
-					if (powerAvailableAtPrice_kW >= p_householdEV.getElectricCapacity_kW() / p_smartChargingPowerAttenuation_fr ){
+					if (powerAvailableAtPrice_kW >= EV_instance.getElectricCapacity_kW() / p_smartChargingPowerAttenuation_fr ){
 						chargingRatio = 1 / p_smartChargingPowerAttenuation_fr;
 						continueLoop = false;
 					}
@@ -32196,7 +32514,7 @@ if( p_householdEV.getAvailability() && p_householdEV.chargingNeed != OL_EVChargi
 					}
 				}
 				else if ( lastLoopsPriceLevel.equals("low")) {
-					chargingRatio = min( powerAvailableAtLastLoop_kW, p_householdEV.getElectricCapacity_kW() ) / p_householdEV.capacityElectric_kW;
+					chargingRatio = min( powerAvailableAtLastLoop_kW, EV_instance.getElectricCapacity_kW() ) / EV_instance.getElectricCapacity_kW();
 					continueLoop = false;
 				}
 				else {
@@ -32204,10 +32522,10 @@ if( p_householdEV.getAvailability() && p_householdEV.chargingNeed != OL_EVChargi
 				}
 			}
 			// SCENARIO MEDIUM CHARGING NEED -> Only when price is low or a bit when medium
-			else if ( p_householdEV.chargingNeed == OL_EVChargingNeed.MEDIUM){
+			else if ( EV_instance.chargingNeed == OL_EVChargingNeed.MEDIUM){
 				if(  priceLevel == OL_priceLevels.LOW) { 
-					if (powerAvailableAtPrice_kW >= p_householdEV.getElectricCapacity_kW() ){
-						chargingRatio = p_householdEV.capacityElectric_kW / p_householdEV.capacityElectric_kW ;
+					if (powerAvailableAtPrice_kW >= EV_instance.getElectricCapacity_kW() ){
+						chargingRatio = 1 ;
 						continueLoop = false;
 					}
 					else{
@@ -32218,17 +32536,17 @@ if( p_householdEV.getAvailability() && p_householdEV.chargingNeed != OL_EVChargi
 				}
 				else if(  priceLevel == OL_priceLevels.MEDIUM ) {   
 					if( lastLoopsPriceLevel.equals("low") && powerAvailableAtLastLoop_kW > p_minChargingPower_kW ) { // charge what you can at low (/free) price and a bit on medium price
-						chargingRatio = powerAvailableAtLastLoop_kW / p_householdEV.capacityElectric_kW + p_householdEV.capacityElectric_kW / 4;
+						chargingRatio = powerAvailableAtLastLoop_kW / EV_instance.getElectricCapacity_kW() + EV_instance.getElectricCapacity_kW() / 4;
 						continueLoop = false;
 
 					}
 					else {	//hier zou je nog een extra min() statement bij kunnen zetten die het minimale neemt van de huidige min statment en powerAvailableAtPrice_kW, echter, komt hoogstwaarschijnlijk niet voor (1/4 van laadsnelheid is inprincipe altijd minder dan 2 + 'x' kW.). Ook is het geen ramp om HEEEEEL sporadisch op hoge prijs te laden. 
-						chargingRatio = p_householdEV.capacityElectric_kW / 4 ; //charge slow, if there is no hurry and price is average
+						chargingRatio = EV_instance.getElectricCapacity_kW() / 4 ; //charge slow, if there is no hurry and price is average
 						continueLoop = false;
 					}
 				}
 				else if (lastLoopsPriceLevel.equals("low") && powerAvailableAtLastLoop_kW > p_minChargingPower_kW ){
-					chargingRatio = powerAvailableAtLastLoop_kW / p_householdEV.capacityElectric_kW;
+					chargingRatio = powerAvailableAtLastLoop_kW / EV_instance.getElectricCapacity_kW();
 					continueLoop = false;
 				}
 				else{
@@ -32248,10 +32566,10 @@ if( p_householdEV.getAvailability() && p_householdEV.chargingNeed != OL_EVChargi
 		index ++;
 	}
 }
-if( p_householdEV.chargingNeed != OL_EVChargingNeed.HIGH){ //unless the charging need is high, limit the charging speed to grid connection.
-	chargingRatio = min(1, min( availablePowerOnGC_kW / p_householdEV.getElectricCapacity_kW(), chargingRatio));
+if( EV_instance.chargingNeed != OL_EVChargingNeed.HIGH){ //unless the charging need is high, limit the charging speed to grid connection.
+	chargingRatio = min(1, min( availablePowerOnGC_kW / EV_instance.getElectricCapacity_kW(), chargingRatio));
 }
-v_evChargingPowerElectric_kW += p_householdEV.ownerAsset.f_updateElectricityFlows( chargingRatio );
+v_evChargingPowerElectric_kW += p_householdEV.f_updateElectricityFlows( chargingRatio );
 
 ]]></Body>
 				</Function>
@@ -32267,7 +32585,7 @@ v_evChargingPowerElectric_kW += p_householdEV.ownerAsset.f_updateElectricityFlow
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[double availableCapacityFromBatteries = p_batteryAsset == null ? 0 : ((J_EAStorageElectric)p_batteryAsset.p_energyAssetInstance).getCapacityAvailable_kW(); 
 double availableChargingCapacity = v_allowedCapacity_kW + availableCapacityFromBatteries - v_currentPowerElectricity_kW;
-v_vehicleSOC_fr = p_householdEV.getCurrentStateOfCharge();
+v_vehicleSOC_fr = ((J_EAEV)p_householdEV.p_energyAssetInstance).getCurrentStateOfCharge();
 
 switch (p_chargingAttitudeVehicles) {
 	case SIMPLE:
@@ -32294,7 +32612,7 @@ switch (p_chargingAttitudeVehicles) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[double chargingRatio = 0;
-if( p_householdEV.getCurrentStateOfCharge() < 1 ) {
+if( ((J_EAEV)p_householdEV.p_energyAssetInstance).getCurrentStateOfCharge() < 1 ) {
 	chargingRatio = 1;
 	/*if ( p_hasSmartFlexAssets ){
 		ConnectionOwner owner = ((ConnectionOwner)l_ownerActor.getConnectedAgent());
@@ -32303,7 +32621,7 @@ if( p_householdEV.getCurrentStateOfCharge() < 1 ) {
 		}
 	}*/
 }
-v_evChargingPowerElectric_kW += p_householdEV.ownerAsset.f_updateElectricityFlows( chargingRatio );
+v_evChargingPowerElectric_kW += p_householdEV.f_updateElectricityFlows( chargingRatio );
 
 ]]></Body>
 				</Function>
@@ -32317,30 +32635,31 @@ v_evChargingPowerElectric_kW += p_householdEV.ownerAsset.f_updateElectricityFlow
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[if( p_householdEV != null && p_chargingAttitudeVehicles == OL_ChargingAttitude.CHEAP ){
-	if(! p_householdEV.getAvailability() ){ // not at home
-		p_householdEV.chargingNeed = OL_EVChargingNeed.EV_NOT_AVAILABLE;
+					<Body><![CDATA[J_EAEV EVinstance = (J_EAEV)p_householdEV.p_energyAssetInstance;
+if( p_householdEV != null && p_chargingAttitudeVehicles == OL_ChargingAttitude.CHEAP ){
+	if(! EVinstance.getAvailability() ){ // not at home
+		EVinstance.chargingNeed = OL_EVChargingNeed.EV_NOT_AVAILABLE;
 	}
-	else if( p_householdEV.getCurrentStateOfCharge() >= 1){ // is full
-		p_householdEV.chargingNeed = OL_EVChargingNeed.NONE;
+	else if( EVinstance.getCurrentStateOfCharge() >= 1){ // is full
+		EVinstance.chargingNeed = OL_EVChargingNeed.NONE;
 	}
 	else { // could use some charging
-		double chargeNeedForNextTrip_kWh = max(0, p_householdEV.energyNeedForNextTrip_kWh + p_householdEV.getStorageCapacity_kWh() * (p_minEVChargeTarget_fr - p_householdEV.getCurrentStateOfCharge()));
-		double timeToNextTrip_min = p_householdEV.getMobilityTracker().v_nextTripStartTime_min - time ( MINUTE );
-		double chargeDeadline_min = floor((p_householdEV.getMobilityTracker().v_nextTripStartTime_min / 60 - chargeNeedForNextTrip_kWh / p_householdEV.getElectricCapacity_kW()) / main.p_timeStep_h) * 60 * main.p_timeStep_h;
+		double chargeNeedForNextTrip_kWh = max(0, p_householdEV.v_energyNeedForNextTrip_kWh + EVinstance.getStorageCapacity_kWh() * (p_minEVChargeTarget_fr - EVinstance.getCurrentStateOfCharge()));
+		double timeToNextTrip_min = p_householdEV.v_nextEventStartTime_min - time ( MINUTE );
+		double chargeDeadline_min = floor((p_householdEV.v_nextEventStartTime_min / 60 - chargeNeedForNextTrip_kWh / EVinstance.getElectricCapacity_kW()) / main.p_timeStep_h) * 60 * main.p_timeStep_h;
 		if ( chargeNeedForNextTrip_kWh == 0) { 
-			p_householdEV.chargingNeed = OL_EVChargingNeed.LOW;
+			EVinstance.chargingNeed = OL_EVChargingNeed.LOW;
 		}
 		else if (time(MINUTE) < chargeDeadline_min ){
 			//traceln(time(MINUTE) + ", " + chargeDeadline_min);
 			//traceln(chargeNeedForNextTrip_kWh);
-			p_householdEV.chargingNeed = OL_EVChargingNeed.MEDIUM;
+			EVinstance.chargingNeed = OL_EVChargingNeed.MEDIUM;
 		}
 		else {
-			p_householdEV.chargingNeed = OL_EVChargingNeed.HIGH;
+			EVinstance.chargingNeed = OL_EVChargingNeed.HIGH;
 		}
 	}
-	v_vehicleChargingNeed = p_householdEV.chargingNeed;
+	v_vehicleChargingNeed = EVinstance.chargingNeed;
 }
 ]]></Body>
 				</Function>
@@ -32379,7 +32698,7 @@ else if( p_smartHeatingEnabled && avgElectricityPrice_eurpkWh < v_electricityPri
 	if( p_householdEV == null ){
 		powerFraction_heatPump_fr = 1;
 		powerFraction_heatBuffer_fr = hp.getHeatCapacity_kW() / p_heatBuffer.p_energyAssetInstance.getHeatCapacity_kW();
-	} else if (p_householdEV.chargingNeed != OL_EVChargingNeed.HIGH){
+	} else if (((J_EAEV)p_householdEV.p_energyAssetInstance).chargingNeed != OL_EVChargingNeed.HIGH){
 		powerFraction_heatPump_fr = 1;
 		//traceln("heat buffer cus cheap");
 		powerFraction_heatBuffer_fr = hp.getHeatCapacity_kW() / p_heatBuffer.p_energyAssetInstance.getHeatCapacity_kW();
@@ -32402,7 +32721,7 @@ if( powerFraction_heatPump_fr == 0 ){
 		if( p_householdEV == null ){
 			powerFraction_heatPump_fr = 1;
 			p_BuildingThermalAsset.v_powerFraction_fr = hp.getHeatCapacity_kW() / p_BuildingThermalAsset.p_energyAssetInstance.getHeatCapacity_kW();
-		} else if (p_householdEV.chargingNeed != OL_EVChargingNeed.HIGH){ // only use heatpump if the vehicle is not about to charge
+		} else if (((J_EAEV)p_householdEV.p_energyAssetInstance).chargingNeed != OL_EVChargingNeed.HIGH){ // only use heatpump if the vehicle is not about to charge
 			powerFraction_heatPump_fr = 1;
 			//traceln("heat house cus of cheap");
 			p_BuildingThermalAsset.v_powerFraction_fr = hp.getHeatCapacity_kW() / p_BuildingThermalAsset.p_energyAssetInstance.getHeatCapacity_kW();
@@ -34809,8 +35128,8 @@ if (EA.p_energyAssetInstance instanceof J_EAConsumption) {
 	}
 	else if (EA.p_energyAssetInstance instanceof J_EAEV) {
 		c_vehicleAssets.add( EA );
-		c_vehicleAssets.get( v_vehicleIndex ).v_powerFraction_fr = 1;
-		MobilityTracker m = main.add_mobilityTrackers();
+		//c_vehicleAssets.get( v_vehicleIndex ).v_powerFraction_fr = 1;
+		/*MobilityTracker m = main.add_mobilityTrackers();
 		c_mobilityTrackers.add( m );
 		m.p_vehicleIndex = v_vehicleIndex;
 		m.p_gridConnection = this;
@@ -34819,7 +35138,7 @@ if (EA.p_energyAssetInstance instanceof J_EAConsumption) {
 		m.p_vehicleInstance = (J_EAEV)m.p_energyAsset.p_energyAssetInstance;
 		m.p_mobilityPatternType = OL_MobilityPatternType.TRUCK;
 		((J_EAEV)m.p_vehicleInstance).setMobilityTracker( m );
-		m.f_getData();
+		m.f_getData();*/
 		v_vehicleIndex ++;
 	}
 } else if (EA.p_energyAssetInstance instanceof J_EAConversion) {
@@ -35812,6 +36131,7 @@ v_maxConnectionLoad_fr = max(v_maxConnectionLoad_fr, abs(v_currentPowerElectrici
 		<ActiveObjectClass>
 			<Id>1667726338857</Id>
 			<Name><![CDATA[MobilityTracker]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
 			<Generic>false</Generic>
 			<GenericParameter>
 				<Id>1667726338855</Id>
@@ -39290,13 +39610,13 @@ public class J_EAEV extends zero.J_EAStorageElectric implements Serializable {
 
 	public OL_EnergyCarrierType storageMedium = OL_EnergyCarrierType.ELECTRICITY;
 	private double stateOfCharge_r;
-	private double lossFactor_r = 0;
-	private double energyConsumption_kWhpkm = 0.2;
+	//private double lossFactor_r = 0;
+	public double energyConsumption_kWhpkm = 0.2;
 	private boolean availability = true;
-	private MobilityTracker mobilityTracker = null;
+	//private MobilityTracker mobilityTracker = null;
 	public double mileage = 0; 
 	public double vehicleScaling;
-	public double idleTimeToNextTrip_MIN = 0;
+	//public double idleTimeToNextTrip_MIN = 0;
 	public double maxSpreadChargingRatio = 0; // the charging ratio of a session if the vehicle needs to be full before departure
 	public double energyNeedForNextTrip_kWh;
 	public OL_EVChargingNeed chargingNeed;
@@ -39325,14 +39645,13 @@ public class J_EAEV extends zero.J_EAStorageElectric implements Serializable {
 		//no loss for electric batteries modeled.
 	}
 
-	@Override // momenteel verwijzen we door naar de charge funcite ipv deze operate. Die doen eigenlijk ehtzelfde maar neemt kW als input. De ratio input in deze functie wordt door de laadmodule als vermogen meegegeven
+	@Override 
 	public double[] operate(double ratioOfChargeCapacity_r) {
 		//traceln( "ratio: " + ratioOfChargeCapacity_r);
 		if (true) {
 	    	double discharge_kW = 0;
 	    	double deltaEnergy_kWh;   // to check the request with the energy currently in storage
-	    	//double sign = ratioOfChargeCapacity_r / abs( ratioOfChargeCapacity_r ); // charge or discharge
-
+	    	
 	    	deltaEnergy_kWh = ( ratioOfChargeCapacity_r * capacityElectric_kW * timestep_h ) ;
 	    	deltaEnergy_kWh = - min( -deltaEnergy_kWh, (stateOfCharge_r * storageCapacity_kWh) ); // Prevent negative charge
 	    	deltaEnergy_kWh = min(deltaEnergy_kWh, ratioOfChargeCapacity_r * capacityElectric_kW * timestep_h ); // prevent charging faster than allowed
@@ -39372,7 +39691,7 @@ public class J_EAEV extends zero.J_EAStorageElectric implements Serializable {
 		}
 	}
 
-	public boolean endTrip(double tripDist_km, double idleTime) {
+	public boolean endTrip(double tripDist_km, double timeToNextTrip_min) {
 		//tripDist_km = tripDist_km;
 		mileage += tripDist_km;
 		if(availability) {
@@ -39391,8 +39710,9 @@ public class J_EAEV extends zero.J_EAStorageElectric implements Serializable {
 				energyChargedOutsideModelArea_kWh += -stateOfCharge_r * storageCapacity_kWh;
 				stateOfCharge_r = 0;
 			}
-			idleTimeToNextTrip_MIN = idleTime;
 			availability = true;
+			// Calc charging power to be full for next trip
+			maxSpreadChargingRatio = (1-stateOfCharge_r) * storageCapacity_kWh / (timeToNextTrip_min/60);
 			return true;
 		}
 	}
@@ -39419,37 +39739,37 @@ public class J_EAEV extends zero.J_EAStorageElectric implements Serializable {
 	}
 
 	public double getChargingTimeToFull_MIN() {
-		double chargingTime = roundToInt( 60 * (storageCapacity_kWh - storageCapacity_kWh * stateOfCharge_r) / capacityElectric_kW ) ;
-		return chargingTime;
+		double chargingTime_min = ceil( 60 * (storageCapacity_kWh - storageCapacity_kWh * stateOfCharge_r) / capacityElectric_kW ) ;
+		return chargingTime_min;
 	}
 
-	public double getIdleTime() {
+	/*public double getIdleTime() {
 		return idleTimeToNextTrip_MIN;
-	}
+	}*/
 
 	public double getMaxSpreadChargingRatio() {
 		return maxSpreadChargingRatio;
 	}
 
-	public void setMaxSpreadChargingRatio(int extraTime_MIN) {
-		maxSpreadChargingRatio = (storageCapacity_kWh - stateOfCharge_r * storageCapacity_kWh) /  ((idleTimeToNextTrip_MIN - extraTime_MIN ) / 60); // determine required charging speed
+	/*public void setMaxSpreadChargingRatio(int extraTime_MIN) {
+		maxSpreadChargingRatio = (storageCapacity_kWh - stateOfCharge_r * storageCapacity_kWh) /  ((EnergyAsset.v_idleTimeToNextTrip_min - extraTime_MIN ) / 60); // determine required charging speed
 		if( stateOfCharge_r < 0 ) {
-			maxSpreadChargingRatio = - maxSpreadChargingRatio +  storageCapacity_kWh /  (idleTimeToNextTrip_MIN / 60); // make sure negative SOCs are corrected for
+			maxSpreadChargingRatio = - maxSpreadChargingRatio +  storageCapacity_kWh /  (EnergyAsset.v_idleTimeToNextTrip_min / 60); // make sure negative SOCs are corrected for
 			traceln( "State of charge from vehicle < 0, max spread charging power fixed to " + maxSpreadChargingRatio);
 		}
 		maxSpreadChargingRatio = maxSpreadChargingRatio / capacityElectric_kW; //turn kW into ratio
 		if ( maxSpreadChargingRatio >  1) {
 			traceln("J_EAEV will charge faster than max to get full for next trip. charging speed: " + maxSpreadChargingRatio * capacityElectric_kW);
 		}
-	}
+	}*/
 
-	public void setMobilityTracker(MobilityTracker tracker) {
+	/*public void setMobilityTracker(MobilityTracker tracker) {
 		mobilityTracker = tracker;
 	}
 
 	public MobilityTracker getMobilityTracker() {
 		return mobilityTracker;
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -40210,8 +40530,8 @@ public class J_HourlyCurvesData implements Serializable {
 public class J_EADieselVehicle extends zero.J_EAConsumption implements Serializable {
 
 	private OL_EnergyCarrierType energyCarrierConsumed = OL_EnergyCarrierType.DIESEL;
-	private double energyConsumption_kWhpkm;
-	private MobilityTracker mobilityTracker = null;
+	public double energyConsumption_kWhpkm;
+	//private MobilityTracker mobilityTracker = null;
 	private boolean availability = false;
 	private double vehicleScaling;
 	public double mileage_km = 0;
@@ -40232,25 +40552,13 @@ public class J_EADieselVehicle extends zero.J_EAConsumption implements Serializa
 	    this.vehicleScaling = vehicleScaling;
 	}
 
- //   @Override
-  //  public double[] operate(double ratioOfCapacity) {
-//		//traceln("I convert now! GasBurner @ " + (ratioOfCapacity * 100) + " %");
-//		this.heatProduction_kW = capacityHeat_kW * ratioOfCapacity;
-//		this.hydrogenConsumption_kW = heatProduction_kW / eta_r;
-//
-//		this.energyUsed_kWh += timestep_h * (hydrogenConsumption_kW - heatProduction_kW); // This represents losses!
-//		//double[] arr = {this.electricityProduction_kW, this.methaneProduction_kW, this.hydrogenProduction_kW, this.heatProduction_kW, this.electricityConsumption_kW, this.methaneConsumption_kW, this.hydrogenConsumption_kW, this.heatConsumption_kW };
- //   	//return arr;
-//		return returnEnergyFlows();
- //   }
-
-
-    public void endTrip(double tripDist_km, double idleTime) {
+    public void endTrip(double tripDist_km) {
 		//traceln( "J_EADieselVehicle comes back, trip distance: " + tripDist_km + ", energy consumption: " + tripDist_km * energyConsumption_kWhpkm);// + ", timestep: " + timestep_h);
     	double energyUsedForTrip_kWh = tripDist_km * vehicleScaling * energyConsumption_kWhpkm;
     	energyUsed_kWh += energyUsedForTrip_kWh;
     	dieselConsumption_kW = energyUsedForTrip_kWh / timestep_h;
     	mileage_km += tripDist_km;
+    	availability = true;
     	//traceln("Current milage: " + mileage + ", energy consumption per km: " + energyConsumption_kWhpkm);
     }
 
@@ -40261,18 +40569,29 @@ public class J_EADieselVehicle extends zero.J_EAConsumption implements Serializa
 	public double getEnergyUsed_kWh() {
 		return energyUsed_kWh;
 	}
-
-	public boolean startTrip() {
-		return true;
+	
+	public boolean getAvailability() {
+		return availability;
 	}
 
-	public void setMobilityTracker(MobilityTracker tracker) {
+	public boolean startTrip() {
+		if (availability) {
+			availability = false;
+			//traceln("storage capacity start of trip: " + storageCapacity_kWh + ", state of charge: " + stateOfCharge_r);
+			return true;
+		} else {
+			traceln("Trip not started because vehicle not available!");
+			return false; // Trip not started because vehicle not available!
+		}
+	}	
+
+	/*public void setMobilityTracker(MobilityTracker tracker) {
 		mobilityTracker = tracker;
 	}
 
 	public boolean getAvailability() {
 		return availability;
-	}
+	}*/
 
 	@Override
 	public String toString() {
@@ -40798,7 +41117,7 @@ public class J_EAConversionCurtailerHeat extends J_EAConversion implements Seria
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 		</Resource>
 		<Resource>
-			<Path><![CDATA[exampleAnylogicInput.json]]></Path>
+			<Path><![CDATA[exampleAnylogicInput_noHOBs.json]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 		</Resource>
 	</ModelResources>
