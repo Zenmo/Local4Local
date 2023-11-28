@@ -1284,7 +1284,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1663238634515</Id>
 					<Name><![CDATA[v_timeStepsElapsed]]></Name>
-					<X>900</X><Y>1120</Y>
+					<X>-219</X><Y>600</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1299,7 +1299,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1663243393136</Id>
 					<Name><![CDATA[v_timeOfModelStart_ms]]></Name>
-					<X>900</X><Y>1190</Y>
+					<X>-219</X><Y>670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1311,7 +1311,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1663246198254</Id>
 					<Name><![CDATA[v_modelStartUpDuration_s]]></Name>
-					<X>900</X><Y>1210</Y>
+					<X>-219</X><Y>690</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1597,7 +1597,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1690290329895</Id>
 					<Name><![CDATA[hourOfYearPerMonth]]></Name>
-					<X>899</X><Y>1140</Y>
+					<X>-220</X><Y>620</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1612,7 +1612,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1690290329902</Id>
 					<Name><![CDATA[v_hourOfYearStart]]></Name>
-					<X>899</X><Y>1161</Y>
+					<X>-220</X><Y>641</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1748,7 +1748,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759927</Id>
 					<Name><![CDATA[v_NaturalGasBoilerColor]]></Name>
-					<X>80</X><Y>1760</Y>
+					<X>350</X><Y>1100</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1763,7 +1763,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759930</Id>
 					<Name><![CDATA[v_ElektrischeWPColor]]></Name>
-					<X>80</X><Y>1780</Y>
+					<X>350</X><Y>1120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1778,7 +1778,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759932</Id>
 					<Name><![CDATA[v_HybrideWPColor]]></Name>
-					<X>81</X><Y>1800</Y>
+					<X>351</X><Y>1140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1793,7 +1793,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759935</Id>
 					<Name><![CDATA[v_MTDistrictHeatingColor]]></Name>
-					<X>80</X><Y>1840</Y>
+					<X>350</X><Y>1180</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1808,7 +1808,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759938</Id>
 					<Name><![CDATA[v_LTDistrictHeatingColor]]></Name>
-					<X>80.5</X><Y>1859</Y>
+					<X>350.5</X><Y>1199</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1823,7 +1823,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759940</Id>
 					<Name><![CDATA[v_GreenGasBoilerColor]]></Name>
-					<X>81.5</X><Y>1879</Y>
+					<X>351.5</X><Y>1219</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1838,7 +1838,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759943</Id>
 					<Name><![CDATA[v_uitgeslotenColor]]></Name>
-					<X>81.5</X><Y>1899</Y>
+					<X>351.5</X><Y>1239</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1853,7 +1853,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759945</Id>
 					<Name><![CDATA[v_energieLabelAColor]]></Name>
-					<X>81.5</X><Y>1937.5</Y>
+					<X>351.5</X><Y>1265.5</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1868,7 +1868,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759948</Id>
 					<Name><![CDATA[v_energieLabelBColor]]></Name>
-					<X>81.5</X><Y>1957.5</Y>
+					<X>351.5</X><Y>1285.5</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1883,7 +1883,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759950</Id>
 					<Name><![CDATA[v_energieLabelCColor]]></Name>
-					<X>82.5</X><Y>1977.5</Y>
+					<X>352.5</X><Y>1305.5</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1898,7 +1898,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759953</Id>
 					<Name><![CDATA[v_energieLabelDColor]]></Name>
-					<X>82.5</X><Y>1997.5</Y>
+					<X>352.5</X><Y>1325.5</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1913,7 +1913,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759955</Id>
 					<Name><![CDATA[v_energieLabelEColor]]></Name>
-					<X>82</X><Y>2016.5</Y>
+					<X>352</X><Y>1344.5</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1928,7 +1928,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759958</Id>
 					<Name><![CDATA[v_energieLabelFColor]]></Name>
-					<X>83</X><Y>2036.5</Y>
+					<X>353</X><Y>1364.5</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1943,7 +1943,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759961</Id>
 					<Name><![CDATA[v_energieLabelOnbekendColor]]></Name>
-					<X>83</X><Y>2076.5</Y>
+					<X>353</X><Y>1416.5</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1958,7 +1958,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759963</Id>
 					<Name><![CDATA[v_energieLabelGColor]]></Name>
-					<X>83</X><Y>2057</Y>
+					<X>353</X><Y>1385</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1973,7 +1973,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759966</Id>
 					<Name><![CDATA[v_HTDistrictHeatingColor]]></Name>
-					<X>80</X><Y>1820</Y>
+					<X>350</X><Y>1160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1988,7 +1988,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696837759969</Id>
 					<Name><![CDATA[v_highlightParticipantsColor]]></Name>
-					<X>80</X><Y>2100</Y>
+					<X>350</X><Y>1440</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2003,7 +2003,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343341</Id>
 					<Name><![CDATA[v_countHouseholdsElectricHeatPump]]></Name>
-					<X>1290</X><Y>-2000</Y>
+					<X>990</X><Y>1240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2016,7 +2016,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1696838343343</Id>
 					<Name><![CDATA[v_countHouseholdsGreenGasBoiler]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1290</X><Y>-2020</Y>
+					<X>990</X><Y>1220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2028,7 +2028,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343345</Id>
 					<Name><![CDATA[v_countHouseholdsNaturalGasBoiler]]></Name>
-					<X>1290</X><Y>-2040</Y>
+					<X>990</X><Y>1200</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2041,7 +2041,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1696838343348</Id>
 					<Name><![CDATA[v_countHouseholdsLTDistrictHeating]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1290</X><Y>-1940</Y>
+					<X>990</X><Y>1300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2054,7 +2054,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1696838343350</Id>
 					<Name><![CDATA[v_countHouseholdsMTDistrictHeating]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1290</X><Y>-1960</Y>
+					<X>990</X><Y>1280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2066,7 +2066,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343353</Id>
 					<Name><![CDATA[v_countHouseholdsHybridHeatPump]]></Name>
-					<X>1290</X><Y>-1980</Y>
+					<X>990</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2079,7 +2079,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1696838343355</Id>
 					<Name><![CDATA[v_countHouseholdsHTDistrictHeating]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1291</X><Y>-1919</Y>
+					<X>991</X><Y>1321</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2091,7 +2091,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343357</Id>
 					<Name><![CDATA[nbGasBurner]]></Name>
-					<X>1290</X><Y>-2150</Y>
+					<X>990</X><Y>1090</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2103,7 +2103,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343360</Id>
 					<Name><![CDATA[nbGreenGasBurner]]></Name>
-					<X>1290</X><Y>-2130</Y>
+					<X>990</X><Y>1110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2115,7 +2115,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343362</Id>
 					<Name><![CDATA[nbHeatpump]]></Name>
-					<X>1290</X><Y>-2110</Y>
+					<X>990</X><Y>1130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2127,7 +2127,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343364</Id>
 					<Name><![CDATA[nbHybridHeatpump]]></Name>
-					<X>1290</X><Y>-2090</Y>
+					<X>990</X><Y>1150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2139,7 +2139,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343367</Id>
 					<Name><![CDATA[nbDistrictheating]]></Name>
-					<X>1290</X><Y>-2070</Y>
+					<X>990</X><Y>1170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2151,7 +2151,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343369</Id>
 					<Name><![CDATA[v_countHouseholdsLabelAPlus]]></Name>
-					<X>1290</X><Y>-1840</Y>
+					<X>990</X><Y>1400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2163,7 +2163,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343372</Id>
 					<Name><![CDATA[v_countHouseholdsLabelAPlusPlus]]></Name>
-					<X>1290</X><Y>-1860</Y>
+					<X>990</X><Y>1380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2175,7 +2175,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343374</Id>
 					<Name><![CDATA[v_countHouseholdsLabelAPlusPlusPlus]]></Name>
-					<X>1290</X><Y>-1880</Y>
+					<X>990</X><Y>1360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2187,7 +2187,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343377</Id>
 					<Name><![CDATA[v_countHouseholdsLabelC]]></Name>
-					<X>1290</X><Y>-1780</Y>
+					<X>990</X><Y>1460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2199,7 +2199,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343379</Id>
 					<Name><![CDATA[v_countHouseholdsLabelB]]></Name>
-					<X>1290</X><Y>-1800</Y>
+					<X>990</X><Y>1440</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2211,7 +2211,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343382</Id>
 					<Name><![CDATA[v_countHouseholdsLabelA]]></Name>
-					<X>1290</X><Y>-1820</Y>
+					<X>990</X><Y>1420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2223,7 +2223,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343384</Id>
 					<Name><![CDATA[v_countHouseholdsLabelE]]></Name>
-					<X>1290</X><Y>-1740</Y>
+					<X>990</X><Y>1500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2235,7 +2235,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343386</Id>
 					<Name><![CDATA[v_countHouseholdsLabelD]]></Name>
-					<X>1290</X><Y>-1760</Y>
+					<X>990</X><Y>1480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2247,7 +2247,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343389</Id>
 					<Name><![CDATA[v_countHouseholdsLabelUnknown]]></Name>
-					<X>1290</X><Y>-1680</Y>
+					<X>990</X><Y>1560</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2259,7 +2259,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343391</Id>
 					<Name><![CDATA[v_countHouseholdsLabelG]]></Name>
-					<X>1290</X><Y>-1700</Y>
+					<X>990</X><Y>1540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2271,7 +2271,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696838343393</Id>
 					<Name><![CDATA[v_countHouseholdsLabelF]]></Name>
-					<X>1290</X><Y>-1720</Y>
+					<X>990</X><Y>1520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3024,7 +3024,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696863329257</Id>
 					<Name><![CDATA[v_clickedBuilding]]></Name>
-					<X>52</X><Y>1126</Y>
+					<X>52</X><Y>1146</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3036,7 +3036,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696863329260</Id>
 					<Name><![CDATA[previousClickedBuilding]]></Name>
-					<X>52</X><Y>1146</Y>
+					<X>52</X><Y>1166</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3048,7 +3048,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1696863329263</Id>
 					<Name><![CDATA[v_clickedBuildingColor]]></Name>
-					<X>52</X><Y>1167</Y>
+					<X>52</X><Y>1187</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3156,21 +3156,6 @@ gr_scopeRadioButtons.setVisible(true);
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1697554735224</Id>
-					<Name><![CDATA[v_isRapidRun]]></Name>
-					<X>900</X><Y>1090</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[boolean]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[false]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1697555814351</Id>
 					<Name><![CDATA[columnIndex]]></Name>
 					<X>50</X><Y>1380</Y>
@@ -3240,51 +3225,9 @@ gr_scopeRadioButtons.setVisible(true);
 					</Properties>
 				</Variable>
 				<Variable Class="PlainVariable">
-					<Id>1699275323328</Id>
-					<Name><![CDATA[v_summerWeekHour]]></Name>
-					<X>430</X><Y>1630</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1699275323332</Id>
-					<Name><![CDATA[v_winterWeekHour]]></Name>
-					<X>430</X><Y>1650</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
-						<InitialValue Class="CodeValue">
-							<Code><![CDATA[0]]></Code>
-						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1699275323335</Id>
-					<Name><![CDATA[v_dayOfYear]]></Name>
-					<X>430</X><Y>1670</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[int]]></Type>        
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
 					<Id>1699277499259</Id>
 					<Name><![CDATA[v_baseloadElectricityColor]]></Name>
-					<X>80</X><Y>2180</Y>
+					<X>350</X><Y>1460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3299,7 +3242,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499264</Id>
 					<Name><![CDATA[v_electricCarsDemandColor]]></Name>
-					<X>80</X><Y>2200</Y>
+					<X>350</X><Y>1480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3314,7 +3257,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499268</Id>
 					<Name><![CDATA[v_electricTrucksDemandColor]]></Name>
-					<X>80</X><Y>2220</Y>
+					<X>350</X><Y>1500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3329,7 +3272,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499271</Id>
 					<Name><![CDATA[v_heatPumpElectricityDemandColor]]></Name>
-					<X>80</X><Y>2240</Y>
+					<X>350</X><Y>1520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3344,7 +3287,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499276</Id>
 					<Name><![CDATA[v_neighborhoodBatteryDemandColor]]></Name>
-					<X>80</X><Y>2260</Y>
+					<X>350</X><Y>1540</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3359,7 +3302,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499280</Id>
 					<Name><![CDATA[v_PVGenerationColor]]></Name>
-					<X>80</X><Y>2290</Y>
+					<X>350</X><Y>1570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3374,7 +3317,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499283</Id>
 					<Name><![CDATA[v_windGenerationColor]]></Name>
-					<X>80</X><Y>2310</Y>
+					<X>350</X><Y>1590</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3389,7 +3332,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499287</Id>
 					<Name><![CDATA[v_neighborhoodBatterySupplyColor]]></Name>
-					<X>80</X><Y>2330</Y>
+					<X>350</X><Y>1610</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3404,7 +3347,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1699277499290</Id>
 					<Name><![CDATA[v_V2GSupplyColor]]></Name>
-					<X>80</X><Y>2350</Y>
+					<X>350</X><Y>1630</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3464,7 +3407,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1701164360663</Id>
 					<Name><![CDATA[b_resultsUpToDate]]></Name>
-					<X>900</X><Y>1240</Y>
+					<X>-219</X><Y>720</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4057,78 +4000,6 @@ gr_scopeRadioButtons.setVisible(true);
 					</Properties>                 
 				</Variable>
 				<Variable Class="Parameter">
-					<Id>1699275323339</Id>
-					<Name><![CDATA[p_startHourWinterWeek]]></Name>
-					<X>430</X><Y>1570</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[8280]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1699275323337</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1699275323347</Id>
-					<Name><![CDATA[p_startHourSummerWeek]]></Name>
-					<X>430</X><Y>1590</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[2904]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1699275323345</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1699290370683</Id>
-					<Name><![CDATA[p_plotInterval_h]]></Name>
-					<X>430</X><Y>1610</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[double]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[168]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1699290370681</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
 					<Id>1700129272566</Id>
 					<Name><![CDATA[b_scaleElecMethaneConsumption]]></Name>
 					<Description><![CDATA[Schakelaar om optionele visualisatie-agent te creëren.
@@ -4188,7 +4059,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1663238323139</Id>
 					<Name><![CDATA[c_connectionOwners]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>432</X><Y>1380</Y>
+					<X>-1671</X><Y>402</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4204,7 +4075,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1663251681035</Id>
 					<Name><![CDATA[c_gridNodesHSMS]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1086</Y>
+					<X>-1461</X><Y>108</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4220,7 +4091,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1663252052482</Id>
 					<Name><![CDATA[c_gridNodesMSLS]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1106</Y>
+					<X>-1461</X><Y>128</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4236,7 +4107,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1663312177330</Id>
 					<Name><![CDATA[c_gridConnections]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>430</X><Y>1220</Y>
+					<X>-1673</X><Y>242</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4252,7 +4123,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1663336485480</Id>
 					<Name><![CDATA[c_gridNodesHeat]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1126</Y>
+					<X>-1461</X><Y>148</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4268,7 +4139,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1664953351408</Id>
 					<Name><![CDATA[c_productionAssets]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1186</Y>
+					<X>-1461</X><Y>208</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4284,7 +4155,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1665492426842</Id>
 					<Name><![CDATA[c_ambientAirDependentAssets]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1226</Y>
+					<X>-1461</X><Y>248</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4330,7 +4201,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1666978650654</Id>
 					<Name><![CDATA[c_energyAssets]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1164</Y>
+					<X>-1461</X><Y>186</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4481,7 +4352,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1692799535493</Id>
 					<Name><![CDATA[c_storageAssets]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1206</Y>
+					<X>-1461</X><Y>228</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4497,7 +4368,7 @@ gr_scopeRadioButtons.setVisible(true);
 					<Id>1692871551713</Id>
 					<Name><![CDATA[c_EVs]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>642</X><Y>1246</Y>
+					<X>-1461</X><Y>268</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4512,7 +4383,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="CollectionVariable">
 					<Id>1696855562269</Id>
 					<Name><![CDATA[c_GISPoints]]></Name>
-					<X>640</X><Y>1420</Y>
+					<X>50</X><Y>1080</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4521,44 +4392,6 @@ gr_scopeRadioButtons.setVisible(true);
 						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
 						<ElementClass><![CDATA[GISPoint]]></ElementClass>
 						<ValueElementClass><![CDATA[String]]></ValueElementClass>
-					</Properties>
-
-				</Variable>
-				<Variable Class="CollectionVariable">
-					<Id>1697012883787</Id>
-					<Name><![CDATA[c_buildingGISRegions]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>50</X><Y>1080</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
-						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
-						<ElementClass><![CDATA[GISRegion]]></ElementClass>
-						<ValueElementClass><![CDATA[String]]></ValueElementClass>
-						<CollectionInitializer Class="CodeValue">
-							<Code><![CDATA[{ }]]></Code>
-						</CollectionInitializer>
-					</Properties>
-
-				</Variable>
-				<Variable Class="CollectionVariable">
-					<Id>1697012883795</Id>
-					<Name><![CDATA[c_areaGISRegions]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>50</X><Y>1100</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
-						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
-						<ElementClass><![CDATA[GISRegion]]></ElementClass>
-						<ValueElementClass><![CDATA[String]]></ValueElementClass>
-						<CollectionInitializer Class="CodeValue">
-							<Code><![CDATA[{Bu06420701}]]></Code>
-						</CollectionInitializer>
 					</Properties>
 
 				</Variable>
@@ -4581,6 +4414,36 @@ gr_scopeRadioButtons.setVisible(true);
 					</Properties>
 
 				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1701177906665</Id>
+					<Name><![CDATA[c_GISRegions]]></Name>
+					<X>50</X><Y>1100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[GISRegion]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1701178378935</Id>
+					<Name><![CDATA[c_GISBuildingShapes]]></Name>
+					<X>50</X><Y>1120</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[GISRegion]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+					</Properties>
+
+				</Variable>
 			</Variables>
 			<Events>
 				<Event>
@@ -4590,7 +4453,7 @@ gr_scopeRadioButtons.setVisible(true);
 
 @since: Sprint 6
 @author: Jorrit]]></Description>
-					<X>900</X><Y>1060</Y>
+					<X>-219</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4742,7 +4605,7 @@ v_timeStepsElapsed ++;
 					<Body><![CDATA[f_createActors();
 f_createGridNodes();
 f_createGridConnections();
-f_createGISBuildings();
+f_createGISObjects();
 f_createAgentLinks();
 energyModel.f_initializeForecasts();
 //f_instantiateTemplateEnergyAssets();
@@ -5819,7 +5682,7 @@ for( EnergyCoop e : energyModel.pop_energyCoops ) {
 }
 
 for ( GridConnection GC : energyModel.c_gridConnections) {// Temporary: add random GISbuilding to gridConnection (working with two inconsistent datasets, just testing functionality)
-	GIS_Building b = randomFrom(pop_GIS_Buildings);
+	GIS_Building b = randomFrom(energyModel.pop_GIS_Buildings);
 	GC.p_GISbuilding = b;
 	b.c_gridConnectionsInBuilding.add(GC);
 }
@@ -6213,24 +6076,6 @@ if (taxContract != null) {
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1690270067995</Id>
-					<Name><![CDATA[API_function_setPVslider]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-860</X><Y>-350</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[APIsliderValue]]></Name>
-						<Type><![CDATA[int]]></Type>
-					</Parameter>
-					<Body><![CDATA[sl_rooftopPV.setValue(APIsliderValue);
-t_numberOfRooftopPV.setText(count(Houses, x->x.v_hasPV == true));]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696520909206</Id>
 					<Name><![CDATA[f_setPVSystem]]></Name>
 					<X>1590</X><Y>-1230</Y>
@@ -6355,7 +6200,7 @@ traceln(sum(c_gridConnections, x->x.v_rooftopPVInstalledCapacity_kW) + " kWp PV 
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696837759921</Id>
 					<Name><![CDATA[f_setLegendaColors]]></Name>
-					<X>80</X><Y>1720</Y>
+					<X>350</X><Y>1060</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6364,7 +6209,7 @@ traceln(sum(c_gridConnections, x->x.v_rooftopPVInstalledCapacity_kW) + " kWp PV 
 	gr_heatDemandLegenda.setVisible(true);
 	gr_heatSupplyLegenda.setVisible(false);
 	
-	for (GIS_Building b : pop_GIS_Buildings){	
+	for (GIS_Building b : energyModel.pop_GIS_Buildings){	
 		f_setColorToEnergyLabels(b);
 	}
 	
@@ -6373,7 +6218,7 @@ else if (ra_legendaOptions.getValue() == 1){
 	gr_heatDemandLegenda.setVisible(false);
 	gr_heatSupplyLegenda.setVisible(true);
 	
-	for (GIS_Building b : pop_GIS_Buildings){	
+	for (GIS_Building b : energyModel.pop_GIS_Buildings){	
 		//b.f_countHeatSystems();
 		//b.f_setColorToHeatSupplyMethod();
 	}
@@ -6389,7 +6234,7 @@ else if (ra_legendaOptions.getValue() == 1){
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696837759924</Id>
 					<Name><![CDATA[f_setColorToEnergyLabels]]></Name>
-					<X>90</X><Y>1740</Y>
+					<X>360</X><Y>1080</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6436,7 +6281,7 @@ else if (ra_legendaOptions.getValue() == 1){
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343317</Id>
 					<Name><![CDATA[f_setHeatingSliders]]></Name>
-					<X>990</X><Y>-2090</Y>
+					<X>690</X><Y>1150</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6517,7 +6362,7 @@ traceln("f_setHeatingSliders awaiting new implementation after model merge. Not 
 					<Id>1696838343320</Id>
 					<Name><![CDATA[f_countEnergyLabels]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>990</X><Y>-1960</Y>
+					<X>690</X><Y>1280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6539,7 +6384,7 @@ v_countHouseholdsLabelUnknown = count(Houses, x->x.p_energyLabel.equals("unknown
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343323</Id>
 					<Name><![CDATA[f_countHeatSupplyMethods]]></Name>
-					<X>990</X><Y>-1980</Y>
+					<X>690</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6557,7 +6402,7 @@ v_countHouseholdsHybridHeatPump = count(energyModel.Houses, x->x.p_heatingType =
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343325</Id>
 					<Name><![CDATA[f_setElectricCars]]></Name>
-					<X>990</X><Y>-2150</Y>
+					<X>690</X><Y>1090</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6613,7 +6458,7 @@ traceln("f_setElectricCars awaiting new implementation after model merge. Not fu
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343327</Id>
 					<Name><![CDATA[f_setHomeBatteries]]></Name>
-					<X>990</X><Y>-2130</Y>
+					<X>690</X><Y>1110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6665,7 +6510,7 @@ traceln("f_setHomeBatteries is awaiting new implementation after model merge. Cu
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343330</Id>
 					<Name><![CDATA[f_setInductionStove]]></Name>
-					<X>990</X><Y>-2110</Y>
+					<X>690</X><Y>1130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6706,7 +6551,7 @@ traceln("f_setInductionStove awaiting new implementation after model merge. Curr
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343332</Id>
 					<Name><![CDATA[f_resetSettings]]></Name>
-					<X>990</X><Y>-2180</Y>
+					<X>690</X><Y>1060</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6737,7 +6582,7 @@ runSimulation();
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343334</Id>
 					<Name><![CDATA[f_setDistrictHeatingTemp]]></Name>
-					<X>990</X><Y>-2070</Y>
+					<X>690</X><Y>1170</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6777,7 +6622,7 @@ traceln("f_setDistrictHeatingTemp awaiting new implementation after model merge.
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343336</Id>
 					<Name><![CDATA[f_countAndColorHeatSupply]]></Name>
-					<X>990</X><Y>-2000</Y>
+					<X>690</X><Y>1240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6806,7 +6651,7 @@ traceln("f_countAndColorHeatSupply is awaiting new implementation after model me
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696838343338</Id>
 					<Name><![CDATA[f_setHeatingTypesHousehold]]></Name>
-					<X>990</X><Y>-2050</Y>
+					<X>690</X><Y>1190</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6985,7 +6830,7 @@ if( previousClickedBuilding != null){
 }
 
 
-for ( GIS_Building b : pop_GIS_Buildings ){
+for ( GIS_Building b : energyModel.pop_GIS_Buildings ){
 	
 	if( b.gisRegion != null && b.gisRegion.contains(clickx, clicky) ){
 		v_clickedBuilding = b;
@@ -7255,7 +7100,7 @@ f_setEnergyPrice();
 
 
 //MAP
-v_clickedBuilding = randomWhere(pop_GIS_Buildings, x->x.c_gridConnectionsInBuilding.size() > 0);
+v_clickedBuilding = randomWhere(energyModel.pop_GIS_Buildings, x->x.c_gridConnectionsInBuilding.size() > 0);
 //v_clickedHousehold = randomFrom(v_clickedBuilding.c_householdsInBuilding);
 //v_timeInMillis = System.currentTimeMillis();
 
@@ -7349,15 +7194,18 @@ gr_businessParkLoad.setY(103);
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1697017019953</Id>
-					<Name><![CDATA[f_createGISBuildings]]></Name>
+					<Name><![CDATA[f_createGISObjects]]></Name>
 					<X>-480</X><Y>152</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[// Draw neighborhood
+					<Body><![CDATA[String delims = " ";
+String[] tokens;
+int nbCoords;
+// Draw neighborhood
 
-String regionCoordsString = "MultiPolygon (((4.65054507 51.81131591, 4.65054524 51.81131584, 4.65020007 51.81102882, 4.65011152 51.81095778, 4.64863148 51.80973831, 4.64807109 51.80927772, 4.64784749 51.80909394, 4.64731037 51.80865447, 4.64697564 51.80838757, 4.64674021 51.80820648, 4.64599848 51.80765533, 4.64568888 51.80744544, 4.64510797 51.8071035, 4.64481926 51.80694234, 4.64447431 51.80676515, 4.64420464 51.80663673, 4.64327128 51.80620824, 4.64309799 51.80636472, 4.64204452 51.80575972, 4.6419578 51.80570992, 4.64175312 51.80559237, 4.63993744 51.8046885, 4.63833041 51.80399345, 4.63682609 51.80346675, 4.63490739 51.80281451, 4.63217886 51.80213105, 4.63015904 51.80168807, 4.62788799 51.80131312, 4.62603712 51.80102218, 4.62329525 51.80075998, 4.62122158 51.80080368, 4.62098072 51.80084383, 4.62090934 51.80085572, 4.61878013 51.80121055, 4.6187664 51.80121316, 4.61732822 51.80148677, 4.61613468 51.80179326, 4.61590393 51.80184104, 4.61304628 51.80255009, 4.61158071 51.80289708, 4.61115435 51.80301289, 4.61050974 51.80318517, 4.61015205 51.8032827, 4.60992748 51.80334902, 4.60940707 51.80350169, 4.60865007 51.80372514, 4.60772399 51.80399012, 4.60703519 51.80418641, 4.60675683 51.80425847, 4.60595822 51.80446443, 4.60520025 51.80466127, 4.60455687 51.8048269, 4.60289773 51.80524767, 4.6007034 51.80574823, 4.59988345 51.80590551, 4.5990376 51.80610532, 4.59856512 51.80617748, 4.59777559 51.80629581, 4.59771773 51.80630448, 4.59687597 51.8064315, 4.59711052 51.80756856, 4.59716236 51.80788068, 4.59733253 51.80789065, 4.59759443 51.80791458, 4.59784417 51.80795174, 4.59878124 51.80816279, 4.5992409 51.80826566, 4.59989632 51.80842379, 4.60111711 51.80877641, 4.60239248 51.80914564, 4.60374498 51.80953755, 4.60402713 51.80963256, 4.60432796 51.80974988, 4.60459764 51.80987585, 4.60491419 51.81004944, 4.6053879 51.81037485, 4.60644416 51.81107519, 4.60704567 51.8114591, 4.60728649 51.81159966, 4.60750388 51.81171641, 4.60801255 51.81195335, 4.60821804 51.81206854, 4.608344 51.81223198, 4.60837643 51.81242019, 4.61083709 51.81242034, 4.61137582 51.81242036, 4.61489102 51.81244692, 4.61535045 51.8124053, 4.61555157 51.81238708, 4.61625686 51.81225996, 4.61759255 51.81192412, 4.61849123 51.81164284, 4.62013633 51.81105899, 4.62074419 51.81089067, 4.62175934 51.81080946, 4.6224192 51.81078842, 4.62263469 51.81077631, 4.62312094 51.81070853, 4.62361438 51.81053606, 4.62449889 51.81012289, 4.62544469 51.80962901, 4.62577604 51.80937271, 4.62595993 51.80913404, 4.62605342 51.80859916, 4.62606191 51.80825799, 4.62600383 51.80766301, 4.62606297 51.8070654, 4.62620798 51.80654606, 4.62641966 51.8061133, 4.62669791 51.80577219, 4.62715783 51.80548294, 4.62759917 51.805327, 4.62804515 51.8052184, 4.62897349 51.80510616, 4.62954514 51.80514026, 4.63039306 51.80527411, 4.63194548 51.80564392, 4.63268329 51.80584462, 4.63273439 51.80586167, 4.63355585 51.8061357, 4.63442016 51.8064318, 4.63545188 51.80682018, 4.63605914 51.8070082, 4.63704487 51.80725405, 4.63724775 51.80730465, 4.63822418 51.80757948, 4.64016337 51.80813408, 4.6405908 51.8082576, 4.64204014 51.80867643, 4.64286969 51.80893846, 4.64331844 51.80915752, 4.64401937 51.80961806, 4.64467577 51.81013574, 4.64510481 51.81056076, 4.64537293 51.8109468, 4.64549567 51.81115276, 4.64557373 51.81137793, 4.64558786 51.8116787, 4.64550745 51.81192819, 4.64529668 51.81231538, 4.64525823 51.81249927, 4.64531862 51.8128037, 4.64556219 51.81307383, 4.64580575 51.81334395, 4.65054507 51.81131591)))";
+/*String regionCoordsString = "MultiPolygon (((4.65054507 51.81131591, 4.65054524 51.81131584, 4.65020007 51.81102882, 4.65011152 51.81095778, 4.64863148 51.80973831, 4.64807109 51.80927772, 4.64784749 51.80909394, 4.64731037 51.80865447, 4.64697564 51.80838757, 4.64674021 51.80820648, 4.64599848 51.80765533, 4.64568888 51.80744544, 4.64510797 51.8071035, 4.64481926 51.80694234, 4.64447431 51.80676515, 4.64420464 51.80663673, 4.64327128 51.80620824, 4.64309799 51.80636472, 4.64204452 51.80575972, 4.6419578 51.80570992, 4.64175312 51.80559237, 4.63993744 51.8046885, 4.63833041 51.80399345, 4.63682609 51.80346675, 4.63490739 51.80281451, 4.63217886 51.80213105, 4.63015904 51.80168807, 4.62788799 51.80131312, 4.62603712 51.80102218, 4.62329525 51.80075998, 4.62122158 51.80080368, 4.62098072 51.80084383, 4.62090934 51.80085572, 4.61878013 51.80121055, 4.6187664 51.80121316, 4.61732822 51.80148677, 4.61613468 51.80179326, 4.61590393 51.80184104, 4.61304628 51.80255009, 4.61158071 51.80289708, 4.61115435 51.80301289, 4.61050974 51.80318517, 4.61015205 51.8032827, 4.60992748 51.80334902, 4.60940707 51.80350169, 4.60865007 51.80372514, 4.60772399 51.80399012, 4.60703519 51.80418641, 4.60675683 51.80425847, 4.60595822 51.80446443, 4.60520025 51.80466127, 4.60455687 51.8048269, 4.60289773 51.80524767, 4.6007034 51.80574823, 4.59988345 51.80590551, 4.5990376 51.80610532, 4.59856512 51.80617748, 4.59777559 51.80629581, 4.59771773 51.80630448, 4.59687597 51.8064315, 4.59711052 51.80756856, 4.59716236 51.80788068, 4.59733253 51.80789065, 4.59759443 51.80791458, 4.59784417 51.80795174, 4.59878124 51.80816279, 4.5992409 51.80826566, 4.59989632 51.80842379, 4.60111711 51.80877641, 4.60239248 51.80914564, 4.60374498 51.80953755, 4.60402713 51.80963256, 4.60432796 51.80974988, 4.60459764 51.80987585, 4.60491419 51.81004944, 4.6053879 51.81037485, 4.60644416 51.81107519, 4.60704567 51.8114591, 4.60728649 51.81159966, 4.60750388 51.81171641, 4.60801255 51.81195335, 4.60821804 51.81206854, 4.608344 51.81223198, 4.60837643 51.81242019, 4.61083709 51.81242034, 4.61137582 51.81242036, 4.61489102 51.81244692, 4.61535045 51.8124053, 4.61555157 51.81238708, 4.61625686 51.81225996, 4.61759255 51.81192412, 4.61849123 51.81164284, 4.62013633 51.81105899, 4.62074419 51.81089067, 4.62175934 51.81080946, 4.6224192 51.81078842, 4.62263469 51.81077631, 4.62312094 51.81070853, 4.62361438 51.81053606, 4.62449889 51.81012289, 4.62544469 51.80962901, 4.62577604 51.80937271, 4.62595993 51.80913404, 4.62605342 51.80859916, 4.62606191 51.80825799, 4.62600383 51.80766301, 4.62606297 51.8070654, 4.62620798 51.80654606, 4.62641966 51.8061133, 4.62669791 51.80577219, 4.62715783 51.80548294, 4.62759917 51.805327, 4.62804515 51.8052184, 4.62897349 51.80510616, 4.62954514 51.80514026, 4.63039306 51.80527411, 4.63194548 51.80564392, 4.63268329 51.80584462, 4.63273439 51.80586167, 4.63355585 51.8061357, 4.63442016 51.8064318, 4.63545188 51.80682018, 4.63605914 51.8070082, 4.63704487 51.80725405, 4.63724775 51.80730465, 4.63822418 51.80757948, 4.64016337 51.80813408, 4.6405908 51.8082576, 4.64204014 51.80867643, 4.64286969 51.80893846, 4.64331844 51.80915752, 4.64401937 51.80961806, 4.64467577 51.81013574, 4.64510481 51.81056076, 4.64537293 51.8109468, 4.64549567 51.81115276, 4.64557373 51.81137793, 4.64558786 51.8116787, 4.64550745 51.81192819, 4.64529668 51.81231538, 4.64525823 51.81249927, 4.64531862 51.8128037, 4.64556219 51.81307383, 4.64580575 51.81334395, 4.65054507 51.81131591)))";
 
 regionCoordsString = regionCoordsString.replace("MultiPolygon (((","");
 regionCoordsString = regionCoordsString.replace(",","");
@@ -7381,6 +7229,7 @@ for (int i=0; i<nbCoords; i++) {
 		regionCoords[i]=Double.parseDouble(tokens[i-1]);
 	}
 }
+*/
 	
 List<Tuple> rows = selectFrom(panden_polygons_oud_tonge_wgs)
 	//.where(buildings.aantal_ver.gt(0))
@@ -7420,7 +7269,7 @@ for (int j=0; j < 500; j++) {
 	}
 		
 	GISRegion gisregion = new GISRegion(map,buildingCoords);
-	
+	c_GISRegions.add(gisregion);
 	gisregion.setVisible(true);	
 	gisregion.setLineColor( black );
 	gisregion.setLineStyle( LINE_STYLE_SOLID );
@@ -7428,6 +7277,7 @@ for (int j=0; j < 500; j++) {
 	//gisRegion.setFillColor( new Color(205, 133, 63, 90) );
 	gisregion.setFillColor( blue );	
 }
+
 
 
 /*
@@ -7590,7 +7440,7 @@ energyModel.c_gridConnections.add(households);
 f_generateGridNodes();
 f_generateGridConnections();
 f_instantiateEnergyAssets();
-f_createGISBuildings();
+f_createGISObjects();
 //f_createAgentLinks();
 energyModel.f_initializeForecasts();
 
@@ -8349,7 +8199,7 @@ if (p_company_connection_id == null){
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1699275323321</Id>
 					<Name><![CDATA[f_setChartToDataset]]></Name>
-					<X>430</X><Y>1530</Y>
+					<X>-219</X><Y>750</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8556,261 +8406,6 @@ else if (rb_area.getValue() == 0 && rb_timePeriod.getValue() == 3){ //Business p
 
 //businessParkEnergyDemandChart.addDataSet(data_neighborhoodBatteryDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor, true, false, Chart.InterpolationType.INTERPOLATION_LINEAR, 1, Chart.PointStyle.POINT_NONE);
 ]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1699275323325</Id>
-					<Name><![CDATA[f_updateDatasets]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>430</X><Y>1550</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[t_h]]></Name>
-						<Type><![CDATA[double]]></Type>
-					</Parameter>
-					<Body><![CDATA[if (v_isRapidRun == false){
-	data_baseloadElectricityDemand_kW.update();
-	data_heatPumpElectricityDemand_kW.update();
-	//data_electricCarsDemand_kW.update();
-	data_electricTrucksDemand_kW.update();
-	data_neighborhoodBatteryDemand_kW.update();	
-	
-	data_PVGeneration_kW.update();	
-	data_windGeneration_kW.update();	
-	data_neighborhoodBatterySupply_kW.update();	
-	data_V2GSupply_kW.update();
-	
-	data_businessParkDemand_kW.update();
-	data_businessParkSupply_kW.update();
-	data_businessParkNetLoad_kW.update();
-}
-
-//Summer week
-if (t_h >= p_startHourSummerWeek && t_h < p_startHourSummerWeek + 24*7+1 && v_isRapidRun == true){
-	data_summerWeekBaseloadElectricityDemand_kW.add(t_h, sum(c_gridConnections, x->x.v_fixedConsumptionElectric_kW));
-	data_summerWeekHeatPumpElectricityDemand_kW.add(t_h, sum(c_gridConnections, x->x.v_conversionPowerElectric_kW));
-	//data_summerWeekElectricCarsDemand_kW.add(t_h, sum(c_gridConnections, x->x.v_electricCarsDemand_kW));
-	data_summerWeekElectricTrucksDemand_kW.add(t_h, sum(c_gridConnections, x->max(0,x.v_evChargingPowerElectric_kW)));
-	data_summerWeekNeighborhoodBatteryDemand_kW.add(t_h, sum(GridBatteries, x->max(0,x.v_batteryPowerElectric_kW)));
-	
-	data_summerWeekPVGeneration_kW.add(t_h, sum(c_gridConnections, x->x.v_pvProductionElectric_kW));
-	data_summerWeekWindGeneration_kW.add(t_h, sum(Windfarms, x->x.v_windProductionElectric_kW));
-	data_summerWeekNeighborhoodBatterySupply_kW.add(t_h, sum(GridBatteries, x->max(0,x.v_batteryPowerElectric_kW)));
-	data_summerWeekV2GSupply_kW.add(t_h, sum(c_gridConnections, x->-min(0,x.v_evChargingPowerElectric_kW)));
-	
-	data_summerWeekBusinessParkDemand_kW.add(t_h, sum(c_energyAssets, x->x.electricityConsumption_kW));
-	data_summerWeekBusinessParkSupply_kW.add(t_h, -sum(c_energyAssets, x->x.electricityProduction_kW)); 
-	data_summerWeekBusinessParkNetLoad_kW.add(t_h, sum(c_gridNodesHSMS, x->x.v_currentLoadElectricity_kW));
-	v_summerWeekHour++;
-	if (t_h == p_startHourSummerWeek) {
-		f_sumMolecularEnergyFlows();
-		f_sumGridNodeLoads();	
-		v_summerWeekTotalImport_MWh=v_totalElectricityImport_MWh + max(0,v_totalMethaneImport_MWh-v_totalMethaneExport_MWh) + max(0,v_totalHydrogenImport_MWh-v_totalHydrogenExport_MWh) + v_totalDieselImport_MWh;
-		v_summerWeekTotalExport_MWh=v_totalElectricityExport_MWh + max(0,v_totalMethaneExport_MWh-v_totalMethaneImport_MWh) + max(0,v_totalHydrogenExport_MWh-v_totalHydrogenImport_MWh);
-		double totalEnergyProduced_MWh=0;
-		double totalEnergyUsed_MWh=0;
-		double totalEnergyCurtailed_MWh=0;
-		for (J_EA e : c_energyAssets) {
-			double EnergyUsed_kWh = e.getEnergyUsed_kWh();			
-			if (EnergyUsed_kWh > 0) {			
-				if (e instanceof J_EAConversionCurtailer || e instanceof J_EAConversionCurtailerHeat) {
-					totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-					totalEnergyCurtailed_MWh += EnergyUsed_kWh/1000;
-				} else if( e instanceof J_EAConversionGasCHP ) {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;					
-				} else {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;
-				}		
-				if ( e instanceof J_EABuilding ) {
-					totalEnergyProduced_MWh += ((J_EABuilding)e).energyAbsorbed_kWh/1000;
-					//deltaThermalEnergySinceStart_MWh += (((J_EABuilding)e).getCurrentTemperature()-20)*((J_EABuilding)e).getHeatCapacity_JpK()/3.6e9;
-				}
-			} else {				
-				totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-			}
-		}
-		v_summerWeekEnergyUsed_MWh = totalEnergyUsed_MWh;
-		v_summerWeekEnergyProduced_MWh = totalEnergyProduced_MWh-totalEnergyCurtailed_MWh;		
-	}
-	if (t_h == p_startHourSummerWeek + 24*7) {
-		f_sumMolecularEnergyFlows();
-		f_sumGridNodeLoads();	
-		v_summerWeekTotalImport_MWh=v_totalElectricityImport_MWh + max(0,v_totalMethaneImport_MWh-v_totalMethaneExport_MWh) + max(0,v_totalHydrogenImport_MWh-v_totalHydrogenExport_MWh) + v_totalDieselImport_MWh-v_summerWeekTotalImport_MWh;
-		v_summerWeekTotalExport_MWh=v_totalElectricityExport_MWh + max(0,v_totalMethaneExport_MWh-v_totalMethaneImport_MWh) + max(0,v_totalHydrogenExport_MWh-v_totalHydrogenImport_MWh) - v_summerWeekTotalExport_MWh;
-		double totalEnergyProduced_MWh=0;
-		double totalEnergyUsed_MWh=0;
-		double totalEnergyCurtailed_MWh=0;
-		for (J_EA e : c_energyAssets) {
-			double EnergyUsed_kWh = e.getEnergyUsed_kWh();			
-			if (EnergyUsed_kWh > 0) {			
-				if (e instanceof J_EAConversionCurtailer || e instanceof J_EAConversionCurtailerHeat) {
-					totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-					totalEnergyCurtailed_MWh += EnergyUsed_kWh/1000;
-				} else if( e instanceof J_EAConversionGasCHP ) {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;					
-				} else {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;
-				}		
-				if ( e instanceof J_EABuilding ) {
-					totalEnergyProduced_MWh += ((J_EABuilding)e).energyAbsorbed_kWh/1000;
-					//deltaThermalEnergySinceStart_MWh += (((J_EABuilding)e).getCurrentTemperature()-20)*((J_EABuilding)e).getHeatCapacity_JpK()/3.6e9;
-				}
-			} else {				
-				totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-			}
-		}
-		v_summerWeekEnergyUsed_MWh = totalEnergyUsed_MWh-v_summerWeekEnergyUsed_MWh;
-		v_summerWeekEnergyProduced_MWh = totalEnergyProduced_MWh-totalEnergyCurtailed_MWh-v_summerWeekEnergyProduced_MWh;	
-		
-		// Calc selfConsumedEnergy for summerweek
-		v_summerWeekSelfConsumedEnergy_MWh = v_summerWeekEnergyUsed_MWh - v_summerWeekTotalImport_MWh; // Putting positive delta-stored energy here assumes this energy was imported as opposed to self-produced. Putting negative delta-stored energy here assumes this energy was self-consumed, as opposed to exported.	
-		double v_summerWeekSelfConsumedEnergyCheck_MWh = v_summerWeekEnergyProduced_MWh - v_summerWeekTotalExport_MWh;
-		traceln("Summerweek selfconsumed use/import based: %s, production/export based: %s", v_summerWeekSelfConsumedEnergy_MWh, v_summerWeekSelfConsumedEnergyCheck_MWh);
-		
-	}
-	
-}
-
-//Winter week
-if (t_h >= p_startHourWinterWeek && t_h < p_startHourWinterWeek + 24*7+1 && v_isRapidRun == true){
-	data_winterWeekBaseloadElectricityDemand_kW.add(t_h, sum(c_gridConnections, x->x.v_fixedConsumptionElectric_kW));
-	data_winterWeekHeatPumpElectricityDemand_kW.add(t_h, sum(c_gridConnections, x->x.v_conversionPowerElectric_kW));
-	//data_winterWeekElectricCarsDemand_kW.add(t_h, sum(c_gridConnections, x->x.v_electricCarsDemand_kW));
-	data_winterWeekElectricTrucksDemand_kW.add(t_h, sum(c_gridConnections, x->max(0,x.v_evChargingPowerElectric_kW)));
-	data_winterWeekNeighborhoodBatteryDemand_kW.add(t_h, sum(GridBatteries, x->max(0,x.v_batteryPowerElectric_kW)));
-	
-	data_winterWeekPVGeneration_kW.add(t_h, sum(c_gridConnections, x->x.v_pvProductionElectric_kW));
-	data_winterWeekWindGeneration_kW.add(t_h, sum(Windfarms, x->x.v_windProductionElectric_kW));
-	data_winterWeekNeighborhoodBatterySupply_kW.add(t_h, sum(GridBatteries, x->-min(0,x.v_batteryPowerElectric_kW)));
-	data_winterWeekV2GSupply_kW.add(t_h, sum(c_gridConnections, x->-min(0,x.v_evChargingPowerElectric_kW)));
-	
-	data_winterWeekBusinessParkDemand_kW.add(t_h, sum(c_energyAssets, x->x.electricityConsumption_kW));
-	data_winterWeekBusinessParkSupply_kW.add(t_h, -sum(c_energyAssets, x->x.electricityProduction_kW)); 
-	data_winterWeekBusinessParkNetLoad_kW.add(t_h, sum(c_gridNodesHSMS, x->x.v_currentLoadElectricity_kW));
-	v_winterWeekHour++;
-	if (t_h == p_startHourWinterWeek) {
-		f_sumMolecularEnergyFlows();
-		f_sumGridNodeLoads();	
-		v_winterWeekTotalImport_MWh=v_totalElectricityImport_MWh + max(0,v_totalMethaneImport_MWh-v_totalMethaneExport_MWh) + max(0,v_totalHydrogenImport_MWh-v_totalHydrogenExport_MWh) + v_totalDieselImport_MWh;
-		v_winterWeekTotalExport_MWh=v_totalElectricityExport_MWh + max(0,v_totalMethaneExport_MWh-v_totalMethaneImport_MWh) + max(0,v_totalHydrogenExport_MWh-v_totalHydrogenImport_MWh);
-		double totalEnergyProduced_MWh=0;
-		double totalEnergyUsed_MWh=0;
-		double totalEnergyCurtailed_MWh=0;
-		for (J_EA e : c_energyAssets) {
-			double EnergyUsed_kWh = e.getEnergyUsed_kWh();			
-			if (EnergyUsed_kWh > 0) {			
-				if (e instanceof J_EAConversionCurtailer || e instanceof J_EAConversionCurtailerHeat) {
-					totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-					totalEnergyCurtailed_MWh += EnergyUsed_kWh/1000;
-				} else if( e instanceof J_EAConversionGasCHP ) {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;					
-				} else {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;
-				}		
-				if ( e instanceof J_EABuilding ) {
-					totalEnergyProduced_MWh += ((J_EABuilding)e).energyAbsorbed_kWh/1000;
-					//deltaThermalEnergySinceStart_MWh += (((J_EABuilding)e).getCurrentTemperature()-20)*((J_EABuilding)e).getHeatCapacity_JpK()/3.6e9;
-				}
-			} else {				
-				totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-			}
-		}
-		v_winterWeekEnergyUsed_MWh = totalEnergyUsed_MWh;
-		v_winterWeekEnergyProduced_MWh = totalEnergyProduced_MWh-totalEnergyCurtailed_MWh;		
-	}
-	if (t_h == p_startHourWinterWeek + 24*7) {
-		f_sumMolecularEnergyFlows();
-		f_sumGridNodeLoads();	
-		v_winterWeekTotalImport_MWh=v_totalElectricityImport_MWh + max(0,v_totalMethaneImport_MWh-v_totalMethaneExport_MWh) + max(0,v_totalHydrogenImport_MWh-v_totalHydrogenExport_MWh) + v_totalDieselImport_MWh-v_winterWeekTotalImport_MWh;
-		v_winterWeekTotalExport_MWh=v_totalElectricityExport_MWh + max(0,v_totalMethaneExport_MWh-v_totalMethaneImport_MWh) + max(0,v_totalHydrogenExport_MWh-v_totalHydrogenImport_MWh) - v_winterWeekTotalExport_MWh;
-		double totalEnergyProduced_MWh=0;
-		double totalEnergyUsed_MWh=0;
-		double totalEnergyCurtailed_MWh=0;
-		for (J_EA e : c_energyAssets) {
-			double EnergyUsed_kWh = e.getEnergyUsed_kWh();			
-			if (EnergyUsed_kWh > 0) {			
-				if (e instanceof J_EAConversionCurtailer || e instanceof J_EAConversionCurtailerHeat) {
-					totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-					totalEnergyCurtailed_MWh += EnergyUsed_kWh/1000;
-				} else if( e instanceof J_EAConversionGasCHP ) {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;					
-				} else {
-					totalEnergyUsed_MWh += EnergyUsed_kWh/1000;
-				}		
-				if ( e instanceof J_EABuilding ) {
-					totalEnergyProduced_MWh += ((J_EABuilding)e).energyAbsorbed_kWh/1000;
-					//deltaThermalEnergySinceStart_MWh += (((J_EABuilding)e).getCurrentTemperature()-20)*((J_EABuilding)e).getHeatCapacity_JpK()/3.6e9;
-				}
-			} else {				
-				totalEnergyProduced_MWh -= EnergyUsed_kWh/1000;
-			}
-		}
-		v_winterWeekEnergyUsed_MWh = totalEnergyUsed_MWh-v_winterWeekEnergyUsed_MWh;
-		v_winterWeekEnergyProduced_MWh = totalEnergyProduced_MWh-totalEnergyCurtailed_MWh-v_winterWeekEnergyProduced_MWh;	
-		
-		// Calc selfConsumedEnergy for winterweek
-		v_winterWeekSelfConsumedEnergy_MWh = v_winterWeekEnergyUsed_MWh - v_winterWeekTotalImport_MWh; // Putting positive delta-stored energy here assumes this energy was imported as opposed to self-produced. Putting negative delta-stored energy here assumes this energy was self-consumed, as opposed to exported.	
-		double v_winterWeekSelfConsumedEnergyCheck_MWh = v_winterWeekEnergyProduced_MWh - v_winterWeekTotalExport_MWh;
-		traceln("winterweek selfconsumed use/import based: %s, production/export based: %s", v_winterWeekSelfConsumedEnergy_MWh, v_winterWeekSelfConsumedEnergyCheck_MWh);
-		
-	}
-}
-
-if(v_isRapidRun == true){
-	v_dailyBaseloadElectricityDemand_kWh += sum(c_gridConnections, x->x.v_fixedConsumptionElectric_kW);
-	v_dailyHeatPumpElectricityDemand_kWh += sum(c_gridConnections, x->x.v_conversionPowerElectric_kW);
-	//v_dailyElectricCarsDemand_kWh += sum(c_gridConnections, x->x.v_electricCarsDemand_kW);
-	v_dailyElectricTrucksDemand_kWh += sum(c_gridConnections, x->max(0,x.v_evChargingPowerElectric_kW));
-	v_dailyNeighborhoodBatteryDemand_kWh += sum(GridBatteries, x->max(0,x.v_batteryPowerElectric_kW));
-	
-	v_dailyPVGeneration_kWh += sum(c_gridConnections, x->x.v_pvProductionElectric_kW)*p_timeStep_h;
-	v_dailyWindGeneration_kWh += sum(Windfarms, x->x.v_windProductionElectric_kW)*p_timeStep_h;
-	v_dailyNeighborhoodBatterySupply_kWh += sum(GridBatteries, x->-min(0,x.v_batteryPowerElectric_kW))*p_timeStep_h;
-	v_dailyV2GSupply_kWh += sum(c_gridConnections, x->-min(0,x.v_evChargingPowerElectric_kW))*p_timeStep_h;
-	
-	//v_dailyBusinessParkDemand_kWh += v_businessParkTotalDemand_kW*p_timeStep_h;
-	//v_dailyBusinessParkSupply_kWh += v_businessParkTotalSupply_kW*p_timeStep_h;
-	v_dailyBusinessParkNetLoad_kWh += sum(c_gridNodesHSMS, x->x.v_currentLoadElectricity_kW)*p_timeStep_h;
-	
-	if (t_h % 24 == 23){
-		data_annualBaseloadElectricityDemand_kWh.add(t_h, v_dailyBaseloadElectricityDemand_kWh);
-		data_annualHeatPumpElectricityDemand_kWh.add(t_h, v_dailyHeatPumpElectricityDemand_kWh);
-		data_annualElectricCarsDemand_kWh.add(t_h, v_dailyElectricCarsDemand_kWh);
-		data_annualElectricTrucksDemand_kWh.add(t_h, v_dailyElectricTrucksDemand_kWh);
-		data_annualNeighborhoodBatteryDemand_kWh.add(t_h, v_dailyNeighborhoodBatteryDemand_kWh);
-		
-		data_annualPVGeneration_kWh.add(t_h, v_dailyPVGeneration_kWh);
-		data_annualWindGeneration_kWh.add(t_h, v_dailyWindGeneration_kWh);
-		data_annualNeighborhoodBatterySupply_kWh.add(t_h, v_dailyNeighborhoodBatterySupply_kWh);
-		data_annualV2GSupply_kWh.add(t_h, v_dailyV2GSupply_kWh);
-		
-		data_annualBusinessParkDemand_kWh.add(t_h, v_dailyBusinessParkDemand_kWh);
-		data_annualBusinessParkSupply_kWh.add(t_h, v_dailyBusinessParkSupply_kWh); 
-		data_annualBusinessParkNetLoad_kWh.add(t_h, v_dailyBusinessParkNetLoad_kWh);
-			
-		v_dailyBaseloadElectricityDemand_kWh = 0;
-		v_dailyHeatPumpElectricityDemand_kWh = 0;
-		v_dailyElectricCarsDemand_kWh = 0;
-		v_dailyElectricTrucksDemand_kWh = 0;
-		v_dailyNeighborhoodBatteryDemand_kWh = 0;
-		
-		v_dailyPVGeneration_kWh = 0;
-		v_dailyWindGeneration_kWh = 0;
-		v_dailyNeighborhoodBatterySupply_kWh = 0;
-		v_dailyV2GSupply_kWh = 0;
-		
-		v_dailyBusinessParkDemand_kWh = 0;
-		v_dailyBusinessParkSupply_kWh = 0;
-		v_dailyBusinessParkNetLoad_kWh = 0;
-	}
-	data_annualBusinessParkNetLoad_kW.add(t_h,sum(c_gridNodesHSMS, x->x.v_currentLoadElectricity_kW));
-	data_annualBusinessParkSupply_kW.add(t_h,-sum(c_energyAssets, x->x.electricityProduction_kW));
-	data_annualBusinessParkDemand_kW.add(t_h,sum(c_energyAssets, x->x.electricityConsumption_kW));
-}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -9710,7 +9305,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1700497815596</Id>
 					<Name><![CDATA[data_netbelastingshistogram_kW]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1800</X><Y>-360</Y>
+					<X>3720</X><Y>1310</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9907,7 +9502,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1658477403183</Id>
 					<Name><![CDATA[pop_gridNodes]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>643</X><Y>1058</Y>
+					<X>-1460</X><Y>80</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10006,7 +9601,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1658477403184</Id>
 					<Name><![CDATA[pop_gridConnections]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1051</Y>
+					<X>-1670</X><Y>73</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10187,7 +9782,8 @@ for(int i=0; i< arraySize; i++) {
 				<EmbeddedObject>
 					<Id>1658499722957</Id>
 					<Name><![CDATA[UI_energyAssets]]></Name>
-					<X>639</X><Y>1340</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-1464</X><Y>362</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10264,7 +9860,7 @@ for(int i=0; i< arraySize; i++) {
 
 @since: Sprint 6
 @author: Jorrit]]></Description>
-					<X>640</X><Y>1400</Y>
+					<X>-1463</X><Y>422</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10332,7 +9928,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1660730126216</Id>
 					<Name><![CDATA[pop_connectionOwners]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1278</Y>
+					<X>-1670</X><Y>300</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10451,7 +10047,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1660731786332</Id>
 					<Name><![CDATA[pop_energySuppliers]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1298</Y>
+					<X>-1670</X><Y>320</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10552,7 +10148,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1660731820965</Id>
 					<Name><![CDATA[pop_energyCoops]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1318</Y>
+					<X>-1670</X><Y>340</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10662,7 +10258,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1660731850501</Id>
 					<Name><![CDATA[pop_gridOperators]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1358</Y>
+					<X>-1670</X><Y>380</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10753,7 +10349,7 @@ for(int i=0; i< arraySize; i++) {
 				<EmbeddedObject>
 					<Id>1660731876775</Id>
 					<Name><![CDATA[energyModel]]></Name>
-					<X>430</X><Y>1440</Y>
+					<X>-219</X><Y>780</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10896,7 +10492,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1660731999276</Id>
 					<Name><![CDATA[pop_governmentLayer]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1338</Y>
+					<X>-1670</X><Y>360</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10970,7 +10566,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1663772677806</Id>
 					<Name><![CDATA[Houses]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1074</Y>
+					<X>-1670</X><Y>96</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11164,7 +10760,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1663774441970</Id>
 					<Name><![CDATA[DistrictHeatingSystems]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1119</Y>
+					<X>-1670</X><Y>141</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11349,7 +10945,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1663774461816</Id>
 					<Name><![CDATA[Windfarms]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1159</Y>
+					<X>-1670</X><Y>181</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11531,7 +11127,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1663774484695</Id>
 					<Name><![CDATA[Solarfarms]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1179</Y>
+					<X>-1670</X><Y>201</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11713,7 +11309,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1663774484696</Id>
 					<Name><![CDATA[UtilityConnections]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1200</Y>
+					<X>-1670</X><Y>222</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11895,7 +11491,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1665480562790</Id>
 					<Name><![CDATA[Industries]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1096</Y>
+					<X>-1670</X><Y>118</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12077,7 +11673,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1666957373353</Id>
 					<Name><![CDATA[GridBatteries]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>433</X><Y>1139</Y>
+					<X>-1670</X><Y>161</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12258,7 +11854,8 @@ for(int i=0; i< arraySize; i++) {
 				<EmbeddedObject>
 					<Id>1676382641979</Id>
 					<Name><![CDATA[pop_GIS_Buildings]]></Name>
-					<X>640</X><Y>1360</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-1463</X><Y>382</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12353,7 +11950,8 @@ for(int i=0; i< arraySize; i++) {
 				<EmbeddedObject>
 					<Id>1676382641980</Id>
 					<Name><![CDATA[pop_GIS_Area]]></Name>
-					<X>640</X><Y>1380</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-1463</X><Y>402</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12682,7 +12280,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1668602188368</Id>
 					<Name><![CDATA[text4]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>423</X><Y>1018</Y>
+					<X>-1680</X><Y>40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12704,7 +12302,7 @@ for(int i=0; i< arraySize; i++) {
 					<Id>1668602188372</Id>
 					<Name><![CDATA[line2]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>403</X><Y>1038</Y>
+					<X>-1700</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12728,7 +12326,7 @@ for(int i=0; i< arraySize; i++) {
 				<Text>
 					<Id>1668602207232</Id>
 					<Name><![CDATA[text6]]></Name>
-					<X>683</X><Y>1018</Y>
+					<X>-1420</X><Y>40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12749,7 +12347,7 @@ for(int i=0; i< arraySize; i++) {
 				<Line>
 					<Id>1668602207235</Id>
 					<Name><![CDATA[line3]]></Name>
-					<X>623</X><Y>1038</Y>
+					<X>-1480</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12773,7 +12371,7 @@ for(int i=0; i< arraySize; i++) {
 				<Line>
 					<Id>1668602284894</Id>
 					<Name><![CDATA[line4]]></Name>
-					<X>403</X><Y>1258</Y>
+					<X>-1700</X><Y>280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12797,7 +12395,7 @@ for(int i=0; i< arraySize; i++) {
 				<Text>
 					<Id>1668602284900</Id>
 					<Name><![CDATA[text7]]></Name>
-					<X>473</X><Y>1238</Y>
+					<X>-1630</X><Y>260</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12818,7 +12416,7 @@ for(int i=0; i< arraySize; i++) {
 				<Line>
 					<Id>1668602384222</Id>
 					<Name><![CDATA[line5]]></Name>
-					<X>403</X><Y>1418</Y>
+					<X>-1700</X><Y>440</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12842,7 +12440,7 @@ for(int i=0; i< arraySize; i++) {
 				<Text>
 					<Id>1668602384225</Id>
 					<Name><![CDATA[text8]]></Name>
-					<X>493</X><Y>1398</Y>
+					<X>-1610</X><Y>420</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12863,7 +12461,7 @@ for(int i=0; i< arraySize; i++) {
 				<Line>
 					<Id>1690205003572</Id>
 					<Name><![CDATA[line8]]></Name>
-					<X>900</X><Y>1040</Y>
+					<X>-219</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12880,14 +12478,14 @@ for(int i=0; i< arraySize; i++) {
 					<BeginArrowStyle>0</BeginArrowStyle>
 					<EndArrowSize>1</EndArrowSize>
 					<EndArrowStyle>0</EndArrowStyle>
-					<Dx>430</Dx>
+					<Dx>170</Dx>
 					<Dy>0</Dy>
 					<Dz>0</Dz>
 				</Line>
 				<Text>
 					<Id>1690205003577</Id>
 					<Name><![CDATA[text11]]></Name>
-					<X>1110</X><Y>1020</Y>
+					<X>-159</X><Y>530</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -12905,868 +12503,11 @@ for(int i=0; i< arraySize; i++) {
 					</Font>
 					<Alignment>CENTER</Alignment>
 				</Text>
-				<Group>
-					<Id>1690209586017</Id>
-					<Name><![CDATA[gr_electricitySettings]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-800</X><Y>-660</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-
-			<Presentation>
-				<Rectangle>
-					<Id>1690209586019</Id>
-					<Name><![CDATA[rectangle_electricitySettings]]></Name>
-					<X>-160</X><Y>-180</Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>240</Width>
-					<Height>175</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle>
-				<Control Type="RadioButtons">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1690209586021</Id>
-					<Name><![CDATA[ra_chargingStrategy]]></Name>
-					<X>-145</X><Y>35</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="225" Height="133">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[switch (ra_chargingStrategy.getValue()){
-	case 0:
-		for (GridConnection h: c_gridConnections) {
-			h.p_chargingAttitudeVehicles = OL_ChargingAttitude.SIMPLE;
-		}
-	break;
-	case 1:
-		for (GridConnection h: c_gridConnections) {
-			h.p_chargingAttitudeVehicles = OL_ChargingAttitude.CHEAP;
-		}
-	break;
-	case 2:
-		for (GridConnection h: c_gridConnections) {
-			h.p_chargingAttitudeVehicles = OL_ChargingAttitude.MAX_POWER;
-		}
-	break;
-}
-]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="16" Style="0"/>
-						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
-						<Orientation>VERTICAL</Orientation>
-						<Button><![CDATA[Gewoon laden]]></Button>
-						<Button><![CDATA[Slim laden]]></Button>
-						<Button><![CDATA[MAX_POWER]]></Button>
-						<LinkTo>false</LinkTo>
-					</ExtendedProperties>
-				</Control>
-				<Group>
-					<Id>1690209586023</Id>
-					<Name><![CDATA[gr_electricAppliancesSliders]]></Name>
-					<X>25</X><Y>-85</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-
-			<Presentation>
-				<Rectangle>
-					<Id>1690209586025</Id>
-					<Name><![CDATA[rectangle23]]></Name>
-					<X>-185</X><Y>-95</Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>395</Width>
-					<Height>175</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-				</Rectangle>
-				<Image>
-					<Id>1690209586027</Id>
-					<Name><![CDATA[image40]]></Name>
-					<X>200</X><Y>-79</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<OnClickCode><![CDATA[gr_electricAppliancesSliders.setVisible(false);
-rectangle_electricitySettings.setVisible(true);
-i_electricAppliancesPopOut.setVisible(true);]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Width>20</Width>
-					<Height>20</Height>
-					<Rotation>90.0</Rotation>
-					<ImageFiles>
-						<ImageResourceReference>
-							<PackageName><![CDATA[zero]]></PackageName>
-							<ClassName><![CDATA[icon_arrow.png]]></ClassName>
-						</ImageResourceReference>
-					</ImageFiles>
-					<OriginalSize>false</OriginalSize>
-				</Image>
-				<Control Type="Slider">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1690209586029</Id>
-					<Name><![CDATA[sl_rooftopPV]]></Name>
-					<X>70</X><Y>-55</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="100" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[//Setting PV Systems
-double HouseholdPVsystems = count(energyModel.Houses, x->x.v_hasPV == true);
-t_numberOfRooftopPV.setText(HouseholdPVsystems);
-
-JsonNode t=null;
-for(JsonNode assetJson : v_templateAssetsJson) {
-	if (assetJson.required( "name" ).textValue().equals("TEMPLATE: Household PV")) {
-		t = assetJson;
-	}
-}
-
-if( sl_rooftopPV.getValue()/100.0*Houses.size() < HouseholdPVsystems){
-	while ( sl_rooftopPV.getValue()/100.0*Houses.size() < HouseholdPVsystems) { // remove excess PV systems
-		GCHouse h = findFirst(Houses, x->x.v_hasPV==true);
-		
-		J_EA pvAsset = findFirst(h.c_productionAssets, p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC );
-		traceln("Found household PV system: " + pvAsset);
-		if (pvAsset!=null) {
-			v_totalInstalledPVPower_kW -= pvAsset.getElectricCapacity_kW();
-			h.c_productionAssets.remove(pvAsset);
-			c_energyAssets.remove(pvAsset);
-			traceln("Removing household PV from household:" + h.p_agentID);
-			h.v_hasPV = false;
-		}
-		HouseholdPVsystems=count(Houses, x->x.v_hasPV == true);		
-	}
- 
-} else { 
-	while ( sl_rooftopPV.getValue()/100.0 * Houses.size() > HouseholdPVsystems) {
-		GCHouse h = findFirst(Houses, x->x.v_hasPV==false);
-		//traceln("Check presence of solarpanels: " + h.v_hasPV);	
-		
-		OL_EnergyAssetType assetType = OL_EnergyAssetType.valueOf(t.required( "type" ).textValue()) ;
-		String assetName = t.required( "name" ).textValue();	
-				
-		double capacityElectricity_kW = t.required( "capacityElectricity_kW").doubleValue() ;
-		double capacityHeat_kW = 0.0;
-		double yearlyProductionHydrogen_kWh = 0.0;
-		double yearlyProductionMethane_kWh = 0.0;
-		double outputTemperature_degC = 0.0;
-		
-		J_EAProduction productionAsset = new J_EAProduction ( h, assetType, assetName, capacityElectricity_kW, capacityHeat_kW, yearlyProductionMethane_kWh, yearlyProductionHydrogen_kWh, p_timeStep_h, outputTemperature_degC );
-		h.f_connectToJ_EA(productionAsset);
-		
-		c_productionAssets.add(productionAsset);
-		v_totalInstalledPVPower_kW += capacityElectricity_kW;
-	
-		HouseholdPVsystems=count(Houses, x->x.v_hasPV == true);	
-		traceln("Added household PV to household: " + h.p_agentID);
-	}
-	
-}	
-
-v_totalInstalledPVPower_kW = sumWhere(c_energyAssets,p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
-t_numberOfRooftopPV.setText(count(energyModel.Houses, x->x.v_hasPV == true));
-]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
-						<Orientation>HORIZONTAL</Orientation>
-						<MinValue><![CDATA[0]]></MinValue>
-						<MaxValue><![CDATA[100]]></MaxValue>
-						<Step><![CDATA[1]]></Step>
-						<LinkTo>false</LinkTo>
-					</ExtendedProperties>
-				</Control>
-				<Control Type="Slider">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1690209586031</Id>
-					<Name><![CDATA[sl_electricCooking]]></Name>
-					<X>70</X><Y>-25</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="100" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[//Setting cooking Systems
-double numberOfElectricStoves = count(Houses, x->x.p_hasElectricHob == true);
-t_numberOfElectricStoves.setText(numberOfElectricStoves);
-
-JsonNode t=null;
-JsonNode g=null;
-
-for(JsonNode assetJson : v_templateAssetsJson) {
-
-	if (assetJson.required( "name" ).textValue().equals("TEMPLATE: Electric hob")) {
-		t = assetJson;
-	}
-	if (assetJson.required( "name" ).textValue().equals("TEMPLATE: gas-pit")) {
-		g = assetJson;
-	}
-}
-
-
-if( sl_electricCooking.getValue()/100.0*Houses.size() < numberOfElectricStoves){
-	while ( numberOfElectricStoves > sl_electricCooking.getValue()/100.0*Houses.size()) { // remove excess EHOBs systems
-		GCHouse h = findFirst(Houses, x->x.p_hasElectricHob==true);
-		
-		J_EAConversion HOB = findFirst(h.c_conversionAssets, p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HOB );
-		
-		if (HOB!=null) {
-			traceln("Removing electric HOB from household:" + h.p_agentID);
-			h.c_conversionAssets.remove(HOB);
-			c_energyAssets.remove(HOB);
-			h.p_hasElectricHob = false;
-		}
-		//traceln("Adding Gas-pit in place of electric HOB");
-		double capacityHeat_kW = g.required( "capacityHeat_kW").doubleValue();
-		double eta_r = g.required( "eta_r").doubleValue();
-		double deliveryTemp_degC1 = 0.0;
-				
-		J_EAConversionGasBurner gasHOB = new J_EAConversionGasBurner(h,OL_EnergyAssetType.GAS_PIT, capacityHeat_kW, eta_r, p_timeStep_h, deliveryTemp_degC1);
-		h.c_conversionAssets.add(gasHOB);
-		h.p_cookingTracker.HOB=gasHOB;
-		c_energyAssets.add(gasHOB);
-					
-		numberOfElectricStoves=count(Houses, x->x.p_hasElectricHob == true);	
-		traceln("Added Gas-pit to household: " + h.p_agentID);		
-	}
- 
-} else { 
-	while ( numberOfElectricStoves < sl_electricCooking.getValue()/100.0 * Houses.size()) {
-		GCHouse h = findFirst(Houses, x->x.p_hasElectricHob==false);
-		//traceln("Check presence of solarpanels: " + h.v_hasPV);	
-		
-		J_EAConversion HOB = findFirst(h.c_conversionAssets, p -> p.energyAssetType == OL_EnergyAssetType.GAS_PIT );
-		
-		if (HOB!=null) {
-			traceln("Removing gas-pit from household:" + h.p_agentID);
-			h.c_conversionAssets.remove(HOB);
-			c_energyAssets.remove(HOB);
-		}
-		//traceln("Adding electric HOB in place of Gas-pit");				
-		double capacityHeat_kW = g.required( "capacityHeat_kW").doubleValue();
-		double eta_r = g.required( "eta_r").doubleValue();
-		double deliveryTemp_degC1 = 0.0;
-		
-		J_EAElectricHob eHOB = new J_EAElectricHob(h,capacityHeat_kW, eta_r, p_timeStep_h, deliveryTemp_degC1);
-		h.c_conversionAssets.add(eHOB);
-		h.p_cookingTracker.HOB=eHOB;
-		c_energyAssets.add(eHOB);
-		h.p_hasElectricHob = true;
-					
-		numberOfElectricStoves=count(Houses, x->x.p_hasElectricHob == true);	
-		traceln("Added electric HOB to household: " + h.p_agentID);
-	}
-	
-}	
-
-t_numberOfElectricStoves.setText(numberOfElectricStoves);
-]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
-						<Orientation>HORIZONTAL</Orientation>
-						<MinValue><![CDATA[0]]></MinValue>
-						<MaxValue><![CDATA[100]]></MaxValue>
-						<Step><![CDATA[1]]></Step>
-						<LinkTo>false</LinkTo>
-					</ExtendedProperties>
-				</Control>
-				<Control Type="Slider">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1690209586033</Id>
-					<Name><![CDATA[sl_EV]]></Name>
-					<X>70</X><Y>5</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="100" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[double HouseholdEVs = count(Houses, x->x.p_householdEV != null);
-//t_numberOfElectricVehicles.setText(HouseholdEVs);
-
-JsonNode t=null;
-JsonNode g=null;
-
-for(JsonNode assetJson : v_templateAssetsJson) {
-
-	if (assetJson.required( "name" ).textValue().equals("TEMPLATE: Private Electric Vehicle")) {
-		t = assetJson;
-	}
-	if (assetJson.required( "name" ).textValue().equals("TEMPLATE: Private Diesel Vehicle")) {
-		g = assetJson;
-	}
-}
-
-if( sl_EV.getValue()/100.0*Houses.size() < HouseholdEVs){
-	while ( sl_EV.getValue()/100.0*Houses.size() < HouseholdEVs & HouseholdEVs > 0) { // remove excess EVs systems !!!! Should also add diesel vehicle again!
-		GCHouse h = findFirst(Houses, x->x.p_householdEV != null);
-		
-		J_EAEV ev = (J_EAEV)findFirst(h.c_vehicleAssets, p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE );
-		traceln("Found household EV: " + ev);
-		if (ev!=null) {			
-			//h.c_storageAssets.remove(EA);
-			h.c_vehicleAssets.remove(ev);
-			h.c_vehiclesAvailableForCharging.remove(ev);
-			h.v_vehicleIndex--;
-			h.p_householdEV = null;
-			c_EVs.remove(ev);
-			c_energyAssets.remove(ev);
-			traceln("Removing household EV from household:" + h.p_agentID);
-		}
-		
-		// Re-add diesel vehicle
-				
-		double energyConsumption_kWhpkm = g.required( "energyConsumption_kWhpkm" ).doubleValue();
-		double vehicleScaling = g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(h, energyConsumption_kWhpkm, p_timeStep_h, vehicleScaling);
-		h.c_dieselVehicles.add(dieselVehicle);
-		h.v_vehicleIndex++;
-		dieselVehicle.setTripTracker(h.c_tripTrackers.get(h.v_vehicleIndex-1));
-		dieselVehicle.getTripTracker().Vehicle=dieselVehicle;		
-		h.c_vehicleAssets.add(dieselVehicle);
-		c_energyAssets.add(dieselVehicle);
-		
-		HouseholdEVs=count(Houses, x->x.p_householdEV != null);		
-	}
- 
-} else { 
-	while ( sl_EV.getValue()/100.0 * Houses.size() > HouseholdEVs) {
-		GCHouse h = findFirst(Houses, x->x.p_householdEV == null);
-		//traceln("Check presence of solarpanels: " + h.v_hasPV);	
-		
-		// Remove diesel vehicle
-		J_EAVehicle dieselVehicle = findFirst(h.c_vehicleAssets, p -> p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE );
-		traceln("Found household diesel vehicle: " + dieselVehicle);
-		if (dieselVehicle!=null) {			
-			//h.c_consumptionAssets.remove(dieselVehicle);
-			h.c_vehicleAssets.remove(dieselVehicle);
-			h.c_dieselVehicles.remove(dieselVehicle);
-			h.v_vehicleIndex--;
-			c_energyAssets.remove(dieselVehicle);
-			//remove_pop_energyAssets(EA);
-			traceln("Removing household DIESEL VEHICLE from household:" + h.p_agentID);
-		}
-		
-		//EnergyAsset storageAsset = add_pop_energyAssets();
-		//storageAsset.set_p_parentAgentID( h.p_agentID );
-		//storageAsset.set_p_energyAssetType( OL_EnergyAssetType.valueOf(t.required( "type" ).textValue() ));
-		//storageAsset.set_p_defaultEnergyAssetPresetName( t.required( "name" ).textValue());
-
-		double capacityElectric_kW = t.required( "capacityElectricity_kW").doubleValue();
-		double storageCapacity_kWh = t.required( "storageCapacity_kWh" ).doubleValue();
-		double initialStateOfCharge_r = t.required( "stateOfCharge_r" ).doubleValue();
-		double energyConsumption_kWhpkm = t.required( "energyConsumption_kWhpkm" ).doubleValue();
-		double vehicleScalingElectric = t.hasNonNull("vehicleScaling")? t.required("vehicleScaling").doubleValue() : 1.0;
-		J_EAEV ev = new J_EAEV(h, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric );  
-		h.p_householdEV = ev;
-		h.v_vehicleIndex++;
-		ev.setTripTracker(h.c_tripTrackers.get(h.v_vehicleIndex-1));
-		ev.getTripTracker().Vehicle=ev;		
-		h.c_vehicleAssets.add(ev);
-		h.c_vehiclesAvailableForCharging.add(ev);
-		c_EVs.add(ev);	
-		c_energyAssets.add(ev);	
-		
-		HouseholdEVs=count(Houses, x->x.p_householdEV != null);	
-		traceln("Added household EV to household: " + h.p_agentID);
-	}
-	
-}	
-
-t_numberOfElectricVehicles.setText(count(Houses, x->x.p_householdEV != null));
-]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
-						<Orientation>HORIZONTAL</Orientation>
-						<MinValue><![CDATA[0]]></MinValue>
-						<MaxValue><![CDATA[100]]></MaxValue>
-						<Step><![CDATA[1]]></Step>
-						<LinkTo>false</LinkTo>
-					</ExtendedProperties>
-				</Control>
-				<Control Type="Slider">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1690209586035</Id>
-					<Name><![CDATA[sl_homeBattery]]></Name>
-					<X>70</X><Y>35</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="100" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[//Setting PV Systems
-double HouseholdBatteries = count(Houses, x->x.p_batteryAsset != null);
-t_numberOfHomeBatteries.setText(HouseholdBatteries);
-
-JsonNode l=null;
-
-for(JsonNode assetJson : v_templateAssetsJson) {
-	if (assetJson.required( "name" ).textValue().equals("TEMPLATE: Private battery")) {
-		l = assetJson;
-	}
-}
-
-if( sl_homeBattery.getValue()/100.0*Houses.size() < HouseholdBatteries){
-	while ( sl_homeBattery.getValue()/100.0*Houses.size() < HouseholdBatteries) { // remove excess PV systems
-		GCHouse h = findFirst(Houses, x->x.p_batteryAsset!=null);
-		
-		J_EAStorageElectric batteryAsset = h.p_batteryAsset;
-		traceln("Found household battery: " + batteryAsset);
-		if (batteryAsset!=null) {
-			c_storageAssets.remove(batteryAsset);
-			h.c_storageAssets.remove(batteryAsset);
-			h.p_batteryAsset = null;
-			//remove_pop_energyAssets(EA);
-			c_energyAssets.remove(batteryAsset);
-			traceln("Removing battery from household:" + h.p_agentID);
-		}
-		HouseholdBatteries = count(Houses, x->x.p_batteryAsset != null);
-	}
- 
-} else { 
-	while ( sl_homeBattery.getValue()/100.0 * Houses.size() > HouseholdBatteries) {
-		GCHouse h = findFirst(Houses, x->x.p_batteryAsset==null);
-
-		double capacityElectric_kW = l.required( "capacityElectricity_kW").doubleValue();
-		double storageCapacity_kWh = l.required( "storageCapacity_kWh" ).doubleValue();
-		double initialStateOfCharge_r = l.required( "stateOfCharge_r" ).doubleValue();
-		J_EAStorageElectric storageAsset = new J_EAStorageElectric(h, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, p_timeStep_h);
-		c_storageAssets.add(storageAsset);	
-		h.f_connectToJ_EA(storageAsset);
-		h.p_batteryAsset=storageAsset;
-		h.c_storageAssets.add(storageAsset);
-		h.v_batterySOC_fr = storageAsset.getCurrentStateOfCharge();
-		//			J_EAStorageElectric storageAsset = new J_EAStorageElectric(this, capacityElectric_kW1, storageCapacity_kWh, initialStateOfCharge_r, main.p_timeStep_h);						
-		HouseholdBatteries = count(Houses, x->x.p_batteryAsset != null);
-		traceln("Added battery to household: " + h.p_agentID);
-	}
-	
-}	
-
-t_numberOfHomeBatteries.setText(HouseholdBatteries);
-]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
-						<Orientation>HORIZONTAL</Orientation>
-						<MinValue><![CDATA[0]]></MinValue>
-						<MaxValue><![CDATA[100]]></MaxValue>
-						<Step><![CDATA[1]]></Step>
-						<LinkTo>false</LinkTo>
-					</ExtendedProperties>
-				</Control>
-			</Presentation>
-
-				</Group>
-				<Group>
-					<Id>1690209586037</Id>
-					<Name><![CDATA[gr_electricAppliances]]></Name>
-					<X>-45</X><Y>-155</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<OnClickCode><![CDATA[gr_electricAppliancesSliders.setVisible(true);
-rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-
-			<Presentation>
-				<Text>
-					<Id>1690209586039</Id>
-					<Name><![CDATA[text138]]></Name>
-					<X>-105</X><Y>-9</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Elektrische apparaten (#)]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>16</Size>
-						<Style>1</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Image>
-					<Id>1690209586041</Id>
-					<Name><![CDATA[i_electricAppliancesPopOut]]></Name>
-					<X>86</X><Y>12</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<OnClickCode><![CDATA[i_electricAppliancesPopOut.setVisible(false);]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Width>20</Width>
-					<Height>20</Height>
-					<Rotation>270.0</Rotation>
-					<ImageFiles>
-						<ImageResourceReference>
-							<PackageName><![CDATA[zero]]></PackageName>
-							<ClassName><![CDATA[icon_arrow.png]]></ClassName>
-						</ImageResourceReference>
-					</ImageFiles>
-					<OriginalSize>false</OriginalSize>
-				</Image>
-			</Presentation>
-
-				</Group>
-				<Text>
-					<Id>1690209586043</Id>
-					<Name><![CDATA[t_numberOfElectricVehicles]]></Name>
-					<X>55</X><Y>-74</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[0]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>RIGHT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586045</Id>
-					<Name><![CDATA[text133]]></Name>
-					<X>-145</X><Y>-104</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Elektrisch koken]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586047</Id>
-					<Name><![CDATA[text135]]></Name>
-					<X>-145</X><Y>-74</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Elektrische auto]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586049</Id>
-					<Name><![CDATA[t_numberOfRooftopPV]]></Name>
-					<X>55</X><Y>-134</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[0]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>RIGHT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586051</Id>
-					<Name><![CDATA[text139]]></Name>
-					<X>-145</X><Y>-134</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[PV op dak]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586053</Id>
-					<Name><![CDATA[t_numberOfElectricStoves]]></Name>
-					<X>55</X><Y>-104</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[0]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>RIGHT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586055</Id>
-					<Name><![CDATA[text140]]></Name>
-					<X>-150</X><Y>10</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Laadstrategie]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>16</Size>
-						<Style>1</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586057</Id>
-					<Name><![CDATA[text142]]></Name>
-					<X>-145</X><Y>-44</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Thuisbatterij]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>LEFT</Alignment>
-				</Text>
-				<Text>
-					<Id>1690209586059</Id>
-					<Name><![CDATA[t_numberOfHomeBatteries]]></Name>
-					<X>55</X><Y>-44</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[0]]></Text>
-					<Font>
-						<Name>Dialog</Name>
-						<Size>16</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>RIGHT</Alignment>
-				</Text>
-			</Presentation>
-
-				</Group>
-				<Control Type="Button">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1690270244609</Id>
-					<Name><![CDATA[testAPIfunction]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-880</X><Y>-320</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="100" Height="30">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[API_function_setPVslider(50);]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<LabelText><![CDATA[button]]></LabelText>
-					</ExtendedProperties>
-				</Control>
-    			<TimePlot>
-					<Id>1690271885086</Id>
-					<Name><![CDATA[pl_netBelasting]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-1760</X><Y>-1450</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AutoUpdate>false</AutoUpdate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1690272000000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
-					</RecurrenceCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Width>660</Width>
-					<Height>270</Height>
-					<BackgroundColor/>
-					<BorderColor/>
-					<ChartArea>
-						<XOffset>50</XOffset>
-						<YOffset>30</YOffset>
-						<Width>580</Width>
-						<Height>180</Height>
-						<BackgroundColor>-1</BackgroundColor>
-						<BorderColor>-16777216</BorderColor>
-						<GridColor>-12566464</GridColor>
-					</ChartArea>
-					<Legend>
-						<Place>SOUTH</Place>
-						<TextColor>-16777216</TextColor>
-						<Size>30</Size>
-					</Legend>
-					<Labels>
-						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
-						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
-						<TextColor>-12566464</TextColor>
-					</Labels>
-					<ShowLegend>true</ShowLegend>
-					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
-					<TimeWindowUnits>DAY</TimeWindowUnits>
-					<VerScaleFromExpression><![CDATA[-750]]></VerScaleFromExpression>
-					<VerScaleToExpression><![CDATA[1500]]></VerScaleToExpression>
-					<VerScaleType>FIXED</VerScaleType>
-					<DrawLine>true</DrawLine>
-					<Interpolation>LINEAR</Interpolation>
-					<DatasetExpression>  
-						<Title><![CDATA[Netbelasting [kW]]]></Title>
-					<Id>0</Id>
-					<Expression><![CDATA[my_dataset]]></Expression>
-					<Color>-29696</Color>
-					<Expression2><![CDATA[c_gridNodesHSMS.get(0).v_currentLoadElectricity_kW]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-						<PointStyle>NONE</PointStyle>
-						<LineWidth>1.0</LineWidth>
-					</DatasetExpression>
-					<SamplesToKeep>192</SamplesToKeep>
-					<TimeWindowExpression><![CDATA[2]]></TimeWindowExpression>
-					<FillAreaUnderLine>false</FillAreaUnderLine>
-					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
-    			</TimePlot>
     			<TimePlot>
 					<Id>1690280530087</Id>
 					<Name><![CDATA[pl_gasVerbruik]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-1700</X><Y>-1110</Y>
+					<X>2720</X><Y>1360</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -13820,7 +12561,7 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 					<Id>1690280530084</Id>
 					<Expression><![CDATA[my_dataset]]></Expression>
 					<Color>-29696</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_currentPowerMethane_kW)]]></Expression2>
+					<Expression2><![CDATA[sum(energyModel.c_gridConnections, g->g.v_currentPowerMethane_kW)]]></Expression2>
 					<Expression2Flag>true</Expression2Flag>
 						<PointStyle>NONE</PointStyle>
 						<LineWidth>1.0</LineWidth>
@@ -13852,178 +12593,6 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
-    			<TimeStackChart>
-					<Id>1692628719495</Id>
-					<Name><![CDATA[pl_electricityConsumptionStack]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-1760</X><Y>-1920</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AutoUpdate>false</AutoUpdate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1692691200000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
-					</RecurrenceCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Width>660</Width>
-					<Height>270</Height>
-					<BackgroundColor/>
-					<BorderColor/>
-					<ChartArea>
-						<XOffset>50</XOffset>
-						<YOffset>30</YOffset>
-						<Width>580</Width>
-						<Height>180</Height>
-						<BackgroundColor>-1</BackgroundColor>
-						<BorderColor>-16777216</BorderColor>
-						<GridColor>-12566464</GridColor>
-					</ChartArea>
-					<Legend>
-						<Place>SOUTH</Place>
-						<TextColor>-16777216</TextColor>
-						<Size>30</Size>
-					</Legend>
-					<Labels>
-						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
-						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
-						<TextColor>-12566464</TextColor>
-					</Labels>
-					<ShowLegend>true</ShowLegend>
-					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
-					<TimeWindowUnits>DAY</TimeWindowUnits>
-					<TimeWindowExpression><![CDATA[2]]></TimeWindowExpression>
-					<DatasetExpression>
-					<Id>1692629800346</Id>
-					<Expression><![CDATA[my_dataset4]]></Expression>
-					<Color>-2354116</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->max(0,g.v_batteryPowerElectric_kW))]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[Batterijen opladen]]></Title>
-					</DatasetExpression>
-					<DatasetExpression>
-					<Id>1692628720996</Id>
-					<Expression><![CDATA[my_dataset]]></Expression>
-					<Color>-9728477</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_fixedConsumptionElectric_kW)]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[Huishoudelijke apparaten]]></Title>
-					</DatasetExpression>
-					<DatasetExpression>
-					<Id>1692629007733</Id>
-					<Expression><![CDATA[my_dataset3]]></Expression>
-					<Color>-14774017</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->max(0,g.v_evChargingPowerElectric_kW))]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[Laden EVs]]></Title>
-					</DatasetExpression>
-					<DatasetExpression>
-					<Id>1692629871763</Id>
-					<Expression><![CDATA[my_dataset5]]></Expression>
-					<Color>-6632142</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_electricHobConsumption_kW)]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[Elektrisch koken]]></Title>
-					</DatasetExpression>
-					<SamplesToKeep>192</SamplesToKeep>
-					<VerScaleToExpression><![CDATA[1000]]></VerScaleToExpression>
-					<VerScaleType>FIXED</VerScaleType>
-					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
-    			</TimeStackChart>
-    			<TimeStackChart>
-					<Id>1692629344071</Id>
-					<Name><![CDATA[pl_electricityProductionStack]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-1760</X><Y>-1660</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<AutoUpdate>false</AutoUpdate>
-					<OccurrenceAtTime>true</OccurrenceAtTime>
-					<OccurrenceDate>1692691200000</OccurrenceDate>
-					<OccurrenceTime Class="CodeUnitValue">
-						<Code><![CDATA[0]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
-					</OccurrenceTime>
-					<RecurrenceCode Class="CodeUnitValue">
-						<Code><![CDATA[1]]></Code>
-						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
-					</RecurrenceCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Width>660</Width>
-					<Height>240</Height>
-					<BackgroundColor/>
-					<BorderColor/>
-					<ChartArea>
-						<XOffset>50</XOffset>
-						<YOffset>30</YOffset>
-						<Width>580</Width>
-						<Height>150</Height>
-						<BackgroundColor>-1</BackgroundColor>
-						<BorderColor>-16777216</BorderColor>
-						<GridColor>-12566464</GridColor>
-					</ChartArea>
-					<Legend>
-						<Place>SOUTH</Place>
-						<TextColor>-16777216</TextColor>
-						<Size>30</Size>
-					</Legend>
-					<Labels>
-						<HorLabelsPosition>DEFAULT</HorLabelsPosition>
-						<VerLabelsPosition>DEFAULT</VerLabelsPosition>
-						<TextColor>-12566464</TextColor>
-					</Labels>
-					<ShowLegend>true</ShowLegend>
-					<TimeWindowsMovementType>MOVEMENT_WITH_TIME</TimeWindowsMovementType>		
-					<TimeWindowUnits>DAY</TimeWindowUnits>
-					<TimeWindowExpression><![CDATA[2]]></TimeWindowExpression>
-					<DatasetExpression>
-					<Id>1692629344066</Id>
-					<Expression><![CDATA[my_dataset1]]></Expression>
-					<Color>-256</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_pvProductionElectric_kW)]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[Opwek zonnepanelen]]></Title>
-					</DatasetExpression>
-					<DatasetExpression>
-					<Id>1692629344067</Id>
-					<Expression><![CDATA[my_dataset2]]></Expression>
-					<Color>-4565549</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->g.v_windProductionElectric_kW)]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[Opwek windmolens]]></Title>
-					</DatasetExpression>
-					<DatasetExpression>
-					<Id>1695823711551</Id>
-					<Expression><![CDATA[my_dataset4]]></Expression>
-					<Color>-14774017</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->max(0,-g.v_evChargingPowerElectric_kW))]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[V2G]]></Title>
-					</DatasetExpression>
-					<DatasetExpression>
-					<Id>1692629741744</Id>
-					<Expression><![CDATA[my_dataset3]]></Expression>
-					<Color>-2354116</Color>
-					<Expression2><![CDATA[sum(c_gridConnections, g->max(0,-g.v_batteryPowerElectric_kW))]]></Expression2>
-					<Expression2Flag>true</Expression2Flag>
-							<Title><![CDATA[Batterij teruglevering]]></Title>
-					</DatasetExpression>
-					<SamplesToKeep>192</SamplesToKeep>
-					<VerScaleToExpression><![CDATA[600]]></VerScaleToExpression>
-					<VerScaleType>FIXED</VerScaleType>
-					<LabelFormat>MODEL_TIME_UNITS</LabelFormat>
-    			</TimeStackChart>
 				<Text>
 					<Id>1692704059566</Id>
 					<Name><![CDATA[text2]]></Name>
@@ -14069,7 +12638,7 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 				<Line>
 					<Id>1693309354364</Id>
 					<Name><![CDATA[line9]]></Name>
-					<X>624</X><Y>1318</Y>
+					<X>-1479</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -14093,7 +12662,7 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 				<Text>
 					<Id>1693309354506</Id>
 					<Name><![CDATA[text13]]></Name>
-					<X>650</X><Y>1300</Y>
+					<X>-1453</X><Y>322</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -14158,7 +12727,7 @@ rectangle_electricitySettings.setVisible(false);]]></OnClickCode>
 				<Image>
 					<Id>1696520897107</Id>
 					<Name><![CDATA[image11]]></Name>
-					<X>1325</X><Y>-1630</Y>
+					<X>1025</X><Y>1610</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -14353,7 +12922,7 @@ traceln(eb_scenarioRowNumber.getMax() + " max value editbox scenario row number"
 				<Text>
 					<Id>1696520897490</Id>
 					<Name><![CDATA[text19]]></Name>
-					<X>170</X><Y>-1370</Y>
+					<X>-300</X><Y>-1340</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -16818,8 +15387,8 @@ rectanglePerHouseholdCosts.setFillColor(new Color (255, 255, 255, 100));
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Percentage duurzame energie]]></Text>
-					<TextCode><![CDATA[roundToInt(v_clickedGridConnection.v_selfSufficiency_fr * 100) + "% eigen opwek"]]></TextCode>
+					<Text><![CDATA[Percentage zelfvoorzienendheid]]></Text>
+					<TextCode><![CDATA[v_clickedGridConnection != null ? roundToInt(v_clickedGridConnection.v_totalSelfConsumedEnergy_MWh/v_clickedGridConnection.v_totalEnergyUsed_MWh * 100) + "% van energieverbruik zelf opgewekt" : ""]]></TextCode>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>16</Size>
@@ -16884,7 +15453,7 @@ rectanglePerHouseholdCosts.setFillColor(new Color (255, 255, 255, 100));
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[Zelfverbruik energie]]></Text>
-					<TextCode><![CDATA[roundToInt(v_clickedGridConnection.v_selfConsumption_fr * 100) + "% percentage zelfverbruik energie"]]></TextCode>
+					<TextCode><![CDATA[roundToInt(v_clickedGridConnection.v_totalSelfConsumedEnergy_MWh/v_totalEnergyUsed_MWh * 100) + "% percentage zelfverbruik energie"]]></TextCode>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>16</Size>
@@ -18183,7 +16752,7 @@ if (gr_HSMSTrafoResults.isVisible() == true){
 				<Group>
 					<Id>1696520900277</Id>
 					<Name><![CDATA[gr_HSMSTrafoResults]]></Name>
-					<X>8660</X><Y>620</Y>
+					<X>5200</X><Y>-480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -24764,7 +23333,7 @@ i_heatSupplyPopOut.setVisible(false);]]></OnClickCode>
 				<Text>
 					<Id>1696520903538</Id>
 					<Name><![CDATA[text91]]></Name>
-					<X>-220</X><Y>1050</Y>
+					<X>-205</X><Y>1630</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -24786,7 +23355,7 @@ i_heatSupplyPopOut.setVisible(false);]]></OnClickCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1696520903540</Id>
 					<Name><![CDATA[ra_warmtevraagOpties]]></Name>
-					<X>-230</X><Y>1070</Y>
+					<X>-205</X><Y>1650</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -30529,8 +29098,8 @@ if(v_costsUnknown == true){
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Percentage duurzame elektriciteit]]></Text>
-					<TextCode><![CDATA[v_clickedGridConnection != null ? roundToInt(v_clickedGridConnection.v_selfSufficiency_fr * 100) + "% duurzame elektriciteit" : ""]]></TextCode>
+					<Text><![CDATA[Percentage zelfvoorzienendheid]]></Text>
+					<TextCode><![CDATA[v_clickedGridConnection != null ? roundToInt(v_clickedGridConnection.v_totalSelfConsumedEnergy_MWh/v_clickedGridConnection.v_totalEnergyUsed_MWh * 100) + "% van energieverbruik zelf opgewekt" : ""]]></TextCode>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>16</Size>
@@ -30552,7 +29121,7 @@ if(v_costsUnknown == true){
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[Zelfverbruik elektriciteit]]></Text>
-					<TextCode><![CDATA[v_clickedGridConnection != null ? roundToInt(v_clickedGridConnection.v_selfConsumption_fr * 100) + "% percentage zelfverbruik elektriciteit" : ""]]></TextCode>
+					<TextCode><![CDATA[v_clickedGridConnection != null ? roundToInt(v_clickedGridConnection.v_totalSelfConsumedEnergy_MWh/v_totalEnergyProduced_MWh * 100) + "% percentage zelfverbruik opgewekte energie" : ""]]></TextCode>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>16</Size>
@@ -30674,7 +29243,7 @@ if(v_costsUnknown == true){
 					<Id>1696520908839</Id>
 					<Name><![CDATA[gr_businessCollectiveDashboard]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>5620</X><Y>-500</Y>
+					<X>6520</X><Y>-480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -31663,7 +30232,7 @@ if(v_costsUnknown == true){
 				<Text>
 					<Id>1696837759915</Id>
 					<Name><![CDATA[text55]]></Name>
-					<X>70</X><Y>1680</Y>
+					<X>340</X><Y>1020</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -31684,7 +30253,7 @@ if(v_costsUnknown == true){
 				<Text>
 					<Id>1696838343308</Id>
 					<Name><![CDATA[text25]]></Name>
-					<X>980</X><Y>-2220</Y>
+					<X>680</X><Y>1020</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -31705,7 +30274,7 @@ if(v_costsUnknown == true){
 				<Text>
 					<Id>1696838343313</Id>
 					<Name><![CDATA[text30]]></Name>
-					<X>1280</X><Y>-2190</Y>
+					<X>980</X><Y>1050</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -32475,7 +31044,7 @@ new Thread( () -> {
     			<PieChart>
 					<Id>1700145450426</Id>
 					<Name><![CDATA[pie_selfconsumption]]></Name>
-					<X>840</X><Y>-630</Y>
+					<X>2760</X><Y>1040</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -32532,7 +31101,7 @@ new Thread( () -> {
     			<PieChart>
 					<Id>1700145968066</Id>
 					<Name><![CDATA[pie_overloadedTransformers]]></Name>
-					<X>1110</X><Y>-630</Y>
+					<X>3030</X><Y>1040</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -32590,7 +31159,7 @@ new Thread( () -> {
 					<Id>1700497778247</Id>
 					<Name><![CDATA[pl_netbelastingshistogram]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1760</X><Y>-590</Y>
+					<X>3680</X><Y>1080</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -32654,7 +31223,7 @@ new Thread( () -> {
 				<Text>
 					<Id>1700500169462</Id>
 					<Name><![CDATA[text131]]></Name>
-					<X>875</X><Y>-660</Y>
+					<X>2795</X><Y>1010</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -32935,6 +31504,7 @@ new Thread( () -> {
 				<EmbeddedObjectPresentation>
 					<Id>1701090301228</Id>
 					<Name><![CDATA[UI_energyAssets_presentation]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>0</X><Y>0</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -32954,6 +31524,7 @@ new Thread( () -> {
 				<EmbeddedObjectPresentation>
 					<Id>1701090593735</Id>
 					<Name><![CDATA[pop_GIS_Buildings_presentation]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>0</X><Y>0</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -32973,6 +31544,7 @@ new Thread( () -> {
 				<EmbeddedObjectPresentation>
 					<Id>1701090601601</Id>
 					<Name><![CDATA[pop_GIS_Area_presentation]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>0</X><Y>0</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -60556,15 +59128,6 @@ if (gisRegion == null ) {
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_defaultProfile]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_startHourWinterWeek]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_startHourSummerWeek]]></ParameterName>
-				</Parameter>
-				<Parameter>
-					<ParameterName><![CDATA[p_plotInterval_h]]></ParameterName>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[b_scaleElecMethaneConsumption]]></ParameterName>
