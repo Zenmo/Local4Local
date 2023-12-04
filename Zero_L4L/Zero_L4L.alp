@@ -3158,6 +3158,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1697555814351</Id>
 					<Name><![CDATA[columnIndex]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>50</X><Y>1380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -3170,6 +3171,7 @@ gr_scopeRadioButtons.setVisible(true);
 				<Variable Class="PlainVariable">
 					<Id>1697555814354</Id>
 					<Name><![CDATA[m_resultsMatrix]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>50</X><Y>1400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -5566,11 +5568,11 @@ for(JsonNode data : v_gridConnectionsJson) {
 	 		// GC = add_DistrictHeatingSystems(); // Temporarily disabled while transferring to class-based energy assets!
 		break;*/
 		case WINDFARM:
-	 		GC = energyModel.add_Windfarms();
+	 		GC = energyModel.add_EnergyProductionSites();
 	 	break;
-	 	case SOLARFARM:
+	 	/*case SOLARFARM:
 	 		GC = energyModel.add_Solarfarms();
-	 	break;
+	 	break;*/
 	 	case GRIDBATTERY:
 	 		GC = energyModel.add_GridBatteries();
 	 	break;
@@ -7365,7 +7367,7 @@ for (Tuple row : rows) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[// Enkele windfarm voor 'centrale' windmolens.
-GCWindfarm windFarm = energyModel.add_Windfarms();
+GCEnergyProduction windFarm = energyModel.add_EnergyProductionSites();
 windFarm.set_p_agentID( "windFarm0" );
 windFarm.set_p_gridConnectionCategory( OL_GridConnectionCategory.WINDFARM );
 windFarm.set_p_connectionCapacity_kW( 10000 );
@@ -7646,7 +7648,7 @@ if (b_scaleElecMethaneConsumption) {
 
 double nbHouseholds = 500;//70000*3000/2500/2;
 
-for (GridConnection GC : energyModel.Windfarms) {
+for (GridConnection GC : energyModel.EnergyProductionSites) {
 	// Add 0kW windturbine to windfarm
 	J_EAProduction windTurbine = new J_EAProduction(GC, OL_EnergyAssetType.WINDMILL, "Windmill onshore",500,0,0,0,p_timeStep_h,0);
 	energyModel.c_energyAssets.add(windTurbine);
@@ -10388,12 +10390,6 @@ for(int i=0; i< arraySize; i++) {
 							<Name><![CDATA[j_experimentSettingsData]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[p_importLocalConfigJsons]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_forceUncached]]></Name>
-						</Parameter>
-						<Parameter>
 							<Name><![CDATA[p_parallelize]]></Name>
 						</Parameter>
 						<Parameter>
@@ -10406,28 +10402,10 @@ for(int i=0; i< arraySize; i++) {
 							<Name><![CDATA[j_hourlyCurvesData]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[p_forceBrownFieldNetload]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_printInputJsons]]></Name>
-						</Parameter>
-						<Parameter>
 							<Name><![CDATA[b_anylogicCostsForAllContracts]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[b_storeProfiles]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_simulationYear]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_centerLatitude]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_centerLongitude]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_simulatedArea]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[p_startHourWinterWeek]]></Name>
@@ -10437,12 +10415,6 @@ for(int i=0; i< arraySize; i++) {
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[p_plotInterval_h]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[b_scaleElecMethaneConsumption]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_buurtcode]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -62596,11 +62568,6 @@ public class J_ActivityTrackerCooking extends J_ActivityTracker implements Seria
 	</JavaClasses>
 	<ModelResources>
 		<Resource>
-			<Path><![CDATA[db_backboneParams.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
 			<Path><![CDATA[windmill-svgrepo-com.png]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
@@ -62687,31 +62654,6 @@ public class J_ActivityTrackerCooking extends J_ActivityTracker implements Seria
 		</Resource>
 		<Resource>
 			<Path><![CDATA[greater-than-icon-4.png]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[_companies.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[_residence_objects.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[_mvlv_transformers.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[buildings with coordinates.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[_neighborhoods_vehicles.xlsx]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
