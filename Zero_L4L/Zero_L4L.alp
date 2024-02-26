@@ -1066,7 +1066,7 @@ gr_scopeRadioButtons.setVisible(true);
 gr_simulateCostsScreenSmall.setVisible(false);
 gr_onbalansGraphs.add(svgImgJfree); // Need to add ShapeSVG object to group on canvas for it to become visible!
 svgImgJfree.setPos(svgImgJfree.getX()-210, svgImgJfree.getY()+60);
-f_financesL4L();
+//f_financesL4L();
 
 gr_assetsCompaniesSliders.setVisible(true);
 rectangle_assetCompaniesSettings.setVisible(false);]]></StartupCode>
@@ -3017,7 +3017,8 @@ rectangle_assetCompaniesSettings.setVisible(false);]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1690277980748</Id>
 					<Name><![CDATA[p_scenarioJSON]]></Name>
-					<X>-730</X><Y>110</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-730</X><Y>130</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3038,7 +3039,8 @@ rectangle_assetCompaniesSettings.setVisible(false);]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1690809204162</Id>
 					<Name><![CDATA[p_templateAssetsJSON]]></Name>
-					<X>-730</X><Y>165</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-730</X><Y>185</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3059,7 +3061,8 @@ rectangle_assetCompaniesSettings.setVisible(false);]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1690977196630</Id>
 					<Name><![CDATA[p_buildingThermalPars]]></Name>
-					<X>-729</X><Y>220</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-729</X><Y>240</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3080,7 +3083,8 @@ rectangle_assetCompaniesSettings.setVisible(false);]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1692013662879</Id>
 					<Name><![CDATA[p_assetDepreciation]]></Name>
-					<X>-730</X><Y>280</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-730</X><Y>300</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3411,6 +3415,7 @@ v_timeStepsElapsed ++;
 @return: none
 @since: Sprint 6
 @author: Jorrit]]></Description>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>-960</X><Y>82</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -3440,7 +3445,8 @@ energyModel.f_initializeForecasts();
 
 @since: Sprint 6
 @author: Jorrit]]></Description>
-					<X>-730</X><Y>60</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-730</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3698,6 +3704,7 @@ for( GridNode g : energyModel.pop_gridNodes ) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1669130296250</Id>
 					<Name><![CDATA[f_createGridConnections]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>-940</X><Y>142</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -3920,13 +3927,13 @@ if( sl_rooftopPV.getValue()/100.0*energyModel.Houses.size() < PVsystems){
 	while ( sl_rooftopPV.getValue()/100.0*energyModel.Houses.size() < PVsystems) { // remove excess PV systems
 		GridConnection h = findFirst(energyModel.Houses, x->x.v_hasPV==true);
 		J_EA pvAsset = findFirst(h.c_productionAssets, p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC );
-		traceln("Found PV system: " + pvAsset);
+		//traceln("Found PV system: " + pvAsset);
 		if (pvAsset!=null) {
 			energyModel.v_totalInstalledPVPower_kW -= pvAsset.getElectricCapacity_kW();
 			h.c_productionAssets.remove(pvAsset);
 			energyModel.c_energyAssets.remove(pvAsset);
 			//energyModel.c_productionAssets.remove(pvAsset);
-			traceln("Removing PV from GridConnection:" + h.p_gridConnectionID);
+			//traceln("Removing PV from GridConnection:" + h.p_gridConnectionID);
 			h.v_hasPV = false;
 		}
 		PVsystems=count(energyModel.Houses, x->x.v_hasPV == true);		
@@ -3957,7 +3964,7 @@ if( sl_rooftopPV.getValue()/100.0*energyModel.Houses.size() < PVsystems){
 		energyModel.v_totalInstalledPVPower_kW += capacityElectricity_kW;
 	
 		PVsystems=count(energyModel.Houses, x->x.v_hasPV == true);	
-		traceln("Added PV to GridConnection: " + h.p_gridConnectionID);
+		//traceln("Added PV to GridConnection: " + h.p_gridConnectionID);
 	}
 	
 }	
@@ -4821,7 +4828,7 @@ traceln("f_updateInputSettingsNeighborhoods is not functional!");]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1696925902737</Id>
 					<Name><![CDATA[f_setUIelements]]></Name>
-					<X>-970</X><Y>410</Y>
+					<X>-730</X><Y>60</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4964,7 +4971,7 @@ rb_onbalansPeriod.setPos(rb_supplyDemand.getX(), rb_supplyDemand.getY());]]></Bo
 					<Id>1697017019953</Id>
 					<Name><![CDATA[f_createGISObjects]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-950</X><Y>382</Y>
+					<X>-950</X><Y>402</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5086,7 +5093,7 @@ for (Tuple row : rows) {
 					<Id>1697095071210</Id>
 					<Name><![CDATA[f_generateGridConnections]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-950</X><Y>340</Y>
+					<X>-950</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5277,6 +5284,7 @@ if (p_L4Lpilot.equals("Heibloem")) {
 	nbHouseholds = 312;
 }
 
+f_createSpecificActors();
 f_generateGridNodes();
 f_generateGridConnectionsExcel(nbHouseholds);
 f_instantiateEnergyAssets();
@@ -5362,7 +5370,7 @@ for (GridConnection GC : c_gridConnections) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1697186722600</Id>
 					<Name><![CDATA[f_instantiateEnergyAssets]]></Name>
-					<X>-950</X><Y>361</Y>
+					<X>-950</X><Y>381</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5446,10 +5454,26 @@ for (GridConnection GC : energyModel.EnergyProductionSites) {
 	J_EAProduction pvPark = new J_EAProduction(GC, OL_EnergyAssetType.PHOTOVOLTAIC, "PV park Zonnedorpen",412,0,0,0,energyModel.p_timeStep_h,0);
 	energyModel.c_energyAssets.add(pvPark);
 	GC.f_connectToJ_EA(pvPark);
-
-	J_EAProduction windTurbine = new J_EAProduction(GC, OL_EnergyAssetType.WINDMILL, "Windmill onshore",0,0,0,0,energyModel.p_timeStep_h,0);
-	energyModel.c_energyAssets.add(windTurbine);
-	GC.f_connectToJ_EA(windTurbine);
+	
+	/*if (p_L4Lpilot.equals("Heibloem")) {
+		J_EAProfile newAsset = new J_EAProfile(GC, OL_EnergyCarrierType.ELECTRICITY, null, energyModel.p_timeStep_h);		
+		newAsset.energyAssetName = "windturbine Cooperwiek";
+		//List<Double> quarterlyEnergyDemand_kWh = selectValues(double.class, "SELECT " + "levering_kwh_kwartier" + " FROM db_cooperwiek;");			
+		//double[] leveringsArray = quarterlyEnergyDemand_kWh.stream().mapToDouble(d -> -d).toArray();
+		double[] leveringsArray_kWh = selectValues(double.class, "SELECT " + "levering_kwh_kwartier" + " FROM db_cooperwiek;").stream().mapToDouble(d -> -d).toArray();
+		traceln("Grootte leveringsArray: %s elementen", leveringsArray_kWh.length);
+		int startIdx = 35040*2;
+		int endIdx = 35040*3;
+		leveringsArray_kWh = Arrays.copyOfRange(leveringsArray_kWh, startIdx, endIdx);
+		//traceln("%s quarterlyEnergyDemand_kWh size is %s", GC.p_company_connection_id, quarterlyEnergyDemand_kWh.size());
+		((J_EAProfile)newAsset).a_energyProfile_kWh = leveringsArray_kWh;
+		energyModel.c_energyAssets.add(newAsset);
+		GC.f_connectToJ_EA(newAsset);
+	} else {
+		J_EAProduction windTurbine = new J_EAProduction(GC, OL_EnergyAssetType.WINDMILL, "Windmill onshore",0,0,0,0,energyModel.p_timeStep_h,0);
+		energyModel.c_energyAssets.add(windTurbine);
+		GC.f_connectToJ_EA(windTurbine);
+	}*/
 }
 
 ]]></Body>
@@ -5586,7 +5610,7 @@ for( int i = 0; i <c_resultsTexts.size(); i++){
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1698752016115</Id>
 					<Name><![CDATA[f_generateGridNodes]]></Name>
-					<X>-950</X><Y>320</Y>
+					<X>-950</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5639,34 +5663,6 @@ else{
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1698752016120</Id>
-					<Name><![CDATA[f_connectUtilityObjectsToMVLVTransformers]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-940</X><Y>430</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[for (GridConnection GC : c_gridConnections){
-	GridNode nearestLVStation = GC.getNearestAgent(c_gridNodesMSLS);
-	
-	//Set nearest agent as trafo
-	nearestLVStation.c_electricityGridConnections.add(GC);
-	GC.p_parentNodeElectricID = nearestLVStation.p_agentID;
-}
-/*
-
-for (EA_Building x : pop_EA_Buildings){
-	EA_TransformerMVLV nearestLVStation = x.getNearestAgent(pop_EA_TransformersMVLV);
-	
-	//Set nearest agent as trafo
-	nearestLVStation.c_connectedUtilityObjects.add(x);
-	x.p_connectedMVLVTransformer = nearestLVStation;
-}*/]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1698930892767</Id>
 					<Name><![CDATA[f_setHeatingSystems]]></Name>
 					<X>530</X><Y>-330</Y>
@@ -5688,18 +5684,18 @@ double peakHeatDemand_kW = 20; // Generic household heating systems with 20kW th
 
 if( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHeatPumps){
 	while ( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHeatPumps) { // remove excess heatpumps, replace with gasburners.
-		traceln("While loop for removing heatpumps");
+		//traceln("While loop for removing heatpumps");
 		GridConnection GC = findFirst(energyModel.Houses, x->x.p_primaryHeatingAsset instanceof J_EAConversionHeatPump);
 		if (GC!=null) {
 			J_EA heatPump = GC.p_primaryHeatingAsset;
-			traceln("Found heatpump: " + heatPump);		
+			//traceln("Found heatpump: " + heatPump);		
 			GC.p_primaryHeatingAsset=null;
 			GC.c_energyAssets.remove(heatPump);
 			GC.c_conversionAssets.remove(heatPump);
 			energyModel.c_energyAssets.remove(heatPump);
 			energyModel.c_ambientAirDependentAssets.remove(heatPump);
 			//c_productionAssets.remove(pvAsset);
-			traceln("Removing heatpump from GridConnection:" + GC.p_gridConnectionID);
+			//traceln("Removing heatpump from GridConnection:" + GC.p_gridConnectionID);
 			/*J_EAConsumption heatDemandAsset = findFirst(GC.c_consumptionAssets, j_ea->j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
 			
 			if (heatDemandAsset != null) {
@@ -5720,7 +5716,7 @@ if( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHe
  
 } else { 
 	while ( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) > nbHeatPumps) { // remove gasburners, add heatpumps.
-		traceln("While loop for adding heatpumps");
+		//traceln("While loop for adding heatpumps");
 		GridConnection GC = findFirst(energyModel.Houses, x->x.p_primaryHeatingAsset instanceof J_EAConversionGasBurner);
 		//traceln("Check presence of solarpanels: " + h.v_hasPV);	
 		if (GC!=null) {
@@ -5742,7 +5738,7 @@ if( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHe
 			energyModel.c_ambientAirDependentAssets.add(heatPump);
 			energyModel.c_energyAssets.add(heatPump);
 			GC.f_connectToJ_EA(heatPump);					 
-			traceln("Added heatpump to GridConnection: " + GC.p_gridConnectionID);
+			//traceln("Added heatpump to GridConnection: " + GC.p_gridConnectionID);
 		} else {
 			traceln("No more gasburners to replace!");
 		}	
@@ -6564,21 +6560,33 @@ for (Tuple row : rows) {
 					<Body><![CDATA[// Enkele productionsite voor 'centrale' opwek.
 GCEnergyProduction windFarm = energyModel.add_EnergyProductionSites();
 windFarm.set_p_gridConnectionID( "windFarm0" );
-windFarm.set_p_gridConnectionCategory( OL_GridConnectionCategory.WINDFARM );
+//windFarm.set_p_gridConnectionCategory( OL_GridConnectionCategory.WINDFARM );
 windFarm.set_p_connectionCapacity_kW( 10000 );
 windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 windFarm.p_parentNodeElectricID = energyModel.c_gridNodesHSMS.get(0).p_gridNodeID;	
 windFarm.p_GISPoint = new GISPoint(map, p_centerLatitude, p_centerLongitude);
 windFarm.p_GISPoint.setRadius(20);
 //c_GISPoints.add(windFarm.p_GISPoint);
+
+ConnectionOwner	COWF = energyModel.add_pop_connectionOwners();
+COWF.p_actorID = windFarm.p_gridConnectionID + " coop";
+COWF.p_actorType = OL_ActorType.CONNECTIONOWNER;
+COWF.p_actorGroup = "production";
+COWF.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
+COWF.gridConnections.connectTo(windFarm);
+COWF.c_ownedGridConnections.add(windFarm);
+COWF.f_setContractValues(); // MOGELIJK WEGHALEN!
+COWF.v_contractDelivery.contractScope="coopHeibloem";
+COWF.f_connectToParentActor();
 windFarm.f_initialize();
 energyModel.c_gridConnections.add(windFarm);
-
+energyModel.c_connectionOwners.add(COWF);
+energyModel.c_actors.add(COWF); 
 
 // Buurtbatterij
 GCGridBattery gridBattery = energyModel.add_GridBatteries();
 gridBattery.set_p_gridConnectionID( "gridBattery0" );
-gridBattery.set_p_gridConnectionCategory( OL_GridConnectionCategory.GRIDBATTERY );
+//gridBattery.set_p_gridConnectionCategory( OL_GridConnectionCategory.GRIDBATTERY );
 gridBattery.set_p_connectionCapacity_kW( 10000 );
 gridBattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 gridBattery.p_parentNodeElectricID = energyModel.c_gridNodesHSMS.get(0).p_gridNodeID;	
@@ -6625,24 +6633,23 @@ GISRegion gisregion;
 //int nbHouseholds = 260;
 for (int i = 1; i<=nbHouseholds; i++) {
 	GCHouse GC = energyModel.add_Houses();
+	ConnectionOwner	COH = energyModel.add_pop_connectionOwners();
+	
 	int j=uniform_discr(1,pandRows);
 	while (!Panden.cellExists(1, j+1, varMap.get("gebruiksdoel"))) {
 		j=uniform_discr(1,pandRows);
 	}
 	//Set parameters
 	GC.p_gridConnectionID = Panden.getCellStringValue(1, j+1, varMap.get("identificatie"));
- 	GC.set_p_gridConnectionCategory( OL_GridConnectionCategory.HOUSE );
+ 	//GC.set_p_gridConnectionCategory( OL_GridConnectionCategory.HOUSE );
 	//GC.set_p_gridConnectionType( gridConnectionType );
 	GC.p_parentNodeElectricID = energyModel.c_gridNodesHSMS.get(0).p_gridNodeID;	
 	GC.set_p_connectionCapacity_kW( 17 );
-	//GC.set_p_ownerID( ownerActorID );
+	GC.set_p_ownerID( GC.p_gridConnectionID + "owner" );
 	GC.set_p_heatingType( OL_GridConnectionHeatingType.GASBURNER);	
 	GC.v_dayTempSetpoint_degC=20;
 	GC.v_nightTempSetpoint_degC=17;
 	GC.set_p_floorSurfaceArea_m2(Panden.getCellNumericValue(1, j+1, varMap.get("oppervlakte_min")));	
-	//Initialize
-	GC.f_initialize();
-	energyModel.c_gridConnections.add(GC);
 	
 	// Add gisbuilding
 	GIS_Building b = energyModel.add_pop_GIS_Buildings();
@@ -6710,82 +6717,20 @@ for (int i = 1; i<=nbHouseholds; i++) {
 	b.c_gridConnectionsInBuilding.add(GC);
 	
 	// Add actor corresponding to gridconnection
-	
-	// Add contracts
+	//Set parameters for the Actor: ConnectionOwner
+	COH.p_actorID = GC.p_ownerID;
+	COH.p_actorType = OL_ActorType.CONNECTIONOWNER;
+	COH.p_connectionOwnerType = OL_ConnectionOwnerType.HOUSEHOLD;
+	COH.f_setContractValues(); // MOGELIJK WEGHALEN!
+	COH.v_contractDelivery.contractScope = "coopHeibloem";
+	COH.f_connectToParentActor();
+	//COH.gridConnections.connectTo(GC);
+	COH.c_ownedGridConnections.add(GC);
+	//Initialize
+	GC.f_initialize(); // connectionOwner should exist when this function is called!
+	energyModel.c_gridConnections.add(GC);
 	
 }]]></Body>
-				</Function>
-				<Function AccessType="public" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1702974526686</Id>
-					<Name><![CDATA[f_financesL4L]]></Name>
-					<Description><![CDATA[Executed on simulation end to export data.
-
-@author: JorritvandenHouten
-@since: Sprint 6]]></Description>
-					<X>-960</X><Y>600</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[double assetAvgLCOE_eurpMWh = 100; // 10.4ct/kWh, best duur! (dit is voor zonnepark 
-double bufferCost_eurpMWh = 20; // 2ct/kWh additional costs, retail, financing, etc.
-double SDEincome_eur = 0; // SDE++ subsidie meerekenen? Dwz. invoersubsidie wanneer marktprijs lager is dan ...ct/kWh. 
-double EPEXcosts_eur = 0;
-double EPEXincome_eur = 0;
-double selfConsumptionCoopAssets_kWh = 0;
-
-// We have total model 'netload' per timestep, we also need demand from costumers and/or production by the cooperative per timestep.
-for (int i=0; i<energyModel.data_annualBusinessParkNetLoad_kW.size(); i++) { // Loop over all timesteps for the relevant arrays.
-	// Loop through coop nett power to calculate yearly money to EPEX
-	EPEXcosts_eur += max(0,energyModel.data_annualBusinessParkNetLoad_kW.getY(i))/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
-	EPEXincome_eur += max(0,-energyModel.data_annualBusinessParkNetLoad_kW.getY(i))/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
-	
-	SDEincome_eur += max(0,-energyModel.data_annualBusinessParkNetLoad_kW.getY(i)/1000 * energyModel.p_timeStep_h) * max(0,assetAvgLCOE_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
-	selfConsumptionCoopAssets_kWh += max(0,-energyModel.EnergyProductionSites.get(0).data_annualElectricityBalance_kW.getY(i)+min(0,energyModel.data_annualBusinessParkNetLoad_kW.getY(i)))*energyModel.p_timeStep_h;
-}
-double EPEXbalance_eur = EPEXincome_eur - EPEXcosts_eur; // positive balance means nett-income!
-
-traceln("selfConsumptionCoopAssets_kWh: %s", selfConsumptionCoopAssets_kWh);
-
-traceln("Total EPEX costs Eur: %s", EPEXcosts_eur);
-traceln("Total EPEX income Eur: %s", EPEXincome_eur);
-traceln("Average EPEX-price of electricity bought: %s eur/MWh", EPEXcosts_eur/energyModel.v_totalElectricityImport_MWh);
-traceln("Average EPEX-price of electricity sold: %s eur/MWh", EPEXincome_eur/energyModel.v_totalElectricityExport_MWh);
-
-traceln("Hypothetical SDE++ income: %s €", SDEincome_eur);
-
-double totalGenerationElec_MWh = sum(energyModel.EnergyProductionSites, x->x.v_totalExport_MWh-x.v_totalImport_MWh); // Alleen productie van zonnepark dus!
-double totalSelfConsumedElec_MWh = totalGenerationElec_MWh - energyModel.v_totalElectricityExport_MWh; // What about effect of PV on members' roofs? Should do this per timestep, based on coop production... But acceptable approx. for now.
-double totalDeliveredElec_MWh = totalGenerationElec_MWh - energyModel.v_totalElectricityExport_MWh + energyModel.v_totalElectricityImport_MWh;
-traceln("Total Coop Assets production: %s MWh", totalGenerationElec_MWh);
-traceln("Total delivered electricity to customers: %s MWh", roundToDecimal(totalDeliveredElec_MWh,2));
-
-if (p_L4Lpilot.equals("Heibloem")) {
-	double consumerPrice_eurpMWh = (assetAvgLCOE_eurpMWh * totalGenerationElec_MWh - EPEXbalance_eur - SDEincome_eur)/totalDeliveredElec_MWh + bufferCost_eurpMWh;
-	double totalIncomeCoop_eur = totalDeliveredElec_MWh * consumerPrice_eurpMWh + SDEincome_eur + EPEXincome_eur;
-	double coopSelfConsumption_fr = 1 - energyModel.v_totalElectricityExport_MWh/totalGenerationElec_MWh;
-	
-	traceln("Calculated kostprijs+ for customers: %s €/MWh", consumerPrice_eurpMWh );
-	traceln("Coop total income: %s €", totalIncomeCoop_eur);
-	traceln("Coop total costs: %s €", EPEXcosts_eur + (assetAvgLCOE_eurpMWh*totalGenerationElec_MWh + bufferCost_eurpMWh*totalDeliveredElec_MWh));
-	traceln("Coop gelijktijdigheids fractie: %s", coopSelfConsumption_fr);
-} else {
-	double energyTax_eurpMWh = 130;
-	double consumerPrice_eurpMWh = 173;
-	double coop_income_eur = min(totalGenerationElec_MWh,totalDeliveredElec_MWh) * energyTax_eurpMWh;
-	double EvO_costs_eur = -EPEXbalance_eur + max(0,totalDeliveredElec_MWh-totalGenerationElec_MWh)*energyTax_eurpMWh + coop_income_eur;
-	double EvO_income_eur = max(0,totalDeliveredElec_MWh) * consumerPrice_eurpMWh;
-	//double coopSelfConsumption_fr = 1 - energyModel.v_totalElectricityExport_MWh/totalGenerationElec_MWh;
-	double coopSelfConsumption_fr = selfConsumptionCoopAssets_kWh/1000/totalGenerationElec_MWh;
-	//traceln("Calculated kostprijs+ for customers: %s €/MWh", consumerPrice_eurpMWh );
-	traceln("EvO total costs: %s €", EvO_costs_eur);
-	traceln("EvO total income: %s €", EvO_income_eur);
-	traceln("Coop gelijktijdigheids fractie opwek zonnepark tov verbruik leden: %s", coopSelfConsumption_fr);
-	traceln("Coop gelijktijdigheids fractie opwek zonnepark incl extra teruglevering door leden: %s", 1 - energyModel.v_totalElectricityExport_MWh/totalGenerationElec_MWh);
-}	
-]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -6816,7 +6761,7 @@ if( nbEVsCurrent > pctEVsGoal*energyModel.Houses.size()/100){
 	while ( nbEVsCurrent > nbEVsGoal && nbEVsCurrent > 0) { // remove excess EVs systems !!!! Should also add diesel vehicle again!
 		
 		J_EAEV ev = (J_EAEV)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE );
-		traceln("Found EV: " + ev);
+		//traceln("Found EV: " + ev);
 		GridConnection GC = (GridConnection)ev.parentAgent;
 		J_ActivityTrackerTrips tripTracker = ev.tripTracker;
 		boolean available = true;
@@ -6854,7 +6799,7 @@ if( nbEVsCurrent > pctEVsGoal*energyModel.Houses.size()/100){
 	while ( nbEVsCurrent < nbEVsGoal && nbDieselVehiclesCurrent > 0) {
 		// Remove diesel vehicle
 		J_EADieselVehicle dieselVehicle = (J_EADieselVehicle)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE );
-		traceln("Found diesel vehicle: " + dieselVehicle);
+		//traceln("Found diesel vehicle: " + dieselVehicle);
 		GridConnection GC = (GridConnection)dieselVehicle.parentAgent;
 		J_ActivityTrackerTrips tripTracker = dieselVehicle.tripTracker;
 		boolean available = true;
@@ -7078,8 +7023,9 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_summerWeekNeighborhoodBatterySupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_summerWeekV2GSupply_kW, "V2G ontladen", v_V2GSupplyColor);	
 		
-	businessParkEnergyDemandChart.setFixedVerticalScale(max(energyModel.data_annualBusinessParkSupply_kW.getYMax(),energyModel.data_annualBusinessParkDemand_kW.getYMax()));
-	businessParkEnergySupplyChart.setFixedVerticalScale(max(energyModel.data_annualBusinessParkSupply_kW.getYMax(),energyModel.data_annualBusinessParkDemand_kW.getYMax()));
+	double chartScale = max(Arrays.stream(energyModel.a_annualElectricityConsumption_kW).max().orElse(0), Arrays.stream(energyModel.a_annualElectricityProduction_kW).max().orElse(0))	;
+	businessParkEnergyDemandChart.setFixedVerticalScale(chartScale);
+	businessParkEnergySupplyChart.setFixedVerticalScale(chartScale);
 	
 	//Netbelastingduurkromme
 	pl_belastingsduurkromme.removeAll();
@@ -7114,8 +7060,9 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_winterWeekNeighborhoodBatterySupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_winterWeekV2GSupply_kW, "V2G ontladen", v_V2GSupplyColor);
 	
-	businessParkEnergyDemandChart.setFixedVerticalScale(max(energyModel.data_annualBusinessParkSupply_kW.getYMax(),energyModel.data_annualBusinessParkDemand_kW.getYMax()));
-	businessParkEnergySupplyChart.setFixedVerticalScale(max(energyModel.data_annualBusinessParkSupply_kW.getYMax(),energyModel.data_annualBusinessParkDemand_kW.getYMax()));
+	double chartScale = max(Arrays.stream(energyModel.a_annualElectricityConsumption_kW).max().orElse(0), Arrays.stream(energyModel.a_annualElectricityProduction_kW).max().orElse(0))	;
+	businessParkEnergyDemandChart.setFixedVerticalScale(chartScale);
+	businessParkEnergySupplyChart.setFixedVerticalScale(chartScale);
 	
 	//Netbelastingduurkromme
 	pl_belastingsduurkromme.removeAll();
@@ -7137,38 +7084,38 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	//Energy demand chart
 	businessParkAnnualEnergyDemandChart.removeAll();
 
-	businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualBaseloadElectricityDemand_kW, "Elektriciteit basislast", v_baseloadElectricityColor);
+	businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualBaseloadElectricityDemand_MWh, "Elektriciteit basislast", v_baseloadElectricityColor);
 
-	if (energyModel.data_annualHeatPumpElectricityDemand_kW.getYMax()>0) {
-		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualHeatPumpElectricityDemand_kW, "Warmtepompen", v_heatPumpElectricityDemandColor);
+	if (energyModel.data_annualHeatPumpElectricityDemand_MWh.getYMax()>0) {
+		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualHeatPumpElectricityDemand_MWh, "Warmtepompen", v_heatPumpElectricityDemandColor);
 	}
-	//businessParkAnnualEnergyDemandChart.addDataSet(data_annualElectricCarsDemand_kWh, "Laden EVs", v_electricCarsDemandColor);
-	if (energyModel.data_annualElectricTrucksDemand_kW.getYMax()>0) {
-		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualElectricTrucksDemand_kW, "Laden elektrische voertuigen", v_electricTrucksDemandColor);
+	//businessParkAnnualEnergyDemandChart.addDataSet(data_annualElectricCarsDemand_MWhh, "Laden EVs", v_electricCarsDemandColor);
+	if (energyModel.data_annualElectricTrucksDemand_MWh.getYMax()>0) {
+		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualElectricTrucksDemand_MWh, "Laden elektrische voertuigen", v_electricTrucksDemandColor);
 	}
-	if (energyModel.data_annualNeighborhoodBatteryDemand_kW.getYMax()>0) {		
-		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualNeighborhoodBatteryDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
+	if (energyModel.data_annualNeighborhoodBatteryDemand_MWh.getYMax()>0) {		
+		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualNeighborhoodBatteryDemand_MWh, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
 	}
 		
 	//Energy supply chart
 	businessParkAnnualEnergySupplyChart.removeAll();
 
-	if (energyModel.data_annualPVGeneration_kW.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualPVGeneration_kW, "PV op dak", v_PVGenerationColor);	
+	if (energyModel.data_annualPVGeneration_MWh.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualPVGeneration_MWh, "PV op dak", v_PVGenerationColor);	
 	}	
-	if (energyModel.data_annualWindGeneration_kW.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualWindGeneration_kW, "Windturbines", v_windGenerationColor);
+	if (energyModel.data_annualWindGeneration_MWh.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualWindGeneration_MWh, "Windturbines", v_windGenerationColor);
 	}
 
-	if (energyModel.data_annualNeighborhoodBatterySupply_kW.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualNeighborhoodBatterySupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
+	if (energyModel.data_annualNeighborhoodBatterySupply_MWh.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualNeighborhoodBatterySupply_MWh, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
 	}	
-	if (energyModel.data_annualV2GSupply_kW.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualV2GSupply_kW, "V2G ontladen", v_V2GSupplyColor);
+	if (energyModel.data_annualV2GSupply_MWh.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualV2GSupply_MWh, "V2G ontladen", v_V2GSupplyColor);
 	}
 	
-	businessParkAnnualEnergyDemandChart.setFixedVerticalScale(max(energyModel.data_annualBusinessParkSupply_kW.getYMax(),energyModel.data_annualBusinessParkDemand_kW.getYMax()));
-	businessParkAnnualEnergySupplyChart.setFixedVerticalScale(max(energyModel.data_annualBusinessParkSupply_kW.getYMax(),energyModel.data_annualBusinessParkDemand_kW.getYMax()));
+	businessParkEnergyDemandChart.setFixedVerticalScale(max(energyModel.data_annualElectricitySupply_MWh.getYMax(),energyModel.data_annualElectricityDemand_MWh.getYMax()));
+	businessParkEnergySupplyChart.setFixedVerticalScale(max(energyModel.data_annualElectricitySupply_MWh.getYMax(),energyModel.data_annualElectricityDemand_MWh.getYMax()));
 	
 	//
 	/*
@@ -7532,11 +7479,16 @@ if (rb_onbalansPeriod.getValue() == 0) { // Yearly energy balance
 							v_clickedGridConnection.v_electricityDeliveredToGrid_kWh/1000, pl_consumptionStack, pl_productionStack,
 							t_topOpwekText, t_topGebruikText);
 		
+	} else if (rb_scope.getValue()==2 && energyModel.pop_energyCoops.get(0)!=null) {
+		EnergyCoop coop = energyModel.pop_energyCoops.get(0);
+		f_setEnergyBalanceChartSimple(coop.v_totalElectricitySelfConsumed_MWh, coop.v_electricityImported_kWh/1000, 
+									coop.v_electricityExported_kWh/1000, pl_consumptionStack, pl_productionStack,
+									t_topOpwekText, t_topGebruikText);
 	} else { // Plot data for a gridconnection
 		f_setEnergyBalanceChartSimple(energyModel.v_totalElectricitySelfConsumed_MWh, energyModel.v_totalElectricityImport_MWh, 
 									energyModel.v_totalElectricityExport_MWh, pl_consumptionStack, pl_productionStack,
 									t_topOpwekText, t_topGebruikText);
-	}	
+	}		
 	//f_setSankey(energyModel.v_totalSelfConsumedEnergy_MWh, energyModel.v_totalElectricityImport_MWh, energyModel.v_totalMethaneImport_MWh, energyModel.v_totalDieselImport_MWh, energyModel.v_totalHydrogenImport_MWh, energyModel.v_totalElectricityExport_MWh, energyModel.v_totalHeatProduced_MWh );
 	//f_setSankey(energyModel.v_totalSelfConsumedEnergy_MWh, energyModel.v_totalElectricityImport_MWh, energyModel.v_totalMethaneImport_MWh, energyModel.v_totalDieselImport_MWh, energyModel.v_totalHydrogenImport_MWh, energyModel.v_totalElectricityExport_MWh, 0 );
 	//f_setSankey(selfConsumedEnergy_MWh, importE_MWh, importG_MWh, importF_MWh, importH_MWh, exportE_MWh);
@@ -7824,10 +7776,11 @@ if (chartScale_MWh<10) {
 	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+export_MWh)) + " MWh");
 	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+import_MWh)) + " MWh");
 } else {
-	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+export_MWh)/1000) + " GWh");
-	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+import_MWh)/1000) + " GWh");
+	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToDecimal((selfConsumedEnergy_MWh+export_MWh)/1000,1) + " GWh");
+	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToDecimal((selfConsumedEnergy_MWh+import_MWh)/1000,1) + " GWh");
 }
-	]]></Body>
+	
+]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -8049,22 +8002,22 @@ pl_productionChartBottom.setFixedScale(chartScale_MWh);
 if (chartScale_MWh<10) {
 	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+export_MWh)*1000) + " kWh");
 	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+import_MWh)*1000) + " kWh");
-} else if (chartScale_MWh<10000) {
+} else if (chartScale_MWh<1000) {
 	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+export_MWh)) + " MWh");
 	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+import_MWh)) + " MWh");
 } else {
-	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+export_MWh)/1000) + " GWh");
-	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergy_MWh+import_MWh)/1000) + " GWh");
+	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToDecimal((selfConsumedEnergy_MWh+export_MWh)/1000,1) + " GWh");
+	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToDecimal((selfConsumedEnergy_MWh+import_MWh)/1000,1) + " GWh");
 }
 if (chartScale_MWh<10) {
 	t_OpwekTextBottom.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergyBottom_MWh+exportBottom_MWh)*1000) + " kWh");
 	t_GebruikTextBottom.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergyBottom_MWh+importBottom_MWh)*1000) + " kWh");
-} else if (chartScale_MWh<10000) {
+} else if (chartScale_MWh<1000) {
 	t_OpwekTextBottom.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergyBottom_MWh+exportBottom_MWh)) + " MWh");
 	t_GebruikTextBottom.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergyBottom_MWh+importBottom_MWh)) + " MWh");
 } else {
-	t_OpwekTextBottom.setText("Opwek" + System.lineSeparator() + roundToInt((selfConsumedEnergyBottom_MWh+exportBottom_MWh)/1000) + " GWh");
-	t_GebruikTextBottom.setText("Gebruik" + System.lineSeparator() + roundToInt((selfConsumedEnergyBottom_MWh+importBottom_MWh)/1000) + " GWh");
+	t_OpwekText.setText("Opwek" + System.lineSeparator() + roundToDecimal((selfConsumedEnergyBottom_MWh+exportBottom_MWh)/1000,1) + " GWh");
+	t_GebruikText.setText("Gebruik" + System.lineSeparator() + roundToDecimal((selfConsumedEnergyBottom_MWh+importBottom_MWh)/1000,1) + " GWh");
 }
 	]]></Body>
 				</Function>
@@ -8420,12 +8373,52 @@ if (chartScale_MWh<10) {
 
 ]]></Body>
 				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1708008526051</Id>
+					<Name><![CDATA[f_createSpecificActors]]></Name>
+					<Description><![CDATA[Function used to generate specific actors like grid operator, energy supplier and energy coop. Actors used to create variable pricing.]]></Description>
+					<X>-950</X><Y>320</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[
+// Create the grid operator
+GridOperator GO = energyModel.add_pop_gridOperators();
+
+GO.p_actorID = "defaultGridOperator";
+GO.p_actorType = OL_ActorType.OPERATORGRID;
+GO.p_hasCongestionPricing = false; // ???????? variabel maken per project
+
+
+// Create the energy coop
+EnergyCoop EC = energyModel.add_pop_energyCoops();
+
+EC.p_actorID = "coopHeibloem";
+EC.p_actorType = OL_ActorType.COOPENERGY;
+EC.p_gridOperator = GO;
+//EC.p_CoopParent = EC.p_actorID; // WAT BETEKENT COOP PARENT??
+	
+// Energy supplier
+/*if (!project_data.energy_supplier.equals("None")){
+	
+	EnergySupplier ES = energyModel.add_pop_energySuppliers(); 
+	
+	ES.p_actorID = project_data.energy_supplier;
+	ES.p_actorType = OL_ActorType.SUPPLIERENERGY;
+}*/
+
+]]></Body>
+				</Function>
 			</Functions>
 			<Connectivity>
 				<TextFile>
 					<Id>1681375993119</Id>
 					<Name><![CDATA[t_scenarioInput]]></Name>
-					<X>-730</X><Y>90</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-730</X><Y>110</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8443,7 +8436,8 @@ if (chartScale_MWh<10) {
 				<TextFile>
 					<Id>1690809204143</Id>
 					<Name><![CDATA[t_templateAssets]]></Name>
-					<X>-730</X><Y>145</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-730</X><Y>165</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8461,7 +8455,8 @@ if (chartScale_MWh<10) {
 				<TextFile>
 					<Id>1690977196615</Id>
 					<Name><![CDATA[t_buildingThermalPars]]></Name>
-					<X>-729</X><Y>200</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-729</X><Y>220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8479,7 +8474,8 @@ if (chartScale_MWh<10) {
 				<TextFile>
 					<Id>1692013662865</Id>
 					<Name><![CDATA[t_assetDepreciation]]></Name>
-					<X>-730</X><Y>260</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-730</X><Y>280</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -18655,7 +18651,8 @@ if (gr_electricitySettings.isVisible() == false){
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[if (cb_highlighParticipants.isSelected()){
 	for (GCUtility x : energyModel.UtilityConnections){
-		x.f_setColorDetailedObjects();
+		//x.f_setColorDetailedObjects();
+		// Add code to change color of object on map belonging to coop.
 	}
 }
 else {
@@ -24618,6 +24615,7 @@ else {
 						<Orientation>VERTICAL</Orientation>
 						<Button><![CDATA[Totaal]]></Button>
 						<Button><![CDATA[Gebouw]]></Button>
+						<Button><![CDATA[Cooperatie]]></Button>
 						<LinkTo>false</LinkTo>
 					</ExtendedProperties>
 				</Control>
@@ -24886,7 +24884,7 @@ new Thread( () -> {
 	gr_loadIconCostsSmall.setVisible(false);
 	//gr_simulateCostsScreen.setVisible(false);
 	gr_scopeRadioButtons.setVisible(true);
-	f_financesL4L();
+	//f_financesL4L();
 }).start();
 
 b_resultsUpToDate = true;
@@ -36194,6 +36192,27 @@ if (gisRegion == null ) {
 				<Login><![CDATA[]]></Login>
 				<Password><![CDATA[]]></Password>
 			</ExternalConnection>
+			<ExternalConnection>
+				<Id>1708003570471</Id>
+				<Name><![CDATA[database]]></Name>
+				<X>0</X><Y>0</Y>
+				<Label><X>10</X><Y>0</Y></Label>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>true</PresentationFlag>
+				<ShowLabel>true</ShowLabel>
+				<DatabaseType>EXCEL_ACCESS</DatabaseType>
+				<ConnectionURL><![CDATA[]]></ConnectionURL>
+				<ConnectOnStartup>true</ConnectOnStartup>
+				<DatabaseName><![CDATA[]]></DatabaseName>
+				<ResourceReference>
+					<PackageName><![CDATA[zero_zonnedorpen]]></PackageName>
+					<ClassName><![CDATA[Zuidenwind - Cooperwiek v2.xlsx]]></ClassName>
+				</ResourceReference>
+				<Host><![CDATA[localhost]]></Host>
+				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
+				<Login><![CDATA[]]></Login>
+				<Password><![CDATA[]]></Password>
+			</ExternalConnection>
 			<TableImportSettings>
 				<TableReference>
 					<PackageName><![CDATA[zero_zonnedorpen]]></PackageName>
@@ -36211,6 +36230,15 @@ if (gisRegion == null ) {
 				<ConnectionIndex>1</ConnectionIndex>
 				<ExternalTableName><![CDATA["weather2023"]]></ExternalTableName>
 				<AutoImport>true</AutoImport>
+			</TableImportSettings>
+			<TableImportSettings>
+				<TableReference>
+					<PackageName><![CDATA[zero_zonnedorpen]]></PackageName>
+					<ClassName><![CDATA[db_cooperwiek]]></ClassName>
+				</TableReference>
+				<ConnectionIndex>2</ConnectionIndex>
+				<ExternalTableName><![CDATA["Zuidenwind - Cooperwiek v2"]]></ExternalTableName>
+				<AutoImport>false</AutoImport>
 			</TableImportSettings>
 		</ImportSettings>
 		<ExportSettings>
@@ -36430,6 +36458,11 @@ if (gisRegion == null ) {
 		</Resource>
 		<Resource>
 			<Path><![CDATA[db_weather.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[Zuidenwind - Cooperwiek v2.xlsx]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
