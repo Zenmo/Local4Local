@@ -3867,17 +3867,15 @@ for (GridConnection g: energyModel.c_gridConnections) {
    //owner.f_setInitPriceBands();
 }
 
-
 // Energy Coops determine their relevant gridnodes based on their established members
-for( EnergyCoop EH : energyModel.pop_energyCoops ) {
-	for( Agent member : EH.subConnectionsElectricity.getConnections() ) {
+for( EnergyCoop EC : energyModel.pop_energyCoops ) {
+	for( Agent member : EC.c_coopMembers ) {
 		if( member instanceof EnergyCoop) {   // upper nested Coop looks at the higher level gridNode
-			EH.p_gridNodeUnderResponsibility = energyModel.pop_gridNodes.findFirst(a -> a.p_nodeType.equals(OL_GridNodeType.HVMV)) != null? energyModel.pop_gridNodes.findFirst(a -> a.p_nodeType.equals(OL_GridNodeType.HVMV)).p_gridNodeID : null;
-			
+			EC.p_gridNodeUnderResponsibility = energyModel.pop_gridNodes.findFirst(a -> a.p_nodeType.equals(OL_GridNodeType.HVMV)) != null? energyModel.pop_gridNodes.findFirst(a -> a.p_nodeType.equals(OL_GridNodeType.HVMV)).p_gridNodeID : null;			
 		}
 		else if( member instanceof ConnectionOwner ) {
 			//traceln("ConnectionOwner:" + (ConnectionOwner)member);
-			EH.p_gridNodeUnderResponsibility = ((ConnectionOwner)member).gridConnections.getConnectedAgent(0).p_parentNodeElectricID;
+			EC.p_gridNodeUnderResponsibility = ((ConnectionOwner)member).gridConnections.getConnectedAgent(0).p_parentNodeElectricID;
 		}
 		else {
 			traceln("Coop-member not an energyCoop or connectionowner -> No gridnode under responsibility!");
@@ -3885,6 +3883,7 @@ for( EnergyCoop EH : energyModel.pop_energyCoops ) {
 	}
 	
 }
+
 
 for( EnergyCoop e : energyModel.pop_energyCoops ) {
 	e.f_initialize(); // This function is called here because gridNodes need to be created before Coops can link to them.
