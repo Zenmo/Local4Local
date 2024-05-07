@@ -4,7 +4,7 @@
 	         AnyLogic Project File 
 *************************************************	         
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.8.6.202312140503" AlpVersion="8.8.3">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.0.202404161238" AlpVersion="8.9.0">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -3261,10 +3261,6 @@ rectangle_assetCompaniesSettings.setVisible(false);]]></StartupCode>
 				<Variable Class="Parameter">
 					<Id>1700136363693</Id>
 					<Name><![CDATA[p_L4Lpilot]]></Name>
-					<Description><![CDATA[Niet gebruikt in model zelf, kan vrij gewijzigd worden om uncached cloud experiments te forceren
-
-@author: JorritvandenHouten
-@since: Sprint 7]]></Description>
 					<X>-520</X><Y>250</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -5287,7 +5283,7 @@ f_createSpecificActors();
 f_generateGridNodes();
 f_generateGridConnectionsExcel(nbHouseholds);
 f_instantiateEnergyAssets();
-//f_createGISObjectsExcel();
+f_createGISObjectsExcel();
 //f_createAgentLinks();
 energyModel.f_initializeForecasts();
 
@@ -5298,9 +5294,10 @@ if (p_L4Lpilot.equals("Heibloem")) {
 	//sl_electricTrucks.setValue(100,true);
 	sl_rooftopPV.setValue(50,true);
 	sl_electrificationHeat.setValue(3,true);
+	//sl_electrificationHeat.setValue(0,true);
 	sl_householdEV.setValue(10,true);
 	sl_WindTurbines.setValue(2.3,true);
-	//sl_solarparkPower.setValue(0.0,true);
+	//sl_solarparkPower.setValue(500,true);
 } else { // zonnedorpen is 'default' for now
 	//sl_electricTrucks.setValue(100,true);
 	sl_rooftopPV.setValue(50,true);
@@ -5383,6 +5380,7 @@ int nbTrucks = 0;//(int)selectFrom(voertuigdata_drechtsteden).where(voertuigdata
 
 // Add electricity consumption profiles to gridconnections
 
+
 for (GridConnection GC : energyModel.Houses) {
 	// Add electricity consumption profiles
 	J_EAConsumption newAsset;
@@ -5394,8 +5392,8 @@ for (GridConnection GC : energyModel.Houses) {
 	// One vehicle per household, start with diesel ('fuel') vehicles
 	double energyConsumption_kWhpkm = 0.6;//g.required( "energyConsumption_kWhpkm" ).doubleValue();
 	double vehicleScaling = 1.0;//g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-	J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling);	
-	dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_VEHICLE;
+	J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE);	
+	//dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_VEHICLE;
 	GC.f_connectToJ_EA(dieselVehicle);		
 	energyModel.c_energyAssets.add(dieselVehicle);	
 	
@@ -5405,7 +5403,7 @@ for (GridConnection GC : energyModel.Houses) {
 	//double yearlyDemandHeat_kWh = GC.p_floorSurfaceArea_m2*yearlyHeatDemandPerFloorSurface_kWhpm2;
 	//newAsset = new J_EAConsumption(GC, OL_EnergyAssetType.HEAT_DEMAND, "Building_heat_demand", 0.0, yearlyDemandHeat_kWh, 0.0, 0.0, 0.0, energyModel.p_timeStep_h);
 	//J_EABuilding(Agent parentAgent, double capacityHeat_kW, double lossFactor_WpK, double timestep_h, double initialTemperature_degC, double heatCapacity_JpK, double solarAbsorptionFactor_m2 )
-	J_EABuilding buildingAsset = new J_EABuilding(GC, 30, normal(50,1.57*200), energyModel.p_timeStep_h, normal(1, 18), normal(1e6,1e7), normal(1,2) );
+	J_EABuilding buildingAsset = new J_EABuilding(GC, 30, normal(50,1.57*200), energyModel.p_timeStep_h, normal(1, 17.9), normal(1e6,1e7), normal(1,2) );
 	
 	energyModel.c_energyAssets.add(buildingAsset);
 	GC.f_connectToJ_EA(buildingAsset);		
@@ -5413,7 +5411,7 @@ for (GridConnection GC : energyModel.Houses) {
 	// Gasburner
 	J_EAConversionGasBurner gasBurner = new J_EAConversionGasBurner(GC, OL_EnergyAssetType.GAS_BURNER, 50, 0.99, energyModel.p_timeStep_h, 90);
 	energyModel.c_energyAssets.add(gasBurner);
-	GC.f_connectToJ_EA(gasBurner);	
+	GC.f_connectToJ_EA(gasBurner);
 }
 
 /*
@@ -5450,16 +5448,16 @@ for (GridConnection GC : energyModel.GridBatteries) {
 }
 
 for (GridConnection GC : energyModel.EnergyProductionSites) {
-	J_EAProduction pvPark = new J_EAProduction(GC, OL_EnergyAssetType.PHOTOVOLTAIC, "PV park Zonnedorpen",412,0,0,0,energyModel.p_timeStep_h,0);
+	J_EAProduction pvPark = new J_EAProduction(GC, OL_EnergyAssetType.PHOTOVOLTAIC, "PV park Zonnedorpen",0,0,0,0,energyModel.p_timeStep_h,0);
 	energyModel.c_energyAssets.add(pvPark);
 	GC.f_connectToJ_EA(pvPark);
 	
-	/*if (p_L4Lpilot.equals("Heibloem")) {
+	if (p_L4Lpilot.equals("Heibloem")) {
 		J_EAProfile newAsset = new J_EAProfile(GC, OL_EnergyCarrierType.ELECTRICITY, null, energyModel.p_timeStep_h);		
 		newAsset.energyAssetName = "windturbine Cooperwiek";
 		//List<Double> quarterlyEnergyDemand_kWh = selectValues(double.class, "SELECT " + "levering_kwh_kwartier" + " FROM db_cooperwiek;");			
 		//double[] leveringsArray = quarterlyEnergyDemand_kWh.stream().mapToDouble(d -> -d).toArray();
-		double[] leveringsArray_kWh = selectValues(double.class, "SELECT " + "levering_kwh_kwartier" + " FROM db_cooperwiek;").stream().mapToDouble(d -> -d).toArray();
+		double[] leveringsArray_kWh = selectValues(double.class, "SELECT " + "levering_kwh_kwartier" + " FROM db_cooperwiek;").stream().mapToDouble(d -> -max(0,0.2*d)).toArray();
 		traceln("Grootte leveringsArray: %s elementen", leveringsArray_kWh.length);
 		int startIdx = 35040*2;
 		int endIdx = 35040*3;
@@ -5472,7 +5470,7 @@ for (GridConnection GC : energyModel.EnergyProductionSites) {
 		J_EAProduction windTurbine = new J_EAProduction(GC, OL_EnergyAssetType.WINDMILL, "Windmill onshore",0,0,0,0,energyModel.p_timeStep_h,0);
 		energyModel.c_energyAssets.add(windTurbine);
 		GC.f_connectToJ_EA(windTurbine);
-	}*/
+	}
 }
 
 ]]></Body>
@@ -5964,10 +5962,10 @@ traceln(sum(c_gridConnections, x->x.v_rooftopPVInstalledCapacity_kW) + " kWp PV 
 						<Name><![CDATA[nbElectricTrucksGoal]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[//double nbEtruckCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE ? 1.0 : 0.0);
-//double nvDieseltrucksCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE ? 1.0 : 0.0);
+					<Body><![CDATA[//double nbEtruckCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK ? 1.0 : 0.0);
+//double nvDieseltrucksCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK ? 1.0 : 0.0);
 
-int nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE);
+int nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
 int nbDieseltrucksCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
 
 
@@ -5991,7 +5989,7 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 	while ( nbEtruckCurrent > nbElectricTrucksGoal && nbEtruckCurrent > 0) { // remove excess EVs systems !!!! Should also add diesel vehicle again!
 		
 		
-		J_EAEV ev = (J_EAEV)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE );
+		J_EAEV ev = (J_EAEV)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK );
 		traceln("Found eTrucks: " + ev);
 		GridConnection GC = (GridConnection)ev.parentAgent;
 		J_ActivityTrackerTrips tripTracker = ev.tripTracker;
@@ -6013,9 +6011,9 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 				
 		double energyConsumption_kWhpkm = 3.0;//g.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScaling = 1.0;//g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling);
+		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_TRUCK);
 		dieselVehicle.available = available;
-		dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_TRUCK;
+		//dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_TRUCK;
 		GC.c_dieselVehicles.add(dieselVehicle);		
 		GC.c_vehicleAssets.add(dieselVehicle);
 		energyModel.c_energyAssets.add(dieselVehicle);
@@ -6023,7 +6021,7 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 		dieselVehicle.setTripTracker(tripTracker);
 		dieselVehicle.getTripTracker().Vehicle=dieselVehicle;		
 		
-		nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE);
+		nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
 		nbDieseltrucksCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
 	} 
 } else { 
@@ -6055,8 +6053,8 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 		double initialStateOfCharge_r = 1.0;//t.required( "stateOfCharge_r" ).doubleValue();
 		double energyConsumption_kWhpkm = 1.4;//t.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScalingElectric = 1.0;//t.hasNonNull("vehicleScaling")? t.required("vehicleScaling").doubleValue() : 1.0;
-		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric );  
-		ev.energyAssetType = OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE;
+		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_TRUCK );  
+		//ev.energyAssetType = OL_EnergyAssetType.ELECTRIC_TRUCK;
 		ev.available = available;
 		GC.c_vehicleAssets.add(ev);
 		GC.c_vehiclesAvailableForCharging.add(ev);				
@@ -6067,7 +6065,7 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 		ev.setTripTracker(tripTracker);
 		ev.getTripTracker().Vehicle=ev;		
 		
-		nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE);
+		nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
 		nbDieseltrucksCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
 	}
 	
@@ -6374,7 +6372,7 @@ for (int j = 1; j<pandRows; j++) {
 		b.p_useType = Panden.getCellStringValue(1, j+1, 6);
 	}
 	if (Panden.cellExists(1, j+1, 7)) {
-		b.p_surfaceArea = Panden.getCellNumericValue(1, j+1, 7);
+		b.p_floorSurfaceArea_m2 = Panden.getCellNumericValue(1, j+1, 7);
 	}
 	b.p_floors = Panden.getCellNumericValue(1, j+1, 9);
 	//b.p_buildingType = OL_BuildingType.valueOf(OL_BuildingType, row.get( buildings.type ));
@@ -6659,7 +6657,7 @@ for (int i = 1; i<=nbHouseholds; i++) {
 	b.p_buildingYear = Panden.getCellNumericValue(1, j+1, varMap.get("bouwjaar"));
 	b.p_status = Panden.getCellStringValue(1, j+1, varMap.get("status"));
 	b.p_useType = Panden.getCellStringValue(1, j+1, varMap.get("gebruiksdoel"));
-	b.p_surfaceArea = Panden.getCellNumericValue(1, j+1, varMap.get("oppervlakte_min"));
+	b.p_floorSurfaceArea_m2 = Panden.getCellNumericValue(1, j+1, varMap.get("oppervlakte_min"));
 	//b.p_floors = Panden.getCellNumericValue(1, j+1, varMap.get("aantal_ver"));
 	//b.p_buildingType = OL_BuildingType.valueOf(OL_BuildingType, row.get( buildings.type ));
 	//b.p_householdsInBuilding = row.get( buildings.h_in_b );
@@ -6781,9 +6779,9 @@ if( nbEVsCurrent > pctEVsGoal*energyModel.Houses.size()/100){
 				
 		double energyConsumption_kWhpkm = 0.6;//g.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScaling = 1.0;//g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling);
+		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE);
 		dieselVehicle.available = available;
-		dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_VEHICLE;
+		//dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_VEHICLE;
 		GC.c_dieselVehicles.add(dieselVehicle);		
 		GC.c_vehicleAssets.add(dieselVehicle);
 		energyModel.c_energyAssets.add(dieselVehicle);
@@ -6822,8 +6820,8 @@ if( nbEVsCurrent > pctEVsGoal*energyModel.Houses.size()/100){
 		double initialStateOfCharge_r = 1.0;//t.required( "stateOfCharge_r" ).doubleValue();
 		double energyConsumption_kWhpkm = 0.2;//t.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScalingElectric = 1.0;//t.hasNonNull("vehicleScaling")? t.required("vehicleScaling").doubleValue() : 1.0;
-		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric );  
-		ev.energyAssetType = OL_EnergyAssetType.ELECTRIC_VEHICLE;
+		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_VEHICLE );  
+		//ev.energyAssetType = OL_EnergyAssetType.ELECTRIC_VEHICLE;
 		ev.available = available;
 		GC.c_vehicleAssets.add(ev);
 		GC.c_vehiclesAvailableForCharging.add(ev);				
@@ -8685,6 +8683,12 @@ EC.p_gridOperator = GO;
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[p_cookingPatternExcel]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_year]]></Name>
+							<Value Class="CodeValue">
+								<Code><![CDATA[2023]]></Code>
+							</Value>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -23077,6 +23081,7 @@ if(v_costsUnknown == true){
 				<Text>
 					<Id>1696520908629</Id>
 					<Name><![CDATA[text221]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>-204</X><Y>-340</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
