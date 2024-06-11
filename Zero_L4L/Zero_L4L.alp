@@ -3928,9 +3928,10 @@ if( sl_rooftopPV.getValue()/100.0*energyModel.Houses.size() < PVsystems){
 		J_EA pvAsset = findFirst(h.c_productionAssets, p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC );
 		//traceln("Found PV system: " + pvAsset);
 		if (pvAsset!=null) {
-			energyModel.v_totalInstalledPVPower_kW -= pvAsset.getElectricCapacity_kW();
-			h.c_productionAssets.remove(pvAsset);
-			energyModel.c_energyAssets.remove(pvAsset);
+			//energyModel.v_totalInstalledPVPower_kW -= pvAsset.getElectricCapacity_kW();
+			pvAsset.removeEnergyAsset();
+			//h.c_productionAssets.remove(pvAsset);
+			//energyModel.c_energyAssets.remove(pvAsset);
 			//energyModel.c_productionAssets.remove(pvAsset);
 			//traceln("Removing PV from GridConnection:" + h.p_gridConnectionID);
 			h.v_hasPV = false;
@@ -3956,11 +3957,11 @@ if( sl_rooftopPV.getValue()/100.0*energyModel.Houses.size() < PVsystems){
 		double outputTemperature_degC = 0.0;
 		
 		J_EAProduction productionAsset = new J_EAProduction ( h, assetType, assetName, capacityElectricity_kW, capacityHeat_kW, yearlyProductionMethane_kWh, yearlyProductionHydrogen_kWh, energyModel.p_timeStep_h, outputTemperature_degC );
-		h.f_connectToJ_EA(productionAsset);
+		//h.f_connectToJ_EA(productionAsset);
 		
 		//c_productionAssets.add(productionAsset);
-		energyModel.c_energyAssets.add(productionAsset);
-		energyModel.v_totalInstalledPVPower_kW += capacityElectricity_kW;
+		//energyModel.c_energyAssets.add(productionAsset);
+		//energyModel.v_totalInstalledPVPower_kW += capacityElectricity_kW;
 	
 		PVsystems=count(energyModel.Houses, x->x.v_hasPV == true);	
 		//traceln("Added PV to GridConnection: " + h.p_gridConnectionID);
@@ -3968,7 +3969,7 @@ if( sl_rooftopPV.getValue()/100.0*energyModel.Houses.size() < PVsystems){
 	
 }	
 
-energyModel.v_totalInstalledPVPower_kW = sumWhere(energyModel.c_energyAssets,p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
+energyModel.v_totalInstalledPVPower_kW = sumWhere(energyModel.f_getEnergyAssets(),p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
 traceln("Total installed PV power: %s kW", energyModel.v_totalInstalledPVPower_kW);
 //t_numberOfRooftopPV.setText(count(energyModel.Houses, x->x.v_hasPV == true));
 
@@ -5390,16 +5391,16 @@ for (GridConnection GC : energyModel.Houses) {
 	J_EAConsumption newAsset;
 	double yearlyDemandElectricity_kWh = 5400*normal(0.2,1); // Replace with yearly consumption from database!
 	newAsset = new J_EAConsumption(GC, OL_EnergyAssetType.ELECTRICITY_DEMAND, "Household_electricity", yearlyDemandElectricity_kWh, 0.0, 0.0, 0.0, 0.0, energyModel.p_timeStep_h);
-	energyModel.c_energyAssets.add(newAsset);
-	GC.f_connectToJ_EA(newAsset);
+	//energyModel.c_energyAssets.add(newAsset);
+	//GC.f_connectToJ_EA(newAsset);
 	
 	// One vehicle per household, start with diesel ('fuel') vehicles
 	double energyConsumption_kWhpkm = 0.6;//g.required( "energyConsumption_kWhpkm" ).doubleValue();
 	double vehicleScaling = 1.0;//g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-	J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE);	
+	J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE, null);	
 	//dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_VEHICLE;
-	GC.f_connectToJ_EA(dieselVehicle);		
-	energyModel.c_energyAssets.add(dieselVehicle);	
+	//GC.f_connectToJ_EA(dieselVehicle);		
+	//energyModel.c_energyAssets.add(dieselVehicle);	
 	
 	// House thermal model
 	//double yearlyHeatDemandPerFloorSurface_kWhpm2=90.9778*9.77;
@@ -5408,14 +5409,13 @@ for (GridConnection GC : energyModel.Houses) {
 	//newAsset = new J_EAConsumption(GC, OL_EnergyAssetType.HEAT_DEMAND, "Building_heat_demand", 0.0, yearlyDemandHeat_kWh, 0.0, 0.0, 0.0, energyModel.p_timeStep_h);
 	//J_EABuilding(Agent parentAgent, double capacityHeat_kW, double lossFactor_WpK, double timestep_h, double initialTemperature_degC, double heatCapacity_JpK, double solarAbsorptionFactor_m2 )
 	J_EABuilding buildingAsset = new J_EABuilding(GC, 30, normal(50,1.57*200), energyModel.p_timeStep_h, normal(1, 17.9), normal(1e6,1e7), normal(1,2) );
-	
-	energyModel.c_energyAssets.add(buildingAsset);
-	GC.f_connectToJ_EA(buildingAsset);		
+	//energyModel.c_energyAssets.add(buildingAsset);
+	//GC.f_connectToJ_EA(buildingAsset);		
 	
 	// Gasburner
 	J_EAConversionGasBurner gasBurner = new J_EAConversionGasBurner(GC, OL_EnergyAssetType.GAS_BURNER, 50, 0.99, energyModel.p_timeStep_h, 90);
-	energyModel.c_energyAssets.add(gasBurner);
-	GC.f_connectToJ_EA(gasBurner);
+	//energyModel.c_energyAssets.add(gasBurner);
+	//GC.f_connectToJ_EA(gasBurner);
 }
 
 /*
@@ -5446,15 +5446,15 @@ if (b_scaleElecMethaneConsumptionKlimaatmon) {
 for (GridConnection GC : energyModel.GridBatteries) {
 	//J_EAStorageElectric gridBattery = new J_EAStorageElectric(GC, 25000.0, 25000.0, 1.0, p_timeStep_h);
 	J_EAStorageElectric gridBattery = new J_EAStorageElectric(GC, 0.0, 0.0, 0.5, energyModel.p_timeStep_h);
-	energyModel.c_energyAssets.add(gridBattery);
-	energyModel.c_storageAssets.add(gridBattery);
-	GC.f_connectToJ_EA(gridBattery);
+	//energyModel.c_energyAssets.add(gridBattery);
+	//energyModel.c_storageAssets.add(gridBattery);
+	//GC.f_connectToJ_EA(gridBattery);
 }
 
 for (GridConnection GC : energyModel.EnergyProductionSites) {
 	J_EAProduction pvPark = new J_EAProduction(GC, OL_EnergyAssetType.PHOTOVOLTAIC, "PV park Zonnedorpen",0,0,0,0,energyModel.p_timeStep_h,0);
-	energyModel.c_energyAssets.add(pvPark);
-	GC.f_connectToJ_EA(pvPark);
+	//energyModel.c_energyAssets.add(pvPark);
+	//GC.f_connectToJ_EA(pvPark);
 	
 	if (p_L4Lpilot.equals("Heibloem")) {
 		J_EAProfile newAsset = new J_EAProfile(GC, OL_EnergyCarrierType.ELECTRICITY, null, energyModel.p_timeStep_h);		
@@ -5468,12 +5468,12 @@ for (GridConnection GC : energyModel.EnergyProductionSites) {
 		leveringsArray_kWh = Arrays.copyOfRange(leveringsArray_kWh, startIdx, endIdx);
 		//traceln("%s quarterlyEnergyDemand_kWh size is %s", GC.p_company_connection_id, quarterlyEnergyDemand_kWh.size());
 		((J_EAProfile)newAsset).a_energyProfile_kWh = leveringsArray_kWh;
-		energyModel.c_energyAssets.add(newAsset);
-		GC.f_connectToJ_EA(newAsset);
+		//energyModel.c_energyAssets.add(newAsset);
+		//GC.f_connectToJ_EA(newAsset);
 	} else {
 		J_EAProduction windTurbine = new J_EAProduction(GC, OL_EnergyAssetType.WINDMILL, "Windmill onshore",0,0,0,0,energyModel.p_timeStep_h,0);
-		energyModel.c_energyAssets.add(windTurbine);
-		GC.f_connectToJ_EA(windTurbine);
+		//energyModel.c_energyAssets.add(windTurbine);
+		///GC.f_connectToJ_EA(windTurbine);
 	}
 }
 
@@ -5656,11 +5656,8 @@ if( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHe
 			J_EA heatPump = GC.p_primaryHeatingAsset;
 			//traceln("Found heatpump: " + heatPump);		
 			GC.p_primaryHeatingAsset=null;
-			GC.c_energyAssets.remove(heatPump);
-			GC.c_conversionAssets.remove(heatPump);
-			energyModel.c_energyAssets.remove(heatPump);
-			energyModel.c_ambientAirDependentAssets.remove(heatPump);
-			//c_productionAssets.remove(pvAsset);
+			heatPump.removeEnergyAsset();
+			
 			//traceln("Removing heatpump from GridConnection:" + GC.p_gridConnectionID);
 			/*J_EAConsumption heatDemandAsset = findFirst(GC.c_consumptionAssets, j_ea->j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
 			
@@ -5673,8 +5670,8 @@ if( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHe
 			}*/			
 			J_EAConversionGasBurner gasBurner;
 			gasBurner = new J_EAConversionGasBurner(GC, OL_EnergyAssetType.GAS_BURNER, peakHeatDemand_kW, 0.99, energyModel.p_timeStep_h, 90);
-			energyModel.c_energyAssets.add(gasBurner);			
-			GC.f_connectToJ_EA(gasBurner);			
+			//energyModel.c_energyAssets.add(gasBurner);			
+			//GC.f_connectToJ_EA(gasBurner);			
 		}
 		nbHeatPumps=count(energyModel.Houses, x->x.p_primaryHeatingAsset instanceof J_EAConversionHeatPump);	
 		traceln("Number of heatpumps: " + nbHeatPumps);
@@ -5688,9 +5685,7 @@ if( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHe
 		if (GC!=null) {
 			J_EA gasBurner = GC.p_primaryHeatingAsset;
 			GC.p_primaryHeatingAsset=null;
-			GC.c_energyAssets.remove(gasBurner);
-			GC.c_conversionAssets.remove(gasBurner);
-			energyModel.c_energyAssets.remove(gasBurner);
+			gasBurner.removeEnergyAsset();
 			J_EAConversionHeatPump heatPump;
 			/*J_EAConsumption heatDemandAsset = findFirst(GC.c_consumptionAssets, j_ea->j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
 			if (heatDemandAsset != null) {
@@ -5701,9 +5696,9 @@ if( sl_electrificationHeat.getValue()/100.0*(energyModel.Houses.size()-1) < nbHe
 				heatPump = new J_EAConversionHeatPump(GC, energyModel.p_timeStep_h, peakHeatDemand_kW / 3, 0.5, energyModel.v_currentAmbientTemperature_degC, 60, "AIR", 0, 1);
 			}*/
 			heatPump = new J_EAConversionHeatPump(GC, energyModel.p_timeStep_h, peakHeatDemand_kW / 3, 0.5, energyModel.v_currentAmbientTemperature_degC, 60, "AIR", 0, 1);
-			energyModel.c_ambientAirDependentAssets.add(heatPump);
-			energyModel.c_energyAssets.add(heatPump);
-			GC.f_connectToJ_EA(heatPump);					 
+			//energyModel.c_ambientAirDependentAssets.add(heatPump);
+			//energyModel.c_energyAssets.add(heatPump);
+			//GC.f_connectToJ_EA(heatPump);					 
 			//traceln("Added heatpump to GridConnection: " + GC.p_gridConnectionID);
 		} else {
 			traceln("No more gasburners to replace!");
@@ -5815,7 +5810,7 @@ traceln("%s wind turbines with a total power of %s MW", nbWindTurbinesInstalled,
 
 double powerPerWindTurbine_kW = nbWindTurbines * windTurbinePower / (double)nbWindTurbinesInstalled;
 */
-for(J_EA j_ea : energyModel.c_energyAssets) {
+for(J_EA j_ea : energyModel.f_getEnergyAssets()) {
 	if (j_ea.energyAssetType == OL_EnergyAssetType.WINDMILL) {
 		((J_EAProduction)j_ea).setCapacityElectric_kW(AllocatedWindPower_MW*1000);
 	}
@@ -5934,8 +5929,8 @@ traceln(sum(c_gridConnections, x->x.v_rooftopPVInstalledCapacity_kW) + " kWp PV 
 					<Body><![CDATA[//double nbEtruckCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK ? 1.0 : 0.0);
 //double nvDieseltrucksCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK ? 1.0 : 0.0);
 
-int nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
-int nbDieseltrucksCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
+int nbEtruckCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
+int nbDieseltrucksCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
 
 
 traceln("%s diesel trucks and %s eTrucks found", nbDieseltrucksCurrent, nbEtruckCurrent);
@@ -5958,21 +5953,22 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 	while ( nbEtruckCurrent > nbElectricTrucksGoal && nbEtruckCurrent > 0) { // remove excess EVs systems !!!! Should also add diesel vehicle again!
 		
 		
-		J_EAEV ev = (J_EAEV)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK );
+		J_EAEV ev = (J_EAEV)findFirst(energyModel.f_getEnergyAssets(), p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK );
 		traceln("Found eTrucks: " + ev);
-		GridConnection GC = (GridConnection)ev.parentAgent;
+		GridConnection GC = (GridConnection)ev.getParentAgent();
 		J_ActivityTrackerTrips tripTracker = ev.tripTracker;
 		boolean available = true;
 		if (ev!=null) {			
 			//h.c_storageAssets.remove(EA);
 			available = ev.getAvailability();
-			GC.c_vehicleAssets.remove(ev);
-			GC.c_vehiclesAvailableForCharging.remove(ev);
-			GC.v_vehicleIndex--;
+			ev.removeEnergyAsset();
+			//GC.c_vehicleAssets.remove(ev);
+			//GC.c_vehiclesAvailableForCharging.remove(ev);
+			//GC.v_vehicleIndex--;
 			//h.p_householdEV = null;
-			energyModel.c_EVs.remove(ev);
+			//energyModel.c_EVs.remove(ev);
 			//c_storageAssets.remove(ev);
-			energyModel.c_energyAssets.remove(ev);
+			//energyModel.c_energyAssets.remove(ev);
 			//traceln("Removing EV from gridConnection:" + GC.p_agentID);
 		}
 		
@@ -5980,34 +5976,35 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 				
 		double energyConsumption_kWhpkm = 3.0;//g.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScaling = 1.0;//g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_TRUCK);
+		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_TRUCK, tripTracker);
 		dieselVehicle.available = available;
 		//dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_TRUCK;
-		GC.c_dieselVehicles.add(dieselVehicle);		
-		GC.c_vehicleAssets.add(dieselVehicle);
-		energyModel.c_energyAssets.add(dieselVehicle);
-		GC.v_vehicleIndex++;
-		dieselVehicle.setTripTracker(tripTracker);
-		dieselVehicle.getTripTracker().Vehicle=dieselVehicle;		
+		//GC.c_dieselVehicles.add(dieselVehicle);		
+		//GC.c_vehicleAssets.add(dieselVehicle);
+		//energyModel.c_energyAssets.add(dieselVehicle);
+		//GC.v_vehicleIndex++;
+		//dieselVehicle.setTripTracker(tripTracker);
+		//dieselVehicle.getTripTracker().Vehicle=dieselVehicle;		
 		
-		nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
-		nbDieseltrucksCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
+		nbEtruckCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
+		nbDieseltrucksCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
 	} 
 } else { 
 	while ( nbEtruckCurrent < nbElectricTrucksGoal && nbDieseltrucksCurrent > 0) {
 		// Remove diesel vehicle
-		J_EADieselVehicle dieselVehicle = (J_EADieselVehicle)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK );
+		J_EADieselVehicle dieselVehicle = (J_EADieselVehicle)findFirst(energyModel.f_getEnergyAssets(), p -> p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK );
 		//traceln("Found diesel vehicle: " + dieselVehicle);
-		GridConnection GC = (GridConnection)dieselVehicle.parentAgent;
+		GridConnection GC = (GridConnection)dieselVehicle.getParentAgent();
 		J_ActivityTrackerTrips tripTracker = dieselVehicle.tripTracker;
 		boolean available = true;
 		if (dieselVehicle!=null) {			
 			//h.c_consumptionAssets.remove(dieselVehicle);
 			dieselVehicle.getAvailability();
-			GC.c_vehicleAssets.remove(dieselVehicle);
-			GC.c_dieselVehicles.remove(dieselVehicle);
-			GC.v_vehicleIndex--;
-			energyModel.c_energyAssets.remove(dieselVehicle);
+			dieselVehicle.removeEnergyAsset();
+			//GC.c_vehicleAssets.remove(dieselVehicle);
+			//GC.c_dieselVehicles.remove(dieselVehicle);
+			//GC.v_vehicleIndex--;
+			//energyModel.c_energyAssets.remove(dieselVehicle);
 			//remove_pop_energyAssets(EA);
 			//traceln("Removing household DIESEL VEHICLE from household:" + GC.p_agentID);
 		}
@@ -6022,20 +6019,20 @@ if( nbEtruckCurrent > nbElectricTrucksGoal){
 		double initialStateOfCharge_r = 1.0;//t.required( "stateOfCharge_r" ).doubleValue();
 		double energyConsumption_kWhpkm = 1.4;//t.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScalingElectric = 1.0;//t.hasNonNull("vehicleScaling")? t.required("vehicleScaling").doubleValue() : 1.0;
-		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_TRUCK );  
+		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_TRUCK, tripTracker);  
 		//ev.energyAssetType = OL_EnergyAssetType.ELECTRIC_TRUCK;
 		ev.available = available;
-		GC.c_vehicleAssets.add(ev);
-		GC.c_vehiclesAvailableForCharging.add(ev);				
-		GC.v_vehicleIndex++;
-		energyModel.c_EVs.add(ev);
+		//GC.c_vehicleAssets.add(ev);
+		//GC.c_vehiclesAvailableForCharging.add(ev);				
+		//GC.v_vehicleIndex++;
+		//energyModel.c_EVs.add(ev);
 		//c_storageAssets.add(ev);
-		energyModel.c_energyAssets.add(ev);	
-		ev.setTripTracker(tripTracker);
-		ev.getTripTracker().Vehicle=ev;		
+		//energyModel.c_energyAssets.add(ev);	
+		//ev.setTripTracker(tripTracker);
+		//ev.getTripTracker().Vehicle=ev;		
 		
-		nbEtruckCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
-		nbDieseltrucksCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
+		nbEtruckCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_TRUCK);
+		nbDieseltrucksCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.DIESEL_TRUCK);
 	}
 	
 }	
@@ -6060,10 +6057,10 @@ traceln("%s diesel trucks and %s eTrucks found", nbDieseltrucksCurrent, nbEtruck
 					<Body><![CDATA[// Setting gridbatteries
 
 //double installedWindPower_kW = sumWhere(c_energyAssets,p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.WINDMILL);
-int nbGridBatteries = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.STORAGE_ELECTRIC);
+int nbGridBatteries = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.STORAGE_ELECTRIC);
 //traceln("%s wind turbines with a total power of %s MW", nbWindTurbinesInstalled, installedWindPower_kW);
 
-for(J_EA j_ea : energyModel.c_energyAssets) {
+for(J_EA j_ea : energyModel.f_getEnergyAssets()) {
 	if (j_ea instanceof J_EAStorageElectric) {
 		((J_EAStorageElectric)j_ea).setStorageCapacity_kWh(1000*p_neighborhoodMaxCapacity_MWh / (double)nbGridBatteries);
 		((J_EAStorageElectric)j_ea).setCapacityElectric_kW(1000*p_neighborhoodMaxCapacity_MWh / (double)nbGridBatteries / 4);
@@ -6180,17 +6177,17 @@ traceln(sum(c_gridConnections, x->x.v_rooftopPVInstalledCapacity_kW) + " kWp PV 
 						<Name><![CDATA[PVpower_kW]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[int nbPVassetsInstalled = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
+					<Body><![CDATA[int nbPVassetsInstalled = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
 
 double powerPerPVasset_kW = PVpower_kW / nbPVassetsInstalled;
 
-for(J_EA j_ea : energyModel.c_energyAssets) {
+for(J_EA j_ea : energyModel.f_getEnergyAssets()) {
 	if (j_ea.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC) {
 		((J_EAProduction)j_ea).setCapacityElectric_kW(powerPerPVasset_kW);
 	}
 }
 
-energyModel.v_totalInstalledPVPower_kW = sumWhere(energyModel.c_energyAssets,p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
+energyModel.v_totalInstalledPVPower_kW = sumWhere(energyModel.f_getEnergyAssets(),p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
 traceln("Total installed PV power: %s kW", energyModel.v_totalInstalledPVPower_kW);
 ]]></Body>
 				</Function>
@@ -6225,9 +6222,10 @@ if( sl_rooftopPV.getValue()/100.0 < PVsystems/energyModel.f_getGridConnections()
 		J_EA pvAsset = findFirst(h.c_productionAssets, p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC );
 		//traceln("Found PV system: " + pvAsset);
 		if (pvAsset!=null) {
-			energyModel.v_totalInstalledPVPower_kW -= pvAsset.getElectricCapacity_kW();
-			h.c_productionAssets.remove(pvAsset);
-			energyModel.c_energyAssets.remove(pvAsset);
+			//energyModel.v_totalInstalledPVPower_kW -= pvAsset.getElectricCapacity_kW();
+			//h.c_productionAssets.remove(pvAsset);
+			pvAsset.removeEnergyAsset();
+			//energyModel.c_energyAssets.remove(pvAsset);
 			//energyModel.c_productionAssets.remove(pvAsset);
 			//traceln("Removing PV from GridConnection:" + h.p_agentID);
 			h.v_hasPV = false;
@@ -6253,11 +6251,11 @@ if( sl_rooftopPV.getValue()/100.0 < PVsystems/energyModel.f_getGridConnections()
 			double capacityHeat_kW = 0.0;
 			
 			J_EAProduction productionAsset = new J_EAProduction ( h, assetType, assetName, capacityElectricity_kW, capacityHeat_kW, 0, 0, energyModel.p_timeStep_h, 0 );
-			h.f_connectToJ_EA(productionAsset);
+			//h.f_connectToJ_EA(productionAsset);
 			
 			//c_productionAssets.add(productionAsset);
-			energyModel.c_energyAssets.add(productionAsset);
-			energyModel.v_totalInstalledPVPower_kW += capacityElectricity_kW;
+			//energyModel.c_energyAssets.add(productionAsset);
+			//energyModel.v_totalInstalledPVPower_kW += capacityElectricity_kW;
 		
 			PVsystems=count(energyModel.f_getGridConnections(), x->x.v_hasPV == true);	
 			//traceln("Added PV to GridConnection: " + h.p_agentID);
@@ -6266,7 +6264,7 @@ if( sl_rooftopPV.getValue()/100.0 < PVsystems/energyModel.f_getGridConnections()
 	
 }	
 
-energyModel.v_totalInstalledPVPower_kW = sumWhere(energyModel.c_energyAssets,p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
+energyModel.v_totalInstalledPVPower_kW = sumWhere(energyModel.f_getEnergyAssets(),p->p.getElectricCapacity_kW(),p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC);
 t_numberOfRooftopPV.setText(count(energyModel.f_getGridConnections(), x->x.v_hasPV == true));
 
 ]]></Body>
@@ -6702,8 +6700,8 @@ for (int i = 1; i<=nbHouseholds; i++) {
 					<Body><![CDATA[//double nbEVsCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE ? 1.0 : 0.0);
 //double nvDieseltrucksCurrent = sum(c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_HEAVY_GOODS_VEHICLE ? 1.0 : 0.0);
 
-int nbEVsCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE);
-int nbDieselVehiclesCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE);
+int nbEVsCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE);
+int nbDieselVehiclesCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE);
 int nbEVsGoal = roundToInt(energyModel.Houses.size() * pctEVsGoal / 100);
 
 traceln("%s diesel vehicles and %s EVs found", nbDieselVehiclesCurrent, nbEVsCurrent);
@@ -6713,21 +6711,22 @@ traceln("pctEVsGoal: %s, nbEVsGoal: %s", pctEVsGoal, nbEVsGoal);
 if( nbEVsCurrent > pctEVsGoal*energyModel.Houses.size()/100){
 	while ( nbEVsCurrent > nbEVsGoal && nbEVsCurrent > 0) { // remove excess EVs systems !!!! Should also add diesel vehicle again!
 		
-		J_EAEV ev = (J_EAEV)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE );
+		J_EAEV ev = (J_EAEV)findFirst(energyModel.f_getEnergyAssets(), p -> p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE );
 		//traceln("Found EV: " + ev);
-		GridConnection GC = (GridConnection)ev.parentAgent;
+		GridConnection GC = (GridConnection)ev.getParentAgent();
 		J_ActivityTrackerTrips tripTracker = ev.tripTracker;
 		boolean available = true;
 		//if (ev!=null) {			
 			//h.c_storageAssets.remove(EA);
 			available = ev.getAvailability();
-			GC.c_vehicleAssets.remove(ev);
-			GC.c_vehiclesAvailableForCharging.remove(ev);
-			GC.v_vehicleIndex--;
+			ev.removeEnergyAsset();
+			//GC.c_vehicleAssets.remove(ev);
+			//GC.c_vehiclesAvailableForCharging.remove(ev);
+			//GC.v_vehicleIndex--;
 			//h.p_householdEV = null;
-			energyModel.c_EVs.remove(ev);
+			//energyModel.c_EVs.remove(ev);
 			//c_storageAssets.remove(ev);
-			energyModel.c_energyAssets.remove(ev);
+			//energyModel.c_energyAssets.remove(ev);
 			//traceln("Removing EV from gridConnection:" + GC.p_agentID);
 		//}
 		
@@ -6735,34 +6734,31 @@ if( nbEVsCurrent > pctEVsGoal*energyModel.Houses.size()/100){
 				
 		double energyConsumption_kWhpkm = 0.6;//g.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScaling = 1.0;//g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE);
+		J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(GC, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE, tripTracker);
 		dieselVehicle.available = available;
 		//dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_VEHICLE;
-		GC.c_dieselVehicles.add(dieselVehicle);		
-		GC.c_vehicleAssets.add(dieselVehicle);
-		energyModel.c_energyAssets.add(dieselVehicle);
-		GC.v_vehicleIndex++;
-		dieselVehicle.setTripTracker(tripTracker);
+		//GC.c_dieselVehicles.add(dieselVehicle);		
+		//GC.c_vehicleAssets.add(dieselVehicle);
+		//energyModel.c_energyAssets.add(dieselVehicle);
+		//GC.v_vehicleIndex++;
+		//dieselVehicle.setTripTracker(tripTracker);
 		dieselVehicle.getTripTracker().Vehicle=dieselVehicle;		
 		
-		nbEVsCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE);
-		nbDieselVehiclesCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE);
+		nbEVsCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE);
+		nbDieselVehiclesCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE);
 	} 
 } else { 
 	while ( nbEVsCurrent < nbEVsGoal && nbDieselVehiclesCurrent > 0) {
 		// Remove diesel vehicle
-		J_EADieselVehicle dieselVehicle = (J_EADieselVehicle)findFirst(energyModel.c_energyAssets, p -> p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE );
+		J_EADieselVehicle dieselVehicle = (J_EADieselVehicle)findFirst(energyModel.f_getEnergyAssets(), p -> p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE );
 		//traceln("Found diesel vehicle: " + dieselVehicle);
-		GridConnection GC = (GridConnection)dieselVehicle.parentAgent;
+		GridConnection GC = (GridConnection)dieselVehicle.getParentAgent();
 		J_ActivityTrackerTrips tripTracker = dieselVehicle.tripTracker;
 		boolean available = true;
 		//if (dieselVehicle!=null) {			
 			//h.c_consumptionAssets.remove(dieselVehicle);
 			dieselVehicle.getAvailability();
-			GC.c_vehicleAssets.remove(dieselVehicle);
-			GC.c_dieselVehicles.remove(dieselVehicle);
-			GC.v_vehicleIndex--;
-			energyModel.c_energyAssets.remove(dieselVehicle);
+			dieselVehicle.removeEnergyAsset();
 			//traceln("Removing household DIESEL VEHICLE from household:" + GC.p_agentID);
 		//}
 		
@@ -6776,23 +6772,12 @@ if( nbEVsCurrent > pctEVsGoal*energyModel.Houses.size()/100){
 		double initialStateOfCharge_r = 1.0;//t.required( "stateOfCharge_r" ).doubleValue();
 		double energyConsumption_kWhpkm = 0.2;//t.required( "energyConsumption_kWhpkm" ).doubleValue();
 		double vehicleScalingElectric = 1.0;//t.hasNonNull("vehicleScaling")? t.required("vehicleScaling").doubleValue() : 1.0;
-		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_VEHICLE );  
+		J_EAEV ev = new J_EAEV(GC, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_VEHICLE, tripTracker);  
 		//ev.energyAssetType = OL_EnergyAssetType.ELECTRIC_VEHICLE;
 		ev.available = available;
-		GC.c_vehicleAssets.add(ev);
-		GC.c_vehiclesAvailableForCharging.add(ev);				
-		GC.v_vehicleIndex++;
-		if (GC instanceof GCHouse) {
-			((GCHouse)GC).p_householdEV = ev;
-		}
-		energyModel.c_EVs.add(ev);
-		//c_storageAssets.add(ev);
-		energyModel.c_energyAssets.add(ev);	
-		ev.setTripTracker(tripTracker);
-		ev.getTripTracker().Vehicle=ev;		
 		
-		nbEVsCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE);
-		nbDieselVehiclesCurrent = count(energyModel.c_energyAssets, p->p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE);
+		nbEVsCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE);
+		nbDieselVehiclesCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE);
 	}
 	
 }	
