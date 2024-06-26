@@ -5457,7 +5457,7 @@ for (GridConnection GC : energyModel.EnergyProductionSites) {
 	//GC.f_connectToJ_EA(pvPark);
 	
 	if (p_L4Lpilot.equals("Heibloem")) {
-		J_EAProfile newAsset = new J_EAProfile(GC, OL_EnergyCarrierType.ELECTRICITY, null, energyModel.p_timeStep_h);		
+		J_EAProfile newAsset = new J_EAProfile(GC, OL_EnergyCarrierType.ELECTRICITY, null, OL_ProfileAssetType.WINDTURBINE, energyModel.p_timeStep_h);		
 		newAsset.energyAssetName = "windturbine Cooperwiek";
 		//List<Double> quarterlyEnergyDemand_kWh = selectValues(double.class, "SELECT " + "levering_kwh_kwartier" + " FROM db_cooperwiek;");			
 		//double[] leveringsArray = quarterlyEnergyDemand_kWh.stream().mapToDouble(d -> -d).toArray();
@@ -7022,38 +7022,38 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	//Energy demand chart
 	businessParkAnnualEnergyDemandChart.removeAll();
 
-	businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualBaseloadElectricityDemand_MWh, "Elektriciteit basislast", v_baseloadElectricityColor);
+	businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualBaseloadElectricityDemand_kW, "Elektriciteit basislast", v_baseloadElectricityColor);
 
-	if (energyModel.data_annualHeatPumpElectricityDemand_MWh.getYMax()>0) {
-		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualHeatPumpElectricityDemand_MWh, "Warmtepompen", v_heatPumpElectricityDemandColor);
+	if (energyModel.data_annualHeatPumpElectricityDemand_kW.getYMax()>0) {
+		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualHeatPumpElectricityDemand_kW, "Warmtepompen", v_heatPumpElectricityDemandColor);
 	}
-	//businessParkAnnualEnergyDemandChart.addDataSet(data_annualElectricCarsDemand_MWhh, "Laden EVs", v_electricCarsDemandColor);
-	if (energyModel.data_annualElectricTrucksDemand_MWh.getYMax()>0) {
-		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualElectricTrucksDemand_MWh, "Laden elektrische voertuigen", v_electricTrucksDemandColor);
+	//businessParkAnnualEnergyDemandChart.addDataSet(data_annualElectricCarsDemand_kWh, "Laden EVs", v_electricCarsDemandColor);
+	if (energyModel.data_annualElectricTrucksDemand_kW.getYMax()>0) {
+		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualElectricTrucksDemand_kW, "Laden elektrische voertuigen", v_electricTrucksDemandColor);
 	}
-	if (energyModel.data_annualNeighborhoodBatteryDemand_MWh.getYMax()>0) {		
-		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualNeighborhoodBatteryDemand_MWh, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
+	if (energyModel.data_annualNeighborhoodBatteryDemand_kW.getYMax()>0) {		
+		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualNeighborhoodBatteryDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
 	}
 		
 	//Energy supply chart
 	businessParkAnnualEnergySupplyChart.removeAll();
 
-	if (energyModel.data_annualPVGeneration_MWh.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualPVGeneration_MWh, "PV op dak", v_PVGenerationColor);	
+	if (energyModel.data_annualPVGeneration_kW.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualPVGeneration_kW, "PV op dak", v_PVGenerationColor);	
 	}	
-	if (energyModel.data_annualWindGeneration_MWh.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualWindGeneration_MWh, "Windturbines", v_windGenerationColor);
+	if (energyModel.data_annualWindGeneration_kW.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualWindGeneration_kW, "Windturbines", v_windGenerationColor);
 	}
 
-	if (energyModel.data_annualNeighborhoodBatterySupply_MWh.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualNeighborhoodBatterySupply_MWh, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
+	if (energyModel.data_annualNeighborhoodBatterySupply_kW.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualNeighborhoodBatterySupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
 	}	
-	if (energyModel.data_annualV2GSupply_MWh.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualV2GSupply_MWh, "V2G ontladen", v_V2GSupplyColor);
+	if (energyModel.data_annualV2GSupply_kW.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualV2GSupply_kW, "V2G ontladen", v_V2GSupplyColor);
 	}
 	
-	businessParkEnergyDemandChart.setFixedVerticalScale(max(energyModel.data_annualElectricitySupply_MWh.getYMax(),energyModel.data_annualElectricityDemand_MWh.getYMax()));
-	businessParkEnergySupplyChart.setFixedVerticalScale(max(energyModel.data_annualElectricitySupply_MWh.getYMax(),energyModel.data_annualElectricityDemand_MWh.getYMax()));
+	businessParkEnergyDemandChart.setFixedVerticalScale(max(energyModel.data_annualElectricitySupply_kW.getYMax(),energyModel.data_annualElectricityDemand_kW.getYMax()));
+	businessParkEnergySupplyChart.setFixedVerticalScale(max(energyModel.data_annualElectricitySupply_kW.getYMax(),energyModel.data_annualElectricityDemand_kW.getYMax()));
 	
 	//
 	/*
