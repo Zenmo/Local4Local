@@ -5390,7 +5390,7 @@ for (GridConnection GC : energyModel.Houses) {
 	// Add electricity consumption profiles
 	J_EAConsumption newAsset;
 	double yearlyDemandElectricity_kWh = 5400*normal(0.2,1); // Replace with yearly consumption from database!
-	newAsset = new J_EAConsumption(GC, OL_EnergyAssetType.ELECTRICITY_DEMAND, "Household_electricity", yearlyDemandElectricity_kWh, 0.0, 0.0, 0.0, 0.0, energyModel.p_timeStep_h);
+	newAsset = new J_EAConsumption(GC, OL_EnergyAssetType.ELECTRICITY_DEMAND, "House_other_electricity", yearlyDemandElectricity_kWh, 0.0, 0.0, 0.0, 0.0, energyModel.p_timeStep_h);
 	//energyModel.c_energyAssets.add(newAsset);
 	//GC.f_connectToJ_EA(newAsset);
 	
@@ -5408,7 +5408,7 @@ for (GridConnection GC : energyModel.Houses) {
 	//double yearlyDemandHeat_kWh = GC.p_floorSurfaceArea_m2*yearlyHeatDemandPerFloorSurface_kWhpm2;
 	//newAsset = new J_EAConsumption(GC, OL_EnergyAssetType.HEAT_DEMAND, "Building_heat_demand", 0.0, yearlyDemandHeat_kWh, 0.0, 0.0, 0.0, energyModel.p_timeStep_h);
 	//J_EABuilding(Agent parentAgent, double capacityHeat_kW, double lossFactor_WpK, double timestep_h, double initialTemperature_degC, double heatCapacity_JpK, double solarAbsorptionFactor_m2 )
-	J_EABuilding buildingAsset = new J_EABuilding(GC, 30, normal(50,1.57*200), energyModel.p_timeStep_h, normal(1, 17.9), normal(1e6,1e7), normal(1,2) );
+	J_EABuilding buildingAsset = new J_EABuilding(GC, 300, normal(50,1.57*200), energyModel.p_timeStep_h, normal(1, 17.9), normal(1e6,1e7), normal(1,2) );
 	//energyModel.c_energyAssets.add(buildingAsset);
 	//GC.f_connectToJ_EA(buildingAsset);		
 	
@@ -6924,7 +6924,7 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	//businessParkEnergyDemandChart.addDataSet(data_electricCarsDemand_kW, "Laden EVs", v_electricCarsDemandColor);
 	businessParkEnergyDemandChart.addDataSet(energyModel.data_electricTrucksDemand_kW, "Laden elektrische voertuigen", v_electricTrucksDemandColor);
 	businessParkEnergyDemandChart.addDataSet(energyModel.data_neighborhoodBatteryDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
-
+	
 	//Energy supply chart
 	businessParkEnergySupplyChart.removeAll();
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_windGeneration_kW, "Windturbines", v_windGenerationColor);
