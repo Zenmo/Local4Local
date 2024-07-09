@@ -3,9 +3,12 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import {Map} from "./components/Map.tsx"
+import {Pilot} from "local4local"
 
 function App() {
   const [count, setCount] = useState(0)
+
+    const pilot = new Pilot("Brokkenpiloot")
 
   return (
     <>
@@ -19,6 +22,7 @@ function App() {
       </div>
       <h1>Systeemontwerptool</h1>
       <Map />
+        <h1>{pilot.name}</h1>
 
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
