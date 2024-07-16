@@ -1,8 +1,8 @@
 plugins {
-    id("org.jetbrains.kotlin.multiplatform") version "2.0.0"
+    id("org.jetbrains.kotlin.multiplatform") version "2.0.20-Beta2"
 //    kotlin("multiplatform") version ""
 //    kotlin("plugin.serialization")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.0"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.20-Beta2"
 }
 
 group = "com.zenmo"
@@ -20,12 +20,12 @@ kotlin {
     js(IR) {
         useEsModules()
         generateTypeScriptDefinitions()
-        binaries.executable()
+        binaries.library()
+        compilations["main"].packageJson {
+            // hack hack hack
+            types = "kotlin/local4local.d.ts"
+        }
         browser {
-            useEsModules()
-//            webpackTask {
-//                output.libraryTarget = "commonjs2"
-//            }
         }
     }
     sourceSets {
