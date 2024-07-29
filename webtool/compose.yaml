@@ -1,0 +1,28 @@
+
+services:
+    npm-base:
+        image: node:22
+        working_dir: /webtool/frontend
+        volumes:
+            - .:/webtool
+        command: ["npm", "install"]
+
+    frontend:
+        extends:
+            service: npm-base
+        command: ["npm", "run", "dev"]
+        ports:
+            - "127.0.0.1:5173:5173"
+
+    postgres:
+        image: postgres:16
+        environment:
+            POSTGRES_USER: webtool
+            POSTGRES_PASSWORD: webtool
+
+    gradle:
+        image: gradle:7
+        working_dir: /webtool/gradle/common
+        volumes:
+            - .:/webtool
+        command: ["gradle", "jsBrowserProductionLibraryDistribution"]
