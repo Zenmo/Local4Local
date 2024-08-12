@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import viteLogo from '/vite.svg'
-import {Map} from "./components/Map.tsx"
 import {Pilot} from "local4local"
 import {css} from "@emotion/react"
+import {ViewPilot} from "./components/view-pilot.tsx"
 
 function App() {
-  const [count, setCount] = useState(0)
-
-    const pilot = new Pilot("Pilot")
+    const [pilot, setPilot] = useState(new Pilot("Pilot"))
 
   return (
     <>
@@ -28,16 +26,7 @@ function App() {
         </a>
       </div>
       <h1>Systeemontwerptool</h1>
-      <Map />
-        <h1>{pilot.name}</h1>
-
-      <div css={{
-          padding: "2em"
-      }}>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
+        <ViewPilot pilot={pilot} setPilot={setPilot}/>
     </>
   )
 }

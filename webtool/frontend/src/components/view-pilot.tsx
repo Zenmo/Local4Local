@@ -1,0 +1,88 @@
+import {FormEvent, FunctionComponent, useState} from "react"
+import {Pilot, Households} from "local4local"
+
+export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilot) => void }> = ({pilot, setPilot}) => {
+    const [showAddHousehold, setShowAddHousehold] = useState(false)
+
+    const addHouseHold = (event: FormEvent) => {
+        event.preventDefault()
+        const form = event.target as HTMLFormElement
+        const formData = new FormData(form)
+
+        const households = new Households(
+            formData.get("type") as string,
+            parseInt(formData.get("households_n") as string),
+            parseFloat(formData.get("hasPV_r") as string),
+            parseFloat(formData.get("hasHeatPump_r") as string),
+            parseFloat(formData.get("hasChargePoint_r") as string),
+            parseFloat(formData.get("hasHomeBattery_r") as string),
+            parseFloat(formData.get("yearlyBaseConsumptionAvg_kWh") as string),
+        )
+
+        setPilot(pilot.withHouseholds(households))
+        setShowAddHousehold(false)
+    }
+
+    return (
+        <div>
+            <h1>{pilot.name}</h1>
+            <h2>Huishoudens</h2>
+            <dt>Aantal groepen</dt>
+            <dd>{pilot.households.asJsReadonlyArrayView().length}</dd>
+            {pilot.households.asJsReadonlyArrayView().map((household, i) => (
+                <div key={i}>
+                    <div>groep {i + 1}</div>
+                    <dt>Type</dt>
+                    <dd>{household.type}</dd>
+                    <dt>Aantal huishoudens</dt>
+                    <dd>{household.households_n}</dd>
+                    <dt>Percentage met zonnepanelen</dt>
+                    <dd>{household.hasPV_r}</dd>
+                    <dt>Percentage met warmtepomp</dt>
+                    <dd>{household.hasHeatPump_r}</dd>
+                    <dt>Percentage met laadpaal</dt>
+                    <dd>{household.hasChargePoint_r}</dd>
+                    <dt>Percentage met thuisbatterij</dt>
+                    <dd>{household.hasHomeBattery_r}</dd>
+                    <dt>Jaarlijks gemiddeld verbruik (kWh)</dt>
+                    <dd>{household.yearlyBaseConsumptionAvg_kWh}</dd>
+                </div>
+            ))
+            }
+            {showAddHousehold && (
+                <form onSubmit={addHouseHold}>
+                    <div>
+                        <label htmlFor="type">Type</label>
+                        <input type="text" id="type" name="type"/>
+                    </div>
+                    <div>
+                        <label htmlFor="households_n">Aantal huishoudens</label>
+                        <input type="number" id="households_n" name="households_n"/>
+                    </div>
+                    <div>
+                        <label htmlFor="hasPV_r">Percentage met zonnepanelen</label>
+                        <input type="number" id="hasPV_r" name="hasPV_r"/>
+                    </div>
+                    <div>
+                        <label htmlFor="hasHeatPump_r">Percentage met warmtepomp</label>
+                        <input type="number" id="hasHeatPump_r" name="hasHeatPump_r"/>
+                    </div>
+                    <div>
+                        <label htmlFor="hasChargePoint_r">Percentage met laadpaal</label>
+                        <input type="number" id="hasChargePoint_r" name="hasChargePoint_r"/>
+                    </div>
+                    <div>
+                        <label htmlFor="hasHomeBattery_r">Percentage met thuisbatterij</label>
+                        <input type="number" id="hasHomeBattery_r" name="hasHomeBattery_r"/>
+                    </div>
+                    <div>
+                        <label htmlFor="yearlyBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
+                        <input type="number" id="yearlyBaseConsumptionAvg_kWh" name="yearlyBaseConsumptionAvg_kWh"/>
+                    </div>
+                    <button type="submit">Opslaan</button>
+                </form>
+            )}
+            <button onClick={() => setShowAddHousehold(true)}>Voeg groep toe</button>
+        </div>
+    )
+}

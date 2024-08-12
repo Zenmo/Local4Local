@@ -23,7 +23,7 @@ kotlin {
         binaries.library()
         compilations["main"].packageJson {
             // hack hack hack
-            types = "kotlin/local4local.d.ts"
+            types = "kotlin/local4local-common.d.ts"
         }
         browser {
         }

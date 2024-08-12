@@ -7,13 +7,16 @@ import kotlin.js.JsExport
 @JsExport
 data class Pilot(
     val name: String,
-    val households: List<Households>,
-    val companies: List<Company>,
-    val solarFarms: List<SolarFarm>,
-    val windFarms: List<WindFarm>,
-    val batteries: List<Battery>,
-    val heatStorages: List<HeatStorage>,
-)
+    val households: List<Households> = emptyList(),
+    val companies: List<Company> = emptyList(),
+    val solarFarms: List<SolarFarm> = emptyList(),
+    val windFarms: List<WindFarm> = emptyList(),
+    val batteries: List<Battery> = emptyList(),
+    val heatStorages: List<HeatStorage> = emptyList(),
+) {
+    fun withHouseholds(households: Households): Pilot =
+        copy(households = this.households + households)
+}
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
