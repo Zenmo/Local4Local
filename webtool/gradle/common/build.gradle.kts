@@ -1,8 +1,8 @@
 plugins {
-    id("org.jetbrains.kotlin.multiplatform") version "2.0.20-Beta2"
+    id("org.jetbrains.kotlin.multiplatform")
 //    kotlin("multiplatform") version ""
 //    kotlin("plugin.serialization")
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.20-Beta2"
+    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 group = "com.zenmo"

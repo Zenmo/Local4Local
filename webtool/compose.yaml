@@ -20,9 +20,28 @@ services:
             POSTGRES_USER: webtool
             POSTGRES_PASSWORD: webtool
 
-    gradle:
-        image: gradle:7
-        working_dir: /webtool/gradle/common
+    gradle-base:
+        image: gradle:8.9
+        working_dir: /home/gradle/project
+        user: gradle
         volumes:
-            - .:/webtool
-        command: ["gradle", "jsBrowserProductionLibraryDistribution"]
+            - ./gradle:/home/gradle/project
+            - gradle-user-home:/home/gradle/.gradle
+
+    gradle-js:
+        extends:
+            service: gradle-base
+        command: ["gradle", "--project-cache-dir=/tmp/gradle", "--no-daemon", "common:jsBrowserProductionLibraryDistribution"]
+
+    backend:
+        extends:
+            service: gradle-base
+        command: ["gradle", "--project-cache-dir=/tmp/gradle", "backend:run"]
+        ports:
+            -   target: 9000
+                host_ip: 127.0.0.1
+                published: 9000
+
+volumes:
+    # shared cache of libraries
+    gradle-user-home:
