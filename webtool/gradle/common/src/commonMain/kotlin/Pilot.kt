@@ -7,17 +7,11 @@ import kotlin.js.JsExport
 @JsExport
 data class Pilot(
     val name: String,
-    val numHouseholds: int,
     val households: List<Households>,
-    val numCompanies: int,
     val companies: List<Company>,
-    val numSolarfarms: int,
-    val solarfarms: List<Solarfarm>,
-    val numWindfarms: int,
-    val windfarms: List<Windfarm>,
-    val numBatteries: int,
+    val solarFarms: List<SolarFarm>,
+    val windFarms: List<WindFarm>,
     val batteries: List<Battery>,
-    val numHeatStorages: int,
     val heatStorages: List<HeatStorage>,
 )
 
@@ -25,11 +19,14 @@ data class Pilot(
 @JsExport
 data class Households(
     val type: String,
-    val numHouseholds: int,
-    val hasPVRatio: double,
-    val hasHeatPumpRatio: double,
-    val hasChargePointRatio: double,
-    val hasHomeBatteryRatio: double,
+    val households_n: Int,
+    val hasPV_r: Double,
+    val hasHeatPump_r: Double,
+    val hasChargePoint_r: Double,
+    val hasHomeBattery_r: Double,
+    
+    /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
+    val yearlyBaseConsumptionAvg_kWh: Double,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -49,36 +46,42 @@ data class Utility(
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 data class ConsumptionAsset(
-    val type: String,
-    val consumption_kW: double,
+    val consumptionType: String,
+    val consumption_kW: Double,
+    val yearlyConsumption_kWh: Double,
 )
 */
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
-data class Solarfarm(
-    val production_kW: double,
+data class SolarFarm(
+    val nominalPower_kW: Double,
 )
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
-data class Windfarm(
-    val production_kW: double,
+data class WindFarm(
+    val nominalPower_kW: Double,
 )
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 data class Battery(
-    val capacity_kWh: double,
-    val peakPower_kW: double,
+    val capacity_kWh: Double,
+    val peakPower_kW: Double,
 )
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 data class HeatStorage(
-    val capacity_kWh: double,
-    val peakPower_kW: double,
-    val water_m3: double,
-    val minTemp: double,
-    val maxTemp: double,
-)
+    val storageMedium: String,
+    val storageVolume_m3: Double,
+    val minTemp_degC: Double,
+    val maxTemp_degC: Double,
+) {
+    fun getCapacity_kWh(): Double {
+        val specificHeatCapacity = 4.18 // kJ/kg/K
+
+        return storageVolume_m3 * 1000 * specificHeatCapacity * (minTemp_degC - maxTemp_degC) / 3600
+    }
+}
