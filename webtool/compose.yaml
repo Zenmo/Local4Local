@@ -26,12 +26,13 @@ services:
         user: gradle
         volumes:
             - ./gradle:/home/gradle/project
-            - gradle-user-home:/home/gradle/.gradle
 
     gradle-js:
         extends:
             service: gradle-base
         command: ["gradle", "--project-cache-dir=/tmp/gradle", "--no-daemon", "common:jsBrowserProductionLibraryDistribution"]
+        volumes:
+            - gradle-js-home:/home/gradle/.gradle
 
     backend:
         extends:
@@ -41,7 +42,22 @@ services:
             -   target: 9000
                 host_ip: 127.0.0.1
                 published: 9000
+        volumes:
+            - gradle-backend-home:/home/gradle/.gradle
+
+    client-test:
+        extends:
+            service: gradle-base
+        command: ["gradle", "--project-cache-dir=/tmp/gradle", "--no-daemon", "client:test"]
+        depends_on:
+            -   backend
+        environment:
+            LOCAL4LOCAL_BACKEND_URL: http://backend:9000
+        volumes:
+            - gradle-client-test-home:/home/gradle/.gradle
 
 volumes:
     # shared cache of libraries
-    gradle-user-home:
+    gradle-js-home:
+    gradle-backend-home:
+    gradle-client-test-home:
