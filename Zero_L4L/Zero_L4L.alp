@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 *************************************************
-	         AnyLogic Project File 
-*************************************************	         
+	         AnyLogic Project File
+*************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.0.202404161238" AlpVersion="8.9.0">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021032" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -985,6 +985,10 @@
 			</Option>
 		</OptionList>
 	</OptionLists>
+	
+	<Folders>
+		
+	</Folders>
 	<ActiveObjectClasses>
 		<!--   =========   Active Object Class   ========  -->
 		<ActiveObjectClass>
@@ -4675,9 +4679,9 @@ for ( GIS_Building b : energyModel.pop_GIS_Buildings ){
 		*/
 		 
 		//-----------GRID CONNECTION---------- (household/utilityobject are both gridconnections now)
-		if(v_clickedBuilding.c_gridConnectionsInBuilding.size() > 0){
+		if(v_clickedBuilding.c_containedGridConnections.size() > 0){
 			v_gridConnectionInBuildingIndex = 0;
-			v_clickedGridConnection = v_clickedBuilding.c_gridConnectionsInBuilding.get(v_gridConnectionInBuildingIndex);
+			v_clickedGridConnection = v_clickedBuilding.c_containedGridConnections.get(v_gridConnectionInBuildingIndex);
 			
 			v_gridConnectionInBuildingNumber = v_gridConnectionInBuildingIndex + 1;
 			rb_graphs.setValue(1, true);// Only energiebalans available for individual gridconnections			
@@ -4873,7 +4877,7 @@ p_simulatedArea = OL_AreaType.BUSINESS;
 
 
 //MAP
-v_clickedBuilding = randomWhere(energyModel.pop_GIS_Buildings, x->x.c_gridConnectionsInBuilding.size() > 0);
+v_clickedBuilding = randomWhere(energyModel.pop_GIS_Buildings, x->x.c_containedGridConnections.size() > 0);
 //v_clickedHousehold = randomFrom(v_clickedBuilding.c_householdsInBuilding);
 //v_timeInMillis = System.currentTimeMillis();
 
@@ -6609,7 +6613,7 @@ for (int i = 1; i<=nbHouseholds; i++) {
 	
 	// Add gisbuilding
 	GIS_Building b = energyModel.add_pop_GIS_Buildings();
-	GC.c_connectedBuildings.add(b);
+	GC.c_connectedGISObjects.add(b);
 	//b.p_id = GC.p_agentID;
 	
 	
@@ -6670,7 +6674,7 @@ for (int i = 1; i<=nbHouseholds; i++) {
 		
 		//b.f_listGridConnectionsInBuilding(); // need to do this after gridConnections are created!
 	}
-	b.c_gridConnectionsInBuilding.add(GC);
+	b.c_containedGridConnections.add(GC);
 	
 	// Add actor corresponding to gridconnection
 	//Set parameters for the Actor: ConnectionOwner
@@ -6967,7 +6971,7 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	
 	//Netbelastingduurkromme
 	pl_belastingsduurkromme.removeAll();
-	pl_belastingsduurkromme.addDataSet(energyModel.data_summerWeekBusinessParkNetbelastingDuurkromme_kW,"Balanssduurkromme");
+	pl_belastingsduurkromme.addDataSet(energyModel.data_summerWeekNetbelastingDuurkromme_kW,"Balanssduurkromme");
 	pl_belastingsduurkromme.setFixedHorizontalScale(0, 24*7);
 	//pl_belastingsduurkromme.setScaleX(24*7/p_timeStep_h);
 	
@@ -7004,7 +7008,7 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	
 	//Netbelastingduurkromme
 	pl_belastingsduurkromme.removeAll();
-	pl_belastingsduurkromme.addDataSet(energyModel.data_winterWeekBusinessParkNetbelastingDuurkromme_kW,"Balanssduurkromme");
+	pl_belastingsduurkromme.addDataSet(energyModel.data_winterWeekNetbelastingDuurkromme_kW,"Balanssduurkromme");
 	pl_belastingsduurkromme.setFixedHorizontalScale(0, 24*7);
 	//pl_belastingsduurkromme.setScaleX(24*7/p_timeStep_h);
 	businessParkNetLoadTimePlot.removeAll();
@@ -7618,8 +7622,8 @@ if (rb_onbalansPeriod.getValue() == 0) {
 	
 	//pl_belastingsduurkrommeBottom.setVisible(false);
 } else if (rb_onbalansPeriod.getValue() == 1) { // summer/winter
-	pl_belastingsduurkromme.addDataSet(energyModel.data_summerWeekBusinessParkNetbelastingDuurkromme_kW,"Balanssduurkromme zomer");
-	pl_belastingsduurkromme.addDataSet(energyModel.data_winterWeekBusinessParkNetbelastingDuurkromme_kW,"Balanssduurkromme winter");
+	pl_belastingsduurkromme.addDataSet(energyModel.data_summerWeekNetbelastingDuurkromme_kW,"Balanssduurkromme zomer");
+	pl_belastingsduurkromme.addDataSet(energyModel.data_winterWeekNetbelastingDuurkromme_kW,"Balanssduurkromme winter");
 	pl_belastingsduurkromme.setColor(2,blue);
 	pl_belastingsduurkromme.setColor(3,green);
 	pl_belastingsduurkromme.setFixedHorizontalScale(0, 24*7);	
@@ -8572,12 +8576,6 @@ EC.p_gridOperator = GO;
 							<Name><![CDATA[p_timeStep_h]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[b_addKpiVisuals]]></Name>
-							<Value Class="CodeValue">
-								<Code><![CDATA[false]]></Code>
-							</Value>
-						</Parameter>
-						<Parameter>
 							<Name><![CDATA[p_undergroundTemperature_degC]]></Name>
 							<Value Class="CodeValue">
 								<Code><![CDATA[10]]></Code>
@@ -8590,9 +8588,6 @@ EC.p_gridOperator = GO;
 							<Name><![CDATA[j_experimentSettingsData]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[p_parallelize]]></Name>
-						</Parameter>
-						<Parameter>
 							<Name><![CDATA[j_simulationResults]]></Name>
 						</Parameter>
 						<Parameter>
@@ -8603,9 +8598,6 @@ EC.p_gridOperator = GO;
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[b_anylogicCostsForAllContracts]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[b_storeProfiles]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[p_startHourWinterWeek]]></Name>
@@ -8633,6 +8625,15 @@ EC.p_gridOperator = GO;
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[avgc_data]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[b_parallelizeConnectionOwners]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[b_parallelizeGridConnections]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[b_enableDLR]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -27583,7 +27584,7 @@ rectanglePerHouseholdCosts.setFillColor(new Color (255, 255, 255, 100));
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[20%]]></Text>
-					<TextCode><![CDATA[roundToInt(energyModel.v_avgNetLoad_fr*100) + "%"]]></TextCode>
+					<TextCode><![CDATA[roundToInt(energyModel.v_avgGridLoad_fr*100) + "%"]]></TextCode>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>26</Size>
@@ -36081,7 +36082,7 @@ if (gisRegion == null ) {
 			</Areas>
 
 		</ActiveObjectClass>
-	</ActiveObjectClasses>	
+	</ActiveObjectClasses>
 	<DifferentialEquationsMethod>EULER</DifferentialEquationsMethod>
 	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
 	<AlgebraicEquationsMethod>MODIFIED_NEWTON</AlgebraicEquationsMethod>
@@ -36192,7 +36193,7 @@ if (gisRegion == null ) {
 		<ExportSettings>
 		</ExportSettings>
 	</Database>
-	
+
 	<RunConfiguration ActiveObjectClassId="1658477103140">
 		<Id>1658477103163</Id>
 		<Name><![CDATA[RunConfiguration]]></Name>
