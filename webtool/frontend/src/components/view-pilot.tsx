@@ -1,8 +1,10 @@
 import {FormEvent, FunctionComponent, useState} from "react"
-import {Pilot, Households} from "local4local"
+import {Pilot, Households, SolarFarm, WindFarm} from "local4local"
 
 export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilot) => void }> = ({pilot, setPilot}) => {
     const [showAddHousehold, setShowAddHousehold] = useState(false)
+    const [showAddSolarFarm, setShowAddSolarFarm] = useState(false)
+    const [showAddWindFarm, setShowAddWindFarm] = useState(false)
 
     const addHouseHold = (event: FormEvent) => {
         event.preventDefault()
@@ -21,6 +23,32 @@ export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
 
         setPilot(pilot.withHouseholds(households))
         setShowAddHousehold(false)
+    }
+
+    const addSolarFarm = (event: FormEvent) => {
+        event.preventDefault()
+        const form = event.target as HTMLFormElement
+        const formData = new FormData(form)
+
+        const solarFarm = new SolarFarm(
+            parseFloat(formData.get("nominalPower_kW") as string),
+        )
+
+        setPilot(pilot.withSolarFarms(solarFarm))
+        setShowAddSolarFarm(false)
+    }
+
+    const addWindFarm = (event: FormEvent) => {
+        event.preventDefault()
+        const form = event.target as HTMLFormElement
+        const formData = new FormData(form)
+
+        const windFarm = new WindFarm(
+            parseFloat(formData.get("nominalPower_kW") as string),
+        )
+
+        setPilot(pilot.withWindFarms(windFarm))
+        setShowAddWindFarm(false)
     }
 
     return (
@@ -83,6 +111,50 @@ export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                 </form>
             )}
             <button onClick={() => setShowAddHousehold(true)}>Voeg groep toe</button>
+
+            <h2>Zonneparken</h2>
+            <dt>Aantal zonneparken</dt>
+            <dd>{pilot.solarFarms.asJsReadonlyArrayView().length}</dd>
+            {pilot.solarFarms.asJsReadonlyArrayView().map((solarFarm, i) => (
+                <div key={i}>
+                    <div>park {i + 1}</div>
+                    <dt>Vermogen (kW)</dt>
+                    <dd>{solarFarm.nominalPower_kW}</dd>
+                </div>
+            ))
+            }
+            {showAddSolarFarm && (
+                <form onSubmit={addSolarFarm}>
+                    <div>
+                        <label htmlFor="nominalPower_kW">Vermogen (kW)</label>
+                        <input type="number" id="nominalPower_kW" name="nominalPower_kW"/>
+                    </div>
+                    <button type="submit">Opslaan</button>
+                </form>
+            )}
+            <button onClick={() => setShowAddSolarFarm(true)}>Voeg park toe</button>
+
+            <h2>Windparken</h2>
+            <dt>Aantal windparken</dt>
+            <dd>{pilot.windFarms.asJsReadonlyArrayView().length}</dd>
+            {pilot.windFarms.asJsReadonlyArrayView().map((windFarm, i) => (
+                <div key={i}>
+                    <div>park {i + 1}</div>
+                    <dt>Vermogen (kW)</dt>
+                    <dd>{windFarm.nominalPower_kW}</dd>
+                </div>
+            ))
+            }
+            {showAddWindFarm && (
+                <form onSubmit={addWindFarm}>
+                    <div>
+                        <label htmlFor="nominalPower_kW">Vermogen (kW)</label>
+                        <input type="number" id="nominalPower_kW" name="nominalPower_kW"/>
+                    </div>
+                    <button type="submit">Opslaan</button>
+                </form>
+            )}
+            <button onClick={() => setShowAddWindFarm(true)}>Voeg park toe</button>
         </div>
     )
 }

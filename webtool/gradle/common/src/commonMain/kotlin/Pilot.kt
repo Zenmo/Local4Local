@@ -16,6 +16,12 @@ data class Pilot(
 ) {
     fun withHouseholds(households: Households): Pilot =
         copy(households = this.households + households)
+
+    fun withSolarFarms(solarFarms: SolarFarm): Pilot =
+        copy(solarFarms = this.solarFarms + solarFarms)
+
+    fun withWindFarms(windFarms: WindFarm): Pilot =
+        copy(windFarms = this.windFarms + windFarms)
 }
 
 @OptIn(ExperimentalJsExport::class)
