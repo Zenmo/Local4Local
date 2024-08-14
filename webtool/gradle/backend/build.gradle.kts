@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 
 plugins {
     kotlin("jvm") version "2.0.10"
+    kotlin("plugin.serialization")
     application
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
@@ -64,6 +65,7 @@ tasks {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation("org.http4k:http4k-core:${http4kVersion}")
     implementation("org.http4k:http4k-format-kotlinx-serialization:${http4kVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
