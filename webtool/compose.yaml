@@ -40,7 +40,6 @@ services:
         command: ["gradle", "--project-cache-dir=/tmp/gradle", "backend:run"]
         ports:
             -   target: 9000
-                host_ip: 127.0.0.1
                 published: 9000
         volumes:
             - gradle-backend-home:/home/gradle/.gradle
