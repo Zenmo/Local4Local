@@ -8,6 +8,11 @@ repositories {
     mavenCentral()
 }
 
+tasks.shadowJar {
+    archiveBaseName = "local4local-client"
+    archiveClassifier = ""
+}
+
 dependencies {
     testImplementation(kotlin("test"))
 

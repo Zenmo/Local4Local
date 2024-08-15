@@ -34,6 +34,14 @@ services:
         volumes:
             - gradle-js-home:/home/gradle/.gradle
 
+    gradle-client-shadowjar:
+        extends:
+            service: gradle-base
+        image: gradle:8.9-jdk17
+        command: [ "gradle", "--project-cache-dir=/tmp/gradle", "--no-daemon", "client:shadowJar" ]
+        volumes:
+            - gradle-client-shadowjar-home:/home/gradle/.gradle
+
     backend:
         extends:
             service: gradle-base
@@ -56,7 +64,7 @@ services:
             - gradle-client-test-home:/home/gradle/.gradle
 
 volumes:
-    # shared cache of libraries
     gradle-js-home:
     gradle-backend-home:
     gradle-client-test-home:
+    gradle-client-shadowjar-home:
