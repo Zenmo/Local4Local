@@ -2,6 +2,7 @@ package nu.local4local.backend
 
 import nu.local4local.common.HouseholdGroup
 import nu.local4local.common.Pilot
+import nu.local4local.common.WindFarm
 import org.http4k.core.Method.PUT
 import org.http4k.core.Method.GET
 import org.http4k.core.Response
@@ -25,6 +26,9 @@ val startPilot = Pilot(
             hasHomeBattery_r = 0.5,
             annualBaseConsumptionAvg_kWh = 4500.0
         )
+    ),
+    windFarms = listOf(
+        WindFarm(2000.0)
     )
 )
 
