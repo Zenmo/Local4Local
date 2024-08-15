@@ -1,6 +1,6 @@
 package nu.local4local.backend
 
-import nu.local4local.common.Households
+import nu.local4local.common.HouseholdGroup
 import nu.local4local.common.Pilot
 import org.http4k.core.Method.PUT
 import org.http4k.core.Method.GET
@@ -15,15 +15,15 @@ import java.util.concurrent.ConcurrentHashMap
 
 val startPilot = Pilot(
     name="startPilot",
-    households = listOf(
-        Households(
+    householdGroups = listOf(
+        HouseholdGroup(
             type = "Mix",
             households_n = 100,
             hasPV_r = 0.5,
             hasHeatPump_r = 0.5,
             hasChargePoint_r = 0.5,
             hasHomeBattery_r = 0.5,
-            yearlyBaseConsumptionAvg_kWh = 4500.0
+            annualBaseConsumptionAvg_kWh = 4500.0
         )
     )
 )

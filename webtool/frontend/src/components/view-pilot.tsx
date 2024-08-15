@@ -1,8 +1,8 @@
 import {FormEvent, FunctionComponent, useState} from "react"
-import {Pilot, Households, SolarFarm, WindFarm} from "local4local"
+import {Pilot, HouseholdGroup, SolarFarm, WindFarm} from "local4local"
 
 export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilot) => void }> = ({pilot, setPilot}) => {
-    const [showAddHousehold, setShowAddHousehold] = useState(false)
+    const [showAddHouseholdGroup, setShowAddHouseholdGroup] = useState(false)
     const [showAddSolarFarm, setShowAddSolarFarm] = useState(false)
     const [showAddWindFarm, setShowAddWindFarm] = useState(false)
 
@@ -11,18 +11,18 @@ export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         const form = event.target as HTMLFormElement
         const formData = new FormData(form)
 
-        const households = new Households(
+        const householdGroup = new HouseholdGroup(
             formData.get("type") as string,
             parseInt(formData.get("households_n") as string),
             parseFloat(formData.get("hasPV_r") as string),
             parseFloat(formData.get("hasHeatPump_r") as string),
             parseFloat(formData.get("hasChargePoint_r") as string),
             parseFloat(formData.get("hasHomeBattery_r") as string),
-            parseFloat(formData.get("yearlyBaseConsumptionAvg_kWh") as string),
+            parseFloat(formData.get("annualBaseConsumptionAvg_kWh") as string),
         )
 
-        setPilot(pilot.withHouseholds(households))
-        setShowAddHousehold(false)
+        setPilot(pilot.withHouseholdGroup(householdGroup))
+        setShowAddHouseholdGroup(false)
     }
 
     const addSolarFarm = (event: FormEvent) => {
@@ -56,28 +56,28 @@ export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
             <h1>{pilot.name}</h1>
             <h2>Huishoudens</h2>
             <dt>Aantal groepen</dt>
-            <dd>{pilot.households.asJsReadonlyArrayView().length}</dd>
-            {pilot.households.asJsReadonlyArrayView().map((household, i) => (
+            <dd>{pilot.householdGroups.asJsReadonlyArrayView().length}</dd>
+            {pilot.householdGroups.asJsReadonlyArrayView().map((householdGroup, i) => (
                 <div key={i}>
                     <div>groep {i + 1}</div>
                     <dt>Type</dt>
-                    <dd>{household.type}</dd>
+                    <dd>{householdGroup.type}</dd>
                     <dt>Aantal huishoudens</dt>
-                    <dd>{household.households_n}</dd>
+                    <dd>{householdGroup.households_n}</dd>
                     <dt>Percentage met zonnepanelen</dt>
-                    <dd>{household.hasPV_r}</dd>
+                    <dd>{householdGroup.hasPV_r}</dd>
                     <dt>Percentage met warmtepomp</dt>
-                    <dd>{household.hasHeatPump_r}</dd>
+                    <dd>{householdGroup.hasHeatPump_r}</dd>
                     <dt>Percentage met laadpaal</dt>
-                    <dd>{household.hasChargePoint_r}</dd>
+                    <dd>{householdGroup.hasChargePoint_r}</dd>
                     <dt>Percentage met thuisbatterij</dt>
-                    <dd>{household.hasHomeBattery_r}</dd>
+                    <dd>{householdGroup.hasHomeBattery_r}</dd>
                     <dt>Jaarlijks gemiddeld verbruik (kWh)</dt>
-                    <dd>{household.yearlyBaseConsumptionAvg_kWh}</dd>
+                    <dd>{householdGroup.annualBaseConsumptionAvg_kWh}</dd>
                 </div>
             ))
             }
-            {showAddHousehold && (
+            {showAddHouseholdGroup && (
                 <form onSubmit={addHouseHold}>
                     <div>
                         <label htmlFor="type">Type</label>
@@ -104,13 +104,13 @@ export const ViewPilot: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                         <input type="number" id="hasHomeBattery_r" name="hasHomeBattery_r"/>
                     </div>
                     <div>
-                        <label htmlFor="yearlyBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
-                        <input type="number" id="yearlyBaseConsumptionAvg_kWh" name="yearlyBaseConsumptionAvg_kWh"/>
+                        <label htmlFor="annualBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
+                        <input type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh"/>
                     </div>
                     <button type="submit">Opslaan</button>
                 </form>
             )}
-            <button onClick={() => setShowAddHousehold(true)}>Voeg groep toe</button>
+            <button onClick={() => setShowAddHouseholdGroup(true)}>Voeg groep toe</button>
 
             <h2>Zonneparken</h2>
             <dt>Aantal zonneparken</dt>
