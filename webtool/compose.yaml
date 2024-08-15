@@ -20,12 +20,14 @@ services:
             POSTGRES_USER: webtool
             POSTGRES_PASSWORD: webtool
 
+    # base services and for one-off commands
     gradle-base:
         image: gradle:8.9
         working_dir: /home/gradle/project
         user: gradle
         volumes:
             - ./gradle:/home/gradle/project
+            - gradle-base-home:/home/gradle/.gradle
 
     gradle-js:
         extends:
@@ -64,6 +66,7 @@ services:
             - gradle-client-test-home:/home/gradle/.gradle
 
 volumes:
+    gradle-base-home:
     gradle-js-home:
     gradle-backend-home:
     gradle-client-test-home:

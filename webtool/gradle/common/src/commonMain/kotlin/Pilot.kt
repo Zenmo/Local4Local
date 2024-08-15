@@ -9,15 +9,15 @@ import kotlin.js.JsExport
 @Serializable
 data class Pilot(
     val name: String,
-    val households: List<Households> = emptyList(),
+    val householdGroups: List<HouseholdGroup> = emptyList(),
     val companies: List<Company> = emptyList(),
     val solarFarms: List<SolarFarm> = emptyList(),
     val windFarms: List<WindFarm> = emptyList(),
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
 ) {
-    fun withHouseholds(households: Households): Pilot =
-        copy(households = this.households + households)
+    fun withHouseholdGroup(households: HouseholdGroup): Pilot =
+        copy(householdGroups = this.householdGroups + households)
 
     fun withSolarFarms(solarFarms: SolarFarm): Pilot =
         copy(solarFarms = this.solarFarms + solarFarms)
@@ -29,16 +29,16 @@ data class Pilot(
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
-data class Households(
+data class HouseholdGroup(
     val type: String,
     val households_n: Int,
     val hasPV_r: Double,
     val hasHeatPump_r: Double,
     val hasChargePoint_r: Double,
     val hasHomeBattery_r: Double,
-    
+
     /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
-    val yearlyBaseConsumptionAvg_kWh: Double,
+    val annualBaseConsumptionAvg_kWh: Double,
 )
 
 @OptIn(ExperimentalJsExport::class)
