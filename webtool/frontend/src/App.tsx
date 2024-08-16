@@ -4,10 +4,16 @@ import {Pilot} from "local4local"
 import {css} from "@emotion/react"
 import {ViewPilot} from "./components/view-pilot.tsx"
 import {startSimulation} from "./components/anylogic.ts"
+import {savePilot} from "./components/save.ts"
 
 function App() {
     const [pilot, setPilot] = useState(new Pilot("Pilot"))
     const anylogicElementId = "anylogic"
+
+    const onClickStart = async () => {
+        const sessionId = await savePilot(pilot)
+        startSimulation(anylogicElementId, sessionId)
+    }
 
     return (
         <>
@@ -31,7 +37,7 @@ function App() {
             </div>
             <h1>Cooperatie Configurator</h1>
             <ViewPilot pilot={pilot} setPilot={setPilot}/>
-            <button type="button" onClick={() => startSimulation(anylogicElementId)}>Start simulatie</button>
+            <button type="button" onClick={onClickStart}>Start simulatie</button>
             <div id={anylogicElementId} style={{height: "600px"}}/>
         </>
     )
