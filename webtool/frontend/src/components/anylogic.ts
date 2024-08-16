@@ -3,7 +3,7 @@ import "https://anylogic.zenmo.com/assets/js-client-8.5.0/cloud-client.js"
 // see https://anylogic.help/cloud/api/js.html
 declare const CloudClient: any
 
-export const startSimulation = async (divId: string): Promise<Animation> => {
+export const startSimulation = async (divId: string, sessionId: string): Promise<Animation> => {
     // API key is of user "publiek@zenmo.com"
     const apiKey = "17e0722f-25c4-4549-85c3-d36509f5c710"
     const modelId = "b9f2137d-b8cc-462f-85a4-fb2379f0eb39"
@@ -13,7 +13,7 @@ export const startSimulation = async (divId: string): Promise<Animation> => {
     const latestVersion = await cloudClient.getModelVersionByNumber(model, model.modelVersions.length)
     const inputs = cloudClient.createDefaultInputs(latestVersion)
     inputs.setInput("Local 4 local backend url", import.meta.env.VITE_BACKEND_URL)
-    inputs.setInput("Local 4 local session", "startPilot")
+    inputs.setInput("Local 4 local session", sessionId)
     const animation = await cloudClient.startAnimation(inputs, divId)
     animation.setSpeed(1)
 
