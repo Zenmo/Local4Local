@@ -27,7 +27,7 @@ class ClientTest {
         val exception = assertFailsWith<RuntimeException> {
             client.getPilot("nonExistentPilot")
         }
-        assertEquals("Unexpected status code: 404", exception.message)
+        assertEquals("Error 404 from GET ${client.baseUrl}/pilots/nonExistentPilot", exception.message)
     }
 
     @Test

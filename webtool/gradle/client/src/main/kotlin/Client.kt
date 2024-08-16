@@ -4,6 +4,7 @@ import nu.local4local.common.Pilot
 import org.http4k.client.JavaHttpClient
 import org.http4k.core.Method
 import org.http4k.core.Request
+import org.http4k.core.Response
 import org.http4k.format.KotlinxSerialization.json
 
 class Client
@@ -17,9 +18,7 @@ constructor(
         val client = JavaHttpClient()
         val request = Request(Method.GET, "$baseUrl/ping")
         val response = client(request)
-        if (response.status.code != 200) {
-            throw RuntimeException("Unexpected status code: ${response.status.code}")
-        }
+        checkStatusCode(request, response)
         return response.bodyString()
     }
 
@@ -27,9 +26,7 @@ constructor(
         val client = JavaHttpClient()
         val request = Request(Method.GET, "$baseUrl/pilots/$session")
         val response = client(request)
-        if (response.status.code != 200) {
-            throw RuntimeException("Unexpected status code: ${response.status.code}")
-        }
+        checkStatusCode(request, response)
         return response.json()
     }
 
@@ -38,8 +35,12 @@ constructor(
         val request = Request(Method.PUT, "$baseUrl/pilots/$session")
             .json(pilot)
         val response = client(request)
-        if (response.status.code != 200) {
-            throw RuntimeException("Unexpected status code: ${response.status.code}")
+        checkStatusCode(request, response)
+    }
+
+    private fun checkStatusCode(request: Request, response: Response) {
+        if (!response.status.successful) {
+            throw RuntimeException("Error ${response.status.code} from ${request.method} ${request.uri}")
         }
     }
 }

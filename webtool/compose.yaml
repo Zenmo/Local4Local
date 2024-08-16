@@ -54,6 +54,18 @@ services:
         volumes:
             - gradle-backend-home:/home/gradle/.gradle
 
+    # To connect from remote AnyLogic cloud to locally running backend.
+    # Somehow only works with run and not with up.
+    ngrok:
+        image: ngrok/ngrok
+        command:
+            -   http
+            -   backend:9000
+        env_file:
+            -   ngrok.env
+        ports:
+            - "4040:4040"
+
     client-test:
         extends:
             service: gradle-base
