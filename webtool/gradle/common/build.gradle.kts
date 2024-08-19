@@ -1,8 +1,6 @@
 plugins {
-    id("org.jetbrains.kotlin.multiplatform")
-//    kotlin("multiplatform") version ""
-//    kotlin("plugin.serialization")
-    id("org.jetbrains.kotlin.plugin.serialization")
+    kotlin("multiplatform")
+    kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 group = "com.zenmo"

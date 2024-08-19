@@ -5,4 +5,12 @@
 
 rootProject.name = "local4local"
 
+dependencyResolutionManagement {
+    versionCatalogs {
+        create("libs") {
+            version("kotlin", "2.0.10")
+        }
+    }
+}
+
 include("common", "backend", "client")
