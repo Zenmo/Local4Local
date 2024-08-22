@@ -1,6 +1,8 @@
 package nu.local4local.common
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
 import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
 
@@ -24,6 +26,9 @@ data class Pilot(
 
     fun withWindFarms(windFarms: WindFarm): Pilot =
         copy(windFarms = this.windFarms + windFarms)
+
+    fun toJson(): String =
+        Json.encodeToString(this)
 }
 
 @OptIn(ExperimentalJsExport::class)
