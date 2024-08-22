@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+    backend:
+        image: ghcr.io/zenmo/local4local-backend:${GITHUB_RUN_NUMBER}
+        networks:
+            - caddy_default
+        labels:
+            caddy: local4local-backend.zenmo.com
+            caddy.reverse_proxy: "{{upstreams 9000}}"
+
+networks:
+    caddy_default:
+        external: true
