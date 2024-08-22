@@ -1025,7 +1025,19 @@ import org.jfree.data.flow.FlowDataset;
 import java.awt.geom.Rectangle2D;
 import org.jfree.data.flow.DefaultFlowDataset;
 import org.jfree.graphics2d.svg.SVGGraphics2D;
-import org.jfree.data.flow.NodeKey;]]></Import>
+import org.jfree.data.flow.NodeKey;
+
+import java.awt.image.BufferedImage;
+import java.awt.Component;
+
+//import java.awt.graphics2D.Panel;
+
+import java.awt.Robot;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.AWTException;
+import javax.imageio.ImageIO;
+import com.bbn.openmap.util.BrowserLauncher2WebBrowser;]]></Import>
 			<StartupCode><![CDATA[double startTime = System.currentTimeMillis();
 v_timeOfModelStart_ms = startTime;
 traceln("---------------------------");
@@ -1062,8 +1074,8 @@ traceln("*** Start up finished *** ");
 traceln("*** Start up duration: "+ v_modelStartUpDuration_s + " s ***");
 traceln(" ");
 
-energyModel.f_runRapidSimulation(); // Do a full year run to have KPIs right away!
-b_resultsUpToDate = true;
+//energyModel.f_runRapidSimulation(); // Do a full year run to have KPIs right away!
+//b_resultsUpToDate = true;
 gr_scopeRadioButtons.setVisible(true);
 
 //rb_scope.setVisible(false);
@@ -6956,13 +6968,13 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	businessParkEnergyDemandChart.addDataSet(energyModel.data_summerWeekHeatPumpElectricityDemand_kW, "Warmtepompen", v_heatPumpElectricityDemandColor);
 	//businessParkEnergyDemandChart.addDataSet(data_summerWeekElectricCarsDemand_kW, "Laden EVs", v_electricCarsDemandColor);
 	businessParkEnergyDemandChart.addDataSet(energyModel.data_summerWeekElectricTrucksDemand_kW, "Laden elektrische trucks", v_electricTrucksDemandColor);
-	businessParkEnergyDemandChart.addDataSet(energyModel.data_summerWeekNeighborhoodBatteryDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
+	businessParkEnergyDemandChart.addDataSet(energyModel.data_summerWeekBatteriesDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
 		
 	//Energy supply chart
 	businessParkEnergySupplyChart.removeAll();
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_summerWeekWindGeneration_kW, "Windturbines", v_windGenerationColor);
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_summerWeekPVGeneration_kW, "PV op dak", v_PVGenerationColor);	
-	businessParkEnergySupplyChart.addDataSet(energyModel.data_summerWeekNeighborhoodBatterySupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
+	businessParkEnergySupplyChart.addDataSet(energyModel.data_summerWeekBatteriesSupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_summerWeekV2GSupply_kW, "V2G ontladen", v_V2GSupplyColor);	
 		
 	double chartScale = max(Arrays.stream(energyModel.acc_annualElectricityConsumption_kW.getTimeSeries()).max().orElse(0), Arrays.stream(energyModel.acc_annualElectricityProduction_kW.getTimeSeries()).max().orElse(0))	;
@@ -6993,13 +7005,13 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	businessParkEnergyDemandChart.addDataSet(energyModel.data_winterWeekHeatPumpElectricityDemand_kW, "Warmtepompen", v_heatPumpElectricityDemandColor);
 	//businessParkEnergyDemandChart.addDataSet(data_winterWeekElectricCarsDemand_kW, "Laden EVs", v_electricCarsDemandColor);
 	businessParkEnergyDemandChart.addDataSet(energyModel.data_winterWeekElectricTrucksDemand_kW, "Laden elektrische trucks", v_electricTrucksDemandColor);
-	businessParkEnergyDemandChart.addDataSet(energyModel.data_winterWeekNeighborhoodBatteryDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
+	businessParkEnergyDemandChart.addDataSet(energyModel.data_winterWeekBatteriesDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
 			
 	//Energy supply chart
 	businessParkEnergySupplyChart.removeAll();
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_winterWeekWindGeneration_kW, "Windturbines", v_windGenerationColor);
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_winterWeekPVGeneration_kW, "PV op dak", v_PVGenerationColor);	
-	businessParkEnergySupplyChart.addDataSet(energyModel.data_winterWeekNeighborhoodBatterySupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
+	businessParkEnergySupplyChart.addDataSet(energyModel.data_winterWeekBatteriesSupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
 	businessParkEnergySupplyChart.addDataSet(energyModel.data_winterWeekV2GSupply_kW, "V2G ontladen", v_V2GSupplyColor);
 	
 	double chartScale = max(Arrays.stream(energyModel.acc_annualElectricityConsumption_kW.getTimeSeries()).max().orElse(0), Arrays.stream(energyModel.acc_annualElectricityProduction_kW.getTimeSeries()).max().orElse(0))	;
@@ -7035,8 +7047,8 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 	if (energyModel.data_annualElectricTrucksDemand_kW.getYMax()>0) {
 		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualElectricTrucksDemand_kW, "Laden elektrische voertuigen", v_electricTrucksDemandColor);
 	}
-	if (energyModel.data_annualNeighborhoodBatteryDemand_kW.getYMax()>0) {		
-		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualNeighborhoodBatteryDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
+	if (energyModel.data_annualBatteriesDemand_kW.getYMax()>0) {		
+		businessParkAnnualEnergyDemandChart.addDataSet(energyModel.data_annualBatteriesDemand_kW, "Buurtbatterij laden", v_neighborhoodBatteryDemandColor);
 	}
 		
 	//Energy supply chart
@@ -7049,8 +7061,8 @@ energyModel.v_totalInstalledPVPower_kW+=(PVPower_MW-PVPowerOld_MW)*1000;
 		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualWindGeneration_kW, "Windturbines", v_windGenerationColor);
 	}
 
-	if (energyModel.data_annualNeighborhoodBatterySupply_kW.getYMax()>0) {	
-		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualNeighborhoodBatterySupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
+	if (energyModel.data_annualBatteriesSupply_kW.getYMax()>0) {	
+		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualBatteriesSupply_kW, "Batterij ontladen", v_neighborhoodBatterySupplyColor);
 	}	
 	if (energyModel.data_annualV2GSupply_kW.getYMax()>0) {	
 		businessParkAnnualEnergySupplyChart.addDataSet(energyModel.data_annualV2GSupply_kW, "V2G ontladen", v_V2GSupplyColor);
@@ -8353,6 +8365,84 @@ EC.p_gridOperator = GO;
 }*/
 
 ]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1723471570685</Id>
+					<Name><![CDATA[saveScreenshotCanvasPrinter]]></Name>
+					<X>580</X><Y>960</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[group]]></Name>
+						<Type><![CDATA[ShapeGroup]]></Type>
+					</Parameter>
+					<Body><![CDATA[
+
+/*int x = (int)rectangle2.getX();
+int y = (int)rectangle2.getY();
+int width = (int)rectangle2.getWidth();
+int height = (int)rectangle2.getHeight();*/
+
+String destinationPath = System.getProperty("user.dir") + "\\cropped_area";
+
+//CanvasPrinter.print(level, x, y, width, height, destinationPath);
+//BoundingRectangle r = level.getBoundingRectangle().
+//traceln("Bounding rectangle: %s", r);
+//CanvasPrinter.print(level, destinationPath);
+
+int x = (int)gr_businessParkSupplyAndDemand.getX()-300;
+int y = (int)gr_businessParkSupplyAndDemand.getY()-600;
+int width = 600;//(int)gr_businessParkSupplyAndDemand.getScaleX();
+int height = 1200;//(int)gr_businessParkSupplyAndDemand.getScaleY();
+
+// Copy-paste of CanvasPrinter.print function code:
+//public static void print(Level level, int x, int y, int width, int height, String destinationPath) {
+		
+//BoundingRectangle r = level.getBoundingRectangle();
+		
+int offSetX = x;//min(x , roundToInt(r.getMinX()) );
+int offSetY = y;//min(y , roundToInt(r.getMinY()) );
+int w = width; //roundToInt(max(r.getMaxX() , x+width)) - offSetX;
+int h = height;//roundToInt(max(r.getMaxY() , y+height)) - offSetY;
+java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(w,h,java.awt.image.BufferedImage.TYPE_INT_ARGB);
+java.awt.Graphics2D g = img.createGraphics();
+g.setRenderingHints(new java.awt.RenderingHints(java.awt.RenderingHints.KEY_ANTIALIASING,java.awt.RenderingHints.VALUE_ANTIALIAS_ON));
+
+CanvasPrinter.paintLevel(g, level, offSetX, offSetY);
+
+java.awt.image.BufferedImage dest = img.getSubimage(x-offSetX, y-offSetY, width, height);
+
+CanvasPrinter.saveImageAsPNG(dest, destinationPath);
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1723566267910</Id>
+					<Name><![CDATA[saveScreenshot]]></Name>
+					<X>450</X><Y>960</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[group]]></Name>
+						<Type><![CDATA[ShapeGroup]]></Type>
+					</Parameter>
+					<Body><![CDATA[traceln("SVGFrame.getState(): %s",getExperimentHost().getFrameProducer().getFrame(getExperiment(),gr_onbalansBarplot1.getPresentable(),true).getState());
+
+
+try{
+	BufferedImage image = new Robot().createScreenCapture(new Rectangle(Toolkit.getDefaultToolkit().getScreenSize()));
+	BufferedImage subImgage = image.getSubimage(180, 260, 1000, 500);
+    ImageIO.write(subImgage, "png", new File("screenshot.png"));
+}catch(Exception e){
+    e.printStackTrace();
+}]]></Body>
 				</Function>
 			</Functions>
 			<Connectivity>
@@ -27598,6 +27688,27 @@ rectanglePerHouseholdCosts.setFillColor(new Color (255, 255, 255, 100));
 			</Presentation>
 
 				</Group>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1723469419264</Id>
+					<Name><![CDATA[button1]]></Name>
+					<X>420</X><Y>920</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor/>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[saveScreenshot(gr_onbalansBarplot1)]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LabelText><![CDATA[getScreenshot]]></LabelText>
+					</ExtendedProperties>
+				</Control>
 			</Presentation>
 
 				</Level>
@@ -36289,6 +36400,531 @@ if (gisRegion == null ) {
 			<BypassInitialScreen>true</BypassInitialScreen>
 		</SimulationExperiment>	
 	</Experiments>
+	<JavaClasses>
+		<!--   =========   Java Class   ========  -->
+		<JavaClass>
+			<Id>1723562272018</Id>
+			<Name><![CDATA[CanvasPrinter]]></Name>
+			<Text><![CDATA[/**
+ * Printer
+ * @author Engineering Ingegneria Informatica
+ */	
+public abstract class CanvasPrinter {
+	
+	/**
+	 * Paint a given level
+	 * @param level
+	 * @param destinationPath
+	 */
+	public static void print(Level level, String destinationPath) {
+		
+		BoundingRectangle r = level.getBoundingRectangle();
+		
+		int offSetX = roundToInt(r.getMinX());
+		int offSetY = roundToInt(r.getMinY());
+		int w = roundToInt(r.getMaxX()) - offSetX;
+		int h = roundToInt(r.getMaxY()) - offSetY;
+		java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(w,h,java.awt.image.BufferedImage.TYPE_INT_ARGB);
+		java.awt.Graphics2D g = img.createGraphics();
+		g.setRenderingHints(new java.awt.RenderingHints(java.awt.RenderingHints.KEY_ANTIALIASING,java.awt.RenderingHints.VALUE_ANTIALIAS_ON));
+		
+		paintLevel(g, level, offSetX, offSetY);
+		saveImageAsPNG(img, destinationPath);
+
+	}
+	
+	/**
+	 * Paint a portion of a given level
+	 * @param level
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param destinationPath
+	 */
+	public static void print(Level level, int x, int y, int width, int height, String destinationPath) {
+		
+		BoundingRectangle r = level.getBoundingRectangle();
+		
+		int offSetX = min(x , roundToInt(r.getMinX()) );
+		int offSetY = min(y , roundToInt(r.getMinY()) );
+		int w = roundToInt(max(r.getMaxX() , x+width)) - offSetX;
+		int h = roundToInt(max(r.getMaxY() , y+height)) - offSetY;
+		java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(w,h,java.awt.image.BufferedImage.TYPE_INT_ARGB);
+		java.awt.Graphics2D g = img.createGraphics();
+		g.setRenderingHints(new java.awt.RenderingHints(java.awt.RenderingHints.KEY_ANTIALIASING,java.awt.RenderingHints.VALUE_ANTIALIAS_ON));
+		
+		paintLevel(g, level, offSetX, offSetY);
+		
+		java.awt.image.BufferedImage dest = img.getSubimage(x-offSetX, y-offSetY, width, height);
+		
+		saveImageAsPNG(dest, destinationPath);
+
+	}
+	
+	
+	public static String getEncodedImage(Level level, int x, int y, int width, int height) {
+		
+		BoundingRectangle r = level.getBoundingRectangle();
+		
+		int offSetX = min(x , roundToInt(r.getMinX()) );
+		int offSetY = min(y , roundToInt(r.getMinY()) );
+		int w = roundToInt(max(r.getMaxX() , x+width)) - offSetX;
+		int h = roundToInt(max(r.getMaxY() , y+height)) - offSetY;
+		java.awt.image.BufferedImage img = new java.awt.image.BufferedImage(w,h,java.awt.image.BufferedImage.TYPE_INT_ARGB);
+		java.awt.Graphics2D g = img.createGraphics();
+		g.setRenderingHints(new java.awt.RenderingHints(java.awt.RenderingHints.KEY_ANTIALIASING,java.awt.RenderingHints.VALUE_ANTIALIAS_ON));
+		
+		paintLevel(g, level, offSetX, offSetY);
+		
+		java.awt.image.BufferedImage dest = img.getSubimage(x-offSetX, y-offSetY, width, height);
+		
+		return bufferedImageToBase64(dest);
+
+	}
+	
+	/**
+	 * Paint the level elements
+	 * @param g
+	 * @param level
+	 * @param offsetX
+	 * @param offsetY
+	 */
+	public static void paintLevel(java.awt.Graphics2D g, Level level, int offsetX, int offsetY) {
+
+		level.elementsInternal().forEach(o -> {
+			try {
+				if(o instanceof AbstractWall) {
+					paintMarkup(g,(AbstractWall)o,offsetX,offsetY);
+				}else if(o instanceof AreaNode) {
+					paintMarkup(g,(AreaNode)o,offsetX,offsetY);
+				}else if(o instanceof Shape) {
+					paintShape(g,(Shape)o,offsetX,offsetY);
+				}else if(o instanceof ReplicatedShape) {
+					for(int i=0; i<((ReplicatedShape)o).createShapes(); i++) {
+						paintShape(g,((ReplicatedShape) o).get(i),offsetX,offsetY);
+					}
+				}else {
+					traceln(o.getClass() + " is not hanlded yet");
+				}
+			}catch(Exception e) {
+				traceln(o.getClass() + " is not hanlded yet");
+			}
+		});
+
+	}
+	
+	/**
+	 * Paint instances of Shape class
+	 * @param g
+	 * @param shape
+	 * @param offsetX
+	 * @param offsetY
+	 */
+	private static void paintShape(java.awt.Graphics2D g, Shape shape, int offsetX, int offsetY) {
+		if(shape.isVisible()) {
+			java.awt.Stroke defaultStroke = g.getStroke();
+			java.awt.geom.AffineTransform defTransf = g.getTransform();
+
+			if(shape instanceof ShapeLine) {
+				ShapeLine s = (ShapeLine)shape;
+				
+				int x1 = roundToInt(s.getX()) - offsetX;
+				int y1 = roundToInt(s.getY()) - offsetY;
+				int x2 = roundToInt(s.getEndX()) - offsetX;
+				int y2 = roundToInt(s.getEndY()) - offsetY;
+				
+				if(s instanceof ShapeArrowLine) {
+					//TODO not handled
+					traceln(s.getClass() + " is not hanlded yet");
+				}
+				
+				g.setStroke(new java.awt.BasicStroke(roundToInt(s.getLineWidth())));
+				g.setColor(s.getColor());
+				g.drawLine(x1, y1, x2, y2);
+				g.setStroke(defaultStroke);
+			
+			}else if(shape instanceof ShapePolyLine) {
+				
+				ShapePolyLine s = (ShapePolyLine)shape;
+				
+				int nPoints = s.getNPoints();
+				int[] xPoints = new int[nPoints + (s.isClosed() ? 1 : 0)];
+				int[] yPoints = new int[nPoints + (s.isClosed() ? 1 : 0)];
+				for(int i=0; i<nPoints; i++) {
+					xPoints[i] = roundToInt(s.getX() + s.getPointDx(i)) - offsetX;
+					yPoints[i] = roundToInt(s.getY() + s.getPointDy(i)) - offsetY;
+				}
+				
+				if(s.isClosed() && nPoints > 0) {
+					xPoints[nPoints] = roundToInt(s.getX() + s.getPointDx(0)) - offsetX;
+					yPoints[nPoints] = roundToInt(s.getY() + s.getPointDy(0)) - offsetY;
+					nPoints++;
+				}
+				
+				if(s instanceof ShapeCurve) {
+					// TODO not handled
+					traceln(s.getClass() + " is not hanlded yet");
+				}
+				
+				if(s.getFillColor() != null) {
+					g.setColor(s.getFillColor());
+					g.fillPolygon(xPoints, yPoints, nPoints);
+				}
+				
+				g.setStroke(new java.awt.BasicStroke(roundToInt(s.getLineWidth())));
+				g.setColor(s.getLineColor());
+				g.drawPolyline(xPoints, yPoints, nPoints);
+				g.setStroke(defaultStroke);
+				
+			}else if(shape instanceof ShapeRectangle) {
+				
+				ShapeRectangle s = (ShapeRectangle)shape;
+				
+				int x = roundToInt(s.getX()) - offsetX;
+				int y = roundToInt(s.getY()) - offsetY;
+				int width = roundToInt(s.getWidth());
+				int height = roundToInt(s.getHeight());
+				
+				if(s.getRotation() != 0.) {
+					g.rotate(s.getRotation(), x, y);
+				}
+				
+				if(s.getFillColor() != null){
+					g.setColor(s.getFillColor());
+										
+					if(s instanceof ShapeRoundedRectangle) {
+						int arcWidth = roundToInt(((ShapeRoundedRectangle) s).getRadius());
+						int arcHeight = roundToInt(((ShapeRoundedRectangle) s).getRadius());
+						g.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
+					}else {						
+						g.fillRect(x, y, width, height);
+					}
+				}
+				
+				if(s.getLineColor() != null) {
+					g.setStroke(new java.awt.BasicStroke(roundToInt(s.getLineWidth())));
+					g.setColor(s.getLineColor());
+					
+					if(s instanceof ShapeRoundedRectangle) {
+						int arcWidth = roundToInt(((ShapeRoundedRectangle) s).getRadius());
+						int arcHeight = roundToInt(((ShapeRoundedRectangle) s).getRadius());
+						g.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
+					}else {
+						g.drawRect(x, y, width, height);
+					}		
+					
+					g.setStroke(defaultStroke);
+				}
+				
+			}else if(shape instanceof ShapeOval) {
+
+				ShapeOval s = (ShapeOval)shape;
+				
+				int x = roundToInt(s.getX() - s.getRadiusX()) - offsetX;
+				int y = roundToInt(s.getY() - s.getRadiusY()) - offsetY;
+				int width = roundToInt(s.getRadiusX()*2);
+				int height = roundToInt(s.getRadiusY()*2);
+				
+				if(s.getRotation() != 0.) {
+					g.rotate(s.getRotation(), x, y);
+				}
+				
+				if(s.getFillColor() != null){
+					g.setColor(s.getFillColor());
+					
+					if(s instanceof ShapeArc) {
+						// TODO fix ShapeArc angles: not drawing properly
+						int startAngle = roundToInt(((ShapeArc) s).getAngleStart());
+						int arcAngle = roundToInt(((ShapeArc) s).getAngle());
+						g.fillArc(x, y, width, height, startAngle, arcAngle);
+					}else {					
+						g.fillOval(x, y, width, height);
+					}
+				}
+				
+				if(s.getLineWidth()>0) {
+					g.setStroke(new java.awt.BasicStroke(roundToInt(s.getLineWidth())));
+					g.setColor(s.getLineColor());
+					if(s instanceof ShapeArc) {
+						int startAngle = roundToInt(((ShapeArc) s).getAngleStart()*180/PI);
+						int arcAngle = roundToInt(-((ShapeArc) s).getAngle()*180/PI);
+						g.drawArc(x, y, width, height, startAngle, arcAngle);
+					}else {					
+						g.drawOval(x, y, width, height);
+					}
+					g.setStroke(defaultStroke);
+				}
+			
+			}else if(shape instanceof ShapeText) {
+				
+				ShapeText s = (ShapeText)shape;	
+				
+				g.setFont(s.getFont());
+				java.awt.FontMetrics fm = g.getFontMetrics();
+				
+				int x = roundToInt(s.getX()) - offsetX;
+				int y = roundToInt(s.getY()) + fm.getAscent() - offsetY; 
+				
+				if(s.getAlignment() == TextAlignment.ALIGNMENT_CENTER) {
+					x -= roundToInt( fm.stringWidth(s.getText()) / 2. );
+				}else if(s.getAlignment() == TextAlignment.ALIGNMENT_RIGHT) {
+					x -= fm.stringWidth(s.getText());
+				}
+				
+				if(s.getRotation() != 0.) {
+					g.rotate(s.getRotation(), x, y);
+				}
+				
+				java.awt.Font defaultFont = g.getFont();
+				
+				g.setColor(s.getColor());
+				g.drawString(s.getText(), x, y);
+				g.setFont(defaultFont);
+			
+			}else if(shape instanceof ShapeImage) {
+				paintShapeImage(g, (ShapeImage)shape, offsetX, offsetY);
+			
+			}else if(shape instanceof ShapeGroup) {
+				
+				((ShapeGroup) shape).getShapes().forEach(s -> 
+					{
+						int dx = offsetX - roundToInt(shape.getX());
+						int dy = offsetY - roundToInt(shape.getY());
+						if(s instanceof Shape) {
+							paintShape(g, (Shape)s, dx, dy);
+						}else if(s instanceof ReplicatedShape) {
+							for(int i=0; i<((ReplicatedShape)s).createShapes(); i++) {
+								paintShape(g,((ReplicatedShape) s).get(i),dx,dy);
+							}
+						}
+					}
+				);
+				
+			}
+			
+			g.setStroke(defaultStroke);
+			g.setTransform(defTransf);
+		}
+	}
+	
+	/**
+	 * Paint instances of AbstractWall class
+	 * @param g
+	 * @param markup
+	 * @param offsetX
+	 * @param offsetY
+	 */
+	private static void paintMarkup(java.awt.Graphics2D g, AbstractWall markup, int offsetX, int offsetY){
+		if(markup.isVisible()) {
+			java.awt.Stroke defaultStroke = g.getStroke();
+			java.awt.geom.AffineTransform defTransf = g.getTransform();
+			
+			g.setStroke(new java.awt.BasicStroke(roundToInt(markup.getLineWidth())));
+			
+			if(markup instanceof RectangularWall) {
+				RectangularWall rw = (RectangularWall)markup;
+				
+				int x = roundToInt(rw.getX()) - offsetX;
+				int y = roundToInt(rw.getY()) - offsetY;
+				int width = roundToInt(rw.getWidth());
+				int height = roundToInt(rw.getHeight());
+				
+				if(rw.getRotation() != 0.) {
+					g.rotate(rw.getRotation(), x, y);
+				}
+				
+				if(rw.getColor() != null){
+					g.setColor(rw.getColor());
+					g.fillRect(x, y, width, height);
+				}
+				
+				if(markup.getLineWidth()>0) {
+					g.setColor(rw.getColor());
+					g.drawRect(x, y, width, height);
+				}
+				
+			}else if(markup instanceof CircularWall) {
+				CircularWall cw = (CircularWall)markup;
+				
+				int x = roundToInt(cw.getX() - cw.getRadiusX()) - offsetX;
+				int y = roundToInt(cw.getY() - cw.getRadiusY()) - offsetY;
+				int width = roundToInt(cw.getRadiusX()*2);
+				int height = roundToInt(cw.getRadiusY()*2);
+				
+				if(cw.getRotation() != 0.) {
+					g.rotate(cw.getRotation(), x, y);
+				}
+				
+				if(cw.getColor() != null){
+					g.setColor(cw.getColor());
+					g.fillOval(x, y, width, height);
+				}
+				
+				if(markup.getLineWidth()>0) {
+					g.setColor(cw.getColor());
+					g.drawOval(x, y, width, height);
+				}
+				
+			}else if(markup instanceof Wall) {
+				Wall w = (Wall)markup;
+				
+				int n = w.getSegmentCount();
+				int nPoints = n+1;
+				int[] xPoints = new int[nPoints];
+				int[] yPoints = new int[nPoints];
+				for(int i=0; i<n; i++) {
+					MarkupSegment ms = w.getSegment(i);
+					xPoints[i] = roundToInt(ms.getStartX()) - offsetX;
+					yPoints[i] = roundToInt(ms.getStartY()) - offsetY;
+					
+					if(n >= w.getSegmentCount()-1) {
+						xPoints[i+1] = roundToInt(ms.getEndX()) - offsetX;
+						yPoints[i+1] = roundToInt(ms.getEndY()) - offsetY;
+					}	
+				}
+				
+				g.setColor(w.getColor());
+				g.drawPolyline(xPoints, yPoints, nPoints);
+				
+				if(nPoints > 1 && xPoints[0] == xPoints[nPoints-1] && yPoints[0] == yPoints[nPoints-1]) {
+					g.fillPolygon(xPoints, yPoints, nPoints);
+				}
+			}
+			
+			g.setStroke(defaultStroke);
+			g.setTransform(defTransf);
+		}
+	}
+	
+	/**
+	 * Paint instances of AreaNode class
+	 * @param g
+	 * @param markup
+	 * @param offsetX
+	 * @param offsetY
+	 */
+	private static void paintMarkup(java.awt.Graphics2D g, AreaNode markup, int offsetX, int offsetY){
+		if(markup.isVisible()) {
+			java.awt.Stroke defaultStroke = g.getStroke();
+			java.awt.geom.AffineTransform defTransf = g.getTransform();
+			
+			g.setStroke(new java.awt.BasicStroke(roundToInt(markup.getLineWidth())));
+			if(markup instanceof PolygonalNode) {
+				
+				PolygonalNode pn = (PolygonalNode)markup;
+				int nPoints = pn.getNPoints();
+				int[] xPoints = new int[nPoints];
+				int[] yPoints = new int[nPoints];
+				for(int i=0; i<nPoints; i++) {
+					xPoints[i] = roundToInt(pn.getX() + pn.getPointDx(i)) - offsetX;
+					yPoints[i] = roundToInt(pn.getY() + pn.getPointDy(i)) - offsetY;
+				}
+				
+				if(markup.getFillColor() != null){
+					g.setColor(markup.getFillColor());
+					g.fillPolygon(xPoints, yPoints, nPoints);
+				}
+				
+				if(markup.getLineWidth()>0 && markup.getLineColor()!=null) {
+					g.setColor(markup.getLineColor());
+					g.drawPolygon(xPoints, yPoints, nPoints);
+				}
+				
+			}else if(markup instanceof RectangularNode) {
+				
+				RectangularNode rn = (RectangularNode)markup;
+
+				int x = roundToInt(rn.getX()) - offsetX;
+				int y = roundToInt(rn.getY()) - offsetY;
+				int width = roundToInt(rn.getWidth());
+				int height = roundToInt(rn.getHeight());
+				
+				if(rn.getRotation() != 0.) {
+					g.rotate(rn.getRotation(), x, y);
+				}
+				
+				if(markup.getFillColor() != null){
+					g.setColor(markup.getFillColor());
+					g.fillRect(x, y, width, height);
+				}
+				
+				if(markup.getLineWidth()>0 && markup.getLineColor()!=null) {
+					g.setColor(markup.getLineColor());
+					g.drawRect(x, y, width, height);
+				}
+			}
+			
+			g.setStroke(defaultStroke);
+			g.setTransform(defTransf);
+		}
+	}
+	
+	/**
+	 * Paint instances of ShapeImage class
+	 * @param g
+	 * @param shapeImage
+	 * @param offsetX
+	 * @param offsetY
+	 */
+	private static void paintShapeImage(java.awt.Graphics2D g, ShapeImage shapeImage, int offsetX, int offsetY){
+		try {
+			java.awt.image.BufferedImage img = javax.imageio.ImageIO.read(new java.io.File(shapeImage.getImageFileName(0)));
+			
+			java.awt.geom.AffineTransform at = new java.awt.geom.AffineTransform();
+			double sx = shapeImage.getWidth() / img.getWidth();
+			double sy = shapeImage.getHeight() / img.getHeight();	
+			at.scale(sx, sy);
+			
+			g.drawImage(
+					img, 
+					roundToInt(shapeImage.getX() - offsetX), 
+					roundToInt(shapeImage.getY() - offsetY),
+					roundToInt(shapeImage.getWidth()), 
+					roundToInt(shapeImage.getHeight()), 
+					null);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Save BufferedImage as PNG file
+	 * @param img
+	 * @param destinationPath
+	 */
+	public static void saveImageAsPNG(java.awt.image.BufferedImage img, String destinationPath) {
+		try {
+			if(!destinationPath.endsWith(".png")) {
+				destinationPath = destinationPath + ".png";
+			}
+			
+			javax.imageio.ImageIO.write(img,"png",new java.io.File(destinationPath));
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	private static String bufferedImageToBase64(java.awt.image.BufferedImage img) {
+		try {
+			java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+			javax.imageio.ImageIO.write(img, "png", baos);
+			byte[] imageBytes = baos.toByteArray();
+			byte[] encodedImage = java.util.Base64.getEncoder().encode(imageBytes);
+	
+			return new String(encodedImage);
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+} ]]></Text>
+		</JavaClass>
+	</JavaClasses>
 	<ModelResources>
 		<Resource>
 			<Path><![CDATA[windmill-svgrepo-com.png]]></Path>
@@ -36427,6 +37063,18 @@ if (gisRegion == null ) {
 		<VersionMajor>0</VersionMajor>
 		<VersionMinor>0</VersionMinor>
 		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[com.anylogic.libraries.processmodeling]]></LibraryName>
+		<VersionMajor>8</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>5</VersionBuild>
+    </RequiredLibraryReference>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[com.anylogic.libraries.pedestrian]]></LibraryName>
+		<VersionMajor>8</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>5</VersionBuild>
     </RequiredLibraryReference>
 	<ClassPathEntry>
 		<ResourceReference>
