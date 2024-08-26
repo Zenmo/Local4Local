@@ -15,11 +15,14 @@ export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
         startSimulation(anylogicElementId, sessionId)
     }
 
+    const initialTab = "Introductie"
+    const [activeTab, setActiveTab] = useState(initialTab)
+
     return (
         <div className={className} css={{
             margin: "0 auto",
         }}>
-            <Tabs.Root defaultValue="tab1">
+            <Tabs.Root defaultValue={initialTab} onValueChange={setActiveTab}>
                 <Tabs.List className="TabsList" aria-label="Stappen" justify="center">
                     <Tabs.Trigger value="Introductie">
                         1. Introductie
@@ -31,7 +34,7 @@ export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
                         3. Simuleer
                     </Tabs.Trigger>
                 </Tabs.List>
-                <Tabs.Content value="Introductie">
+                <Tabs.Content value="Introductie" >
                     Introductie!!!!
                 </Tabs.Content>
                 <Tabs.Content value="Configureer">
@@ -39,7 +42,7 @@ export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
                 </Tabs.Content>
                 <Tabs.Content value="Simuleer" css={{
                     width: "50rem",
-                }}>
+                }} forceMount hidden={activeTab !== "Simuleer"}>
                     <Simulate onClickStart={onClickStart} />
                 </Tabs.Content>
             </Tabs.Root>
