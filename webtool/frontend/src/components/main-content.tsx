@@ -6,6 +6,7 @@ import {startSimulation} from "../services/anylogic.ts"
 import {Pilot} from "local4local"
 import {Simulate} from "./simulate.tsx"
 import {EmotionProps} from "../services/types"
+import {Intro} from "./intro.tsx"
 
 export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
     const [pilot, setPilot] = useState(new Pilot("Pilot"))
@@ -35,7 +36,7 @@ export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
                     </Tabs.Trigger>
                 </Tabs.List>
                 <Tabs.Content value="Introductie" >
-                    Introductie!!!!
+                    <Intro />
                 </Tabs.Content>
                 <Tabs.Content value="Configureer">
                     <ViewPilot pilot={pilot} setPilot={setPilot}/>
