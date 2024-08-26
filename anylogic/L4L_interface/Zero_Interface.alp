@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021032" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021042" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_Interface]]></Name>
@@ -7060,7 +7060,7 @@ gisregion.setLineWidth(2);
 				<AgentLink>
 					<Id>1658477103135</Id>
 					<Name><![CDATA[connections]]></Name>
-					<X>50</X><Y>-50</Y>
+					<X>40</X><Y>-1500</Y>
 					<Label><X>15</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7557,7 +7557,7 @@ gisregion.setLineWidth(2);
 				<Rectangle>
 					<Id>1701952231399</Id>
 					<Name><![CDATA[rect_gismap]]></Name>
-					<X>400</X><Y>85</Y>
+					<X>820.667</X><Y>-1273.667</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7580,10 +7580,10 @@ gisregion.setLineWidth(2);
 				<GISMap>
 					<Id>1696520897149</Id>
 					<Name><![CDATA[map]]></Name>
-					<X>410</X><Y>130</Y>
+					<X>830.667</X><Y>-1228.667</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<OnClickCode><![CDATA[if (uI_Tabs.tabEHub.b_NFATOListener) {
@@ -7637,7 +7637,7 @@ else {
 				<Group>
 					<Id>1724074923402</Id>
 					<Name><![CDATA[gr_menu]]></Name>
-					<X>940</X><Y>-10</Y>
+					<X>930</X><Y>-1460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8026,7 +8026,7 @@ else {
 				<Text>
 					<Id>1690975123923</Id>
 					<Name><![CDATA[t_date]]></Name>
-					<X>420</X><Y>54</Y>
+					<X>410</X><Y>-1396</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8142,7 +8142,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Group>
 					<Id>1696520897606</Id>
 					<Name><![CDATA[gr_zoomButton]]></Name>
-					<X>1330</X><Y>680</Y>
+					<X>1750.667</X><Y>-678.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8408,7 +8408,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Rectangle>
 					<Id>1701951640332</Id>
 					<Name><![CDATA[rect_legendaBackground]]></Name>
-					<X>-510</X><Y>-100</Y>
+					<X>-89.333</X><Y>-1458.667</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8431,7 +8431,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Rectangle>
 					<Id>1701951640336</Id>
 					<Name><![CDATA[rect_legenda]]></Name>
-					<X>-500</X><Y>-84</Y>
+					<X>-79.333</X><Y>-1442.667</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8453,7 +8453,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Text>
 					<Id>1701951640338</Id>
 					<Name><![CDATA[t_legenda]]></Name>
-					<X>-470</X><Y>-100</Y>
+					<X>-49.333</X><Y>-1458.667</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8474,7 +8474,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Line>
 					<Id>1701951640396</Id>
 					<Name><![CDATA[line_legendaSeperator1]]></Name>
-					<X>-165</X><Y>-70</Y>
+					<X>255.667</X><Y>-1428.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8498,7 +8498,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Line>
 					<Id>1724074247375</Id>
 					<Name><![CDATA[line_legendaSeperator2]]></Name>
-					<X>-10</X><Y>-70</Y>
+					<X>410.667</X><Y>-1428.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8522,7 +8522,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Group>
 					<Id>1724074154126</Id>
 					<Name><![CDATA[gr_infrastructure]]></Name>
-					<X>-340</X><Y>5</Y>
+					<X>80.667</X><Y>-1353.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9024,7 +9024,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Text>
 					<Id>1724074500599</Id>
 					<Name><![CDATA[t_buildings]]></Name>
-					<X>50</X><Y>-84</Y>
+					<X>470.667</X><Y>-1442.667</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9045,7 +9045,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Line>
 					<Id>1724074502826</Id>
 					<Name><![CDATA[line_buildings]]></Name>
-					<X>380</X><Y>-64</Y>
+					<X>800.667</X><Y>-1422.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9069,7 +9069,7 @@ traceln("gr_compareResultsButton is not functional!");]]></OnClickCode>
 				<Group>
 					<Id>1724074508882</Id>
 					<Name><![CDATA[gr_colorings]]></Name>
-					<X>-180</X><Y>0</Y>
+					<X>240.667</X><Y>-1358.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9195,7 +9195,7 @@ b_updateCongestionColors = false;
 				<Group>
 					<Id>1724074510737</Id>
 					<Name><![CDATA[gr_productionColorsLegenda]]></Name>
-					<X>700</X><Y>10</Y>
+					<X>1120</X><Y>-1380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -9342,7 +9342,7 @@ b_updateCongestionColors = false;
 				<Group>
 					<Id>1724074678970</Id>
 					<Name><![CDATA[gr_consumptionColorsLegenda]]></Name>
-					<X>10</X><Y>0</Y>
+					<X>430.667</X><Y>-1358.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -9574,7 +9574,7 @@ b_updateCongestionColors = false;
 				<Group>
 					<Id>1724074510773</Id>
 					<Name><![CDATA[gr_productionColorsLegendaHouseholds]]></Name>
-					<X>1030</X><Y>10</Y>
+					<X>1450</X><Y>-1380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -9721,7 +9721,7 @@ b_updateCongestionColors = false;
 				<Group>
 					<Id>1724074510751</Id>
 					<Name><![CDATA[gr_consumptionColorsLegendaHouseholds]]></Name>
-					<X>860</X><Y>10</Y>
+					<X>1280</X><Y>-1380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -9954,7 +9954,7 @@ b_updateCongestionColors = false;
 				<Group>
 					<Id>1724074583631</Id>
 					<Name><![CDATA[gr_specificBuildings]]></Name>
-					<X>245</X><Y>10</Y>
+					<X>665.667</X><Y>-1348.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10244,7 +10244,7 @@ b_updateCongestionColors = false;
 				<Group>
 					<Id>1704210756310</Id>
 					<Name><![CDATA[gr_clickedObjectInfo]]></Name>
-					<X>370</X><Y>220</Y>
+					<X>790.667</X><Y>-1138.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10458,7 +10458,7 @@ traceln( v_themeColorBase.getRGB() );]]></ActionCode>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1708522580070</Id>
 					<Name><![CDATA[button_goToUI]]></Name>
-					<X>1120</X><Y>87</Y>
+					<X>1540.667</X><Y>-1271.667</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10603,7 +10603,7 @@ else {
 				<Rectangle>
 					<Id>1709718299887</Id>
 					<Name><![CDATA[rect_scenarios]]></Name>
-					<X>-0.667</X><Y>98.667</Y>
+					<X>420</X><Y>-1260</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10627,7 +10627,7 @@ else {
 					<Id>1709718299889</Id>
 					<Name><![CDATA[rb_scenarios]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>19.333</X><Y>144.667</Y>
+					<X>440</X><Y>-1214</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10679,7 +10679,7 @@ else{
 				<Text>
 					<Id>1709718299891</Id>
 					<Name><![CDATA[t_scenarios]]></Name>
-					<X>19.333</X><Y>118.667</Y>
+					<X>440</X><Y>-1240</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10700,7 +10700,7 @@ else{
 				<Group>
 					<Id>1709718299897</Id>
 					<Name><![CDATA[gr_scenarioDescription]]></Name>
-					<X>199.333</X><Y>374.667</Y>
+					<X>620</X><Y>-984</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11047,7 +11047,7 @@ b_resultsUpToDate = true;
 				<Group>
 					<Id>1715117660077</Id>
 					<Name><![CDATA[group_standaardLegenda]]></Name>
-					<X>1520</X><Y>890</Y>
+					<X>1940</X><Y>-500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11401,7 +11401,7 @@ for (GridConnection gc : GCs) {
 				<Text>
 					<Id>1719829894799</Id>
 					<Name><![CDATA[t_outsideTemperature]]></Name>
-					<X>1326</X><Y>17</Y>
+					<X>1316</X><Y>-1433</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11423,7 +11423,7 @@ for (GridConnection gc : GCs) {
 				<Text>
 					<Id>1719829988146</Id>
 					<Name><![CDATA[t_solarIrradiance]]></Name>
-					<X>1326</X><Y>42</Y>
+					<X>1316</X><Y>-1408</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11445,7 +11445,7 @@ for (GridConnection gc : GCs) {
 				<Text>
 					<Id>1719829993001</Id>
 					<Name><![CDATA[t_windSpeed]]></Name>
-					<X>1326</X><Y>67</Y>
+					<X>1316</X><Y>-1383</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11467,7 +11467,7 @@ for (GridConnection gc : GCs) {
     			<TimePlot>
 					<Id>1719847144211</Id>
 					<Name><![CDATA[plot_outsideTemperature]]></Name>
-					<X>1335</X><Y>12</Y>
+					<X>1325</X><Y>-1438</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11534,7 +11534,7 @@ for (GridConnection gc : GCs) {
     			<TimePlot>
 					<Id>1719848137592</Id>
 					<Name><![CDATA[plot_solarIrradiance]]></Name>
-					<X>1335</X><Y>38</Y>
+					<X>1325</X><Y>-1412</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11601,7 +11601,7 @@ for (GridConnection gc : GCs) {
 				<Group>
 					<Id>1720909739871</Id>
 					<Name><![CDATA[gr_multipleBuildingInfo]]></Name>
-					<X>1040</X><Y>55</Y>
+					<X>1460.667</X><Y>-1303.667</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -11711,7 +11711,7 @@ for (GridConnection gc : GCs) {
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1721290473524</Id>
 					<Name><![CDATA[checkbox_multiSelect]]></Name>
-					<X>790</X><Y>50</Y>
+					<X>780</X><Y>-1400</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -11790,7 +11790,7 @@ for (GridConnection gc : GCs) {
 				<EmbeddedObjectPresentation>
 					<Id>1722252542596</Id>
 					<Name><![CDATA[uI_Tabs_presentation]]></Name>
-					<X>0</X><Y>0</Y>
+					<X>0</X><Y>-2500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
