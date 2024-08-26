@@ -12,7 +12,7 @@ services:
             service: npm-base
         command: ["npm", "run", "dev"]
         environment:
-            VITE_BACKEND_URL: https://1ebd-62-195-188-155.ngrok-free.app
+            VITE_BACKEND_URL: https://56d8-62-195-188-155.ngrok-free.app
         ports:
             - "127.0.0.1:5173:5173"
 
