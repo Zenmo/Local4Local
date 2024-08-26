@@ -1,6 +1,4 @@
 
-import local4localLogo from "../assets/local4local-logo.svg"
-
 export const Header = () => (
     <h1 css={{
         display: "flex",
@@ -9,7 +7,7 @@ export const Header = () => (
         margin: "0",
     }}>
         <a href="https://local4local.nu">
-            <img src={local4localLogo} alt="Local4Local"/>
+            <img src="/local4local-logo.svg" alt="Local4Local"/>
         </a>
         <span css={{
             paddingBottom: ".42em",

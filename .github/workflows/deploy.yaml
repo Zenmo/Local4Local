@@ -1,12 +1,11 @@
-name: Deploy static site
+name: Deploy
 
 on:
   push:
     branches:
       - main
-      - deploy
-  pull_request:
-    types: [ opened, synchronize, reopened ]
+#  pull_request:
+#    types: [ opened, synchronize, reopened ]
 
 jobs:
   build-deploy-static-site:
