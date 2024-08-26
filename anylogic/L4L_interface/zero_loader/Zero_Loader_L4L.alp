@@ -531,6 +531,9 @@ Calculated by: initial value (total floor area of the area) - total floor area o
 						<Type><![CDATA[String]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["https://local4local-backend.zenmo.com"]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1724684227563</Id>
 							<Label><![CDATA[p_local4localBackendUrl]]></Label>
@@ -553,6 +556,9 @@ Calculated by: initial value (total floor area of the area) - total floor area o
 						<Type><![CDATA[String]]></Type>
 						<UnitType><![CDATA[NONE]]></UnitType>
 						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["startPilot"]]></Code>
+						</DefaultValue>
 						<ParameterEditor>
 							<Id>1724684276719</Id>
 							<EditorContolType>TEXT_BOX</EditorContolType>
