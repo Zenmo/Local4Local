@@ -6,7 +6,7 @@ export const AddDropdown: FunctionComponent<{
     addWindFarm: () => void
     addSolarFarm: () => void
     addBattery: () => void
-    addHeatStorage?: () => void
+    addHeatStorage: () => void
     addCompany?: () => void
     style: CSSProperties
 }> = ({
@@ -14,7 +14,7 @@ export const AddDropdown: FunctionComponent<{
     addWindFarm,
     addSolarFarm,
     addBattery,
-    addHeatStorage = () => alert("Warmte-opslag nog niet geïmplementeerd"),
+    addHeatStorage,
     addCompany = () => alert("Bedrijf nog niet geïmplementeerd"),
     style,
 }) => (
