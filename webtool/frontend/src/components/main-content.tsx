@@ -1,5 +1,5 @@
 import {Tabs} from '@radix-ui/themes';
-import {ViewPilot} from "./view-pilot.tsx"
+import {Configure} from "./configure.tsx"
 import {FunctionComponent, useState} from "react"
 import {savePilot} from "../services/save.ts"
 import {startSimulation} from "../services/anylogic.ts"
@@ -35,14 +35,17 @@ export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
                         3. Simuleer
                     </Tabs.Trigger>
                 </Tabs.List>
-                <Tabs.Content value="Introductie" >
+                <Tabs.Content value="Introductie" css={{
+                    maxWidth: "40rem",
+                }}>
                     <Intro />
                 </Tabs.Content>
                 <Tabs.Content value="Configureer">
-                    <ViewPilot pilot={pilot} setPilot={setPilot}/>
+                    <Configure pilot={pilot} setPilot={setPilot}/>
                 </Tabs.Content>
                 <Tabs.Content value="Simuleer" css={{
-                    width: "50rem",
+                    width: "100vw",
+                    maxWidth: "70rem",
                 }} forceMount hidden={activeTab !== "Simuleer"}>
                     <Simulate onClickStart={onClickStart} />
                 </Tabs.Content>

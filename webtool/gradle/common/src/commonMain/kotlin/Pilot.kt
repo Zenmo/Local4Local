@@ -21,11 +21,11 @@ data class Pilot(
     fun withHouseholdGroup(households: HouseholdGroup): Pilot =
         copy(householdGroups = this.householdGroups + households)
 
-    fun withSolarFarms(solarFarms: SolarFarm): Pilot =
-        copy(solarFarms = this.solarFarms + solarFarms)
+    fun withSolarFarm(solarFarm: SolarFarm): Pilot =
+        copy(solarFarms = this.solarFarms + solarFarm)
 
-    fun withWindFarms(windFarms: WindFarm): Pilot =
-        copy(windFarms = this.windFarms + windFarms)
+    fun withWindFarm(windFarm: WindFarm): Pilot =
+        copy(windFarms = this.windFarms + windFarm)
 
     fun toJson(): String =
         Json.encodeToString(this)
