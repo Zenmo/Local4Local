@@ -10854,7 +10854,8 @@ voor verwarming.]]></Text>
 					<PresentationFlag>false</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<XCode><![CDATA[1668]]></XCode>
+					<XCode><![CDATA[948]]></XCode>
+					<YCode><![CDATA[440]]></YCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -10903,6 +10904,7 @@ new Thread( () -> {
 	//gr_simulateCostsScreen.setVisible(false);
 	//gr_scopeRadioButtons.setVisible(true);
 	f_updateUIresultsMainArea();
+	uI_Results.f_showCorrectChart();
 }).start();
 
 //gr_netbelastingDuurkrommes.setVisible(false);
@@ -10965,7 +10967,7 @@ b_resultsUpToDate = true;
 				<Group>
 					<Id>1709717180404</Id>
 					<Name><![CDATA[gr_loadIconSmall]]></Name>
-					<X>1660</X><Y>135</Y>
+					<X>940</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
