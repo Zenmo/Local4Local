@@ -5,11 +5,17 @@ export const AddDropdown: FunctionComponent<{
     addHouseholdGroup: () => void
     addWindFarm: () => void
     addSolarFarm: () => void
+    addBattery: () => void
+    addHeatStorage?: () => void
+    addCompany?: () => void
     style: CSSProperties
 }> = ({
     addHouseholdGroup,
     addWindFarm,
     addSolarFarm,
+    addBattery,
+    addHeatStorage = () => alert("Warmte-opslag nog niet geïmplementeerd"),
+    addCompany = () => alert("Bedrijf nog niet geïmplementeerd"),
     style,
 }) => (
     <DropdownMenu.Root>
@@ -23,13 +29,13 @@ export const AddDropdown: FunctionComponent<{
             <DropdownMenu.Item onSelect={addHouseholdGroup}>Huishoudens</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addWindFarm}>Windpark</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addSolarFarm}>Zonnepark</DropdownMenu.Item>
-            <DropdownMenu.Item onSelect={() => alert("Batterij nog niet geïmplementeerd")}>
+            <DropdownMenu.Item onSelect={addBattery}>
                 Batterij
             </DropdownMenu.Item>
-            <DropdownMenu.Item onSelect={() => alert("Warmte-opslag nog niet geïmplementeerd")}>
+            <DropdownMenu.Item onSelect={addHeatStorage}>
                 Warmte-opslag
             </DropdownMenu.Item>
-            <DropdownMenu.Item onSelect={() => alert("Bedrijf nog niet geïmplementeerd")}>
+            <DropdownMenu.Item onSelect={addCompany}>
                 Bedrijf
             </DropdownMenu.Item>
         </DropdownMenu.Content>

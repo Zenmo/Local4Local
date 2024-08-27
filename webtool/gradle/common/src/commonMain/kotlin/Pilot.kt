@@ -27,6 +27,12 @@ data class Pilot(
     fun withWindFarm(windFarm: WindFarm): Pilot =
         copy(windFarms = this.windFarms + windFarm)
 
+    fun withBattery(battery: Battery): Pilot =
+        copy(batteries = this.batteries + battery)
+
+    fun withHeatStorage(heatStorage: HeatStorage): Pilot =
+        copy(heatStorages = this.heatStorages + heatStorage)
+
     fun toJson(): String =
         Json.encodeToString(this)
 }

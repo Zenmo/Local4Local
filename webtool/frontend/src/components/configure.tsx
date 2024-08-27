@@ -1,16 +1,20 @@
 import {FunctionComponent, useState} from "react"
-import {Pilot, HouseholdGroup, SolarFarm, WindFarm} from "local4local"
+import {Pilot, HouseholdGroup, SolarFarm, WindFarm, Battery} from "local4local"
 import {HouseholdDisplay} from "./household/household-display.tsx"
 import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
 import {Flex} from "@radix-ui/themes"
 import {SolarFarmDisplay, SolarFarmForm} from "./solar-farm.tsx"
 import {WindFarmDisplay, WindFarmForm} from "./wind-farm.tsx"
+import {BatteryDisplay, BatteryForm} from "./battery.tsx"
 
 export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilot) => void }> = ({pilot, setPilot}) => {
     const [showAddHouseholdGroup, setShowAddHouseholdGroup] = useState(false)
     const [showAddSolarFarm, setShowAddSolarFarm] = useState(false)
     const [showAddWindFarm, setShowAddWindFarm] = useState(false)
+    const [showAddBattery, setShowAddBattery] = useState(false)
+
+    const showAddDropdown = !(showAddHouseholdGroup || showAddSolarFarm || showAddWindFarm || showAddBattery)
 
     const saveHouseholdGroup = (householdGroup: HouseholdGroup) => {
         setPilot(pilot.withHouseholdGroup(householdGroup))
@@ -22,6 +26,10 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
 
     const saveWindFarm = (windFarm: WindFarm) => {
         setPilot(pilot.withWindFarm(windFarm))
+    }
+
+    const saveBattery = (battery: Battery) => {
+        setPilot(pilot.withBattery(battery))
     }
 
     return (
@@ -44,14 +52,21 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
             {showAddWindFarm &&
                 <WindFarmForm saveWindFarm={saveWindFarm} hide={() => setShowAddWindFarm(false)} />}
 
-            <AddDropdown
-                style={{
-                    alignSelf: "end",
-                }}
-                addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
-                addSolarFarm={() => setShowAddSolarFarm(true)}
-                addWindFarm={() => setShowAddWindFarm(true)}
-            />
+            {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
+                <BatteryDisplay key={"battery_" + i} battery={it} />)}
+            {showAddBattery &&
+                <BatteryForm saveBattery={saveBattery} hide={() => setShowAddBattery(false)} />}
+
+            {showAddDropdown &&
+                <AddDropdown
+                    style={{
+                        alignSelf: "end",
+                    }}
+                    addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
+                    addSolarFarm={() => setShowAddSolarFarm(true)}
+                    addWindFarm={() => setShowAddWindFarm(true)}
+                    addBattery={() => setShowAddBattery(true)}
+                />}
         </Flex>
     )
 }

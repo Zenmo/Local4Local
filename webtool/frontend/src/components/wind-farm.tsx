@@ -48,7 +48,7 @@ export const WindFarmForm: FunctionComponent<{
             <form onSubmit={onSubmit}>
                 <div>
                     <label htmlFor="nominalPower_kW">Vermogen (kW)</label>
-                    <input type="number" id="nominalPower_kW" name="nominalPower_kW"/>
+                    <input type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={2000}/>
                 </div>
                 <Button type="submit">Opslaan</Button>
             </form>
