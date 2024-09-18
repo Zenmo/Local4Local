@@ -38,7 +38,7 @@ export const HouseholdForm: FunctionComponent<{
         <Heading as="h3" style={{paddingBottom: ".5rem"}}>
             <PiMoneyLight />
             &nbsp;
-            Batterij
+            Kosten
         </Heading>
     )
 
@@ -94,8 +94,6 @@ export const HouseholdForm: FunctionComponent<{
                     <label htmlFor="additionalCosts_cty">Onderhoudskosten [€/jaar]</label>
                     <input type="number" id="additionalCosts_cty" name="additionalCosts_cty" defaultValue={0} min={0} />
                 </div>
-
-
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
