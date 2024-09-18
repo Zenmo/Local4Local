@@ -25,6 +25,12 @@ val startPilot = Pilot(
             hasChargePoint_r = 0.5,
             hasHomeBattery_r = 0.5,
             annualBaseConsumptionAvg_kWh = 4500.0
+
+            costsPer_kWh = 0.0,
+            buy_ct = 0.0,
+            income_r = 0.0,
+            writingPeriod_y = 0.0,
+            additionalCosts_cty = 0.0,
         )
     ),
     windFarms = listOf(
