@@ -3,7 +3,7 @@ import {Pilot, HouseholdGroup, SolarFarm, WindFarm, Battery, HeatStorage} from "
 import {HouseholdDisplay} from "./household/household-display.tsx"
 import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
-import {Flex} from "@radix-ui/themes"
+import {Grid} from "@radix-ui/themes"
 import {SolarFarmDisplay, SolarFarmForm} from "./solar-farm.tsx"
 import {WindFarmDisplay, WindFarmForm} from "./wind-farm.tsx"
 import {BatteryDisplay, BatteryForm} from "./battery.tsx"
@@ -45,10 +45,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     }
 
     return (
-        <Flex wrap={"wrap"} gap={".2rem"} pt={".4rem"} minHeight={"5rem"} justify={"center"} css={{
-            alignItems: "center"
-        }}>
-
+        <Grid gap="2" pt="4">
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
                 <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it}/>)}
             {showAddHouseholdGroup &&
@@ -85,6 +82,6 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     addBattery={() => setShowAddBattery(true)}
                     addHeatStorage={() => setShowAddHeatStorage(true)}
                 />}
-        </Flex>
+        </Grid>
     )
 }

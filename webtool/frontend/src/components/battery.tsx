@@ -48,18 +48,16 @@ export const BatteryForm: FunctionComponent<{
     }
 
     return (
-        <Card>
+        <Card className="form-box">
             <BatteryHeading/>
             <form onSubmit={onSubmit}>
-                <div>
-                    <label htmlFor="capacity_kWh">Capaciteit</label>
-                    <input type="number" id="capacity_kWh" name="capacity_kWh" defaultValue={100} />
-                    kWh
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="capacity_kWh">Capaciteit (kWh)</label>
+                    <input className="form-input" type="number" id="capacity_kWh" name="capacity_kWh" defaultValue={100} />
                 </div>
-                <div>
-                    <label htmlFor="peakPower_kW">Vermogen</label>
-                    <input type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={100} />
-                    kW
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="peakPower_kW">Vermogen (kW)</label>
+                    <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={100} />
                 </div>
                 <Button type="submit">Opslaan</Button>
             </form>
