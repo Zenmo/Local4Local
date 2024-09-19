@@ -2,6 +2,7 @@ import {FunctionComponent} from "react"
 import {Card, DataList} from "@radix-ui/themes"
 import {HouseholdGroup} from "local4local"
 import {HouseholdHeading} from "./household-heading.tsx"
+import {CostDisplay} from "../cost-section.tsx"
 
 export const HouseholdDisplay: FunctionComponent<{ householdGroup: HouseholdGroup }> = ({householdGroup}) => {
     return (
@@ -36,6 +37,8 @@ export const HouseholdDisplay: FunctionComponent<{ householdGroup: HouseholdGrou
                     <DataList.Label minWidth="88px">Jaarlijks gemiddeld verbruik</DataList.Label>
                     <DataList.Value>{householdGroup.annualBaseConsumptionAvg_kWh} kWh</DataList.Value>
                 </DataList.Item>
+                <CostDisplay artifact={householdGroup} />
+
             </DataList.Root>
         </Card>
     )

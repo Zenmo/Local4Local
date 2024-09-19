@@ -47,15 +47,13 @@ data class HouseholdGroup(
     val hasHeatPump_r: Double,
     val hasChargePoint_r: Double,
     val hasHomeBattery_r: Double,
-
+     /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
+    val annualBaseConsumptionAvg_kWh: Double,
     val costsPer_kWh: Double,
     val buy_ct: Double,
     val income_r: Double,
     val writingPeriod_y: Double,
     val additionalCosts_cty: Double,
-
-    /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
-    val annualBaseConsumptionAvg_kWh: Double,
 )
 
 @OptIn(ExperimentalJsExport::class)

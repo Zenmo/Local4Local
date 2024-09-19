@@ -1,15 +1,23 @@
-import {FormEvent, FunctionComponent} from "react"
+import {FormEvent, FunctionComponent, useState} from "react"
 import {HouseholdGroup} from "local4local"
-import {Button, Card, Heading} from "@radix-ui/themes"
+import {Button, Card} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
-
-// Move Cost as a component
-import { PiMoneyLight } from "react-icons/pi"
+import {CostSection} from "../cost-section.tsx"
 
 export const HouseholdForm: FunctionComponent<{
     saveHouseholdGroup: (householdGroup: HouseholdGroup) => void,
     hide: () => void,
 }> = ({saveHouseholdGroup, hide}) => {
+
+    const [costs, setCosts] = useState({ costsPer_kWh: 0, buy_ct: 0, income_r: 0, writingPeriod_y: 0, additionalCosts_cty: 0 });
+
+    const handleCostChange = (key: any, value: any) => {
+        setCosts((prevCosts) => ({
+            ...prevCosts,
+            [key]: value,
+        }));
+    };
+
     const addHouseHold = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -23,24 +31,16 @@ export const HouseholdForm: FunctionComponent<{
             parseFloat(formData.get("hasChargePoint_r") as string) * 0.01,
             parseFloat(formData.get("hasHomeBattery_r") as string) * 0.01,
             parseFloat(formData.get("annualBaseConsumptionAvg_kWh") as string),
-            parseFloat(formData.get("costsPer_kWh") as string) * 0.01,
-            parseFloat(formData.get("buy_ct") as string) * 0.01,
-            parseFloat(formData.get("income_r") as string) * 0.01,
-            parseFloat(formData.get("writingPeriod_y") as string) * 0.01,
-            parseFloat(formData.get("additionalCosts_cty") as string) * 0.01,
-        )
-
+            costs.costsPer_kWh,
+            costs.buy_ct,
+            costs.income_r * 0.01,
+            costs.writingPeriod_y,
+            costs.additionalCosts_cty,
+        );
+        console.log(costs);
         saveHouseholdGroup(householdGroup)
         hide()
-    }
-
-    const CostHeading = () => (
-        <Heading as="h3" style={{paddingBottom: ".5rem"}}>
-            <PiMoneyLight />
-            &nbsp;
-            Kosten
-        </Heading>
-    )
+    };
 
     return (
         <Card className="form-box">
