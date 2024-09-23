@@ -27,36 +27,36 @@ export const HouseholdForm: FunctionComponent<{
     }
 
     return (
-        <Card>
+        <Card className="form-box">
             <HouseholdHeading />
             <form onSubmit={addHouseHold}>
-                <div>
-                    <label htmlFor="type">Type</label>
-                    <input type="text" id="type" name="type" defaultValue="Huishoudens"/>
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="type">Type</label>
+                    <input className="form-input" type="text" id="type" name="type" defaultValue="Huishoudens"/>
                 </div>
-                <div>
-                    <label htmlFor="households_n">Aantal huishoudens</label>
-                    <input type="number" id="households_n" name="households_n" defaultValue={100} min={0} />
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="households_n">Aantal huishoudens</label>
+                    <input className="form-input" type="number" id="households_n" name="households_n" defaultValue={100} min={0} />
                 </div>
-                <div>
-                    <label htmlFor="hasPV_r">Percentage met zonnepanelen</label>
-                    <input type="number" id="hasPV_r" name="hasPV_r" defaultValue={20} min={0} max={100} />
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="hasPV_r">Percentage met zonnepanelen</label>
+                    <input className="form-input" type="number" id="hasPV_r" name="hasPV_r" defaultValue={20} min={0} max={100} />
                 </div>
-                <div>
-                    <label htmlFor="hasHeatPump_r">Percentage met warmtepomp</label>
-                    <input type="number" id="hasHeatPump_r" name="hasHeatPump_r" defaultValue={10} min={0} max={100} />
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="hasHeatPump_r">Percentage met warmtepomp</label>
+                    <input className="form-input" type="number" id="hasHeatPump_r" name="hasHeatPump_r" defaultValue={10} min={0} max={100} />
                 </div>
-                <div>
-                    <label htmlFor="hasChargePoint_r">Percentage met laadpaal</label>
-                    <input type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={4} min={0} max={100} />
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="hasChargePoint_r">Percentage met laadpaal</label>
+                    <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={4} min={0} max={100} />
                 </div>
-                <div>
-                    <label htmlFor="hasHomeBattery_r">Percentage met thuisbatterij</label>
-                    <input type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={1} min={0} max={100} />
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="hasHomeBattery_r">Percentage met thuisbatterij</label>
+                    <input className="form-input" type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={1} min={0} max={100} />
                 </div>
-                <div>
-                    <label htmlFor="annualBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
-                    <input type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={4500} min={0} />
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="annualBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
+                    <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={4500} min={0} />
                 </div>
                 <Button type="submit">Opslaan</Button>
             </form>

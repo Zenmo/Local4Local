@@ -2,6 +2,7 @@ import {FormEvent, FunctionComponent} from "react"
 import {HeatStorage} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
+import './../styles.css';
 
 export const HeatStorageForm: FunctionComponent<{
     saveHeatStorage: (heatStorage: HeatStorage) => void,
@@ -24,27 +25,24 @@ export const HeatStorageForm: FunctionComponent<{
     }
 
     return (
-        <Card>
+        <Card className="form-box">
             <HeatStorageHeading />
             <form onSubmit={onSubmit}>
-                <div>
-                    <label htmlFor="storageMedium">Opslagmedium</label>
-                    <input type="text" id="storageMedium" name="storageMedium" defaultValue="Water"/>
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="storageMedium">Opslagmedium</label>
+                    <input className="form-input" type="text" id="storageMedium" name="storageMedium" defaultValue="Water"/>
                 </div>
-                <div>
-                    <label htmlFor="storageVolume_m3">Volume</label>
-                    <input type="number" id="storageVolume_m3" name="storageVolume_m3" defaultValue={50} min={0} />
-                    m3
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="storageVolume_m3">Volume (m3)</label>
+                    <input className="form-input" type="number" id="storageVolume_m3" name="storageVolume_m3" defaultValue={50} min={0} />
                 </div>
-                <div>
-                    <label htmlFor="minTemp_degC">Minimale temperatuur</label>
-                    <input type="number" id="minTemp_degC" name="minTemp_degC" defaultValue={50} />
-                    &deg;C
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="minTemp_degC">Minimale temperatuur (&deg;C)</label>
+                    <input className="form-input" type="number" id="minTemp_degC" name="minTemp_degC" defaultValue={50} />
                 </div>
-                <div>
-                    <label htmlFor="maxTemp_degC">Maximale temperatuur</label>
-                    <input type="number" id="maxTemp_degC" name="maxTemp_degC" defaultValue={95} />
-                    &deg;C
+                <div className="radix-grid">
+                    <label className="form-label" htmlFor="maxTemp_degC">Maximale temperatuur (&deg;C)</label>
+                    <input className="form-input" type="number" id="maxTemp_degC" name="maxTemp_degC" defaultValue={95} />
                 </div>
                 <Button type="submit">Opslaan</Button>
             </form>
