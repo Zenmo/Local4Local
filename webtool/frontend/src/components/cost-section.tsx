@@ -47,31 +47,31 @@ export const CostSection: FunctionComponent<{onCostChange: (key: any, value: any
             <div>
                 <label htmlFor="costsPer_kWh">Kosten per kWh</label>
                 <input type="number" id="costsPer_kWh" name="costsPer_kWh"
-                    defaultValue={0} min={0}
+                    min={0}
                     onChange={(e) => onCostChange('costsPer_kWh', e.target.value)}
                 />
             </div>
             <div>
                 <label htmlFor="buy_ct">Aanschaf [€]</label>
-                <input type="number" id="buy_ct" name="buy_ct" defaultValue={0} min={0}
+                <input type="number" id="buy_ct" name="buy_ct" min={0}
                     onChange={(e) => onCostChange('buy_ct', e.target.value)}
                 />
             </div>
             <div>
                 <label htmlFor="income_r">Rente [%]</label>
-                <input type="number" id="income_r" name="income_r" defaultValue={0} min={0} max={100}
+                <input type="number" id="income_r" name="income_r" min={0} max={100}
                 onChange={(e) => onCostChange('income_r', e.target.value)}
             />
             </div>
             <div>
                 <label htmlFor="writingPeriod_y">Afschrijvingsperiode [jaar]</label>
-                <input type="number" id="writingPeriod_y" name="writingPeriod_y" defaultValue={0} min={0}
+                <input type="number" id="writingPeriod_y" name="writingPeriod_y" min={0}
                 onChange={(e) => onCostChange('writingPeriod_y', e.target.value)}
             />
             </div>
             <div>
                 <label htmlFor="additionalCosts_cty">Onderhoudskosten [€/jaar]</label>
-                <input type="number" id="additionalCosts_cty" name="additionalCosts_cty" defaultValue={0} min={0}
+                <input type="number" id="additionalCosts_cty" name="additionalCosts_cty" min={0}
                 onChange={(e) => onCostChange('additionalCosts_cty', e.target.value)}
             />
             </div>
