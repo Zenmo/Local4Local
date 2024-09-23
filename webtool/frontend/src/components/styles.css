@@ -7,13 +7,7 @@
   grid-template-columns: repeat(12, 0.1fr);
 }
 
-.form-group {
-  align-items: center;
-  margin-bottom: 16px;
-}
-
 .form-label {
-  font-size: 14px;
   margin-bottom: 4px;
   grid-column: span 8;
 }
