@@ -1,13 +1,24 @@
-import {FormEvent, FunctionComponent} from "react"
+import {FormEvent, FunctionComponent, useState} from "react"
 import {HeatStorage} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
 import './../styles.css';
+import {CostSection} from "../cost-section.tsx"
 
 export const HeatStorageForm: FunctionComponent<{
     saveHeatStorage: (heatStorage: HeatStorage) => void,
     hide: () => void,
 }> = ({saveHeatStorage, hide}) => {
+                
+    const [costs, setCosts] = useState({ costsPer_kWh: 0, buy_ct: 0, income_r: 0, writingPeriod_y: 0, additionalCosts_cty: 0 });
+
+    const handleCostChange = (key: any, value: any) => {
+        setCosts((prevCosts) => ({
+            ...prevCosts,
+            [key]: value,
+        }));
+    };
+
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -18,6 +29,11 @@ export const HeatStorageForm: FunctionComponent<{
             parseFloat(formData.get("storageVolume_m3") as string),
             parseFloat(formData.get("minTemp_degC") as string),
             parseFloat(formData.get("maxTemp_degC") as string),
+            costs.costsPer_kWh,
+            costs.buy_ct,
+            costs.income_r * 0.01,
+            costs.writingPeriod_y,
+            costs.additionalCosts_cty
         )
 
         saveHeatStorage(heatStorage)
@@ -44,6 +60,9 @@ export const HeatStorageForm: FunctionComponent<{
                     <label className="form-label" htmlFor="maxTemp_degC">Maximale temperatuur (&deg;C)</label>
                     <input className="form-input" type="number" id="maxTemp_degC" name="maxTemp_degC" defaultValue={95} />
                 </div>
+
+                <CostSection onCostChange={handleCostChange} />
+
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

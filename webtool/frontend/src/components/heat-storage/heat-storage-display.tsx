@@ -2,6 +2,7 @@ import {FunctionComponent} from "react"
 import {Card, DataList} from "@radix-ui/themes"
 import {HeatStorage} from "local4local"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
+import {CostDisplay} from "../cost-section.tsx"
 
 export const HeatStorageDisplay: FunctionComponent<{ heatStorage: HeatStorage }> = ({heatStorage}) => {
     return (
@@ -24,6 +25,7 @@ export const HeatStorageDisplay: FunctionComponent<{ heatStorage: HeatStorage }>
                     <DataList.Label minWidth="88px">Maximale temperatuur</DataList.Label>
                     <DataList.Value>{heatStorage.maxTemp_degC} &deg;C</DataList.Value>
                 </DataList.Item>
+                <CostDisplay artifact={heatStorage} />
             </DataList.Root>
         </Card>
     )

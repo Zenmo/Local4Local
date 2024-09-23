@@ -37,7 +37,6 @@ export const HouseholdForm: FunctionComponent<{
             costs.writingPeriod_y,
             costs.additionalCosts_cty,
         );
-        console.log(costs);
         saveHouseholdGroup(householdGroup)
         hide()
     };

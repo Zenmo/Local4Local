@@ -1,7 +1,8 @@
-import {FormEvent, FunctionComponent} from "react"
+import {FormEvent, FunctionComponent, useState} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
 import {Battery} from "local4local"
 import { PiCarBatteryLight } from "react-icons/pi"
+import {CostSection, CostDisplay} from "./cost-section.tsx"
 
 export const BatteryDisplay: FunctionComponent<{ battery: Battery }> = ({battery}) => {
     return (
@@ -16,6 +17,7 @@ export const BatteryDisplay: FunctionComponent<{ battery: Battery }> = ({battery
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
+                <CostDisplay artifact={battery} />
             </DataList.Root>
         </Card>
     )
@@ -33,6 +35,15 @@ export const BatteryForm: FunctionComponent<{
     saveBattery: (s: Battery) => void
     hide: () => void
 }> = ({saveBattery, hide}) => {
+    const [costs, setCosts] = useState({ costsPer_kWh: 0, buy_ct: 0, income_r: 0, writingPeriod_y: 0, additionalCosts_cty: 0 });
+
+    const handleCostChange = (key: any, value: any) => {
+        setCosts((prevCosts) => ({
+            ...prevCosts,
+            [key]: value,
+        }));
+    };
+
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -41,6 +52,10 @@ export const BatteryForm: FunctionComponent<{
         const battery = new Battery(
             parseFloat(formData.get("capacity_kWh") as string),
             parseFloat(formData.get("peakPower_kW") as string),
+            costs.buy_ct,
+            costs.income_r * 0.01,
+            costs.writingPeriod_y,
+            costs.additionalCosts_cty,
         )
 
         saveBattery(battery)
@@ -59,6 +74,7 @@ export const BatteryForm: FunctionComponent<{
                     <label className="form-label" htmlFor="peakPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={100} />
                 </div>
+                <CostSection onCostChange={handleCostChange} />
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
