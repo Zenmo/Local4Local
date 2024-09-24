@@ -1,13 +1,21 @@
 import {FunctionComponent} from "react"
-import {Card, DataList} from "@radix-ui/themes"
+import {Card, DataList, Flex} from "@radix-ui/themes"
 import {HouseholdGroup} from "local4local"
 import {HouseholdHeading} from "./household-heading.tsx"
 import {CostDisplay} from "../cost-section.tsx"
+import {CardMenu} from "./../card-menu.tsx"
 
-export const HouseholdDisplay: FunctionComponent<{ householdGroup: HouseholdGroup }> = ({householdGroup}) => {
+export const HouseholdDisplay: FunctionComponent<{ 
+    householdGroup: HouseholdGroup,
+    toEdit: () => void,
+    toDelete: () => void,
+}> = ({householdGroup, toEdit, toDelete}) => {
     return (
         <Card>
-            <HouseholdHeading />
+            <Flex gap="3">
+                <HouseholdHeading />
+                <CardMenu onEdit={toEdit} onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Type</DataList.Label>

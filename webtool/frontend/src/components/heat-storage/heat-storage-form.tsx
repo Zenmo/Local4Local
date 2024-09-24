@@ -2,6 +2,7 @@ import {FormEvent, FunctionComponent} from "react"
 import {HeatStorage, AssetCost} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
+import {CardMenu} from "./../card-menu.tsx"
 import './../styles.css';
 import {CostSection} from "../cost-section.tsx"
 
@@ -57,6 +58,7 @@ export const HeatStorageForm: FunctionComponent<{
 
                 <CostSection />
 
+                <Button onClick={hide} style={{ marginRight: '10px' }}>Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

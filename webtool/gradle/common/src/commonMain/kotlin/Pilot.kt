@@ -18,6 +18,7 @@ data class Pilot(
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
 ) {
+    // Create
     fun withHouseholdGroup(households: HouseholdGroup): Pilot =
         copy(householdGroups = this.householdGroups + households)
 
@@ -32,6 +33,22 @@ data class Pilot(
 
     fun withHeatStorage(heatStorage: HeatStorage): Pilot =
         copy(heatStorages = this.heatStorages + heatStorage)
+
+    // Remove
+    fun withoutHouseholdGroup(households: HouseholdGroup): Pilot =
+        copy(householdGroups = this.householdGroups - households)
+
+    fun withoutSolarFarm(solarFarm: SolarFarm): Pilot =
+        copy(solarFarms = this.solarFarms - solarFarm)
+
+    fun withoutWindFarm(windFarm: WindFarm): Pilot =
+        copy(windFarms = this.windFarms - windFarm)
+
+    fun withoutBattery(battery: Battery): Pilot =
+        copy(batteries = this.batteries - battery)
+
+    fun withoutHeatStorage(heatStorage: HeatStorage): Pilot =
+        copy(heatStorages = this.heatStorages - heatStorage)
 
     fun toJson(): String =
         Json.encodeToString(this)

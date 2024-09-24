@@ -1,7 +1,8 @@
 import {FormEvent, FunctionComponent} from "react"
 import {HouseholdGroup} from "local4local"
-import {Button, Card} from "@radix-ui/themes"
+import {Button, Card, Flex} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
+import {CardMenu} from "./../card-menu.tsx"
 
 export const HouseholdForm: FunctionComponent<{
     saveHouseholdGroup: (householdGroup: HouseholdGroup) => void,
@@ -20,8 +21,8 @@ export const HouseholdForm: FunctionComponent<{
             parseFloat(formData.get("hasHomeBattery_r") as string) * 0.01,
             parseFloat(formData.get("annualBaseConsumptionAvg_kWh") as string),
         );
-        saveHouseholdGroup(householdGroup)
-        hide()
+        saveHouseholdGroup(householdGroup);
+        hide();
     };
 
     return (
@@ -56,6 +57,7 @@ export const HouseholdForm: FunctionComponent<{
                     <label className="form-label" htmlFor="annualBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
                     <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={4500} min={0} />
                 </div>
+                <Button onClick={hide} style={{ marginRight: '10px' }}>Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

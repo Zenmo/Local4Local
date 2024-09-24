@@ -71,6 +71,7 @@ export const BatteryForm: FunctionComponent<{
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={100} />
                 </div>
                 <CostSection hideCostPerKwh={true} />
+                <Button onClick={hide} style={{ marginRight: '10px' }}>Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

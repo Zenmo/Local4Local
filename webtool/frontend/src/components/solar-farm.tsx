@@ -61,6 +61,7 @@ export const SolarFarmForm: FunctionComponent<{
                 </div>
                 <CostSection />
 
+                <Button onClick={hide} style={{ marginRight: '10px' }}>Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

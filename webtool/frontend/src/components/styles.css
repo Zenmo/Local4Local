@@ -34,3 +34,23 @@
 .form-input:focus {
   border-color: #4f46e5; /* Indigo color */
 }
+
+.kebab-button {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 8px;
+};
+
+.dropdown-item {
+  padding: 8px 16px;
+  cursor: pointer;
+}

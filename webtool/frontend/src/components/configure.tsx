@@ -16,6 +16,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     const [showAddWindFarm, setShowAddWindFarm] = useState(false)
     const [showAddBattery, setShowAddBattery] = useState(false)
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
+    const [editIndex, setEditIndex] = useState(Number);
 
     const showAddDropdown = !(
         showAddHouseholdGroup ||
@@ -26,6 +27,10 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
 
     const saveHouseholdGroup = (householdGroup: HouseholdGroup) => {
         setPilot(pilot.withHouseholdGroup(householdGroup))
+    }
+    const deleteHouseholdGroup = (index: number) => {
+        let householdGroup = pilot.householdGroups.k_1[index];
+        setPilot(pilot.withoutHouseholdGroup(householdGroup))
     }
 
     const saveSolarFarm = (solarFarm: SolarFarm) => {
@@ -44,43 +49,78 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         setPilot(pilot.withHeatStorage(heatStorage))
     }
 
+    const handleSelect = (type: string, index?: number) => {
+        if (index) {
+            setEditIndex(index);
+        };
+        handleDisplay(type, true);
+    }
+
+    const handleDisplay = (type: string, show: boolean) => {
+        switch (type) {
+        case "householdGroup":
+            setShowAddHouseholdGroup(show)
+            break;
+        case "solarFarm":
+            setShowAddSolarFarm(show);
+            break;
+        case "windFarm":
+            setShowAddWindFarm(show);
+            break;
+        case "battery":
+            setShowAddBattery(show);
+            break;
+        case "heatStorage":
+            setShowAddHeatStorage(show);
+            break;
+        default:
+            break;
+        };
+        
+    }
+
     return (
         <Grid gap="2" pt="4">
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
-                <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it}/>)}
-            {showAddHouseholdGroup &&
-                <HouseholdForm saveHouseholdGroup={saveHouseholdGroup} hide={() => setShowAddHouseholdGroup(false)}/>}
-
+                <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
+                    toEdit={() => handleSelect("householdGroup", i)}
+                    toDelete={() => deleteHouseholdGroup(i)}
+                />)}
+           
             {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
                 <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} />)}
-            {showAddSolarFarm &&
-                <SolarFarmForm saveSolarFarm={saveSolarFarm} hide={() => setShowAddSolarFarm(false)} />}
-
+           
             {pilot.windFarms.asJsReadonlyArrayView().map((it, i) =>
                 <WindFarmDisplay windFarm={it} key={"windFarm_" + i} />)}
-            {showAddWindFarm &&
-                <WindFarmForm saveWindFarm={saveWindFarm} hide={() => setShowAddWindFarm(false)} />}
-
+            
             {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
                 <BatteryDisplay key={"battery_" + i} battery={it} />)}
-            {showAddBattery &&
-                <BatteryForm saveBattery={saveBattery} hide={() => setShowAddBattery(false)} />}
-
+            
             {pilot.heatStorages.asJsReadonlyArrayView().map((it, i) =>
                 <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i} />)}
+            
+            {showAddHouseholdGroup &&
+                <HouseholdForm saveHouseholdGroup={saveHouseholdGroup} hide={() => setShowAddHouseholdGroup(false)}/>}
+            {showAddSolarFarm &&
+                <SolarFarmForm saveSolarFarm={saveSolarFarm} hide={() => setShowAddSolarFarm(false)} />}
+            {showAddWindFarm &&
+                <WindFarmForm saveWindFarm={saveWindFarm} hide={() => setShowAddWindFarm(false)} />}
+            {showAddBattery &&
+                <BatteryForm saveBattery={saveBattery} hide={() => setShowAddBattery(false)} />}
             {showAddHeatStorage &&
                 <HeatStorageForm saveHeatStorage={saveHeatStorage} hide={() => setShowAddHeatStorage(false)} />}
+
 
             {showAddDropdown &&
                 <AddDropdown
                     style={{
                         alignSelf: "end",
                     }}
-                    addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
-                    addSolarFarm={() => setShowAddSolarFarm(true)}
-                    addWindFarm={() => setShowAddWindFarm(true)}
-                    addBattery={() => setShowAddBattery(true)}
-                    addHeatStorage={() => setShowAddHeatStorage(true)}
+                    addHouseholdGroup={() => handleSelect("householdGroup")}
+                    addSolarFarm={() => handleSelect("solarFarm")}
+                    addWindFarm={() => handleSelect("windFarm")}
+                    addBattery={() => handleSelect("battery")}
+                    addHeatStorage={() => handleSelect("heatStorage")}
                 />}
         </Grid>
     )
