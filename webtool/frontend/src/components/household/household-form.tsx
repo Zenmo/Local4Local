@@ -8,16 +8,6 @@ export const HouseholdForm: FunctionComponent<{
     saveHouseholdGroup: (householdGroup: HouseholdGroup) => void,
     hide: () => void,
 }> = ({saveHouseholdGroup, hide}) => {
-
-    const [costs, setCosts] = useState({ costsPer_kWh: 0, buy_ct: 0, income_r: 0, writingPeriod_y: 0, additionalCosts_cty: 0 });
-
-    const handleCostChange = (key: any, value: any) => {
-        setCosts((prevCosts) => ({
-            ...prevCosts,
-            [key]: value,
-        }));
-    };
-
     const addHouseHold = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -31,11 +21,11 @@ export const HouseholdForm: FunctionComponent<{
             parseFloat(formData.get("hasChargePoint_r") as string) * 0.01,
             parseFloat(formData.get("hasHomeBattery_r") as string) * 0.01,
             parseFloat(formData.get("annualBaseConsumptionAvg_kWh") as string),
-            costs.costsPer_kWh,
-            costs.buy_ct,
-            costs.income_r * 0.01,
-            costs.writingPeriod_y,
-            costs.additionalCosts_cty,
+            parseFloat(formData.get("costsPer_kWh") as string),
+            parseFloat(formData.get("buy_ct") as string),
+            parseFloat(formData.get("income_r") as string) * 0.01,
+            parseFloat(formData.get("writingPeriod_y") as string),
+            parseFloat(formData.get("additionalCosts_cty") as string),
         );
         saveHouseholdGroup(householdGroup)
         hide()
@@ -72,26 +62,6 @@ export const HouseholdForm: FunctionComponent<{
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="annualBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
                     <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={4500} min={0} />
-                </div>
-                <div>
-                    <label htmlFor="costsPer_kWh">Kosten per kWh [€]</label>
-                    <input type="number" id="costsPer_kWh" name="costsPer_kWh" defaultValue={0} min={0}/>
-                </div>
-                <div>
-                    <label htmlFor="buy_ct">Aanschaf [€]</label>
-                    <input type="number" id="buy_ct" name="buy_ct" defaultValue={0} min={0}/>
-                </div>
-                <div>
-                    <label htmlFor="income_r">Rente [%]</label>
-                    <input type="number" id="income_r" name="income_r" defaultValue={0} min={0} max={100} />
-                </div>
-                <div>
-                    <label htmlFor="writingPeriod_y">Afschrijvingsperiode [jaar]</label>
-                    <input type="number" id="writingPeriod_y" name="writingPeriod_y" defaultValue={0} min={0} />
-                </div>
-                <div>
-                    <label htmlFor="additionalCosts_cty">Onderhoudskosten [€/jaar]</label>
-                    <input type="number" id="additionalCosts_cty" name="additionalCosts_cty" defaultValue={0} min={0} />
                 </div>
                 <Button type="submit">Opslaan</Button>
             </form>

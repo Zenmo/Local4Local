@@ -37,8 +37,6 @@ export const HouseholdDisplay: FunctionComponent<{ householdGroup: HouseholdGrou
                     <DataList.Label minWidth="88px">Jaarlijks gemiddeld verbruik</DataList.Label>
                     <DataList.Value>{householdGroup.annualBaseConsumptionAvg_kWh} kWh</DataList.Value>
                 </DataList.Item>
-                <CostDisplay artifact={householdGroup} />
-
             </DataList.Root>
         </Card>
     )

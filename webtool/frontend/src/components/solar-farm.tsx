@@ -13,7 +13,7 @@ export const SolarFarmDisplay: FunctionComponent<{ solarFarm: SolarFarm }> = ({s
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{solarFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay artifact={solarFarm} />
+                <CostDisplay asset={solarFarm} />
             </DataList.Root>
         </Card>
     )
@@ -31,16 +31,6 @@ export const SolarFarmForm: FunctionComponent<{
     saveSolarFarm: (s: SolarFarm) => void
     hide: () => void
 }> = ({saveSolarFarm, hide}) => {
-
-    const [costs, setCosts] = useState({ costsPer_kWh: 0, buy_ct: 0, income_r: 0, writingPeriod_y: 0, additionalCosts_cty: 0 });
-
-    const handleCostChange = (key: any, value: any) => {
-        setCosts((prevCosts) => ({
-            ...prevCosts,
-            [key]: value,
-        }));
-    };
-
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -48,11 +38,12 @@ export const SolarFarmForm: FunctionComponent<{
 
         const solarFarm = new SolarFarm(
             parseFloat(formData.get("nominalPower_kW") as string),
-            costs.costsPer_kWh,
-            costs.buy_ct,
-            costs.income_r * 0.01,
-            costs.writingPeriod_y,
-            costs.additionalCosts_cty,
+            parseFloat(formData.get("costsPer_kWh") as string),
+
+            parseFloat(formData.get("buy_ct") as string),
+            parseFloat(formData.get("income_r") as string) * 0.01,
+            parseFloat(formData.get("writingPeriod_y") as string),
+            parseFloat(formData.get("additionalCosts_cty") as string),
         )
         saveSolarFarm(solarFarm)
         hide()
@@ -66,7 +57,7 @@ export const SolarFarmForm: FunctionComponent<{
                     <label className="form-label" htmlFor="nominalPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={1000}/>
                 </div>
-                <CostSection onCostChange={handleCostChange} />
+                <CostSection />
 
                 <Button type="submit">Opslaan</Button>
             </form>
