@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentHashMap
 
 val startPilot = Pilot(
     name="startPilot",
-    cost = ,
     householdGroups = listOf(
         HouseholdGroup(
             type = "Mix",
@@ -26,13 +25,7 @@ val startPilot = Pilot(
             hasHeatPump_r = 0.5,
             hasChargePoint_r = 0.5,
             hasHomeBattery_r = 0.5,
-            annualBaseConsumptionAvg_kWh = 4500.0,
-            Cost(costsPer_kWh = 0.0,
-                buy_ct = 0.0,
-                income_r = 0.0,
-                writingPeriod_y = 0.0,
-                additionalCosts_cty = 0.0
-            )
+            annualBaseConsumptionAvg_kWh = 4500.0
         )
     ),
     windFarms = listOf(
