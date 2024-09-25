@@ -1,6 +1,6 @@
 import {FormEvent, FunctionComponent, useState} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {SolarFarm} from "local4local"
+import {SolarFarm, Cost} from "local4local"
 import {SunIcon} from "@radix-ui/react-icons"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 
@@ -13,7 +13,7 @@ export const SolarFarmDisplay: FunctionComponent<{ solarFarm: SolarFarm }> = ({s
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{solarFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay asset={solarFarm} />
+                <CostDisplay cost={solarFarm.cost} />
             </DataList.Root>
         </Card>
     )
@@ -35,15 +35,17 @@ export const SolarFarmForm: FunctionComponent<{
         event.preventDefault()
         const form = event.target as HTMLFormElement
         const formData = new FormData(form)
-
-        const solarFarm = new SolarFarm(
-            parseFloat(formData.get("nominalPower_kW") as string),
+        const cost =  new Cost(
             parseFloat(formData.get("costsPer_kWh") as string),
-
             parseFloat(formData.get("buy_ct") as string),
             parseFloat(formData.get("income_r") as string) * 0.01,
             parseFloat(formData.get("writingPeriod_y") as string),
             parseFloat(formData.get("additionalCosts_cty") as string),
+        );
+
+        const solarFarm = new SolarFarm(
+            parseFloat(formData.get("nominalPower_kW") as string),
+            cost,
         )
         saveSolarFarm(solarFarm)
         hide()

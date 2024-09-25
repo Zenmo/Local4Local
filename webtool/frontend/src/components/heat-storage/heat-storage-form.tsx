@@ -1,5 +1,5 @@
 import {FormEvent, FunctionComponent, useState} from "react"
-import {HeatStorage} from "local4local"
+import {HeatStorage, Cost} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
 import './../styles.css';
@@ -13,18 +13,22 @@ export const HeatStorageForm: FunctionComponent<{
         event.preventDefault()
         const form = event.target as HTMLFormElement
         const formData = new FormData(form)
+       
+        const cost =  new Cost(
+            parseFloat(formData.get("costsPer_kWh") as string),
+            parseFloat(formData.get("buy_ct") as string),
+            parseFloat(formData.get("income_r") as string) * 0.01,
+            parseFloat(formData.get("writingPeriod_y") as string),
+            parseFloat(formData.get("additionalCosts_cty") as string),
+        );
 
         const heatStorage = new HeatStorage(
             formData.get("storageMedium") as string,
             parseFloat(formData.get("storageVolume_m3") as string),
             parseFloat(formData.get("minTemp_degC") as string),
             parseFloat(formData.get("maxTemp_degC") as string),
-            parseFloat(formData.get("costsPer_kWh") as string),
-            parseFloat(formData.get("buy_ct") as string),
-            parseFloat(formData.get("income_r") as string) * 0.01,
-            parseFloat(formData.get("writingPeriod_y") as string),
-            parseFloat(formData.get("additionalCosts_cty") as string),
-        )
+            cost,
+        );
 
         saveHeatStorage(heatStorage)
         hide()

@@ -1,8 +1,9 @@
 import {FunctionComponent} from "react"
 import {DataList, Heading} from "@radix-ui/themes"
 import { PiMoneyWavyLight } from "react-icons/pi"
+import {Cost} from "local4local"
 
-export const CostDisplay: FunctionComponent<{ asset: any, hideCostPerKwh?: boolean }> = ({asset, hideCostPerKwh}) => {
+export const CostDisplay: FunctionComponent<{ cost: Cost, hideCostPerKwh?: boolean }> = ({cost, hideCostPerKwh}) => {
     return (
         <div>
             <CostHeading />
@@ -10,24 +11,24 @@ export const CostDisplay: FunctionComponent<{ asset: any, hideCostPerKwh?: boole
                 { !hideCostPerKwh && (
                     <DataList.Item>
                         <DataList.Label minWidth="88px">Kosten per kWh [€/kWh]</DataList.Label>
-                        <DataList.Value>{asset.costsPer_kWh}</DataList.Value>
+                        <DataList.Value>{cost.costsPer_kWh}</DataList.Value>
                     </DataList.Item>
                 )}
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Aanschaf [€]</DataList.Label>
-                    <DataList.Value>{asset.buy_ct}</DataList.Value>
+                    <DataList.Value>{cost.buy_ct}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Rente</DataList.Label>
-                    <DataList.Value>{asset.income_r * 100} %</DataList.Value>
+                    <DataList.Value>{cost.income_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Afschrijvingsperiode [jaar]</DataList.Label>
-                    <DataList.Value>{asset.writingPeriod_y}</DataList.Value>
+                    <DataList.Value>{cost.writingPeriod_y}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Onderhoudskosten [€/jaar]</DataList.Label>
-                    <DataList.Value>{asset.additionalCosts_cty}</DataList.Value>
+                    <DataList.Value>{cost.additionalCosts_cty}</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
         </div>

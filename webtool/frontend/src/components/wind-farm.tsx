@@ -1,6 +1,6 @@
 import {FormEvent, FunctionComponent, useState} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {WindFarm} from "local4local"
+import {WindFarm, Cost} from "local4local"
 import { GiWindTurbine } from "react-icons/gi";
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 
@@ -13,7 +13,7 @@ export const WindFarmDisplay: FunctionComponent<{ windFarm: WindFarm }> = ({wind
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{windFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay asset={windFarm} />
+                <CostDisplay cost={windFarm.cost} />
             </DataList.Root>
         </Card>
     )
@@ -32,19 +32,22 @@ export const WindFarmForm: FunctionComponent<{
     hide: () => void
 }> = ({saveWindFarm, hide}) => {
     const onSubmit = (event: FormEvent) => {
-        event.preventDefault()
-        const form = event.target as HTMLFormElement
-        const formData = new FormData(form)
+        event.preventDefault();
+        const form = event.target as HTMLFormElement;
+        const formData = new FormData(form);
 
-        const windFarm = new WindFarm(
-            parseFloat(formData.get("nominalPower_kW") as string),
+        const cost =  new Cost(
             parseFloat(formData.get("costsPer_kWh") as string),
-
             parseFloat(formData.get("buy_ct") as string),
             parseFloat(formData.get("income_r") as string) * 0.01,
             parseFloat(formData.get("writingPeriod_y") as string),
             parseFloat(formData.get("additionalCosts_cty") as string),
-        )
+        );
+
+        const windFarm = new WindFarm(
+            parseFloat(formData.get("nominalPower_kW") as string),
+            cost,
+        );
 
         saveWindFarm(windFarm)
         hide()

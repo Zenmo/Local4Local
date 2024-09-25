@@ -2,7 +2,6 @@ import {FormEvent, FunctionComponent, useState} from "react"
 import {HouseholdGroup} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
-import {CostSection} from "../cost-section.tsx"
 
 export const HouseholdForm: FunctionComponent<{
     saveHouseholdGroup: (householdGroup: HouseholdGroup) => void,
@@ -11,8 +10,7 @@ export const HouseholdForm: FunctionComponent<{
     const addHouseHold = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
-        const formData = new FormData(form)
-
+        const formData = new FormData(form);
         const householdGroup = new HouseholdGroup(
             formData.get("type") as string,
             parseInt(formData.get("households_n") as string),
@@ -21,11 +19,6 @@ export const HouseholdForm: FunctionComponent<{
             parseFloat(formData.get("hasChargePoint_r") as string) * 0.01,
             parseFloat(formData.get("hasHomeBattery_r") as string) * 0.01,
             parseFloat(formData.get("annualBaseConsumptionAvg_kWh") as string),
-            parseFloat(formData.get("costsPer_kWh") as string),
-            parseFloat(formData.get("buy_ct") as string),
-            parseFloat(formData.get("income_r") as string) * 0.01,
-            parseFloat(formData.get("writingPeriod_y") as string),
-            parseFloat(formData.get("additionalCosts_cty") as string),
         );
         saveHouseholdGroup(householdGroup)
         hide()

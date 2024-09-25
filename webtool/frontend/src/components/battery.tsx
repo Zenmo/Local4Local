@@ -1,6 +1,6 @@
 import {FormEvent, FunctionComponent, useState} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {Battery} from "local4local"
+import {Battery, Cost} from "local4local"
 import { PiCarBatteryLight } from "react-icons/pi"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 
@@ -17,7 +17,7 @@ export const BatteryDisplay: FunctionComponent<{ battery: Battery }> = ({battery
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay asset={battery} hideCostPerKwh={true} />
+                <CostDisplay cost={battery.cost} hideCostPerKwh={true} />
             </DataList.Root>
         </Card>
     )
@@ -38,15 +38,20 @@ export const BatteryForm: FunctionComponent<{
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
-        const formData = new FormData(form)
+        const formData = new FormData(form);
 
-        const battery = new Battery(
-            parseFloat(formData.get("capacity_kWh") as string),
-            parseFloat(formData.get("peakPower_kW") as string),
+        const cost =  new Cost(
+            parseFloat(formData.get("costsPer_kWh") as string),
             parseFloat(formData.get("buy_ct") as string),
             parseFloat(formData.get("income_r") as string) * 0.01,
             parseFloat(formData.get("writingPeriod_y") as string),
             parseFloat(formData.get("additionalCosts_cty") as string),
+        );
+
+        const battery = new Battery(
+            parseFloat(formData.get("capacity_kWh") as string),
+            parseFloat(formData.get("peakPower_kW") as string),
+            cost,
         )
 
         saveBattery(battery)

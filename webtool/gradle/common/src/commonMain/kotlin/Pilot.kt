@@ -40,6 +40,17 @@ data class Pilot(
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
+data class Cost(
+    val costsPer_kWh: Double,
+    val buy_ct: Double,
+    val income_r: Double,
+    val writingPeriod_y: Double,
+    val additionalCosts_cty: Double,
+)
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+@Serializable
 data class HouseholdGroup(
     val type: String,
     val households_n: Int,
@@ -49,12 +60,6 @@ data class HouseholdGroup(
     val hasHomeBattery_r: Double,
      /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
     val annualBaseConsumptionAvg_kWh: Double,
-    // Cost values
-    val costsPer_kWh: Double,
-    val buy_ct: Double,
-    val income_r: Double,
-    val writingPeriod_y: Double,
-    val additionalCosts_cty: Double,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -86,12 +91,7 @@ data class ConsumptionAsset(
 @Serializable
 data class SolarFarm(
     val nominalPower_kW: Double,
-    // Cost values
-    val costsPer_kWh: Double,
-    val buy_ct: Double,
-    val income_r: Double,
-    val writingPeriod_y: Double,
-    val additionalCosts_cty: Double,
+    val cost: Cost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -99,12 +99,7 @@ data class SolarFarm(
 @Serializable
 data class WindFarm(
     val nominalPower_kW: Double,
-    // Cost values
-    val costsPer_kWh: Double,
-    val buy_ct: Double,
-    val income_r: Double,
-    val writingPeriod_y: Double,
-    val additionalCosts_cty: Double,
+    val cost: Cost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -113,11 +108,7 @@ data class WindFarm(
 data class Battery(
     val capacity_kWh: Double,
     val peakPower_kW: Double,
-    // Cost values
-    val buy_ct: Double,
-    val income_r: Double,
-    val writingPeriod_y: Double,
-    val additionalCosts_cty: Double,
+    val cost: Cost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -128,12 +119,7 @@ data class HeatStorage(
     val storageVolume_m3: Double,
     val minTemp_degC: Double,
     val maxTemp_degC: Double,
-    // Cost values
-    val costsPer_kWh: Double,
-    val buy_ct: Double,
-    val income_r: Double,
-    val writingPeriod_y: Double,
-    val additionalCosts_cty: Double,
+    val cost: Cost,
 ) {
     fun getCapacity_kWh(): Double {
         val specificHeatCapacity = 4.18 // kJ/kg/K
