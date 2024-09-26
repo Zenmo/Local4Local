@@ -17,6 +17,7 @@ data class Pilot(
     val windFarms: List<WindFarm> = emptyList(),
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
+    val bufferPrice_EurpkWh: Double,
 ) {
     fun withHouseholdGroup(households: HouseholdGroup): Pilot =
         copy(householdGroups = this.householdGroups + households)
@@ -32,6 +33,9 @@ data class Pilot(
 
     fun withHeatStorage(heatStorage: HeatStorage): Pilot =
         copy(heatStorages = this.heatStorages + heatStorage)
+
+    fun withBufferPrice(bufferPrice_EurpkWh: Double): Pilot =
+        copy(bufferPrice_EurpkWh = bufferPrice_EurpkWh)
 
     fun toJson(): String =
         Json.encodeToString(this)

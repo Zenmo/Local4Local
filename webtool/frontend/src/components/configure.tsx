@@ -4,6 +4,7 @@ import {HouseholdDisplay} from "./household/household-display.tsx"
 import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
 import {Grid} from "@radix-ui/themes"
+import {BufferPriceDisplay, BufferPriceForm} from "./buffer-price.tsx"
 import {SolarFarmDisplay, SolarFarmForm} from "./solar-farm.tsx"
 import {WindFarmDisplay, WindFarmForm} from "./wind-farm.tsx"
 import {BatteryDisplay, BatteryForm} from "./battery.tsx"
@@ -16,13 +17,16 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     const [showAddWindFarm, setShowAddWindFarm] = useState(false)
     const [showAddBattery, setShowAddBattery] = useState(false)
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
-
+    const [showBufferPrice, setShowBufferPrice] = useState(false)
+    
     const showAddDropdown = !(
         showAddHouseholdGroup ||
         showAddSolarFarm ||
         showAddWindFarm ||
         showAddBattery ||
-        showAddHeatStorage)
+        showAddHeatStorage ||
+        showBufferPrice
+    )
 
     const saveHouseholdGroup = (householdGroup: HouseholdGroup) => {
         setPilot(pilot.withHouseholdGroup(householdGroup))
@@ -42,6 +46,10 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
 
     const saveHeatStorage = (heatStorage: HeatStorage) => {
         setPilot(pilot.withHeatStorage(heatStorage))
+    }
+
+    const saveBufferPrice = (bufferPrice: String) => {
+        setPilot(pilot.withBufferPrice(parseFloat(bufferPrice as string) * 0.01))
     }
 
     return (
@@ -70,6 +78,11 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                 <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i} />)}
             {showAddHeatStorage &&
                 <HeatStorageForm saveHeatStorage={saveHeatStorage} hide={() => setShowAddHeatStorage(false)} />}
+            
+            {pilot.bufferPrice_EurpkWh &&
+                <BufferPriceDisplay bufferPrice_EurpkWh={pilot.bufferPrice_EurpkWh} key={"bufferPrice_EurpkWh"} />}
+            {showBufferPrice &&
+                <BufferPriceForm saveBufferPrice={saveBufferPrice} hide={() => setShowBufferPrice(false)} />}
 
             {showAddDropdown &&
                 <AddDropdown
@@ -81,6 +94,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     addWindFarm={() => setShowAddWindFarm(true)}
                     addBattery={() => setShowAddBattery(true)}
                     addHeatStorage={() => setShowAddHeatStorage(true)}
+                    addBufferPrice={() => setShowBufferPrice(true)}
                 />}
         </Grid>
     )
