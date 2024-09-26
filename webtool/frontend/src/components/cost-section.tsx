@@ -1,7 +1,7 @@
 import {FunctionComponent, useState} from "react"
 import {DataList, Heading} from "@radix-ui/themes"
 import { PiMoneyWavyLight } from "react-icons/pi"
-import {Cost} from "local4local"
+import {AssetCost} from "local4local"
 
 const titles = {
     "LCOE_eurpkWH": "Kosten per kWh [€/kWh] (LCOE)",

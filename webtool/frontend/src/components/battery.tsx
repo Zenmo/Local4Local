@@ -1,6 +1,6 @@
 import {FormEvent, FunctionComponent, useState} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {Battery, Cost} from "local4local"
+import {Battery, AssetCost} from "local4local"
 import { PiCarBatteryLight } from "react-icons/pi"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 

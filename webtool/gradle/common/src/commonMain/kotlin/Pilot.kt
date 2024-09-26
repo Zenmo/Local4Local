@@ -91,7 +91,7 @@ data class ConsumptionAsset(
 @Serializable
 data class SolarFarm(
     val nominalPower_kW: Double,
-    val cost: Cost,
+    val cost: AssetCost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -99,7 +99,7 @@ data class SolarFarm(
 @Serializable
 data class WindFarm(
     val nominalPower_kW: Double,
-    val cost: Cost,
+    val cost: AssetCost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -108,7 +108,7 @@ data class WindFarm(
 data class Battery(
     val capacity_kWh: Double,
     val peakPower_kW: Double,
-    val cost: Cost,
+    val cost: AssetCost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -119,7 +119,7 @@ data class HeatStorage(
     val storageVolume_m3: Double,
     val minTemp_degC: Double,
     val maxTemp_degC: Double,
-    val cost: Cost,
+    val cost: AssetCost,
 ) {
     fun getCapacity_kWh(): Double {
         val specificHeatCapacity = 4.18 // kJ/kg/K

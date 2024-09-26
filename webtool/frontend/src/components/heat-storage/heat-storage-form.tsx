@@ -1,5 +1,5 @@
 import {FormEvent, FunctionComponent, useState} from "react"
-import {HeatStorage, Cost} from "local4local"
+import {HeatStorage, AssetCost} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
 import './../styles.css';

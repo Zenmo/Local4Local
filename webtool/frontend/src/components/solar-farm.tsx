@@ -1,6 +1,6 @@
 import {FormEvent, FunctionComponent, useState} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {SolarFarm, Cost} from "local4local"
+import {SolarFarm, AssetCost} from "local4local"
 import {SunIcon} from "@radix-ui/react-icons"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 
