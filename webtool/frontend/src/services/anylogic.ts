@@ -12,7 +12,7 @@ export const startSimulation = async (divId: string, sessionId: string): Promise
     const model = await cloudClient.getModelById(modelId)
     const latestVersion = await cloudClient.getModelVersionByNumber(model, model.modelVersions.length)
     const inputs = cloudClient.createDefaultInputs(latestVersion)
-    inputs.setInput("p_local4localBackendUrl", import.meta.env.VITE_BACKEND_URL)
+    inputs.setInput("p_local4localBackendUrl", import.meta.env.VITE_ANYLOGIC_CALLBACK_URL)
     inputs.setInput("p_local4localSession", sessionId)
     const animation = await cloudClient.startAnimation(inputs, divId)
     animation.setSpeed(1)
