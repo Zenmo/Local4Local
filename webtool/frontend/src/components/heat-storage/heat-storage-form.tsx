@@ -14,12 +14,12 @@ export const HeatStorageForm: FunctionComponent<{
         const form = event.target as HTMLFormElement
         const formData = new FormData(form)
        
-        const cost =  new Cost(
-            parseFloat(formData.get("costsPer_kWh") as string),
-            parseFloat(formData.get("buy_ct") as string),
-            parseFloat(formData.get("income_r") as string) * 0.01,
-            parseFloat(formData.get("writingPeriod_y") as string),
-            parseFloat(formData.get("additionalCosts_cty") as string),
+        const cost =  new AssetCost(
+            parseFloat(formData.get("LCOE_eurpkWH") as string) || 0,
+            parseFloat(formData.get("CAPEX_eur") as string) || 0,
+            parseFloat(formData.get("interest_r") as string) * 0.01 || 0,
+            parseFloat(formData.get("depreciationPeriod_y") as string) || 0,
+            parseFloat(formData.get("OPEX_eurpy") as string) || 0,
         );
 
         const heatStorage = new HeatStorage(
