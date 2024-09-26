@@ -30,11 +30,11 @@ val startPilot = Pilot(
     ),
     windFarms = listOf(
         WindFarm(2000.0,
-        Cost(costsPer_kWh = 0.0,
-            buy_ct = 0.0,
-            income_r = 0.0,
-            writingPeriod_y = 0.0,
-            additionalCosts_cty = 0.0
+        Cost(LCOE_eurpkWH = 0.0,
+            CAPEX_eur = 0.0,
+            interest_r = 0.0,
+            depreciationPeriod_y = 0.0,
+            OPEX_eurpy = 0.0
             )
         )
     )

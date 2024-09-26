@@ -40,12 +40,12 @@ data class Pilot(
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
-data class Cost(
-    val costsPer_kWh: Double,
-    val buy_ct: Double,
-    val income_r: Double,
-    val writingPeriod_y: Double,
-    val additionalCosts_cty: Double,
+data class AssetCost(
+    val LCOE_eurpkWH: Double? = 0.0,
+    val CAPEX_eur: Double? = 0,
+    val interest_r: Double? = 0,
+    val depreciationPeriod_y: Double? = 0,
+    val OPEX_eurpy: Double? = 0,
 )
 
 @OptIn(ExperimentalJsExport::class)
