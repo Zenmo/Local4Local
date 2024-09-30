@@ -18,6 +18,7 @@ data class Pilot(
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
 ) {
+    val assests: 
     // Create
     fun withHouseholdGroup(households: HouseholdGroup): Pilot =
         copy(householdGroups = this.householdGroups + households)
@@ -35,6 +36,14 @@ data class Pilot(
         copy(heatStorages = this.heatStorages + heatStorage)
 
     // Remove
+    // fun remove(obj: Any) = when (obj) {
+    //     is HouseholdGroup -> copy(householdGroups = this.householdGroups - obj)
+    //     is SolarFarm -> copy(solarFarms = this.solarFarms - obj)
+    //     is WindFarm -> copy(windFarms = this.windFarms - obj)
+    //     is Battery -> copy(batteries = this.batteries - obj)
+    //     is HeatStorage -> copy(heatStorages = this.heatStorages - obj)
+    //     else -> "Unknown type"
+    // }
     fun withoutHouseholdGroup(households: HouseholdGroup): Pilot =
         copy(householdGroups = this.householdGroups - households)
 
@@ -52,6 +61,29 @@ data class Pilot(
 
     fun toJson(): String =
         Json.encodeToString(this)
+
+    // Replace
+    fun replaceHouseHoldGroup(index: Int, group: HouseholdGroup): Pilot {
+        val newGroups = when (group) {
+            is HouseholdGroup -> this.householdGroups.toMutableList()
+            is SolarFarm -> this.solarFarms.toMutableList()
+            is WindFarm -> this.windFarms.toMutableList()
+            is Battery -> this.batteries.toMutableList()
+            is HeatStorage -> this.heatStorages.toMutableList()
+            else -> "Unknown type"
+        }
+        // val newGroups = this.householdGroups.toMutableList()
+        // newGroups[index] = group
+        // copy(householdGroups = newGroups)
+        when (group) {
+            is HouseholdGroup -> copy(this.householdGroups = newGroups)
+            is SolarFarm -> copy(this.solarFarms = newGroups)
+            is WindFarm -> copy(this.windFarms = newGroups)
+            is Battery -> copy(this.batteries = newGroups)
+            is HeatStorage -> copy(this.heatStorages = newGroups)
+            else -> "Unknown type"
+        }
+    }
 }
 
 @OptIn(ExperimentalJsExport::class)
