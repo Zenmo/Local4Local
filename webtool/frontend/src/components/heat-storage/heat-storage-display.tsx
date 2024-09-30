@@ -1,13 +1,21 @@
 import {FunctionComponent} from "react"
-import {Card, DataList} from "@radix-ui/themes"
+import {Flex, Card, DataList} from "@radix-ui/themes"
 import {HeatStorage} from "local4local"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
 import {CostDisplay} from "../cost-section.tsx"
+import {CardMenu} from "./../card-menu.tsx"
 
-export const HeatStorageDisplay: FunctionComponent<{ heatStorage: HeatStorage }> = ({heatStorage}) => {
+export const HeatStorageDisplay: FunctionComponent<{
+        heatStorage: HeatStorage,
+        toEdit: () => void,
+        toDelete: () => void,
+    }> = ({heatStorage, toEdit, toDelete}) => {
     return (
         <Card>
-            <HeatStorageHeading />
+            <Flex gap="3">
+                <HeatStorageHeading />
+                <CardMenu onEdit={toEdit} onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Opslagmedium</DataList.Label>

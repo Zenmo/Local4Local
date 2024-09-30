@@ -1,13 +1,21 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {SolarFarm, AssetCost} from "local4local"
+import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {SolarFarm} from "local4local"
 import {SunIcon} from "@radix-ui/react-icons"
+import {CardMenu} from "./card-menu.tsx"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 
-export const SolarFarmDisplay: FunctionComponent<{ solarFarm: SolarFarm }> = ({solarFarm}) => {
+export const SolarFarmDisplay: FunctionComponent<{
+    solarFarm: SolarFarm,
+    toEdit: () => void,
+    toDelete: () => void,
+}> = ({solarFarm, toEdit, toDelete}) => {
     return (
         <Card>
-            <SolarFarmHeading />
+            <Flex gap="3">
+                <SolarFarmHeading />
+                <CardMenu onEdit={toEdit} onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
@@ -60,8 +68,7 @@ export const SolarFarmForm: FunctionComponent<{
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={1000}/>
                 </div>
                 <CostSection />
-
-                <Button onClick={hide} style={{ marginRight: '10px' }}>Annuleren</Button>
+                <Button onClick={hide} style={{ marginRight: '10px' }}  highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

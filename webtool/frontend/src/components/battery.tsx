@@ -1,13 +1,21 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {Battery, AssetCost} from "local4local"
-import { PiCarBatteryLight } from "react-icons/pi"
+import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {Battery} from "local4local"
+import {PiCarBatteryLight} from "react-icons/pi"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
+import {CardMenu} from "./card-menu.tsx"
 
-export const BatteryDisplay: FunctionComponent<{ battery: Battery }> = ({battery}) => {
+export const BatteryDisplay: FunctionComponent<{
+    battery: Battery,
+    toEdit: () => void,
+    toDelete: () => void,
+}> = ({battery, toEdit, toDelete}) => {
     return (
         <Card>
-            <BatteryHeading />
+            <Flex gap="3">
+                <BatteryHeading />
+                <CardMenu onEdit={toEdit} onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Capaciteit</DataList.Label>

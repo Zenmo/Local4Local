@@ -1,13 +1,21 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {WindFarm, AssetCost} from "local4local"
+import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {WindFarm} from "local4local"
 import { GiWindTurbine } from "react-icons/gi";
 import {CostSection, CostDisplay} from "./cost-section.tsx"
+import {CardMenu} from "./card-menu.tsx"
 
-export const WindFarmDisplay: FunctionComponent<{ windFarm: WindFarm }> = ({windFarm}) => {
+export const WindFarmDisplay: FunctionComponent<{
+    windFarm: WindFarm,
+    toEdit: () => void,
+    toDelete: () => void,
+}> = ({windFarm, toEdit, toDelete}) => {
     return (
         <Card>
-            <WindFarmHeading />
+             <Flex gap="3">
+                <WindFarmHeading/>
+                <CardMenu onEdit={toEdit} onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
@@ -62,7 +70,7 @@ export const WindFarmForm: FunctionComponent<{
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={2000}/>
                 </div>
                 <CostSection />
-                <Button onClick={hide} style={{ marginRight: '10px' }}>Annuleren</Button>
+                <Button onClick={hide} style={{ marginRight: '10px' }}  highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
