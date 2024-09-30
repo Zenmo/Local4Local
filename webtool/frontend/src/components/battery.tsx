@@ -1,4 +1,4 @@
-import {FormEvent, FunctionComponent, useState} from "react"
+import {FormEvent, FunctionComponent} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
 import {Battery, AssetCost} from "local4local"
 import { PiCarBatteryLight } from "react-icons/pi"

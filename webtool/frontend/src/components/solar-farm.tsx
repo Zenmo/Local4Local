@@ -1,4 +1,4 @@
-import {FormEvent, FunctionComponent, useState} from "react"
+import {FormEvent, FunctionComponent} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
 import {SolarFarm, AssetCost} from "local4local"
 import {SunIcon} from "@radix-ui/react-icons"
