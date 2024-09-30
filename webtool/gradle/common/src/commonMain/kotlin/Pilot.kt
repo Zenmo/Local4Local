@@ -42,10 +42,10 @@ data class Pilot(
 @Serializable
 data class AssetCost(
     val LCOE_eurpkWH: Double? = 0.0,
-    val CAPEX_eur: Double? = 0,
-    val interest_r: Double? = 0,
-    val depreciationPeriod_y: Double? = 0,
-    val OPEX_eurpy: Double? = 0,
+    val CAPEX_eur: Double? = 0.0,
+    val interest_r: Double? = 0.0,
+    val depreciationPeriod_y: Double? = 0.0,
+    val OPEX_eurpy: Double? = 0.0,
 )
 
 @OptIn(ExperimentalJsExport::class)

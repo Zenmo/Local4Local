@@ -1,5 +1,5 @@
-import {FunctionComponent, useState} from "react"
-import {DataList, Heading} from "@radix-ui/themes"
+import {FunctionComponent} from "react"
+import {DataList, Heading, Text} from "@radix-ui/themes"
 import { PiMoneyWavyLight } from "react-icons/pi"
 import {AssetCost} from "local4local"
 
@@ -28,7 +28,7 @@ export const CostDisplay: FunctionComponent<{ cost: AssetCost, hideCostPerKwh?: 
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">{titles["interest_r"]}</DataList.Label>
-                    <DataList.Value>{cost.interest_r * 100}</DataList.Value>
+                    <DataList.Value>{(cost.interest_r || 0) * 100}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">{titles["depreciationPeriod_y"]}</DataList.Label>
@@ -57,17 +57,20 @@ export const CostSection: FunctionComponent<{hideCostPerKwh?: boolean}> = ({hide
             <CostHeading/>
             { !hideCostPerKwh && (
                 <div className="radix-grid" >
-                    <label className="form-label" htmlFor="LCOE_eurpkWH">{titles["LCOE_eurpkWH"]}</label>
+                    <label className="form-label" htmlFor="LCOE_eurpkWH">{titles["LCOE_eurpkWH"]}*</label>
                     <input className="form-input" type="number" id="LCOE_eurpkWH" name="LCOE_eurpkWH"
                         min={0} step={0.001} 
                         placeholder="€/kWh"
-                        title="Dit veld gebruik je op basis van ervaring of expert judgement. 
-                        De overige kostenvelden laat je dan leeg. 
-                        LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
+                        title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
                         including CAPEX, OPEX and interest"
                     />
-                </div>
+                    <Text className="form-message">
+                    *Dit veld gebruik je op basis van ervaring of expert judgement.
+                    De overige kostenvelden laat je dan leeg.
+                    </Text>
+                 </div>
             )}
+           
 
             <div className="radix-grid">
                 <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"]}</label>
