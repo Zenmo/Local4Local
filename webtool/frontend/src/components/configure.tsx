@@ -16,7 +16,10 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     const [showAddWindFarm, setShowAddWindFarm] = useState(false)
     const [showAddBattery, setShowAddBattery] = useState(false)
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
-    const [editIndex, setEditIndex] = useState(Number);
+    // const [editIndex, setEditIndex] = useState(Number);
+    // const [householdGroupList, setHouseholdGroupList] = useState([]);
+    const [editingAsset, setEditingAsset] = useState<HouseholdGroup | null>(null);
+
 
     const showAddDropdown = !(
         showAddHouseholdGroup ||
@@ -26,6 +29,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         showAddHeatStorage)
 
     const saveHouseholdGroup = (householdGroup: HouseholdGroup) => {
+        // editIndex ? setPilot(pilot.edditAsset(householdGroup)) : setPilot(pilot.withHouseholdGroup(householdGroup))
         setPilot(pilot.withHouseholdGroup(householdGroup))
     }
 
@@ -47,23 +51,23 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
 
     const deleteAsset = (type: string, asset: any) => {
         switch (type) {
-            case "householdGroup":
-                setPilot(pilot.withoutHouseholdGroup(asset))
-                break;
-            case "solarFarm":
-                setPilot(pilot.withoutSolarFarm(asset));
-                break;
-            case "windFarm":
-                setPilot(pilot.withoutWindFarm(asset));
-                break;
-            case "battery":
-                setPilot(pilot.withoutBattery(asset));
-                break;
-            case "heatStorage":
-                setPilot(pilot.withoutHeatStorage(asset));
-                break;
-            default:
-                break;
+        case "householdGroup":
+            setPilot(pilot.withoutHouseholdGroup(asset))
+            break;
+        case "solarFarm":
+            setPilot(pilot.withoutSolarFarm(asset));
+            break;
+        case "windFarm":
+            setPilot(pilot.withoutWindFarm(asset));
+            break;
+        case "battery":
+            setPilot(pilot.withoutBattery(asset));
+            break;
+        case "heatStorage":
+            setPilot(pilot.withoutHeatStorage(asset));
+            break;
+        default:
+            break;
         };
     }
 
@@ -89,48 +93,58 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         };
     };
 
-    const handleSelect = (type: string, index?: number) => {
-        if (index) {
-            setEditIndex(index);
-        };
+    const editAsset = (type: string, asset: any, index: number) => {
+        switch (type) {
+            case "householdGroup":
+                // let householdGroups: HouseholdGroup[] = [...pilot.householdGroups.asJsReadonlyArrayView()];
+                setShowAddHouseholdGroup(false);
+                setEditingAsset(asset);
+                // setHouseholdGroupList(householdGroups); Array/Hash
+                break;
+            default:
+                break;
+            };
+        // setPilot(pilot.edditAsset(asset));
+        // let array: HouseholdGroup = [...pilot.householdGroups.asJsReadonlyArrayView()]
+        // setEditIndex(index);
+        // setHouseholdGroupEdit(array[index]);
         handleDisplay(type, true);
     }
-
 
     return (
         <Grid gap="2" pt="4">
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
                 <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
-                    toEdit={() => handleSelect("householdGroup", i)}
+                    toEdit={() => editAsset("householdGroup", it, i)}
                     toDelete={() => deleteAsset("householdGroup", it)}
                 />)}
            
             {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
                 <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} 
-                    toEdit={() => handleSelect("solarFarm", i)}
+                    toEdit={() => editAsset("solarFarm", it, i)}
                     toDelete={() => deleteAsset("solarFarm", it)}
                 />)}
            
             {pilot.windFarms.asJsReadonlyArrayView().map((it, i) =>
                 <WindFarmDisplay windFarm={it} key={"windFarm_" + i} 
-                    toEdit={() => handleSelect("windFarm", i)}
+                    toEdit={() => editAsset("windFarm", it, i)}
                     toDelete={() => deleteAsset("windFarm", it)}
                 />)}
             
             {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
                 <BatteryDisplay key={"battery_" + i} battery={it} 
-                    toEdit={() => handleSelect("battery", i)}
+                    toEdit={() => editAsset("battery", it, i)}
                     toDelete={() => deleteAsset("battery", it)}
                 />)}
             
             {pilot.heatStorages.asJsReadonlyArrayView().map((it, i) =>
                 <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i}
-                    toEdit={() => handleSelect("heatStorage", i)}
+                    toEdit={() => editAsset("heatStorage", it, i)}
                     toDelete={() => deleteAsset("heatStorage", it)}
                 />)}
             
             {showAddHouseholdGroup &&
-                <HouseholdForm saveHouseholdGroup={saveHouseholdGroup} hide={() => setShowAddHouseholdGroup(false)}/>}
+                <HouseholdForm initialData={editingAsset} saveHouseholdGroup={saveHouseholdGroup} hide={() => setShowAddHouseholdGroup(false)}/>}
             {showAddSolarFarm &&
                 <SolarFarmForm saveSolarFarm={saveSolarFarm} hide={() => setShowAddSolarFarm(false)} />}
             {showAddWindFarm &&

@@ -63,27 +63,27 @@ data class Pilot(
         Json.encodeToString(this)
 
     // Replace
-    fun replaceHouseHoldGroup(index: Int, group: HouseholdGroup): Pilot {
-        val newGroups = when (group) {
-            is HouseholdGroup -> this.householdGroups.toMutableList()
-            is SolarFarm -> this.solarFarms.toMutableList()
-            is WindFarm -> this.windFarms.toMutableList()
-            is Battery -> this.batteries.toMutableList()
-            is HeatStorage -> this.heatStorages.toMutableList()
-            else -> "Unknown type"
-        }
-        // val newGroups = this.householdGroups.toMutableList()
+    // fun edditAsset(group: Any, index: Int): {
+        // val newGroups = when (group) {
+        //     is HouseholdGroup -> this.householdGroups.toMutableList()
+        //     is SolarFarm -> this.solarFarms.toMutableList()
+        //     is WindFarm -> this.windFarms.toMutableList()
+        //     is Battery -> this.batteries.toMutableList()
+        //     is HeatStorage -> this.heatStorages.toMutableList()
+        //     else -> "Unknown type"
+        // }
+        // // val newGroups = this.householdGroups.toMutableList()
         // newGroups[index] = group
-        // copy(householdGroups = newGroups)
-        when (group) {
-            is HouseholdGroup -> copy(this.householdGroups = newGroups)
-            is SolarFarm -> copy(this.solarFarms = newGroups)
-            is WindFarm -> copy(this.windFarms = newGroups)
-            is Battery -> copy(this.batteries = newGroups)
-            is HeatStorage -> copy(this.heatStorages = newGroups)
-            else -> "Unknown type"
-        }
-    }
+        // // copy(householdGroups = newGroups)
+        // Pilot = when (group) {
+        //     is HouseholdGroup -> copy(this.householdGroups = newGroups)
+        //     is SolarFarm -> copy(this.solarFarms = newGroups)
+        //     is WindFarm -> copy(this.windFarms = newGroups)
+        //     is Battery -> copy(this.batteries = newGroups)
+        //     is HeatStorage -> copy(this.heatStorages = newGroups)
+        //     else -> "Unknown type"
+        // }
+    // }
 }
 
 @OptIn(ExperimentalJsExport::class)
