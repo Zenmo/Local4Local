@@ -1,7 +1,8 @@
 import {FormEvent, FunctionComponent} from "react"
 import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {SolarFarm} from "local4local"
+import {SolarFarm, AssetCost} from "local4local"
 import {SunIcon} from "@radix-ui/react-icons"
+import {CostSection, CostDisplay} from "./cost-section.tsx"
 
 export const SolarFarmDisplay: FunctionComponent<{ solarFarm: SolarFarm }> = ({solarFarm}) => {
     return (
@@ -12,6 +13,7 @@ export const SolarFarmDisplay: FunctionComponent<{ solarFarm: SolarFarm }> = ({s
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{solarFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
+                <CostDisplay cost={solarFarm.cost} />
             </DataList.Root>
         </Card>
     )
@@ -33,11 +35,18 @@ export const SolarFarmForm: FunctionComponent<{
         event.preventDefault()
         const form = event.target as HTMLFormElement
         const formData = new FormData(form)
+        const cost =  new AssetCost(
+            parseFloat(formData.get("LCOE_eurpkWH") as string) || 0,
+            parseFloat(formData.get("CAPEX_eur") as string) || 0,
+            parseFloat(formData.get("interest_r") as string) * 0.01 || 0,
+            parseFloat(formData.get("depreciationPeriod_y") as string) || 0,
+            parseFloat(formData.get("OPEX_eurpy") as string) || 0,
+        );
 
         const solarFarm = new SolarFarm(
             parseFloat(formData.get("nominalPower_kW") as string),
+            cost,
         )
-
         saveSolarFarm(solarFarm)
         hide()
     }
@@ -50,6 +59,8 @@ export const SolarFarmForm: FunctionComponent<{
                     <label className="form-label" htmlFor="nominalPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={1000}/>
                 </div>
+                <CostSection />
+
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

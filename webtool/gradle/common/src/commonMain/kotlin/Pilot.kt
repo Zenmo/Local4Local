@@ -40,6 +40,17 @@ data class Pilot(
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
+data class AssetCost(
+    val LCOE_eurpkWH: Double? = 0.0,
+    val CAPEX_eur: Double? = 0.0,
+    val interest_r: Double? = 0.0,
+    val depreciationPeriod_y: Double? = 0.0,
+    val OPEX_eurpy: Double? = 0.0,
+)
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+@Serializable
 data class HouseholdGroup(
     val type: String,
     val households_n: Int,
@@ -47,8 +58,7 @@ data class HouseholdGroup(
     val hasHeatPump_r: Double,
     val hasChargePoint_r: Double,
     val hasHomeBattery_r: Double,
-
-    /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
+     /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
     val annualBaseConsumptionAvg_kWh: Double,
 )
 
@@ -81,6 +91,7 @@ data class ConsumptionAsset(
 @Serializable
 data class SolarFarm(
     val nominalPower_kW: Double,
+    val cost: AssetCost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -88,6 +99,7 @@ data class SolarFarm(
 @Serializable
 data class WindFarm(
     val nominalPower_kW: Double,
+    val cost: AssetCost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -96,6 +108,7 @@ data class WindFarm(
 data class Battery(
     val capacity_kWh: Double,
     val peakPower_kW: Double,
+    val cost: AssetCost,
 )
 
 @OptIn(ExperimentalJsExport::class)
@@ -106,6 +119,7 @@ data class HeatStorage(
     val storageVolume_m3: Double,
     val minTemp_degC: Double,
     val maxTemp_degC: Double,
+    val cost: AssetCost,
 ) {
     fun getCapacity_kWh(): Double {
         val specificHeatCapacity = 4.18 // kJ/kg/K
