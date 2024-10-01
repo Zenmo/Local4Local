@@ -24,72 +24,74 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         showAddBattery ||
         showAddHeatStorage)
 
-    type AssetType = Pilot | HouseholdGroup | SolarFarm | WindFarm | Battery | HeatStorage;
+    type AssetType =  HouseholdGroup | SolarFarm | WindFarm | Battery | HeatStorage;
 
+    interface AssetHandlers<AssetType> {
+        display: (show: boolean) => void;
+        save: (asset: AssetType) => void;
+        delete: (asset: AssetType) => void;
+    }
+
+    const assetHandlers: Record<string, AssetHandlers<AssetType>> = {
+        HouseholdGroup: {
+            display: (show: boolean) => setShowAddHouseholdGroup(show),
+            save: (asset: AssetType) => setPilot(pilot.withHouseholdGroup(asset as HouseholdGroup)),
+            delete: (asset: AssetType) => setPilot(pilot.withoutHouseholdGroup(asset as HouseholdGroup)),
+        },
+        SolarFarm: {
+            display: (show: boolean) => setShowAddSolarFarm(show),
+            save: (asset: AssetType) => setPilot(pilot.withSolarFarm(asset as SolarFarm)),
+            delete: (asset: AssetType) => setPilot(pilot.withoutSolarFarm(asset as SolarFarm)),
+        },
+        WindFarm: {
+            display: (show: boolean) => setShowAddWindFarm(show),
+            save: (asset: AssetType) => setPilot(pilot.withWindFarm(asset as WindFarm)),
+            delete: (asset: AssetType) => setPilot(pilot.withoutWindFarm(asset as WindFarm)),
+        },
+        Battery: {
+            display: (show: boolean) => setShowAddBattery(show),
+            save: (asset: AssetType) => setPilot(pilot.withBattery(asset as Battery)),
+            delete: (asset: AssetType) => setPilot(pilot.withoutBattery(asset as Battery)),
+        },
+        HeatStorage: {
+            display: (show: boolean) => setShowAddHeatStorage(show),
+            save: (asset: AssetType) => setPilot(pilot.withHeatStorage(asset as HeatStorage)),
+            delete: (asset: AssetType) => setPilot(pilot.withoutHeatStorage(asset as HeatStorage)),
+        },
+    };
+
+   
+    // Generic save function
     const saveAsset = (asset: AssetType) => {
         const type = asset.constructor.name;
-
-        switch (type) {
-            case "HouseholdGroup":
-                setPilot(pilot.withHouseholdGroup(asset as HouseholdGroup));
-                break;
-            case "SolarFarm":
-                setPilot(pilot.withSolarFarm(asset as SolarFarm));
-                break;
-            case "WindFarm":
-                setPilot(pilot.withWindFarm(asset as WindFarm));
-                break;
-            case "Battery":
-                setPilot(pilot.withBattery(asset as Battery));
-                break;
-            case "HeatStorage":
-                setPilot(pilot.withHeatStorage(asset as HeatStorage));
-                break;
-            default:
-                break;
+        const handler = assetHandlers[type]?.save;
+        
+        if (handler) {
+            handler(asset);
+        } else {
+            console.error(`No save handler found for type: ${type}`);
         }
     };
 
+    // Generic delete function
     const deleteAsset = (asset: AssetType) => {
         const type = asset.constructor.name;
+        const handler = assetHandlers[type]?.delete;
 
-        switch (type) {
-        case "HouseholdGroup":
-            setPilot(pilot.withoutHouseholdGroup(asset as HouseholdGroup))
-            break;
-        case "SolarFarm":
-            setPilot(pilot.withoutSolarFarm(asset as SolarFarm));
-            break;
-        case "WindFarm":
-            setPilot(pilot.withoutWindFarm(asset as WindFarm));
-            break;
-        case "Battery":
-            setPilot(pilot.withoutBattery(asset as Battery));
-            break;
-        case "HeatStorage":
-            setPilot(pilot.withoutHeatStorage(asset as HeatStorage));
-            break;
-        default:
-            break;
-        };
-    }
+        if (handler) {
+            handler(asset);
+        } else {
+            console.error(`No delete handler found for type: ${type}`);
+        }
+    };
 
-    type AssetStringType = "HouseholdGroup" | "SolarFarm" | "WindFarm" | "Battery" | "HeatStorage";
+    const handleDisplay = (type: string, show: boolean) => {
+        const handler = assetHandlers[type]?.display;
 
-    const handleDisplay = (type: AssetStringType, show: boolean) => {
-        // const type = asset.constructor.name;
-
-        const setters: Record<string, React.Dispatch<React.SetStateAction<boolean>>> = {
-            HouseholdGroup: setShowAddHouseholdGroup,
-            SolarFarm: setShowAddSolarFarm,
-            WindFarm: setShowAddWindFarm,
-            Battery: setShowAddBattery,
-            HeatStorage: setShowAddHeatStorage,
-        };
-        
-        const setShowFunction = setters[type];
-        if (setShowFunction) {
-            setShowFunction(show);
+        if (handler) {
+            handler(show);
+        } else {
+            console.error(`No delete handler found for type: ${type}`);
         }
     };
 
