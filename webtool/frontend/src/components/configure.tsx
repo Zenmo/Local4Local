@@ -77,7 +77,11 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
             {showAddHeatStorage &&
                 <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => setPilot(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)} />}
             {showBufferPrice &&
-                <BufferPriceForm saveBufferPrice={(bufferPrice: number) => setPilot(pilot.withBufferPrice(bufferPrice))} hide={() => setShowBufferPrice(false)} />}
+                <BufferPriceForm 
+                    initialData={pilot.bufferPrice_eurpkWh} 
+                    saveBufferPrice={(bufferPrice: number) => setPilot(pilot.withBufferPrice(bufferPrice))} 
+                    hide={() => setShowBufferPrice(false)}
+            />}
 
             {showAddDropdown &&
                 <AddDropdown

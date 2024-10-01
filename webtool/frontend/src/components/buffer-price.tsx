@@ -32,9 +32,10 @@ const BufferPriceHeading = () => (
 )
 
 export const BufferPriceForm: FunctionComponent<{
+    initialData?: number | null; 
     saveBufferPrice: (bufferPrice_eurpkWh: number) => void
     hide: () => void
-}> = ({saveBufferPrice, hide}) => {
+}> = ({initialData, saveBufferPrice, hide}) => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -50,7 +51,7 @@ export const BufferPriceForm: FunctionComponent<{
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="bufferPrice_eurpkWh">Bufferprijs [€/kWh]</label>
-                    <input className="form-input" type="number" id="bufferPrice_eurpkWh" name="bufferPrice_eurpkWh" placeholder="€/kWh" required min={0} step={0.001}/>
+                    <input className="form-input" type="number" id="bufferPrice_eurpkWh" name="bufferPrice_eurpkWh" placeholder="€/kWh" required defaultValue={initialData ? initialData : 0.0 } min={0} step={0.001}/>
                 </div>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
