@@ -9,6 +9,7 @@ import {WindFarmDisplay, WindFarmForm} from "./wind-farm.tsx"
 import {BatteryDisplay, BatteryForm} from "./battery.tsx"
 import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
+import {BufferPriceDisplay, BufferPriceForm} from "./buffer-price.tsx"
 
 export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilot) => void }> = ({pilot, setPilot}) => {
     const [showAddHouseholdGroup, setShowAddHouseholdGroup] = useState(false)
@@ -16,6 +17,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     const [showAddWindFarm, setShowAddWindFarm] = useState(false)
     const [showAddBattery, setShowAddBattery] = useState(false)
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
+    const [showBufferPrice, setShowBufferPrice] = useState(false)
 
     const showAddDropdown = !(
         showAddHouseholdGroup ||
@@ -51,6 +53,10 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     toDelete={() => setPilot(pilot.remove(it))}
                 />)}
             
+            {pilot.bufferPrice_eurpkWh &&
+                <BufferPriceDisplay bufferPrice_eurpkWh={pilot.bufferPrice_eurpkWh} key={"bufferPrice_eurpkWh"} />}
+        
+            
             {showAddHouseholdGroup &&
                 <HouseholdForm 
                     saveHouseholdGroup={(asset: HouseholdGroup) => setPilot(pilot.create(asset))} 
@@ -64,7 +70,8 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                 <BatteryForm saveBattery={(asset: Battery) => setPilot(pilot.create(asset))} hide={() => setShowAddBattery(false)} />}
             {showAddHeatStorage &&
                 <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => setPilot(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)} />}
-
+            {showBufferPrice &&
+                <BufferPriceForm saveBufferPrice={(bufferPrice: number) => setPilot(pilot.withBufferPrice(bufferPrice))} hide={() => setShowBufferPrice(false)} />}
 
             {showAddDropdown &&
                 <AddDropdown
@@ -76,6 +83,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     addWindFarm={() => setShowAddWindFarm(true)}
                     addBattery={() => setShowAddBattery(true)}
                     addHeatStorage={() => setShowAddHeatStorage(true)}
+                    addBufferPrice={() => setShowBufferPrice(true)}
                 />}
         </Grid>
     )
