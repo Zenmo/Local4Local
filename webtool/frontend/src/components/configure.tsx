@@ -114,10 +114,13 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     return (
         <Grid gap="2" pt="4">
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
-                <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
-                    toEdit={() => editAsset("householdGroup", it, i)}
-                    toDelete={() => deleteAsset("householdGroup", it)}
-                />)}
+                editingAsset !== it ? (
+                    <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
+                        toEdit={() => editAsset("householdGroup", it, i)}
+                        toDelete={() => deleteAsset("householdGroup", it)}
+                    />
+                ) : null
+            )}
            
             {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
                 <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} 
