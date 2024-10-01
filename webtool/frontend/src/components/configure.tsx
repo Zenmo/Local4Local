@@ -24,52 +24,47 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         showAddBattery ||
         showAddHeatStorage)
 
-    const saveHouseholdGroup = (householdGroup: HouseholdGroup) => {
-        setPilot(pilot.withHouseholdGroup(householdGroup))
-    }
-
-    const saveSolarFarm = (solarFarm: SolarFarm) => {
-        setPilot(pilot.withSolarFarm(solarFarm))
-    }
-
-    const saveWindFarm = (windFarm: WindFarm) => {
-        setPilot(pilot.withWindFarm(windFarm))
-    }
-
-    const saveBattery = (battery: Battery) => {
-        setPilot(pilot.withBattery(battery))
-    }
-
-    const saveHeatStorage = (heatStorage: HeatStorage) => {
-        setPilot(pilot.withHeatStorage(heatStorage))
-    }
-
     return (
         <Grid gap="2" pt="4">
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
-                <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it}/>)}
-            {showAddHouseholdGroup &&
-                <HouseholdForm saveHouseholdGroup={saveHouseholdGroup} hide={() => setShowAddHouseholdGroup(false)}/>}
-
+                <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
+                    toDelete={() => setPilot(pilot.remove(it))}
+                />)}
+           
             {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
-                <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} />)}
-            {showAddSolarFarm &&
-                <SolarFarmForm saveSolarFarm={saveSolarFarm} hide={() => setShowAddSolarFarm(false)} />}
-
+                <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} 
+                    toDelete={() => setPilot(pilot.remove(it))}
+                />)}
+           
             {pilot.windFarms.asJsReadonlyArrayView().map((it, i) =>
-                <WindFarmDisplay windFarm={it} key={"windFarm_" + i} />)}
-            {showAddWindFarm &&
-                <WindFarmForm saveWindFarm={saveWindFarm} hide={() => setShowAddWindFarm(false)} />}
-
+                <WindFarmDisplay windFarm={it} key={"windFarm_" + i} 
+                    toDelete={() => setPilot(pilot.remove(it))}
+                />)}
+            
             {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
-                <BatteryDisplay key={"battery_" + i} battery={it} />)}
-            {showAddBattery &&
-                <BatteryForm saveBattery={saveBattery} hide={() => setShowAddBattery(false)} />}
-
+                <BatteryDisplay key={"battery_" + i} battery={it} 
+                    toDelete={() => setPilot(pilot.remove(it))}
+                />)}
+            
             {pilot.heatStorages.asJsReadonlyArrayView().map((it, i) =>
-                <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i} />)}
+                <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i}
+                    toDelete={() => setPilot(pilot.remove(it))}
+                />)}
+            
+            {showAddHouseholdGroup &&
+                <HouseholdForm 
+                    saveHouseholdGroup={(asset: HouseholdGroup) => setPilot(pilot.create(asset))} 
+                    hide={() => setShowAddHouseholdGroup(false)}
+                />}
+            {showAddSolarFarm &&
+                <SolarFarmForm saveSolarFarm={(asset: SolarFarm) => setPilot(pilot.create(asset))} hide={() => setShowAddSolarFarm(false)} />}
+            {showAddWindFarm &&
+                <WindFarmForm saveWindFarm={(asset: WindFarm) => setPilot(pilot.create(asset))} hide={() => setShowAddWindFarm(false)} />}
+            {showAddBattery &&
+                <BatteryForm saveBattery={(asset: Battery) => setPilot(pilot.create(asset))} hide={() => setShowAddBattery(false)} />}
             {showAddHeatStorage &&
-                <HeatStorageForm saveHeatStorage={saveHeatStorage} hide={() => setShowAddHeatStorage(false)} />}
+                <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => setPilot(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)} />}
+
 
             {showAddDropdown &&
                 <AddDropdown

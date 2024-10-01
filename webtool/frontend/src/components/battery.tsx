@@ -1,13 +1,20 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
 import {Battery, AssetCost} from "local4local"
-import { PiCarBatteryLight } from "react-icons/pi"
+import {PiCarBatteryLight} from "react-icons/pi"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
+import {CardMenu} from "./card-menu.tsx"
 
-export const BatteryDisplay: FunctionComponent<{ battery: Battery }> = ({battery}) => {
+export const BatteryDisplay: FunctionComponent<{
+    battery: Battery,
+    toDelete: () => void,
+}> = ({battery, toDelete}) => {
     return (
         <Card>
-            <BatteryHeading />
+            <Flex className="head-title">
+                <BatteryHeading />
+                <CardMenu onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Capaciteit</DataList.Label>
@@ -71,6 +78,7 @@ export const BatteryForm: FunctionComponent<{
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={100} />
                 </div>
                 <CostSection hideCostPerKwh={true} />
+                <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
