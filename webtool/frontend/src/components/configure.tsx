@@ -27,39 +27,38 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     type AssetType =  HouseholdGroup | SolarFarm | WindFarm | Battery | HeatStorage;
 
     interface AssetHandlers<AssetType> {
-        display: (show: boolean) => void;
-        save: (asset: AssetType) => void;
-        delete: (asset: AssetType) => void;
+        display?: (show: boolean) => void;
+        save?: (asset: AssetType) => void;
+        delete?: (asset: AssetType) => void;
     }
 
     const assetHandlers: Record<string, AssetHandlers<AssetType>> = {
         HouseholdGroup: {
             display: (show: boolean) => setShowAddHouseholdGroup(show),
-            save: (asset: AssetType) => setPilot(pilot.withHouseholdGroup(asset as HouseholdGroup)),
-            delete: (asset: AssetType) => setPilot(pilot.withoutHouseholdGroup(asset as HouseholdGroup)),
+            save: (asset: AssetType) => setPilot(pilot.create(asset as HouseholdGroup)),
+            delete: (asset: AssetType) => setPilot(pilot.remove(asset as HouseholdGroup)),
         },
         SolarFarm: {
             display: (show: boolean) => setShowAddSolarFarm(show),
-            save: (asset: AssetType) => setPilot(pilot.withSolarFarm(asset as SolarFarm)),
-            delete: (asset: AssetType) => setPilot(pilot.withoutSolarFarm(asset as SolarFarm)),
+            save: (asset: AssetType) => setPilot(pilot.create(asset as SolarFarm)),
+            delete: (asset: AssetType) => setPilot(pilot.remove(asset as SolarFarm)),
         },
         WindFarm: {
             display: (show: boolean) => setShowAddWindFarm(show),
-            save: (asset: AssetType) => setPilot(pilot.withWindFarm(asset as WindFarm)),
-            delete: (asset: AssetType) => setPilot(pilot.withoutWindFarm(asset as WindFarm)),
+            save: (asset: AssetType) => setPilot(pilot.create(asset as WindFarm)),
+            delete: (asset: AssetType) => setPilot(pilot.remove(asset as WindFarm)),
         },
         Battery: {
             display: (show: boolean) => setShowAddBattery(show),
-            save: (asset: AssetType) => setPilot(pilot.withBattery(asset as Battery)),
-            delete: (asset: AssetType) => setPilot(pilot.withoutBattery(asset as Battery)),
+            save: (asset: AssetType) => setPilot(pilot.create(asset as Battery)),
+            delete: (asset: AssetType) => setPilot(pilot.remove(asset as Battery)),
         },
         HeatStorage: {
             display: (show: boolean) => setShowAddHeatStorage(show),
-            save: (asset: AssetType) => setPilot(pilot.withHeatStorage(asset as HeatStorage)),
-            delete: (asset: AssetType) => setPilot(pilot.withoutHeatStorage(asset as HeatStorage)),
+            save: (asset: AssetType) => setPilot(pilot.create(asset as HeatStorage)),
+            delete: (asset: AssetType) => setPilot(pilot.remove(asset as HeatStorage)),
         },
     };
-
    
     // Generic save function
     const saveAsset = (asset: AssetType) => {
