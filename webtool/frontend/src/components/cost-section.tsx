@@ -56,19 +56,23 @@ export const CostSection: FunctionComponent<{hideCostPerKwh?: boolean}> = ({hide
         <div>
             <CostHeading/>
             { !hideCostPerKwh && (
-                <div className="radix-grid" >
-                    <label className="form-label" htmlFor="LCOE_eurpkWH">{titles["LCOE_eurpkWH"]}*</label>
-                    <input className="form-input" type="number" id="LCOE_eurpkWH" name="LCOE_eurpkWH"
-                        min={0} step={0.001} 
-                        placeholder="€/kWh"
-                        title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
-                        including CAPEX, OPEX and interest"
-                    />
-                    <Text className="form-message">
-                    *Dit veld gebruik je op basis van ervaring of expert judgement.
-                    De overige kostenvelden laat je dan leeg.
-                    </Text>
-                 </div>
+                <div>   
+                    <div className="radix-grid" >
+                        <label className="form-label" htmlFor="LCOE_eurpkWH">{titles["LCOE_eurpkWH"]}*</label>
+                        <input className="form-input" type="number" id="LCOE_eurpkWH" name="LCOE_eurpkWH"
+                            min={0} step={0.001} 
+                            placeholder="€/kWh"
+                            title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
+                            including CAPEX, OPEX and interest"
+                        />
+                    </div>
+                    <div className="form-message">
+                        <Text >
+                        *Dit veld gebruik je op basis van ervaring of expert judgement.<br />
+                        De overige kostenvelden laat je dan leeg.
+                        </Text>
+                    </div>
+                </div>
             )}
            
 

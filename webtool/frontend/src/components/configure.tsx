@@ -93,30 +93,11 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         };
     };
 
-    const editAsset = (type: string, asset: any, index: number) => {
-        switch (type) {
-            case "householdGroup":
-                // let householdGroups: HouseholdGroup[] = [...pilot.householdGroups.asJsReadonlyArrayView()];
-                setShowAddHouseholdGroup(false);
-                setEditingAsset(asset);
-                // setHouseholdGroupList(householdGroups); Array/Hash
-                break;
-            default:
-                break;
-            };
-        // setPilot(pilot.edditAsset(asset));
-        // let array: HouseholdGroup = [...pilot.householdGroups.asJsReadonlyArrayView()]
-        // setEditIndex(index);
-        // setHouseholdGroupEdit(array[index]);
-        handleDisplay(type, true);
-    }
-
     return (
         <Grid gap="2" pt="4">
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
                 editingAsset !== it ? (
                     <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
-                        toEdit={() => editAsset("householdGroup", it, i)}
                         toDelete={() => deleteAsset("householdGroup", it)}
                     />
                 ) : null
@@ -124,25 +105,21 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
            
             {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
                 <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} 
-                    toEdit={() => editAsset("solarFarm", it, i)}
                     toDelete={() => deleteAsset("solarFarm", it)}
                 />)}
            
             {pilot.windFarms.asJsReadonlyArrayView().map((it, i) =>
                 <WindFarmDisplay windFarm={it} key={"windFarm_" + i} 
-                    toEdit={() => editAsset("windFarm", it, i)}
                     toDelete={() => deleteAsset("windFarm", it)}
                 />)}
             
             {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
                 <BatteryDisplay key={"battery_" + i} battery={it} 
-                    toEdit={() => editAsset("battery", it, i)}
                     toDelete={() => deleteAsset("battery", it)}
                 />)}
             
             {pilot.heatStorages.asJsReadonlyArrayView().map((it, i) =>
                 <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i}
-                    toEdit={() => editAsset("heatStorage", it, i)}
                     toDelete={() => deleteAsset("heatStorage", it)}
                 />)}
             

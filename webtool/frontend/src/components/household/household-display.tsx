@@ -2,24 +2,18 @@ import {FunctionComponent} from "react"
 import {Card, DataList, Flex} from "@radix-ui/themes"
 import {HouseholdGroup} from "local4local"
 import {HouseholdHeading} from "./household-heading.tsx"
-import {CostDisplay} from "../cost-section.tsx"
 import {CardMenu} from "./../card-menu.tsx"
 
 export const HouseholdDisplay: FunctionComponent<{ 
     householdGroup: HouseholdGroup,
-    toEdit: (householdGroup: HouseholdGroup) => void,
     toDelete: () => void,
-}> = ({householdGroup, toEdit, toDelete}) => {
-
-    const onEditing = () => {
-        toEdit(householdGroup)
-    }
+}> = ({householdGroup,toDelete}) => {
 
     return (
         <Card>
             <Flex gap="3">
                 <HouseholdHeading />
-                <CardMenu onEdit={onEditing} onDelete={toDelete}/>
+                <CardMenu onDelete={toDelete}/>
             </Flex>
             <DataList.Root>
                 <DataList.Item>
