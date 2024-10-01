@@ -11,7 +11,7 @@ export const BatteryDisplay: FunctionComponent<{
 }> = ({battery, toDelete}) => {
     return (
         <Card>
-            <Flex gap="3">
+            <Flex className="head-title">
                 <BatteryHeading />
                 <CardMenu onDelete={toDelete}/>
             </Flex>

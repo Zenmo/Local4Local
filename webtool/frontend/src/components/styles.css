@@ -35,8 +35,11 @@
   border-color: #4f46e5; /* Indigo color */
 }
 
+.head-title {
+  justify-content: space-between !important;
+}
+
 .kebab-button {
-  position: absolute;
   right: 12px;
   background: none;
   border: none;

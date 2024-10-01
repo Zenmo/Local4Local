@@ -11,7 +11,7 @@ export const HouseholdDisplay: FunctionComponent<{
 
     return (
         <Card>
-            <Flex gap="3">
+            <Flex className="head-title">
                 <HouseholdHeading />
                 <CardMenu onDelete={toDelete}/>
             </Flex>

@@ -11,7 +11,7 @@ export const WindFarmDisplay: FunctionComponent<{
 }> = ({windFarm, toDelete}) => {
     return (
         <Card>
-             <Flex gap="3">
+             <Flex className="head-title">
                 <WindFarmHeading/>
                 <CardMenu onDelete={toDelete}/>
             </Flex>

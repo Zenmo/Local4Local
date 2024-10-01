@@ -9,7 +9,7 @@ export const CardMenu: FunctionComponent<{
     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
-            <Button aria-label="More options" style={{ position: "absolute", right: "12px", background: 'none', border: 'none', cursor: 'pointer' }}>
+            <Button aria-label="More options" style={{right: "12px", background: 'none', border: 'none', cursor: 'pointer' }}>
                 <DotsVerticalIcon style={{ color: 'black' }}/>
             </Button>
             </DropdownMenu.Trigger>

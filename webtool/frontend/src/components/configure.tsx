@@ -24,113 +24,46 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         showAddBattery ||
         showAddHeatStorage)
 
-    type AssetType =  HouseholdGroup | SolarFarm | WindFarm | Battery | HeatStorage;
-
-    interface AssetHandlers<AssetType> {
-        display?: (show: boolean) => void;
-        save?: (asset: AssetType) => void;
-        delete?: (asset: AssetType) => void;
-    }
-
-    const assetHandlers: Record<string, AssetHandlers<AssetType>> = {
-        HouseholdGroup: {
-            display: (show: boolean) => setShowAddHouseholdGroup(show),
-            save: (asset: AssetType) => setPilot(pilot.create(asset as HouseholdGroup)),
-            delete: (asset: AssetType) => setPilot(pilot.remove(asset as HouseholdGroup)),
-        },
-        SolarFarm: {
-            display: (show: boolean) => setShowAddSolarFarm(show),
-            save: (asset: AssetType) => setPilot(pilot.create(asset as SolarFarm)),
-            delete: (asset: AssetType) => setPilot(pilot.remove(asset as SolarFarm)),
-        },
-        WindFarm: {
-            display: (show: boolean) => setShowAddWindFarm(show),
-            save: (asset: AssetType) => setPilot(pilot.create(asset as WindFarm)),
-            delete: (asset: AssetType) => setPilot(pilot.remove(asset as WindFarm)),
-        },
-        Battery: {
-            display: (show: boolean) => setShowAddBattery(show),
-            save: (asset: AssetType) => setPilot(pilot.create(asset as Battery)),
-            delete: (asset: AssetType) => setPilot(pilot.remove(asset as Battery)),
-        },
-        HeatStorage: {
-            display: (show: boolean) => setShowAddHeatStorage(show),
-            save: (asset: AssetType) => setPilot(pilot.create(asset as HeatStorage)),
-            delete: (asset: AssetType) => setPilot(pilot.remove(asset as HeatStorage)),
-        },
-    };
-   
-    // Generic save function
-    const saveAsset = (asset: AssetType) => {
-        const type = asset.constructor.name;
-        const handler = assetHandlers[type]?.save;
-        
-        if (handler) {
-            handler(asset);
-        } else {
-            console.error(`No save handler found for type: ${type}`);
-        }
-    };
-
-    // Generic delete function
-    const deleteAsset = (asset: AssetType) => {
-        const type = asset.constructor.name;
-        const handler = assetHandlers[type]?.delete;
-
-        if (handler) {
-            handler(asset);
-        } else {
-            console.error(`No delete handler found for type: ${type}`);
-        }
-    };
-
-    const handleDisplay = (type: string, show: boolean) => {
-        const handler = assetHandlers[type]?.display;
-
-        if (handler) {
-            handler(show);
-        } else {
-            console.error(`No delete handler found for type: ${type}`);
-        }
-    };
-
     return (
         <Grid gap="2" pt="4">
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
                 <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
-                    toDelete={() => deleteAsset(it)}
+                    toDelete={() => setPilot(pilot.remove(it))}
                 />)}
            
             {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
                 <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} 
-                    toDelete={() => deleteAsset(it)}
+                    toDelete={() => setPilot(pilot.remove(it))}
                 />)}
            
             {pilot.windFarms.asJsReadonlyArrayView().map((it, i) =>
                 <WindFarmDisplay windFarm={it} key={"windFarm_" + i} 
-                    toDelete={() => deleteAsset(it)}
+                    toDelete={() => setPilot(pilot.remove(it))}
                 />)}
             
             {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
                 <BatteryDisplay key={"battery_" + i} battery={it} 
-                    toDelete={() => deleteAsset(it)}
+                    toDelete={() => setPilot(pilot.remove(it))}
                 />)}
             
             {pilot.heatStorages.asJsReadonlyArrayView().map((it, i) =>
                 <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i}
-                    toDelete={() => deleteAsset(it)}
+                    toDelete={() => setPilot(pilot.remove(it))}
                 />)}
             
             {showAddHouseholdGroup &&
-                <HouseholdForm saveHouseholdGroup={saveAsset} hide={() => setShowAddHouseholdGroup(false)}/>}
+                <HouseholdForm 
+                    saveHouseholdGroup={(asset: HouseholdGroup) => setPilot(pilot.create(asset))} 
+                    hide={() => setShowAddHouseholdGroup(false)}
+                />}
             {showAddSolarFarm &&
-                <SolarFarmForm saveSolarFarm={saveAsset} hide={() => setShowAddSolarFarm(false)} />}
+                <SolarFarmForm saveSolarFarm={(asset: SolarFarm) => setPilot(pilot.create(asset))} hide={() => setShowAddSolarFarm(false)} />}
             {showAddWindFarm &&
-                <WindFarmForm saveWindFarm={saveAsset} hide={() => setShowAddWindFarm(false)} />}
+                <WindFarmForm saveWindFarm={(asset: WindFarm) => setPilot(pilot.create(asset))} hide={() => setShowAddWindFarm(false)} />}
             {showAddBattery &&
-                <BatteryForm saveBattery={saveAsset} hide={() => setShowAddBattery(false)} />}
+                <BatteryForm saveBattery={(asset: Battery) => setPilot(pilot.create(asset))} hide={() => setShowAddBattery(false)} />}
             {showAddHeatStorage &&
-                <HeatStorageForm saveHeatStorage={saveAsset} hide={() => setShowAddHeatStorage(false)} />}
+                <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => setPilot(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)} />}
 
 
             {showAddDropdown &&
@@ -138,11 +71,11 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     style={{
                         alignSelf: "end",
                     }}
-                    addHouseholdGroup={() => handleDisplay("HouseholdGroup", true)}
-                    addSolarFarm={() => handleDisplay("SolarFarm", true)}
-                    addWindFarm={() => handleDisplay("WindFarm", true)}
-                    addBattery={() => handleDisplay("Battery", true)}
-                    addHeatStorage={() => handleDisplay("HeatStorage", true)}
+                    addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
+                    addSolarFarm={() => setShowAddSolarFarm(true)}
+                    addWindFarm={() => setShowAddWindFarm(true)}
+                    addBattery={() => setShowAddBattery(true)}
+                    addHeatStorage={() => setShowAddHeatStorage(true)}
                 />}
         </Grid>
     )

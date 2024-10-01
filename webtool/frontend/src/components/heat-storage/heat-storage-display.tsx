@@ -11,7 +11,7 @@ export const HeatStorageDisplay: FunctionComponent<{
     }> = ({heatStorage, toDelete}) => {
     return (
         <Card>
-            <Flex gap="3">
+            <Flex className="head-title">
                 <HeatStorageHeading />
                 <CardMenu onDelete={toDelete}/>
             </Flex>
