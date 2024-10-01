@@ -29,12 +29,12 @@ data class Pilot(
     }
 
     // Delete
-    fun remove(obj: AssetType) = when (obj) {
-        is HouseholdGroup -> copy(householdGroups = this.householdGroups - obj)
-        is SolarFarm -> copy(solarFarms = this.solarFarms - obj)
-        is WindFarm -> copy(windFarms = this.windFarms - obj)
-        is Battery -> copy(batteries = this.batteries - obj)
-        is HeatStorage -> copy(heatStorages = this.heatStorages - obj)
+    fun remove(asset: AssetType) = when (asset) {
+        is HouseholdGroup -> copy(householdGroups = this.householdGroups - asset)
+        is SolarFarm -> copy(solarFarms = this.solarFarms - asset)
+        is WindFarm -> copy(windFarms = this.windFarms - asset)
+        is Battery -> copy(batteries = this.batteries - asset)
+        is HeatStorage -> copy(heatStorages = this.heatStorages - asset)
         else -> "Unknown type"
     }
 
