@@ -42,6 +42,8 @@ data class Pilot(
 
     fun withBufferPrice(bufferPrice_eurpkWh: Double): Pilot =
         copy(bufferPrice_eurpkWh = bufferPrice_eurpkWh)
+    fun withoutBufferPrice(): Pilot =
+        copy(bufferPrice_eurpkWh = 0.0)
 
     fun toJson(): String =
         Json.encodeToString(this)

@@ -1,11 +1,18 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
 import { PiMoneyWavyLight } from "react-icons/pi"
+import {CardMenu} from "./card-menu.tsx"
 
-export const BufferPriceDisplay: FunctionComponent<{ bufferPrice_eurpkWh: Number }> = ({bufferPrice_eurpkWh}) => {
+export const BufferPriceDisplay: FunctionComponent<{
+    bufferPrice_eurpkWh: Number,
+    toDelete: () => void,
+}> = ({bufferPrice_eurpkWh, toDelete}) => {
     return (
         <Card>
-            <BufferPriceHeading />
+            <Flex className="head-title">
+                <BufferPriceHeading />
+                <CardMenu onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Bufferprijs [€/kWh]</DataList.Label>
@@ -45,7 +52,7 @@ export const BufferPriceForm: FunctionComponent<{
                     <label className="form-label" htmlFor="bufferPrice_eurpkWh">Bufferprijs [€/kWh]</label>
                     <input className="form-input" type="number" id="bufferPrice_eurpkWh" name="bufferPrice_eurpkWh" placeholder="€/kWh" required min={0} step={0.001}/>
                 </div>
-
+                <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

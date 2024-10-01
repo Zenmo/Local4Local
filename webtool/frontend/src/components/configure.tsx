@@ -24,7 +24,9 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         showAddSolarFarm ||
         showAddWindFarm ||
         showAddBattery ||
-        showAddHeatStorage)
+        showAddHeatStorage ||
+        showBufferPrice
+    )
 
     return (
         <Grid gap="2" pt="4">
@@ -53,9 +55,13 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     toDelete={() => setPilot(pilot.remove(it))}
                 />)}
             
-            {pilot.bufferPrice_eurpkWh &&
-                <BufferPriceDisplay bufferPrice_eurpkWh={pilot.bufferPrice_eurpkWh} key={"bufferPrice_eurpkWh"} />}
-        
+            {(pilot.bufferPrice_eurpkWh && !showBufferPrice )? (
+                <BufferPriceDisplay 
+                    bufferPrice_eurpkWh={pilot.bufferPrice_eurpkWh} 
+                    key={"bufferPrice_eurpkWh"} 
+                    toDelete={() => setPilot(pilot.withoutBufferPrice())} 
+                />
+            ) : null}
             
             {showAddHouseholdGroup &&
                 <HouseholdForm 
