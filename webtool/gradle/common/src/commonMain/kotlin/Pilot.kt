@@ -17,6 +17,8 @@ data class Pilot(
     val windFarms: List<WindFarm> = emptyList(),
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
+    val bufferPrice_eurpkWh: Double? = 0.0,
+
 ) {
     // Create
     fun create(asset: AssetType) = when (asset) {
@@ -37,6 +39,11 @@ data class Pilot(
         is HeatStorage -> copy(heatStorages = this.heatStorages - asset)
         else -> "Unknown type"
     }
+
+    fun withBufferPrice(bufferPrice_eurpkWh: Double): Pilot =
+        copy(bufferPrice_eurpkWh = bufferPrice_eurpkWh)
+    fun withoutBufferPrice(): Pilot =
+        copy(bufferPrice_eurpkWh = 0.0)
 
     fun toJson(): String =
         Json.encodeToString(this)
