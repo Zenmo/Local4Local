@@ -1,6 +1,12 @@
 [submodule "anylogic/zero_engine"]
 	path = anylogic/zero_engine
 	url = git@github.com:Zenmo/zero_engine.git
+	branch = main
 [submodule "anylogic/zero_results_UI"]
 	path = anylogic/zero_results_UI
 	url = git@github.com:Zenmo/zero_results_UI.git
+	branch = main
+[submodule "anylogic/interface_loader"]
+	path = anylogic/interface_loader
+	url = git@github.com:Zenmo/zero_Interface-Loader.git
+	branch = main
