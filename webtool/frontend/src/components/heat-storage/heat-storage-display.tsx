@@ -1,12 +1,20 @@
 import {FunctionComponent} from "react"
-import {Card, DataList} from "@radix-ui/themes"
+import {Flex, Card, DataList} from "@radix-ui/themes"
 import {HeatStorage} from "local4local"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
+import {CostDisplay} from "../cost-section.tsx"
+import {CardMenu} from "./../card-menu.tsx"
 
-export const HeatStorageDisplay: FunctionComponent<{ heatStorage: HeatStorage }> = ({heatStorage}) => {
+export const HeatStorageDisplay: FunctionComponent<{
+        heatStorage: HeatStorage,
+        toDelete: () => void,
+    }> = ({heatStorage, toDelete}) => {
     return (
         <Card>
-            <HeatStorageHeading />
+            <Flex className="head-title">
+                <HeatStorageHeading />
+                <CardMenu onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Opslagmedium</DataList.Label>
@@ -24,6 +32,7 @@ export const HeatStorageDisplay: FunctionComponent<{ heatStorage: HeatStorage }>
                     <DataList.Label minWidth="88px">Maximale temperatuur</DataList.Label>
                     <DataList.Value>{heatStorage.maxTemp_degC} &deg;C</DataList.Value>
                 </DataList.Item>
+                <CostDisplay cost={heatStorage.cost} />
             </DataList.Root>
         </Card>
     )

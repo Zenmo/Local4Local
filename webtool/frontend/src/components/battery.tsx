@@ -1,12 +1,20 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {Battery} from "local4local"
-import { PiCarBatteryLight } from "react-icons/pi"
+import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {Battery, AssetCost} from "local4local"
+import {PiCarBatteryLight} from "react-icons/pi"
+import {CostSection, CostDisplay} from "./cost-section.tsx"
+import {CardMenu} from "./card-menu.tsx"
 
-export const BatteryDisplay: FunctionComponent<{ battery: Battery }> = ({battery}) => {
+export const BatteryDisplay: FunctionComponent<{
+    battery: Battery,
+    toDelete: () => void,
+}> = ({battery, toDelete}) => {
     return (
         <Card>
-            <BatteryHeading />
+            <Flex className="head-title">
+                <BatteryHeading />
+                <CardMenu onDelete={toDelete}/>
+            </Flex>
             <DataList.Root>
                 <DataList.Item>
                     <DataList.Label minWidth="88px">Capaciteit</DataList.Label>
@@ -16,6 +24,7 @@ export const BatteryDisplay: FunctionComponent<{ battery: Battery }> = ({battery
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
+                <CostDisplay cost={battery.cost} hideCostPerKwh={true} />
             </DataList.Root>
         </Card>
     )
@@ -36,11 +45,20 @@ export const BatteryForm: FunctionComponent<{
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
-        const formData = new FormData(form)
+        const formData = new FormData(form);
+
+        const cost =  new AssetCost(
+            parseFloat(formData.get("LCOE_eurpkWH") as string) || 0,
+            parseFloat(formData.get("CAPEX_eur") as string) || 0,
+            parseFloat(formData.get("interest_r") as string) * 0.01 || 0,
+            parseFloat(formData.get("depreciationPeriod_y") as string) || 0,
+            parseFloat(formData.get("OPEX_eurpy") as string) || 0,
+        );
 
         const battery = new Battery(
             parseFloat(formData.get("capacity_kWh") as string),
             parseFloat(formData.get("peakPower_kW") as string),
+            cost,
         )
 
         saveBattery(battery)
@@ -59,6 +77,8 @@ export const BatteryForm: FunctionComponent<{
                     <label className="form-label" htmlFor="peakPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={100} />
                 </div>
+                <CostSection hideCostPerKwh={true} />
+                <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

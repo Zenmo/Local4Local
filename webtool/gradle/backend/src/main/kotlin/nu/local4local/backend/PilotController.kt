@@ -1,6 +1,7 @@
 package nu.local4local.backend
 
 import nu.local4local.common.HouseholdGroup
+import nu.local4local.common.AssetCost
 import nu.local4local.common.Pilot
 import nu.local4local.common.WindFarm
 import org.http4k.core.Method.PUT
@@ -28,7 +29,14 @@ val startPilot = Pilot(
         )
     ),
     windFarms = listOf(
-        WindFarm(2000.0)
+        WindFarm(2000.0,
+        AssetCost(LCOE_eurpkWH = 0.0,
+            CAPEX_eur = 0.0,
+            interest_r = 0.0,
+            depreciationPeriod_y = 0.0,
+            OPEX_eurpy = 0.0
+            )
+        )
     )
 )
 

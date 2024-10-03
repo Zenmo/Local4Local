@@ -17,25 +17,49 @@ data class Pilot(
     val windFarms: List<WindFarm> = emptyList(),
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
+    val bufferPrice_eurpkWh: Double? = 0.0,
+
 ) {
-    fun withHouseholdGroup(households: HouseholdGroup): Pilot =
-        copy(householdGroups = this.householdGroups + households)
+    // Create
+    fun create(asset: AssetType) = when (asset) {
+        is HouseholdGroup -> copy(householdGroups = this.householdGroups + asset)
+        is SolarFarm -> copy(solarFarms = this.solarFarms + asset)
+        is WindFarm -> copy(windFarms = this.windFarms + asset)
+        is Battery -> copy(batteries = this.batteries + asset)
+        is HeatStorage -> copy(heatStorages = this.heatStorages + asset)
+        else -> "Unknown type"
+    }
 
-    fun withSolarFarm(solarFarm: SolarFarm): Pilot =
-        copy(solarFarms = this.solarFarms + solarFarm)
+    // Delete
+    fun remove(asset: AssetType) = when (asset) {
+        is HouseholdGroup -> copy(householdGroups = this.householdGroups - asset)
+        is SolarFarm -> copy(solarFarms = this.solarFarms - asset)
+        is WindFarm -> copy(windFarms = this.windFarms - asset)
+        is Battery -> copy(batteries = this.batteries - asset)
+        is HeatStorage -> copy(heatStorages = this.heatStorages - asset)
+        else -> "Unknown type"
+    }
 
-    fun withWindFarm(windFarm: WindFarm): Pilot =
-        copy(windFarms = this.windFarms + windFarm)
-
-    fun withBattery(battery: Battery): Pilot =
-        copy(batteries = this.batteries + battery)
-
-    fun withHeatStorage(heatStorage: HeatStorage): Pilot =
-        copy(heatStorages = this.heatStorages + heatStorage)
+    fun withBufferPrice(bufferPrice_eurpkWh: Double): Pilot =
+        copy(bufferPrice_eurpkWh = bufferPrice_eurpkWh)
+    fun withoutBufferPrice(): Pilot =
+        copy(bufferPrice_eurpkWh = 0.0)
 
     fun toJson(): String =
         Json.encodeToString(this)
 }
+sealed interface AssetType
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+@Serializable
+data class AssetCost(
+    val LCOE_eurpkWH: Double? = 0.0,
+    val CAPEX_eur: Double? = 0.0,
+    val interest_r: Double? = 0.0,
+    val depreciationPeriod_y: Double? = 0.0,
+    val OPEX_eurpy: Double? = 0.0,
+)
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
@@ -47,10 +71,9 @@ data class HouseholdGroup(
     val hasHeatPump_r: Double,
     val hasChargePoint_r: Double,
     val hasHomeBattery_r: Double,
-
-    /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
+     /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
     val annualBaseConsumptionAvg_kWh: Double,
-)
+): AssetType
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
@@ -81,14 +104,16 @@ data class ConsumptionAsset(
 @Serializable
 data class SolarFarm(
     val nominalPower_kW: Double,
-)
+    val cost: AssetCost,
+): AssetType
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class WindFarm(
     val nominalPower_kW: Double,
-)
+    val cost: AssetCost,
+): AssetType
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
@@ -96,7 +121,8 @@ data class WindFarm(
 data class Battery(
     val capacity_kWh: Double,
     val peakPower_kW: Double,
-)
+    val cost: AssetCost,
+): AssetType
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
@@ -106,7 +132,8 @@ data class HeatStorage(
     val storageVolume_m3: Double,
     val minTemp_degC: Double,
     val maxTemp_degC: Double,
-) {
+    val cost: AssetCost,
+): AssetType {
     fun getCapacity_kWh(): Double {
         val specificHeatCapacity = 4.18 // kJ/kg/K
 

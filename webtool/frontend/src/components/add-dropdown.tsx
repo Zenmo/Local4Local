@@ -8,6 +8,7 @@ export const AddDropdown: FunctionComponent<{
     addBattery: () => void
     addHeatStorage: () => void
     addCompany?: () => void
+    addBufferPrice?: () => void
     style: CSSProperties
 }> = ({
     addHouseholdGroup,
@@ -16,6 +17,7 @@ export const AddDropdown: FunctionComponent<{
     addBattery,
     addHeatStorage,
     addCompany = () => alert("Bedrijf nog niet geïmplementeerd"),
+    addBufferPrice,
     style,
 }) => (
     <DropdownMenu.Root>
@@ -37,6 +39,9 @@ export const AddDropdown: FunctionComponent<{
             </DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addCompany}>
                 Bedrijf
+            </DropdownMenu.Item>
+            <DropdownMenu.Item onSelect={addBufferPrice}>
+                Bufferprijs
             </DropdownMenu.Item>
         </DropdownMenu.Content>
     </DropdownMenu.Root>
