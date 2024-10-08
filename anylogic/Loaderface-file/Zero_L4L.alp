@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021041" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021042" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -84,6 +84,12 @@ public void f_createGridConnections(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localSession]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -1003,21 +1009,20 @@ J_EAConversionGasBurner gasBurner = new J_EAConversionGasBurner(gcHouse, OL_Ener
 						<Name><![CDATA[energyCoop]]></Name>
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
-					<Body><![CDATA[var gridID = "solarFarm0";
-var ownerID = gridID + "_coop";
-var energyAssetType = "Solar Farm";
-
+					<Body><![CDATA[var i = 1;
 for (var solarFarmData: solarFarms) {
+	var gridConnectionID = "solarFarm" + i;
+	var ownerID = gridConnectionID + "owner";
 
 	GCEnergyProduction solarFarm = energyModel.add_EnergyProductionSites();
-		solarFarm.set_p_gridConnectionID( gridID );
+		solarFarm.set_p_gridConnectionID( gridConnectionID );
 		solarFarm.set_p_physicalConnectionCapacity_kW( solarFarmData.getNominalPower_kW());
-		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
+		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
 	
 	f_addEnergyProduction(
 		solarFarm,
 		OL_EnergyAssetType.PHOTOVOLTAIC,
-		energyAssetType,
+		gridConnectionID,
 		solarFarmData.getNominalPower_kW());
 	
 	ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
@@ -1042,13 +1047,36 @@ for (var solarFarmData: solarFarms) {
 					<ShowLabel>true</ShowLabel>
 					<Parameter>
 						<Name><![CDATA[batteries]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.Battery>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
-					<Body><![CDATA[var gridID = "solarFarm0";
-var ownerID = gridID + "_coop";
-var energyAssetType = "Solar Farm";
+					<Body><![CDATA[    
+for (var batteryData: batteries) {
+    ConnectionOwner connectionOwner = energyModel.add_pop_connectionOwners();
+        connectionOwner.set_p_actorID( "battery" + connectionOwner.getID() );
+        connectionOwner.set_p_actorType( OL_ActorType.CONNECTIONOWNER );
+        connectionOwner.set_p_connectionOwnerType( OL_ConnectionOwnerType.BATTERY_OP );
+        connectionOwner.set_p_actorGroup("production");
+        connectionOwner.p_energyCoopID = energyCoop.p_actorID;
+    
+        //Grid
+    GCGridBattery gridbattery = energyModel.add_GridBatteries();
+        gridbattery.set_p_gridConnectionID( "gridID_" + gridbattery.getID() );
+        gridbattery.set_p_ownerID( ownerID );
+        gridbattery.set_p_owner( connectionOwner );
+        gridbattery.set_p_physicalConnectionCapacity_kW( batteryData.getPeakPower_kW() );
+        gridbattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
+        gridbattery.set_p_contractedFeedinCapacity_kW(batteryData.getPeakPower_kW() );
+        gridbattery.set_p_contractedDeliveryCapacity_kW( batteryData.getPeakPower_kW() );
+ 
+    //Battery Asset
+    f_addStorage(gridbattery, dataBattery.getPeakPower_kW(), dataBattery.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
+}
 
-f_generateBatteries();]]></Body>
+	]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -1241,6 +1269,21 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[settings]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_current]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_2]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_3]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
