@@ -1045,8 +1045,8 @@ for (var batteryData: batteries) {
     
     //Grid
     GCGridBattery gridBattery = energyModel.add_GridBatteries();
-        gridBattery.set_p_gridConnectionID( "battery_" + connectionOwner.getId() );
-        gridBattery.set_p_ownerID( "grid_" + gridBattery.getId() );
+        gridBattery.set_p_gridConnectionID( "battery_" + gridBattery.getId() );
+        gridBattery.set_p_ownerID( connectionOwner.p_actorID );
         gridBattery.set_p_owner( connectionOwner );
         gridBattery.set_p_physicalConnectionCapacity_kW( batteryData.getPeakPower_kW() );
         gridBattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
