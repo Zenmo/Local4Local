@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021042" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021041" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -84,12 +84,6 @@ public void f_createGridConnections(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -818,7 +812,7 @@ f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
 f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
-f_createLocal4LocalBatteries(energyCoop); //pilot.getBatteries()
+f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
 
 ]]></Body>
@@ -1056,7 +1050,7 @@ for (var solarFarmData: solarFarms) {
 					<Body><![CDATA[    
 for (var batteryData: batteries) {
     ConnectionOwner connectionOwner = energyModel.add_pop_connectionOwners();
-        connectionOwner.set_p_actorID( "battery" + connectionOwner.getID() );
+        connectionOwner.set_p_actorID( "battery_" + connectionOwner.getId());
         connectionOwner.set_p_actorType( OL_ActorType.CONNECTIONOWNER );
         connectionOwner.set_p_connectionOwnerType( OL_ConnectionOwnerType.BATTERY_OP );
         connectionOwner.set_p_actorGroup("production");
@@ -1064,8 +1058,8 @@ for (var batteryData: batteries) {
     
         //Grid
     GCGridBattery gridbattery = energyModel.add_GridBatteries();
-        gridbattery.set_p_gridConnectionID( "gridID_" + gridbattery.getID() );
-        gridbattery.set_p_ownerID( ownerID );
+        gridbattery.set_p_gridConnectionID( "battery_" + connectionOwner.getId() );
+        gridbattery.set_p_ownerID( "grid_" + gridbattery.getId() );
         gridbattery.set_p_owner( connectionOwner );
         gridbattery.set_p_physicalConnectionCapacity_kW( batteryData.getPeakPower_kW() );
         gridbattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
@@ -1073,10 +1067,8 @@ for (var batteryData: batteries) {
         gridbattery.set_p_contractedDeliveryCapacity_kW( batteryData.getPeakPower_kW() );
  
     //Battery Asset
-    f_addStorage(gridbattery, dataBattery.getPeakPower_kW(), dataBattery.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
-}
-
-	]]></Body>
+    f_addStorage(gridbattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
+}]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -1269,21 +1261,6 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[settings]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
