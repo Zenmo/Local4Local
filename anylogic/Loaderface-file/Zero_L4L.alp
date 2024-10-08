@@ -899,8 +899,8 @@ for (var windFarmData: windFarms) {
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
 					<Body><![CDATA[for (int g = 0; g < householdGroups.size(); g++) {
-    var householdGroup = householdGroups.get(g); 
-	
+    var householdGroup = householdGroups.get(g);
+
 	for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
 		// Grid
 		GCHouse gridHouse = energyModel.add_Houses();
@@ -920,7 +920,7 @@ for (var windFarmData: windFarms) {
 			connectionOwner.p_energyCoopID = energyCoop.p_actorID;
 		
 		//Asset
-		f_addLocal4LocalHouseAssets(gridHouse, householdGroup);
+		f_addLocal4LocalHouseAssets(gridHouse, householdGroup, g*1000+i );
 	}
 }
 ]]></Body>
@@ -943,33 +943,93 @@ for (var windFarmData: windFarms) {
 						<Name><![CDATA[householdGroupData]]></Name>
 						<Type><![CDATA[nu.local4local.common.HouseholdGroup]]></Type>
 					</Parameter>
+					<Parameter>
+						<Name><![CDATA[seed]]></Name>
+						<Type><![CDATA[int]]></Type>
+					</Parameter>
 					<Body><![CDATA[// Add electricity consumption profiles
-double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh()*normal(0.5,1.5);
-var newAsset = new J_EAConsumption(gcHouse, OL_EnergyAssetType.ELECTRICITY_DEMAND, "house_other_electricity_demand", yearlyDemandElectricity_kWh, 0.0, 0.0, 0.0, 0.0, energyModel.p_timeStep_h, null);
-//energyModel.c_energyAssets.add(newAsset);
-//gcHouse.f_connectToJ_EA(newAsset);
+Random random = new Random(seed);
 
-// One vehicle per household, start with diesel ('fuel') vehicles
-double energyConsumption_kWhpkm = 0.6;//g.required( "energyConsumption_kWhpkm" ).doubleValue();
-double vehicleScaling = 1.0;//g.hasNonNull("vehicleScaling")? g.required("vehicleScaling").doubleValue() : 1.0;		
-J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(gcHouse, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE, null);	
-//dieselVehicle.energyAssetType = OL_EnergyAssetType.DIESEL_VEHICLE;
-//gcHouse.f_connectToJ_EA(dieselVehicle);		
-//energyModel.c_energyAssets.add(dieselVehicle);	
+double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.5,1.5);
+var newAsset = new J_EAConsumption(
+	gcHouse,
+	OL_EnergyAssetType.ELECTRICITY_DEMAND,
+	"house_other_electricity_demand",
+	yearlyDemandElectricity_kWh,
+	0.0, 0.0, 0.0, 0.0,
+	energyModel.p_timeStep_h,
+	null
+);
 
-// House thermal model
-//double yearlyHeatDemandPerFloorSurface_kWhpm2=90.9778*9.77;
-//J_EAConsumption newAsset = (J_EAConsumption)p_defaultConsumptionAsset.clone();
-//double yearlyDemandHeat_kWh = gcHouse.p_floorSurfaceArea_m2*yearlyHeatDemandPerFloorSurface_kWhpm2;
-//newAsset = new J_EAConsumption(gcHouse, OL_EnergyAssetType.HEAT_DEMAND, "Building_heat_demand", 0.0, yearlyDemandHeat_kWh, 0.0, 0.0, 0.0, energyModel.p_timeStep_h);
-//J_EABuilding(Agent parentAgent, double capacityHeat_kW, double lossFactor_WpK, double timestep_h, double initialTemperature_degC, double heatCapacity_JpK, double solarAbsorptionFactor_m2 )
-J_EABuilding buildingAsset = new J_EABuilding(gcHouse, 300, normal(50,1.57*200), energyModel.p_timeStep_h, normal(1, 17.9), normal(1e6,1e7), normal(1,2) );
-//energyModel.c_energyAssets.add(buildingAsset);
-//gcHouse.f_connectToJ_EA(buildingAsset);		
+J_EABuilding buildingAsset = new J_EABuilding(
+	gcHouse, 
+	300,
+	normal(50,1.57*200),
+	energyModel.p_timeStep_h,
+	normal(1, 17.9),
+	normal(1e6,1e7),
+	normal(1,2)
+);
 
-// Gasburner
-J_EAConversionGasBurner gasBurner = new J_EAConversionGasBurner(gcHouse, OL_EnergyAssetType.GAS_BURNER, 50, 0.99, energyModel.p_timeStep_h, 90);
-//energyModel.c_energyAssets.add(gasBurner);
+// Solar Panel
+if (random.nextDouble() <= householdGroupData.getHasPV_r()) {
+	f_addEnergyProduction(
+		gcHouse,
+		OL_EnergyAssetType.PHOTOVOLTAIC,
+		"Solar Panel",
+		8);
+};
+
+// HeatPump or Gasburner
+if (random.nextDouble() <= householdGroupData.getHasHeatPump_r()) {
+	new J_EAConversionHeatPump(
+		gcHouse,
+		zero_Interface.energyModel.p_timeStep_h,
+		5, 0.5,
+		zero_Interface.energyModel.v_currentAmbientTemperature_degC,
+		60, "AIR", 0, 1);
+} else {
+	new J_EAConversionGasBurner(
+		gcHouse,
+		OL_EnergyAssetType.GAS_BURNER,
+		50, 0.99,
+		energyModel.p_timeStep_h, 90
+	);
+};
+
+// Electric or Fuel Car
+if (random.nextDouble() <= householdGroupData.getHasChargePoint_r()) {
+	double capacityElectric_kW = energyModel.avgc_data.p_avgEVMaxChargePowerCar_kW;
+	double storageCapacity_kWh = energyModel.avgc_data.p_avgEVStorageCar_kWh;
+	double initialStateOfCharge_r = 1.0;
+	double energyConsumption_kWhpkm = energyModel.avgc_data.p_avgEVEnergyConsumptionCar_kWhpkm;
+	double vehicleScalingElectric = 1.0;
+	
+	new J_EAEV(gcHouse, capacityElectric_kW, storageCapacity_kWh,
+		initialStateOfCharge_r, zero_Interface.energyModel.p_timeStep_h,
+		energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_VEHICLE, null);  
+
+} else {
+	J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(
+		gcHouse,
+		0.6, // energyConsumption_kWhpkm,
+		energyModel.p_timeStep_h,
+		1.0, // vehicleScaling
+		OL_EnergyAssetType.DIESEL_VEHICLE,
+		null);
+};
+
+// HomeBattery
+if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
+	f_addStorage(
+		gcHouse,
+		2, //getPeakPower_kW(),
+		4, //getCapacity_kWh(),
+		OL_EnergyAssetType.STORAGE_ELECTRIC
+	);
+};
+
+
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
