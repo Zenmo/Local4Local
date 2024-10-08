@@ -805,12 +805,10 @@ for(Tuple row : rows){
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[var client = new nu.local4local.client.Client(p_local4localBackendUrl);
 var pilot = client.getPilot(p_local4localSession);
-traceln(pilot);
 
 var energyCoop = f_createLocal4LocalEnergyCoop();
 f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
-f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
 f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
 f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
@@ -855,37 +853,29 @@ return energyCoop;]]></Body>
 					</Parameter>
 					<Body><![CDATA[
 for (var windFarmData: windFarms) {
-	// Enkele productionsite voor 'centrale' opwek.
+    
+    //Grid
 	GCEnergyProduction windFarm = energyModel.add_EnergyProductionSites();
-	windFarm.set_p_gridConnectionID( "windFarm0" );
-	//windFarm.set_p_gridConnectionCategory( OL_GridConnectionCategory.WINDFARM );
-	windFarm.set_p_physicalConnectionCapacity_kW( windFarmData.getNominalPower_kW());
-	windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
-	//windFarm.p_parentNodeElectricID = energyModel.c_gridNodesTopLevel.get(0).p_gridNodeID;	
-	//windFarm.p_GISPoint = new GISPoint(map, p_centerLatitude, p_centerLongitude);
-	//windFarm.p_GISPoint.setRadius(20);
-	//c_GISPoints.add(windFarm.p_GISPoint);
-
+		windFarm.set_p_gridConnectionID( "windFarm0" );
+		windFarm.set_p_physicalConnectionCapacity_kW( windFarmData.getNominalPower_kW());
+		windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 	
-	J_EAProduction windTurbine = new J_EAProduction(
-	    windFarm, 
+	//Asset
+	f_addEnergyProduction(
+		windFarm, 
 	    OL_EnergyAssetType.WINDMILL, 
 	    "Windmill onshore",
-	    windFarmData.getNominalPower_kW(),
-	    0,
-	    0,
-	    0,
-	    energyModel.p_timeStep_h,
-	    0,
-	    energyModel.pp_windOnshoreProduction
+	    windFarmData.getNominalPower_kW()
 	);
 	
+	//Owner
 	ConnectionOwner	COWF = energyModel.add_pop_connectionOwners();
-	COWF.p_actorID = windFarm.p_gridConnectionID + " coop";
-	COWF.p_actorType = OL_ActorType.CONNECTIONOWNER;
-	COWF.p_actorGroup = "production";
-	COWF.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
+		COWF.p_actorID = windFarm.p_gridConnectionID + " coop";
+		COWF.p_actorType = OL_ActorType.CONNECTIONOWNER;
+		COWF.p_actorGroup = "production";
+		COWF.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
 	COWF.p_energyCoopID = energyCoop.p_actorID;
+	
 	windFarm.p_ownerID = COWF.p_actorID;
 }
 ]]></Body>
@@ -908,32 +898,29 @@ for (var windFarmData: windFarms) {
 						<Name><![CDATA[energyCoop]]></Name>
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
-					<Body><![CDATA[int g = 0;
-for (var householdGroup: householdGroups) {
-	g += 1;
+					<Body><![CDATA[for (int g = 0; g < householdGroups.size(); g++) {
+    var householdGroup = householdGroups.get(g); 
+	
 	for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
-		GCHouse GC = energyModel.add_Houses();
-		ConnectionOwner	COH = energyModel.add_pop_connectionOwners();
+		// Grid
+		GCHouse gridHouse = energyModel.add_Houses();
+			gridHouse.p_gridConnectionID = "house_" + g + "_" + i;
+			gridHouse.set_p_heatingType( OL_GridConnectionHeatingType.GASBURNER);
+			gridHouse.set_p_ownerID( gridHouse.p_gridConnectionID + "owner" );	
+			gridHouse.set_p_physicalConnectionCapacity_kW( 17 );
+			gridHouse.set_p_floorSurfaceArea_m2(100);
+			gridHouse.v_dayTempSetpoint_degC = 20;
+			gridHouse.v_nightTempSetpoint_degC = 17;
 		
-		GC.p_gridConnectionID = "house_g" + g + "_" + i;
-	 	//GC.set_p_gridConnectionCategory( OL_GridConnectionCategory.HOUSE );
-		//GC.set_p_gridConnectionType( gridConnectionType );
-		//GC.p_parentNodeElectricID = energyModel.c_gridNodesTopLevel.get(0).p_gridNodeID;	
-		GC.set_p_physicalConnectionCapacity_kW( 17 );
-		GC.set_p_ownerID( GC.p_gridConnectionID + "owner" );
-		GC.set_p_heatingType( OL_GridConnectionHeatingType.GASBURNER);	
-		GC.v_dayTempSetpoint_degC=20;
-		GC.v_nightTempSetpoint_degC=17;
-		GC.set_p_floorSurfaceArea_m2(100);
+		// Owner
+		ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
+			connectionOwner.p_actorID = gridHouse.p_ownerID;
+			connectionOwner.p_actorType = OL_ActorType.CONNECTIONOWNER;
+			connectionOwner.p_connectionOwnerType = OL_ConnectionOwnerType.HOUSEHOLD;
+			connectionOwner.p_energyCoopID = energyCoop.p_actorID;
 		
-		COH.p_actorID = GC.p_ownerID;
-		COH.p_actorType = OL_ActorType.CONNECTIONOWNER;
-		COH.p_connectionOwnerType = OL_ConnectionOwnerType.HOUSEHOLD;
-		//COH.f_setContractValues(); // MOGELIJK WEGHALEN!
-		//COH.v_contractDelivery.contractScope = "coopHeibloem";
-		COH.p_energyCoopID = energyCoop.p_actorID;
-		
-		f_addLocal4LocalHouseAssets(GC, householdGroup);
+		//Asset
+		f_addLocal4LocalHouseAssets(gridHouse, householdGroup);
 	}
 }
 ]]></Body>
@@ -1003,24 +990,23 @@ J_EAConversionGasBurner gasBurner = new J_EAConversionGasBurner(gcHouse, OL_Ener
 						<Name><![CDATA[energyCoop]]></Name>
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
-					<Body><![CDATA[var i = 1;
-for (var solarFarmData: solarFarms) {
-	var gridConnectionID = "solarFarm" + i;
-	var ownerID = gridConnectionID + "owner";
-
+					<Body><![CDATA[for (var solarFarmData: solarFarms) {
+    //Grid
 	GCEnergyProduction solarFarm = energyModel.add_EnergyProductionSites();
-		solarFarm.set_p_gridConnectionID( gridConnectionID );
+		solarFarm.set_p_gridConnectionID( "solarFarm_" + solarFarm.getId());
 		solarFarm.set_p_physicalConnectionCapacity_kW( solarFarmData.getNominalPower_kW());
 		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
 	
+	//Solar Asset
 	f_addEnergyProduction(
 		solarFarm,
 		OL_EnergyAssetType.PHOTOVOLTAIC,
-		gridConnectionID,
+		solarFarm.p_gridConnectionID,
 		solarFarmData.getNominalPower_kW());
 	
+	//Owner
 	ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
-		connectionOwner.p_actorID = ownerID;
+		connectionOwner.p_actorID = "owner_" + connectionOwner.getId();
 		connectionOwner.p_actorType = OL_ActorType.CONNECTIONOWNER;
 		connectionOwner.p_actorGroup = "production";
 		connectionOwner.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
@@ -1049,6 +1035,7 @@ for (var solarFarmData: solarFarms) {
 					</Parameter>
 					<Body><![CDATA[    
 for (var batteryData: batteries) {
+    //Owner
     ConnectionOwner connectionOwner = energyModel.add_pop_connectionOwners();
         connectionOwner.set_p_actorID( "battery_" + connectionOwner.getId());
         connectionOwner.set_p_actorType( OL_ActorType.CONNECTIONOWNER );
@@ -1056,18 +1043,18 @@ for (var batteryData: batteries) {
         connectionOwner.set_p_actorGroup("production");
         connectionOwner.p_energyCoopID = energyCoop.p_actorID;
     
-        //Grid
-    GCGridBattery gridbattery = energyModel.add_GridBatteries();
-        gridbattery.set_p_gridConnectionID( "battery_" + connectionOwner.getId() );
-        gridbattery.set_p_ownerID( "grid_" + gridbattery.getId() );
-        gridbattery.set_p_owner( connectionOwner );
-        gridbattery.set_p_physicalConnectionCapacity_kW( batteryData.getPeakPower_kW() );
-        gridbattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
-        gridbattery.set_p_contractedFeedinCapacity_kW(batteryData.getPeakPower_kW() );
-        gridbattery.set_p_contractedDeliveryCapacity_kW( batteryData.getPeakPower_kW() );
+    //Grid
+    GCGridBattery gridBattery = energyModel.add_GridBatteries();
+        gridBattery.set_p_gridConnectionID( "battery_" + connectionOwner.getId() );
+        gridBattery.set_p_ownerID( "grid_" + gridBattery.getId() );
+        gridBattery.set_p_owner( connectionOwner );
+        gridBattery.set_p_physicalConnectionCapacity_kW( batteryData.getPeakPower_kW() );
+        gridBattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
+        gridBattery.set_p_contractedFeedinCapacity_kW(batteryData.getPeakPower_kW() );
+        gridBattery.set_p_contractedDeliveryCapacity_kW( batteryData.getPeakPower_kW() );
  
     //Battery Asset
-    f_addStorage(gridbattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
+    f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
 }]]></Body>
 				</Function>
 			</Functions>
