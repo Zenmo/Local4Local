@@ -85,12 +85,6 @@ public void f_createGridConnections(){
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
 				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
-				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -187,7 +181,7 @@ public void f_createGridConnections(){
 				<Variable Class="Parameter">
 					<Id>1727355695113</Id>
 					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-					<X>-980</X><Y>520</Y>
+					<X>-980</X><Y>340</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -212,7 +206,7 @@ public void f_createGridConnections(){
 				<Variable Class="Parameter">
 					<Id>1727355695118</Id>
 					<Name><![CDATA[p_local4localSession]]></Name>
-					<X>-980</X><Y>540</Y>
+					<X>-980</X><Y>360</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -804,17 +798,21 @@ for(Tuple row : rows){
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658120</Id>
 					<Name><![CDATA[f_createLocal4LocalPilot]]></Name>
-					<X>-980</X><Y>370</Y>
+					<X>-980</X><Y>400</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[var client = new nu.local4local.client.Client(p_local4localBackendUrl);
 var pilot = client.getPilot(p_local4localSession);
+traceln(pilot);
 
 var energyCoop = f_createLocal4LocalEnergyCoop();
 f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
+f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
+f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
+f_createLocal4LocalBatteries(energyCoop); //pilot.getBatteries()
 
 
 ]]></Body>
@@ -824,7 +822,7 @@ f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 					<ReturnType><![CDATA[EnergyCoop]]></ReturnType>
 					<Id>1727353658122</Id>
 					<Name><![CDATA[f_createLocal4LocalEnergyCoop]]></Name>
-					<X>-960</X><Y>390</Y>
+					<X>-960</X><Y>420</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -842,7 +840,7 @@ return energyCoop;]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658124</Id>
 					<Name><![CDATA[f_createLocal4LocalWindFarms]]></Name>
-					<X>-960</X><Y>410</Y>
+					<X>-940</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -867,6 +865,7 @@ for (var windFarmData: windFarms) {
 	//windFarm.p_GISPoint = new GISPoint(map, p_centerLatitude, p_centerLongitude);
 	//windFarm.p_GISPoint.setRadius(20);
 	//c_GISPoints.add(windFarm.p_GISPoint);
+
 	
 	J_EAProduction windTurbine = new J_EAProduction(
 	    windFarm, 
@@ -896,7 +895,7 @@ for (var windFarmData: windFarms) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658126</Id>
 					<Name><![CDATA[f_createLocal4LocalHouseholds]]></Name>
-					<X>-960</X><Y>430</Y>
+					<X>-940</X><Y>500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -944,7 +943,7 @@ for (var householdGroup: householdGroups) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658128</Id>
 					<Name><![CDATA[f_addLocal4LocalHouseAssets]]></Name>
-					<X>-950</X><Y>450</Y>
+					<X>-920</X><Y>520</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -985,6 +984,71 @@ J_EABuilding buildingAsset = new J_EABuilding(gcHouse, 300, normal(50,1.57*200),
 J_EAConversionGasBurner gasBurner = new J_EAConversionGasBurner(gcHouse, OL_EnergyAssetType.GAS_BURNER, 50, 0.99, energyModel.p_timeStep_h, 90);
 //energyModel.c_energyAssets.add(gasBurner);
 ]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1728318637132</Id>
+					<Name><![CDATA[f_createLocal4LocalSolarFarms]]></Name>
+					<X>-940</X><Y>440</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[solarFarms]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.SolarFarm>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
+						<Type><![CDATA[EnergyCoop]]></Type>
+					</Parameter>
+					<Body><![CDATA[var gridID = "solarFarm0";
+var ownerID = gridID + "_coop";
+var energyAssetType = "Solar Farm";
+
+for (var solarFarmData: solarFarms) {
+
+	GCEnergyProduction solarFarm = energyModel.add_EnergyProductionSites();
+		solarFarm.set_p_gridConnectionID( gridID );
+		solarFarm.set_p_physicalConnectionCapacity_kW( solarFarmData.getNominalPower_kW());
+		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
+	
+	f_addEnergyProduction(
+		solarFarm,
+		OL_EnergyAssetType.PHOTOVOLTAIC,
+		energyAssetType,
+		solarFarmData.getNominalPower_kW());
+	
+	ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
+		connectionOwner.p_actorID = ownerID;
+		connectionOwner.p_actorType = OL_ActorType.CONNECTIONOWNER;
+		connectionOwner.p_actorGroup = "production";
+		connectionOwner.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
+		connectionOwner.p_energyCoopID = energyCoop.p_actorID;
+		
+	solarFarm.p_ownerID = connectionOwner.p_actorID;	
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1728378028745</Id>
+					<Name><![CDATA[f_createLocal4LocalBatteries]]></Name>
+					<X>-940</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[batteries]]></Name>
+						<Type><![CDATA[EnergyCoop]]></Type>
+					</Parameter>
+					<Body><![CDATA[var gridID = "solarFarm0";
+var ownerID = gridID + "_coop";
+var energyAssetType = "Solar Farm";
+
+f_generateBatteries();]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -1177,21 +1241,6 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[settings]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
