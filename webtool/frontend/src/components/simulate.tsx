@@ -13,7 +13,7 @@ export const Simulate: FunctionComponent<{
                     (her)start simulatie
                 </Button>
             </Center>
-            <div id={anylogicElementId} style={{height: "50rem"}}/>
+            <div id={anylogicElementId} style={{width: "100%", aspectRatio: "8/5"}}/>
         </>
     )
 }
