@@ -1,0 +1,3183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+*************************************************
+	         AnyLogic Project File
+*************************************************
+-->
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021041" AlpVersion="8.9.1">
+<Model>
+	<Id>1658477103134</Id>
+	<Name><![CDATA[Zero_L4L]]></Name>
+	<EngineVersion>6</EngineVersion>
+	<JavaPackageName><![CDATA[zerol4l]]></JavaPackageName>
+	<ModelTimeUnit><![CDATA[Hour]]></ModelTimeUnit>
+	<OptionLists>
+		<OptionList>
+			<Id>1709718356700</Id>
+			<Name><![CDATA[EnergyDemandTab]]></Name>
+			<Option>
+				<Id>1709718356702</Id>
+				<Name><![CDATA[MOBILITY]]></Name>
+			</Option>
+			<Option>
+				<Id>1709718356704</Id>
+				<Name><![CDATA[ELECTRICITY]]></Name>
+			</Option>
+			<Option>
+				<Id>1709718356706</Id>
+				<Name><![CDATA[HEAT]]></Name>
+			</Option>
+			<Option>
+				<Id>1714324722851</Id>
+				<Name><![CDATA[HUB]]></Name>
+			</Option>
+			<Option>
+				<Id>1721039647716</Id>
+				<Name><![CDATA[NFATO]]></Name>
+			</Option>
+		</OptionList>
+	</OptionLists>
+	
+	<Folders>
+		
+	</Folders>
+	<ActiveObjectClasses>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1709049506453</Id>
+			<Name><![CDATA[Loader_L4L]]></Name>
+			<AdditionalClassCode><![CDATA[
+@Override
+public void f_createInterface(){
+	f_createInterface_L4L();
+}
+
+@Override
+public void f_readDatabase(){
+	f_readDatabase_L4L();
+}
+
+@Override
+public void f_createGridConnections(){
+	f_createGridConnections_L4L();
+}]]></AdditionalClassCode>
+			<Import><![CDATA[import zerointerfaceloader.OL_ProjectType;]]></Import>
+			<ExtendsReference>
+				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
+				<ClassName><![CDATA[Zero_Loader]]></ClassName>
+			</ExtendsReference>
+			<Parameters>
+				<Parameter>
+					<Name><![CDATA[zero_Interface]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_createGridnodeTimeSeries]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[genericProfiles_data]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[project_data]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[settings]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[user]]></Name>
+				</Parameter>
+			</Parameters>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1709049506459</Id>
+				<Name><![CDATA[1709049506459]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T extends Agent]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>true</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor/>
+			<SceneSkybox>null</SceneSkybox>
+			<AgentProperties>
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[10]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>USER_DEF</LayoutType>
+					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
+					<NetworkType>USER_DEF</NetworkType>
+					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1709107200000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1709049506456</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-150</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>100</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<CurrentLevel>1709049506460</CurrentLevel>
+			<ConnectionsId>1709049506454</ConnectionsId>
+			<Variables>
+				<Variable Class="Parameter">
+					<Id>1727355695113</Id>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+					<X>-980</X><Y>340</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["https://local4local-backend.zenmo.com"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1727355695111</Id>
+							<Label><![CDATA[p_local4localBackendUrl]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1727355695118</Id>
+					<Name><![CDATA[p_local4localSession]]></Name>
+					<X>-980</X><Y>360</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["startPilot"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1727355695116</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+			</Variables>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726134544288</Id>
+					<Name><![CDATA[f_createInterface_L4L]]></Name>
+					<X>30</X><Y>720</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//OVERRIDE THE zero_Interface parameter here
+zero_Interface = interface_L4L;
+
+//Set parameters/pointers in the interface and resultsUI
+zero_Interface.energyModel = energyModel;
+zero_Interface.uI_Results.energyModel = energyModel;
+zero_Interface.p_selectedProjectType = project_data.project_type();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726150833775</Id>
+					<Name><![CDATA[f_setGenericProfiles_data]]></Name>
+					<X>-610</X><Y>260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Double> argumentsList = selectFrom( profiles ).list( profiles.t_h );
+
+// Various demand profiles
+
+List<Double> houseEdemandList = selectFrom( profiles ).list( profiles.house_e_demand_other );
+List<Double> houseHDHWdemandList = selectFrom( profiles ).list( profiles.house_h_demand_hot_water );
+List<Double> buildingEdemandList = selectFrom( profiles ).list( profiles.building_e_demand_other );
+List<Double> buildingHeatDemandList = selectFrom( profiles ).list( profiles.building_h_demand );
+List<Double> industrySteelEdemandList = selectFrom( profiles ).list( profiles.industry_steel_e_demand );
+List<Double> industrySteelHdemandList = selectFrom( profiles ).list( profiles.industry_steel_h_demand );
+List<Double> industryOtherEdemandList = selectFrom( profiles ).list( profiles.industry_other_e_demand );
+List<Double> industryOtherHdemandList = selectFrom( profiles ).list( profiles.industry_other_h_demand );
+List<Double> logisticsFleetEdemandList = selectFrom( profiles ).list( profiles.logistics_fleet_e_hgv );     
+ 
+// Weather data
+List<Double> windList = selectFrom( profiles ).list( profiles.wind_e_prod_normalized );
+List<Double> solarList = selectFrom( profiles ).list( profiles.solar_e_prod_normalized );
+List<Double> tempList = selectFrom( profiles ).list( profiles.ambient_temperature_deg_c );
+List<Double> epexList = selectFrom( profiles ).list( profiles.day_ahead_price_eur_mwh ); 
+
+
+
+//Create Profiles_data object
+genericProfiles_data = Profiles_data.builder().
+argumentsList(argumentsList).
+houseEdemandList(houseEdemandList).
+houseHDHWdemandList(houseHDHWdemandList).
+buildingEdemandList(buildingEdemandList).
+buildingHeatDemandList(buildingHeatDemandList).
+industrySteelEdemandList(industrySteelEdemandList).
+industrySteelHdemandList(industrySteelHdemandList).
+industryOtherEdemandList(industryOtherEdemandList).
+industryOtherHdemandList(industryOtherHdemandList).
+logisticsFleetEdemandList(logisticsFleetEdemandList).
+windList(windList).
+solarList(solarList).
+tempList(tempList).
+epexList(epexList).build();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726156899337</Id>
+					<Name><![CDATA[f_readDatabase_L4L]]></Name>
+					<X>-700</X><Y>170</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Set the profiles data record
+f_setGenericProfiles_data();
+
+//Set the GridNode data record
+f_setGridNode_data();
+
+//Set the consumption buildings data
+f_setBuilding_data();
+
+//Set the EA data
+
+//Set the remaining gis object data
+f_setNeighbourhood_data();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726157030630</Id>
+					<Name><![CDATA[f_setBuilding_data]]></Name>
+					<X>-610</X><Y>315</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[
+//Get survey company buildings
+List<Tuple> rowsSurveyCompanyBuildings = selectFrom(buildings).where(buildings.gc_id.ne("0")).where(buildings.gc_id.isNotEmpty()).list();		
+
+for(Tuple row: rowsSurveyCompanyBuildings){
+	//c_SurveyCompanyBuilding_data.add(f_buildingRecordBuilder(row));
+}
+
+//Get generic company buildings
+//List<Tuple> rowsGenericCompanyBuildings = selectFrom(buildings).where(buildings.gc_id.eq("0")).where(buildings.gc_id.isEmpty()).list();		
+List<Tuple> rowsGenericCompanyBuildings = selectFrom(buildings).list();		
+
+for(Tuple row: rowsGenericCompanyBuildings){
+	//c_GenericCompanyBuilding_data.add(f_buildingRecordBuilder(row));
+}
+
+
+//Get generic company buildings
+List<Tuple> rowsHouseBuildings = selectFrom(buildings).where(buildings.purpose.contains("woonfunctie")).list();		
+
+for(Tuple row: rowsHouseBuildings){
+	c_HouseBuilding_data.add(f_buildingRecordBuilder(row));
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[Building_data]]></ReturnType>
+					<Id>1726157131143</Id>
+					<Name><![CDATA[f_buildingRecordBuilder]]></Name>
+					<X>-585</X><Y>335</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[row]]></Name>
+						<Type><![CDATA[Tuple]]></Type>
+					</Parameter>
+					<Body><![CDATA[//Create a building_data record
+Building_data building_data_record = Building_data.builder().
+
+address_id(row.get( buildings.address_id )).
+building_id(row.get( buildings.building_id )).
+pand_nr(row.get( buildings.pand_nr )).
+pandcluster_nr(row.get( buildings.pandcluster_nr )).
+streetname(row.get( buildings.streetname )).
+house_number(row.get( buildings.house_number )).
+house_letter(row.get( buildings.house_letter )).
+house_addition(row.get( buildings.house_addition )).
+postalcode(row.get( buildings.postalcode )).
+city(row.get( buildings.city )).
+build_year(row.get( buildings.build_year )).	
+status(row.get( buildings.status )).
+purpose(row.get( buildings.purpose )).
+cumulative_floor_surface_m2(row.get( buildings.cumulative_floor_surface_m2 )).
+polygon_area_m2(row.get( buildings.polygon_area_m2 )).
+gc_id(row.get( buildings.gc_id )).
+annotation(row.get( buildings.annotation )).
+extra_info(row.get( buildings.extra_info )).
+contracted_capacity_kw(row.get( buildings.contracted_capacity_kw )).
+electricity_consumption_kwhpa(row.get( buildings.electricity_consumption_kwhpa )).
+gas_consumption_kwhpa(row.get( buildings.gas_consumption_kwhpa )).
+energy_label(row.get( buildings.energy_label )).
+trafo_id(row.get( buildings.trafo_id )).
+latitude(row.get( buildings.latitude )).
+longitude(row.get( buildings.longitude )).
+polygon(row.get( buildings.polygon )).build();
+
+return building_data_record;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726221369773</Id>
+					<Name><![CDATA[f_setGridNode_data]]></Name>
+					<X>-610</X><Y>290</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Tuple> rows = selectFrom(gridnodes).where(gridnodes.status).list();
+		
+for(Tuple row: rows){
+	c_GridNode_data.add(GridNode_data.builder().
+	
+	trafo_id(row.get( gridnodes.gridnode_id )).
+	fid(row.get( gridnodes.fid )).
+	status(row.get( gridnodes.status )).
+	type(row.get( gridnodes.type )).
+	description(row.get( gridnodes.description )).
+	latitude(row.get( gridnodes.latitude )).
+	longitude(row.get( gridnodes.longitude )).
+	parent_node_id(row.get( gridnodes.parent_node_id )).
+	is_capacity_available(row.get( gridnodes.is_capacity_available )).
+	capacity_kw(row.get( gridnodes.capacity_kw )).
+	subscope(row.get( gridnodes.subscope )).
+	service_area_polygon(row.get( gridnodes.service_area_polygon )).build());
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706089</Id>
+					<Name><![CDATA[f_setCable_data]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-610</X><Y>560</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//LV cables
+List<Tuple> rowsLV = selectFrom(lv_cables).list();
+
+for(Tuple rowLV : rowsLV){
+
+c_Cable_data_LV.add(Cable_data.builder().	
+	fid(rowLV.get(lv_cables.fid)).
+	status(rowLV.get(lv_cables.status)).
+	nominal_voltage_v(rowLV.get(lv_cables.nominal_voltage_v)).
+	label(rowLV.get(lv_cables.label)).
+	description(rowLV.get(lv_cables.description)).
+	//latitude(rowLV.get(lv_cables.latitude)).
+	//longitude(rowLV.get(lv_cables.longitude)).
+	line(rowLV.get(lv_cables.line))
+	.build());
+}
+
+//MV cables
+List<Tuple> rowsMV = selectFrom(mv_cables).list();
+
+for(Tuple rowMV : rowsMV){
+
+c_Cable_data_MV.add(Cable_data.builder().	
+	fid(rowMV.get(mv_cables.fid)).
+	status(rowMV.get(mv_cables.status)).
+	nominal_voltage_v(rowMV.get(mv_cables.nominal_voltage_v)).
+	label(rowMV.get(mv_cables.label)).
+	description(rowMV.get(mv_cables.description)).
+	//latitude(rowMV.get(mv_cables.latitude)).
+	//longitude(rowMV.get(mv_cables.longitude)).
+	line(rowMV.get(mv_cables.line))
+	.build());
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706091</Id>
+					<Name><![CDATA[f_setSolarfarm_data]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-610</X><Y>407</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Tuple> rows = selectFrom(solarfarms).list();
+
+for(Tuple row : rows){
+		c_Solarfarm_data.add(Solarfarm_data.builder().
+		
+		gc_id(row.get(solarfarms.gc_id)).
+		gc_name(row.get(solarfarms.gc_name)).
+		owner_id(row.get(solarfarms.owner_id)).
+		streetname(row.get(solarfarms.streetname)).
+		house_number(row.get(solarfarms.house_number)).
+		house_letter(row.get(solarfarms.house_letter)).
+		house_addition(row.get(solarfarms.house_addition)).
+		postalcode(row.get(solarfarms.postalcode)).
+		city(row.get(solarfarms.city)).
+		trafo_id(row.get(solarfarms.trafo_id)).
+		initially_active(row.get(solarfarms.initially_active)).
+		capacity_electric_kw(row.get(solarfarms.capacity_electric_kw)).
+		connection_capacity_kw(row.get(solarfarms.connection_capacity_kw)).
+		contracted_delivery_capacity_kw(row.get(solarfarms.contracted_delivery_capacity_kw)).
+		contracted_feed_in_capacity_kw(row.get(solarfarms.contracted_feed_in_capacity_kw)).
+		latitude(row.get(solarfarms.latitude)).
+		longitude(row.get(solarfarms.longitude)).
+		polygon(row.get(solarfarms.polygon))
+		.build());
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706093</Id>
+					<Name><![CDATA[f_setWindfarm_data]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-610</X><Y>427</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Tuple> rows = selectFrom(windfarms).list();
+
+for(Tuple row : rows){
+		c_Windfarm_data.add(Windfarm_data.builder().
+		
+		gc_id(row.get(windfarms.gc_id)).
+		gc_name(row.get(windfarms.gc_name)).
+		owner_id(row.get(windfarms.owner_id)).
+		streetname(row.get(windfarms.streetname)).
+		house_number(row.get(windfarms.house_number)).
+		house_letter(row.get(windfarms.house_letter)).
+		house_addition(row.get(windfarms.house_addition)).
+		postalcode(row.get(windfarms.postalcode)).
+		city(row.get(windfarms.city)).
+		trafo_id(row.get(windfarms.trafo_id)).
+		initially_active(row.get(windfarms.initially_active)).
+		capacity_electric_kw(row.get(windfarms.capacity_electric_kw)).
+		connection_capacity_kw(row.get(windfarms.connection_capacity_kw)).
+		contracted_delivery_capacity_kw(row.get(windfarms.contracted_delivery_capacity_kw)).
+		contracted_feed_in_capacity_kw(row.get(windfarms.contracted_feed_in_capacity_kw)).
+		latitude(row.get(windfarms.latitude)).
+		longitude(row.get(windfarms.longitude)).
+		polygon(row.get(windfarms.polygon))
+		.build());
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706095</Id>
+					<Name><![CDATA[f_setElectrolyser_data]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-610</X><Y>446</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[		
+List<Tuple> rows = selectFrom(electrolysers).list();
+
+for(Tuple row : rows){
+		c_Electrolyser_data.add(Electrolyser_data.builder().
+		
+		gc_id(row.get(electrolysers.gc_id)).
+		gc_name(row.get(electrolysers.gc_name)).
+		owner_id(row.get(electrolysers.owner_id)).
+		streetname(row.get(electrolysers.streetname)).
+		house_number(row.get(electrolysers.house_number)).
+		house_letter(row.get(electrolysers.house_letter)).
+		house_addition(row.get(electrolysers.house_addition)).
+		postalcode(row.get(electrolysers.postalcode)).
+		city(row.get(electrolysers.city)).
+		trafo_id(row.get(electrolysers.trafo_id)).
+		initially_active(row.get(electrolysers.initially_active)).
+		capacity_electric_kw(row.get(electrolysers.capacity_electric_kw)).
+		connection_capacity_kw(row.get(electrolysers.connection_capacity_kw)).
+		contracted_delivery_capacity_kw(row.get(electrolysers.contracted_delivery_capacity_kw)).
+		contracted_feed_in_capacity_kw(row.get(electrolysers.contracted_feed_in_capacity_kw)).
+		
+		default_operation_mode(OL_ElectrolyserOperationMode.valueOf(row.get(electrolysers.default_operation_mode))).
+		conversion_efficiency(row.get(electrolysers.conversion_efficiency)).
+		min_production_ratio(row.get(electrolysers.min_production_ratio)).
+		idle_consumption_power_ratio(row.get(electrolysers.idle_consumption_power_ratio)).
+		start_up_time_shutdown_s(row.get(electrolysers.start_up_time_shutdown_s)).
+		start_up_time_standby_s(row.get(electrolysers.start_up_time_standby_s)).
+		start_up_time_idle_s(row.get(electrolysers.start_up_time_idle_s)).
+		load_change_time_s(row.get(electrolysers.load_change_time_s)).
+		
+		
+		
+		
+		latitude(row.get(electrolysers.latitude)).
+		longitude(row.get(electrolysers.longitude)).
+		polygon(row.get(electrolysers.polygon))
+		.build());
+}	
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706097</Id>
+					<Name><![CDATA[f_setBattery_data]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-610</X><Y>465</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Tuple> rows = selectFrom(batteries).list();
+
+for(Tuple row : rows){
+		c_Battery_data.add(Battery_data.builder().
+		
+		gc_id(row.get(batteries.gc_id)).
+		gc_name(row.get(batteries.gc_name)).
+		owner_id(row.get(batteries.owner_id)).
+		streetname(row.get(batteries.streetname)).
+		house_number(row.get(batteries.house_number)).
+		house_letter(row.get(batteries.house_letter)).
+		house_addition(row.get(batteries.house_addition)).
+		postalcode(row.get(batteries.postalcode)).
+		city(row.get(batteries.city)).
+		trafo_id(row.get(batteries.trafo_id)).
+		initially_active(row.get(batteries.initially_active)).
+		
+		
+		capacity_electric_kw(row.get(batteries.capacity_electric_kw)).
+		connection_capacity_kw(row.get(batteries.connection_capacity_kw)).
+		contracted_delivery_capacity_kw(row.get(batteries.contracted_delivery_capacity_kw)).
+		contracted_feed_in_capacity_kw(row.get(batteries.contracted_feed_in_capacity_kw)).
+		
+		storage_capacity_kwh(row.get(batteries.storage_capacity_kwh)).
+		default_operation_mode(row.get(batteries.default_operation_mode)).
+		latitude(row.get(batteries.latitude)).
+		longitude(row.get(batteries.longitude)).
+		polygon(row.get(batteries.polygon))
+		.build());
+}	]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706099</Id>
+					<Name><![CDATA[f_setNeighbourhood_data]]></Name>
+					<X>-610</X><Y>520</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Tuple> rows = selectFrom(neighbourhoods).list();
+		
+for(Tuple row: rows){
+	c_Neighbourhood_data.add(Neighbourhood_data.builder().
+	
+	districtcode(row.get( neighbourhoods.districtcode )).
+	districtname(row.get( neighbourhoods.districtname )).
+	neighbourhoodcode(row.get( neighbourhoods.neighbourhoodcode )).
+	neighbourhoodtype(row.get( neighbourhoods.neighbourhoodtype)).
+	latitude(row.get( neighbourhoods.latitude )).
+	longitude(row.get( neighbourhoods.longitude )).
+	polygon(row.get( neighbourhoods.polygon )).build());
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706101</Id>
+					<Name><![CDATA[f_setChargingstation_data]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-610</X><Y>485</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Tuple> rows = selectFrom(chargingstations).list();
+
+for(Tuple row : rows){
+		c_Chargingstation_data.add(Chargingstation_data.builder().
+		
+		//Basic
+		gc_id(row.get(chargingstations.gc_id)).
+		gc_name(row.get(chargingstations.gc_name)).
+		owner_id(row.get(chargingstations.owner_id)).
+		streetname(row.get(chargingstations.streetname)).
+		house_number(row.get(chargingstations.house_number)).
+		house_letter(row.get(chargingstations.house_letter)).
+		house_addition(row.get(chargingstations.house_addition)).
+		postalcode(row.get(chargingstations.postalcode)).
+		city(row.get(chargingstations.city)).
+		trafo_id(row.get(chargingstations.trafo_id)).
+		initially_active(row.get(chargingstations.initially_active)).
+		
+		//Specific
+		connection_capacity_kw(row.get(chargingstations.connection_capacity_kw)).
+		is_charging_centre(row.get(chargingstations.is_charging_centre)).
+		vehicle_type(OL_EnergyAssetType.valueOf(row.get(chargingstations.vehicle_type))).
+		number_of_chargers(row.get(chargingstations.number_of_chargers)).
+		power_per_charger_kw(row.get(chargingstations.power_per_charger_kw)).
+
+		//GIS
+		latitude(row.get(chargingstations.latitude)).
+		longitude(row.get(chargingstations.longitude)).
+		polygon(row.get(chargingstations.polygon))
+		.build());
+}	
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177706103</Id>
+					<Name><![CDATA[f_setParcel_data]]></Name>
+					<X>-610</X><Y>540</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[/*
+List<Tuple> rows = selectFrom(parcels).list();
+
+for(Tuple row : rows){
+	c_Parcel_data.add(Parcel_data.builder().
+	
+	parcel_id(row.get(parcels.parcel_id)).
+	name(row.get(parcels.name)).
+	streetname(row.get(parcels.streetname)).
+	house_number(row.get(parcels.house_number)).
+	house_letter(row.get(parcels.house_letter)).
+	house_addition(row.get(parcels.house_addition)).
+	postalcode(row.get(parcels.postalcode)).
+	city(row.get(parcels.city)).
+	polygon_area_m2(row.get(parcels.polygon_area_m2)).
+	
+	latitude(row.get(parcels.latitude)).
+	longitude(row.get(parcels.longitude)).
+	polygon(row.get(parcels.polygon))
+	.build());
+}
+*/]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727177860192</Id>
+					<Name><![CDATA[f_setBuilding_data_AnderVoorbeeld]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-980</X><Y>320</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Loop to fill the different building type collections
+List<Tuple> rows = selectFrom(buildings).list();
+
+for(Tuple row : rows){
+
+	//Survey companies
+	if(row.get( buildings.gc_id ) != null && !row.get( buildings.gc_id ).equals("0") && !row.get( buildings.gc_id ).equals("")){
+		c_SurveyCompanyBuilding_data.add(f_buildingRecordBuilder(row));
+	}
+	
+	//Generic companies
+	else if(row.get( buildings.gc_id )!= null && row.get( buildings.gc_id ).equals("0") && row.get(buildings.annotation) != null && !row.get(buildings.annotation).equals("woonfunctie")){
+		c_GenericCompanyBuilding_data.add(f_buildingRecordBuilder(row));
+	}
+	
+	//Houses
+	else if(row.get( buildings.purpose ) != null && row.get( buildings.purpose ).contains("woonfunctie")){
+		c_HouseBuilding_data.add(f_buildingRecordBuilder(row));
+	}
+	
+	else{
+		c_remainingBuilding_data.add(f_buildingRecordBuilder(row));
+	}
+}
+
+]]></Body>
+				</Function>
+				<Function AccessType="protected" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727351736798</Id>
+					<Name><![CDATA[f_createGridConnections_L4L]]></Name>
+					<X>-160</X><Y>180</Y>
+					<Label><X>11</X><Y>1</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[f_createLocal4LocalPilot();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727353658120</Id>
+					<Name><![CDATA[f_createLocal4LocalPilot]]></Name>
+					<X>-980</X><Y>400</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[var client = new nu.local4local.client.Client(p_local4localBackendUrl);
+var pilot = client.getPilot(p_local4localSession);
+
+var energyCoop = f_createLocal4LocalEnergyCoop();
+f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
+f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
+f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
+f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
+
+
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[EnergyCoop]]></ReturnType>
+					<Id>1727353658122</Id>
+					<Name><![CDATA[f_createLocal4LocalEnergyCoop]]></Name>
+					<X>-960</X><Y>420</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[var energyCoop = energyModel.add_pop_energyCoops();
+
+energyCoop.p_actorID = "coopHeibloem";
+energyCoop.p_actorType = OL_ActorType.COOPENERGY;
+energyCoop.p_gridOperator = energyModel.pop_gridOperators.get(0);
+
+return energyCoop;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727353658124</Id>
+					<Name><![CDATA[f_createLocal4LocalWindFarms]]></Name>
+					<X>-940</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[windFarms]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.WindFarm>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
+						<Type><![CDATA[EnergyCoop]]></Type>
+					</Parameter>
+					<Body><![CDATA[
+for (var windFarmData: windFarms) {
+    
+    //Grid
+	GCEnergyProduction windFarm = energyModel.add_EnergyProductionSites();
+		windFarm.set_p_gridConnectionID( "windFarm0" );
+		windFarm.set_p_physicalConnectionCapacity_kW( windFarmData.getNominalPower_kW());
+		windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
+	
+	//Asset
+	f_addEnergyProduction(
+		windFarm, 
+	    OL_EnergyAssetType.WINDMILL, 
+	    "Windmill onshore",
+	    windFarmData.getNominalPower_kW()
+	);
+	
+	//Owner
+	ConnectionOwner	COWF = energyModel.add_pop_connectionOwners();
+		COWF.p_actorID = windFarm.p_gridConnectionID + " coop";
+		COWF.p_actorType = OL_ActorType.CONNECTIONOWNER;
+		COWF.p_actorGroup = "production";
+		COWF.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
+	COWF.p_energyCoopID = energyCoop.p_actorID;
+	
+	windFarm.p_ownerID = COWF.p_actorID;
+}
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727353658126</Id>
+					<Name><![CDATA[f_createLocal4LocalHouseholds]]></Name>
+					<X>-940</X><Y>500</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[householdGroups]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.HouseholdGroup>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
+						<Type><![CDATA[EnergyCoop]]></Type>
+					</Parameter>
+					<Body><![CDATA[for (int g = 0; g < householdGroups.size(); g++) {
+    var householdGroup = householdGroups.get(g);
+
+	for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
+		// Grid
+		GCHouse gridHouse = energyModel.add_Houses();
+			gridHouse.p_gridConnectionID = "house_" + g + "_" + i;
+			gridHouse.set_p_heatingType( OL_GridConnectionHeatingType.GASBURNER);
+			gridHouse.set_p_ownerID( gridHouse.p_gridConnectionID + "owner" );	
+			gridHouse.set_p_physicalConnectionCapacity_kW( 17 );
+			gridHouse.set_p_floorSurfaceArea_m2(100);
+			gridHouse.v_dayTempSetpoint_degC = 20;
+			gridHouse.v_nightTempSetpoint_degC = 17;
+		
+		// Owner
+		ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
+			connectionOwner.p_actorID = gridHouse.p_ownerID;
+			connectionOwner.p_actorType = OL_ActorType.CONNECTIONOWNER;
+			connectionOwner.p_connectionOwnerType = OL_ConnectionOwnerType.HOUSEHOLD;
+			connectionOwner.p_energyCoopID = energyCoop.p_actorID;
+		
+		//Asset
+		f_addLocal4LocalHouseAssets(gridHouse, householdGroup, g*1000+i );
+	}
+}
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1727353658128</Id>
+					<Name><![CDATA[f_addLocal4LocalHouseAssets]]></Name>
+					<X>-920</X><Y>520</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[gcHouse]]></Name>
+						<Type><![CDATA[GCHouse]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[householdGroupData]]></Name>
+						<Type><![CDATA[nu.local4local.common.HouseholdGroup]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[seed]]></Name>
+						<Type><![CDATA[int]]></Type>
+					</Parameter>
+					<Body><![CDATA[// Add electricity consumption profiles
+Random random = new Random(seed);
+
+double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.5,1.5);
+var newAsset = new J_EAConsumption(
+	gcHouse,
+	OL_EnergyAssetType.ELECTRICITY_DEMAND,
+	"house_other_electricity_demand",
+	yearlyDemandElectricity_kWh,
+	0.0, 0.0, 0.0, 0.0,
+	energyModel.p_timeStep_h,
+	null
+);
+
+J_EABuilding buildingAsset = new J_EABuilding(
+	gcHouse, 
+	300,
+	normal(50,1.57*200),
+	energyModel.p_timeStep_h,
+	normal(1, 17.9),
+	normal(1e6,1e7),
+	normal(1,2)
+);
+
+// Solar Panel
+if (random.nextDouble() <= householdGroupData.getHasPV_r()) {
+	f_addEnergyProduction(
+		gcHouse,
+		OL_EnergyAssetType.PHOTOVOLTAIC,
+		"Solar Panel",
+		8);
+};
+
+// HeatPump or Gasburner
+if (random.nextDouble() <= householdGroupData.getHasHeatPump_r()) {
+	new J_EAConversionHeatPump(
+		gcHouse,
+		zero_Interface.energyModel.p_timeStep_h,
+		5, 0.5,
+		zero_Interface.energyModel.v_currentAmbientTemperature_degC,
+		60, "AIR", 0, 1);
+} else {
+	new J_EAConversionGasBurner(
+		gcHouse,
+		OL_EnergyAssetType.GAS_BURNER,
+		50, 0.99,
+		energyModel.p_timeStep_h, 90
+	);
+};
+
+// Electric or Fuel Car
+if (random.nextDouble() <= householdGroupData.getHasChargePoint_r()) {
+	double capacityElectric_kW = energyModel.avgc_data.p_avgEVMaxChargePowerCar_kW;
+	double storageCapacity_kWh = energyModel.avgc_data.p_avgEVStorageCar_kWh;
+	double initialStateOfCharge_r = 1.0;
+	double energyConsumption_kWhpkm = energyModel.avgc_data.p_avgEVEnergyConsumptionCar_kWhpkm;
+	double vehicleScalingElectric = 1.0;
+	
+	new J_EAEV(gcHouse, capacityElectric_kW, storageCapacity_kWh,
+		initialStateOfCharge_r, zero_Interface.energyModel.p_timeStep_h,
+		energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_VEHICLE, null);  
+
+} else {
+	J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(
+		gcHouse,
+		0.6, // energyConsumption_kWhpkm,
+		energyModel.p_timeStep_h,
+		1.0, // vehicleScaling
+		OL_EnergyAssetType.DIESEL_VEHICLE,
+		null);
+};
+
+// HomeBattery
+if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
+	f_addStorage(
+		gcHouse,
+		2, //getPeakPower_kW(),
+		4, //getCapacity_kWh(),
+		OL_EnergyAssetType.STORAGE_ELECTRIC
+	);
+};
+
+
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1728318637132</Id>
+					<Name><![CDATA[f_createLocal4LocalSolarFarms]]></Name>
+					<X>-940</X><Y>440</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[solarFarms]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.SolarFarm>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
+						<Type><![CDATA[EnergyCoop]]></Type>
+					</Parameter>
+					<Body><![CDATA[for (var solarFarmData: solarFarms) {
+    //Grid
+	GCEnergyProduction solarFarm = energyModel.add_EnergyProductionSites();
+		solarFarm.set_p_gridConnectionID( "solarFarm_" + solarFarm.getId());
+		solarFarm.set_p_physicalConnectionCapacity_kW( solarFarmData.getNominalPower_kW());
+		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
+	
+	//Solar Asset
+	f_addEnergyProduction(
+		solarFarm,
+		OL_EnergyAssetType.PHOTOVOLTAIC,
+		solarFarm.p_gridConnectionID,
+		solarFarmData.getNominalPower_kW());
+	
+	//Owner
+	ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
+		connectionOwner.p_actorID = "owner_" + connectionOwner.getId();
+		connectionOwner.p_actorType = OL_ActorType.CONNECTIONOWNER;
+		connectionOwner.p_actorGroup = "production";
+		connectionOwner.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
+		connectionOwner.p_energyCoopID = energyCoop.p_actorID;
+		
+	solarFarm.p_ownerID = connectionOwner.p_actorID;	
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1728378028745</Id>
+					<Name><![CDATA[f_createLocal4LocalBatteries]]></Name>
+					<X>-940</X><Y>480</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[batteries]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.Battery>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
+						<Type><![CDATA[EnergyCoop]]></Type>
+					</Parameter>
+					<Body><![CDATA[    
+for (var batteryData: batteries) {
+    //Owner
+    ConnectionOwner connectionOwner = energyModel.add_pop_connectionOwners();
+        connectionOwner.set_p_actorID( "battery_" + connectionOwner.getId());
+        connectionOwner.set_p_actorType( OL_ActorType.CONNECTIONOWNER );
+        connectionOwner.set_p_connectionOwnerType( OL_ConnectionOwnerType.BATTERY_OP );
+        connectionOwner.set_p_actorGroup("production");
+        connectionOwner.p_energyCoopID = energyCoop.p_actorID;
+    
+    //Grid
+    GCGridBattery gridBattery = energyModel.add_GridBatteries();
+        gridBattery.set_p_gridConnectionID( "battery_" + gridBattery.getId() );
+        gridBattery.set_p_ownerID( connectionOwner.p_actorID );
+        gridBattery.set_p_owner( connectionOwner );
+        gridBattery.set_p_physicalConnectionCapacity_kW( batteryData.getPeakPower_kW() );
+        gridBattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
+        gridBattery.set_p_contractedFeedinCapacity_kW(batteryData.getPeakPower_kW() );
+        gridBattery.set_p_contractedDeliveryCapacity_kW( batteryData.getPeakPower_kW() );
+ 
+    //Battery Asset
+    f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
+}]]></Body>
+				</Function>
+			</Functions>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1709049506454</Id>
+					<Name><![CDATA[connections]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+			<ContainerLinks>
+				<ContainerLink>
+					<Id>1726155991074</Id>
+					<Name><![CDATA[startUp_L4L]]></Name>
+					<X>50</X><Y>-100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[zerol4l]]></PackageName>
+						<ClassName><![CDATA[StartUp_L4L]]></ClassName>
+					</ActiveObjectClass>
+				</ContainerLink>
+			</ContainerLinks>
+			<EmbeddedObjects>
+				<EmbeddedObject>
+					<Id>1726134503173</Id>
+					<Name><![CDATA[interface_L4L]]></Name>
+					<X>30</X><Y>750</Y>
+					<Label><X>20</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[zerol4l]]></PackageName>
+						<ClassName><![CDATA[Interface_L4L]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[Interface_L4L]]></ClassName>
+							<ItemName><![CDATA[1722364114820]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[t_scenario_current]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[t_scenario_2]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[t_scenario_3]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[t_scenario_XXX]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[t_scenario_custom]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[energyModel]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[map_centre_latitude]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[map_centre_longitude]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_selectedProjectType]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[settings]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>	
+					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LatitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LatitudeCode>
+					<LongitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LongitudeCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+			</EmbeddedObjects>
+
+			<Presentation>
+				<Level>
+					<Id>1709049506460</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
+
+
+				</Level>
+			</Presentation>
+
+		</ActiveObjectClass>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1722364114814</Id>
+			<Name><![CDATA[Interface_L4L]]></Name>
+			<AdditionalClassCode><![CDATA[@Override
+public void f_projectSpecificSettings(){
+	f_projectSpecificSettings_L4L();
+}
+
+@Override
+public void f_setSliderPresets(){
+	f_setSliderPresets_L4L();
+}
+
+@Override
+public void f_projectSpecificStyling(){
+	f_projectSpecificStyling_L4L();
+}
+]]></AdditionalClassCode>
+			<Import><![CDATA[//Possibility to turn of traceln
+import java.io.OutputStream;
+import java.io.PrintStream;]]></Import>
+			<ExtendsReference>
+				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
+				<ClassName><![CDATA[Zero_Interface]]></ClassName>
+			</ExtendsReference>
+			<Parameters>
+				<Parameter>
+					<Name><![CDATA[energyModel]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[map_centre_latitude]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[map_centre_longitude]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_selectedProjectType]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[settings]]></Name>
+				</Parameter>
+			</Parameters>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1722364114820</Id>
+				<Name><![CDATA[1722364114820]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T extends Agent]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>true</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor/>
+			<SceneSkybox>null</SceneSkybox>
+			<AgentProperties>
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[10]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>USER_DEF</LayoutType>
+					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
+					<NetworkType>USER_DEF</NetworkType>
+					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1722412800000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1722364114817</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-150</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>100</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<CurrentLevel>1722364114821</CurrentLevel>
+			<ConnectionsId>1722364114815</ConnectionsId>
+			<Variables>
+				<Variable Class="Parameter">
+					<Id>1724419523225</Id>
+					<Name><![CDATA[t_scenario_current]]></Name>
+					<X>-1005</X><Y>85</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["Het huidige scenario bevat de energie dynamieken van dit moment. \n" +
+"Dit omvat o.a. de huidige zonnepanelen op de daken van gebouwen, \n" +
+"het aantal elektrische voertuigen, de energie- \n" + 
+"consumptie van de panden, en de huidige gasconsumptie \n" + 
+"voor verwarming."]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1724419523223</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1724419523232</Id>
+					<Name><![CDATA[t_scenario_2]]></Name>
+					<X>-1000</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["WORDT NOG NIET ONDERSTEUND"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1724419523230</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1724419604919</Id>
+					<Name><![CDATA[t_scenario_3]]></Name>
+					<X>-1000</X><Y>195</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["WORDT NOG NIET ONDERSTEUND"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1724419604917</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1724419829732</Id>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+					<X>-1000</X><Y>245</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["WORDT NOG NIET ONDERSTEUND"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1724419829730</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1724420385230</Id>
+					<Name><![CDATA[t_scenario_custom]]></Name>
+					<X>-1000</X><Y>295</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[""]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1724420385228</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+			</Variables>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1724417668993</Id>
+					<Name><![CDATA[f_projectSpecificSettings_L4L]]></Name>
+					<X>-670</X><Y>130</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Project specific interface initialization settings
+
+//Disable the default scenario buttons
+rb_scenarios.setEnabled(false);
+rb_scenarios.setVisible(false);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1724419523222</Id>
+					<Name><![CDATA[f_setScenario_2]]></Name>
+					<X>-1020</X><Y>120</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[setScenario]]></Name>
+						<Type><![CDATA[int]]></Type>
+					</Parameter>
+					<Body><![CDATA[
+//Set the scenario text
+t_scenarioDescription.setText(t_scenario_2);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1724419535513</Id>
+					<Name><![CDATA[f_setScenario_Current]]></Name>
+					<X>-1020</X><Y>65</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[setScenario]]></Name>
+						<Type><![CDATA[int]]></Type>
+					</Parameter>
+					<Body><![CDATA[for (UI_company companyUI : ui_companies){
+	companyUI.getRb_scenariosPrivateUI().setValue(setScenario, true);
+} 
+
+//Set the scenario text
+t_scenarioDescription.setText(t_scenario_current);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1724419592217</Id>
+					<Name><![CDATA[f_setScenario_3]]></Name>
+					<X>-1020</X><Y>175</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[
+
+
+
+
+
+
+//Set the scenario text
+t_scenarioDescription.setText(t_scenario_3);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1724419810437</Id>
+					<Name><![CDATA[f_setScenario_XXX]]></Name>
+					<X>-1020</X><Y>225</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[
+
+
+
+
+//Set the scenario text
+t_scenarioDescription.setText(t_scenario_XXX);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1725976724055</Id>
+					<Name><![CDATA[f_setSliderPresets_L4L]]></Name>
+					<X>-280</X><Y>610</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726068824384</Id>
+					<Name><![CDATA[f_projectSpecificStyling_L4L]]></Name>
+					<X>-670</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Project specific styling
+
+//Interface colors
+v_themeColor = new Color(208, 208, 245);
+v_backgroundColor = white;
+
+//Grid node sizes
+v_HVMVNodeSize = 100;
+v_MVMVNodeSize = 50;
+v_MVLVNodeSize = 20;
+
+]]></Body>
+				</Function>
+			</Functions>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1722364114815</Id>
+					<Name><![CDATA[connections]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+			<ContainerLinks>
+				<ContainerLink>
+					<Id>1726153692344</Id>
+					<Name><![CDATA[loader_L4L]]></Name>
+					<X>50</X><Y>-100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[zerol4l]]></PackageName>
+						<ClassName><![CDATA[Loader_L4L]]></ClassName>
+					</ActiveObjectClass>
+				</ContainerLink>
+				<ContainerLink>
+					<Id>1726155991076</Id>
+					<Name><![CDATA[startUp_L4L]]></Name>
+					<X>150</X><Y>-100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[zerol4l]]></PackageName>
+						<ClassName><![CDATA[StartUp_L4L]]></ClassName>
+					</ActiveObjectClass>
+				</ContainerLink>
+			</ContainerLinks>
+
+			<Presentation>
+				<Level>
+					<Id>1722364114821</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
+
+			<Presentation>
+				<Control Type="RadioButtons">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1724415643323</Id>
+					<Name><![CDATA[rb_scenarios_L4L]]></Name>
+					<X>20</X><Y>145</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="380" Height="135">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor/>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[//Set selected scenario string
+String selected_scenario = "";
+
+//Disable traceln
+PrintStream originalPrintStream = f_disableTraceln();
+
+switch(rb_scenarios_L4L.getValue()){
+	
+	case 0:
+		selected_scenario = "2024: huidige situatie";
+		f_setScenario_Current(rb_scenarios_L4L.getValue());
+
+	break;
+	
+	case 1: // ???
+		selected_scenario = "???? : NOG NIET WERKEND!!!!";
+		f_setScenario_XXX();
+	break;
+	
+	case 2:
+		selected_scenario = "Custom";
+		t_scenarioDescription.setText(t_scenario_custom);
+	break;
+	
+	default:
+		traceln("Unsupported scenario selected");
+}
+
+//Enable traceln
+f_enableTraceln(originalPrintStream);
+
+//Set scenario name text to the correct scenario
+t_scenarioName.setText("Scenario: " + selected_scenario);
+traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="14" Style="0"/>
+						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
+						<Orientation>VERTICAL</Orientation>
+						<Button><![CDATA[2024: huidige situatie]]></Button>
+						<Button><![CDATA[????]]></Button>
+						<Button><![CDATA[Custom]]></Button>
+						<LinkTo>false</LinkTo>
+					</ExtendedProperties>
+				</Control>
+			</Presentation>
+
+				</Level>
+			</Presentation>
+			<Areas>
+				<Area>
+					<Id>1722364205380</Id>
+					<Name><![CDATA[viewAreaL4L]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<Title><![CDATA[]]></Title>
+					<Width>1920</Width>
+					<Height>980</Height>
+				</Area>
+			</Areas>
+
+		</ActiveObjectClass>
+		<!--   =========   Active Object Class   ========  -->
+		<ActiveObjectClass>
+			<Id>1726154250910</Id>
+			<Name><![CDATA[StartUp_L4L]]></Name>
+			<StartupCode><![CDATA[f_startModel();]]></StartupCode>
+			<Generic>false</Generic>
+			<GenericParameter>
+				<Id>1726154250916</Id>
+				<Name><![CDATA[1726154250916]]></Name>
+				<GenericParameterValue Class="CodeValue">
+					<Code><![CDATA[T extends Agent]]></Code>
+				</GenericParameterValue>
+				<GenericParameterLabel><![CDATA[Generic parameter:]]></GenericParameterLabel>
+			</GenericParameter>
+			<FlowChartsUsage>ENTITY</FlowChartsUsage>
+			<SamplesToKeep>100</SamplesToKeep>
+			<LimitNumberOfArrayElements>false</LimitNumberOfArrayElements>
+			<ElementsLimitValue>100</ElementsLimitValue>
+			<MakeDefaultViewArea>true</MakeDefaultViewArea>
+			<SceneGridColor/>
+			<SceneBackgroundColor/>
+			<SceneSkybox>null</SceneSkybox>
+			<AgentProperties>
+				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
+				<RotateAnimationTowardsMovement>true</RotateAnimationTowardsMovement>
+				<RotateAnimationVertically>false</RotateAnimationVertically>
+				<VelocityCode Class="CodeUnitValue">
+					<Code><![CDATA[10]]></Code>
+					<Unit Class="SpeedUnits"><![CDATA[MPS]]></Unit>
+				</VelocityCode>
+				<PhysicalLength Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalLength>
+				<PhysicalWidth Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalWidth>
+				<PhysicalHeight Class="CodeUnitValue">
+					<Code><![CDATA[1]]></Code>
+					<Unit Class="LengthUnits"><![CDATA[METER]]></Unit>
+				</PhysicalHeight>
+			</AgentProperties>
+			<EnvironmentProperties>
+					<EnableSteps>false</EnableSteps>
+					<StepDurationCode Class="CodeUnitValue">
+						<Code><![CDATA[1.0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[SECOND]]></Unit>
+					</StepDurationCode>
+					<SpaceType>CONTINUOUS</SpaceType>
+					<WidthCode><![CDATA[500]]></WidthCode>
+					<HeightCode><![CDATA[500]]></HeightCode>
+					<ZHeightCode><![CDATA[0]]></ZHeightCode>
+					<ColumnsCountCode><![CDATA[100]]></ColumnsCountCode>
+					<RowsCountCode><![CDATA[100]]></RowsCountCode>
+					<NeigborhoodType>MOORE</NeigborhoodType>
+					<LayoutType>USER_DEF</LayoutType>
+					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
+					<NetworkType>USER_DEF</NetworkType>
+					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
+					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
+					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
+					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
+					<MCode><![CDATA[10]]></MCode>
+			</EnvironmentProperties>
+			<DatasetsCreationProperties>
+				<AutoCreate>true</AutoCreate>
+					<OccurrenceAtTime>true</OccurrenceAtTime>
+					<OccurrenceDate>1726214400000</OccurrenceDate>
+					<OccurrenceTime Class="CodeUnitValue">
+						<Code><![CDATA[0]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</OccurrenceTime>
+					<RecurrenceCode Class="CodeUnitValue">
+						<Code><![CDATA[1]]></Code>
+						<Unit Class="TimeUnits"><![CDATA[HOUR]]></Unit>
+					</RecurrenceCode>
+			</DatasetsCreationProperties>
+			<ScaleRuler>
+				<Id>1726154250913</Id>
+				<Name><![CDATA[scale]]></Name>
+				<X>0</X><Y>-150</Y>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>false</PresentationFlag>
+				<ShowLabel>false</ShowLabel>
+				<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+				<Length>100</Length>
+				<Rotation>0</Rotation>
+				<ScaleType>BASED_ON_LENGTH</ScaleType>
+				<ModelLength>10</ModelLength>
+				<LengthUnits>METER</LengthUnits>
+				<Scale>10</Scale>
+				<InheritedFromParentAgentType>true</InheritedFromParentAgentType>
+			</ScaleRuler>
+			<CurrentLevel>1726154250917</CurrentLevel>
+			<ConnectionsId>1726154250911</ConnectionsId>
+			<Variables>
+				<Variable Class="Parameter">
+					<Id>1726226738858</Id>
+					<Name><![CDATA[project_name]]></Name>
+					<X>60</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["L4L"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726226738856</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738861</Id>
+					<Name><![CDATA[map_centre_latitude]]></Name>
+					<X>60</X><Y>210</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[51.58668326]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726226738859</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738864</Id>
+					<Name><![CDATA[map_centre_longitude]]></Name>
+					<X>60</X><Y>230</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[4.753102438]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726226738862</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738867</Id>
+					<Name><![CDATA[grid_operator]]></Name>
+					<X>60</X><Y>310</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["Enexis"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726226738865</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738870</Id>
+					<Name><![CDATA[energy_coop]]></Name>
+					<X>60</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738868</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738873</Id>
+					<Name><![CDATA[energy_supplier]]></Name>
+					<X>60</X><Y>370</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738871</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738876</Id>
+					<Name><![CDATA[total_electricity_consumption_companies_kWh_p_yr]]></Name>
+					<X>60</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738874</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738879</Id>
+					<Name><![CDATA[avg_electricity_consumption_house_kWh_p_yr]]></Name>
+					<X>60</X><Y>470</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738877</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738882</Id>
+					<Name><![CDATA[avg_gas_consumption_house_m3_p_yr]]></Name>
+					<X>60</X><Y>490</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738880</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738885</Id>
+					<Name><![CDATA[total_gas_consumption_companies_m3_p_yr]]></Name>
+					<X>60</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738883</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738888</Id>
+					<Name><![CDATA[total_cars_houses]]></Name>
+					<X>60</X><Y>510</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Integer]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738886</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738891</Id>
+					<Name><![CDATA[total_trucks_companies]]></Name>
+					<X>60</X><Y>550</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Integer]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738889</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738897</Id>
+					<Name><![CDATA[total_vans_companies]]></Name>
+					<X>60</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Integer]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726226738895</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738900</Id>
+					<Name><![CDATA[project_type]]></Name>
+					<X>60</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[OL_ProjectType]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[OL_ProjectType.RESIDENTIAL]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726226738898</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726226738903</Id>
+					<Name><![CDATA[survey_type]]></Name>
+					<X>60</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[OL_SurveyType]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[OL_SurveyType.ZORM]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726226738901</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726230154997</Id>
+					<Name><![CDATA[hasCongestionPricing]]></Name>
+					<X>80</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[Boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726230154995</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726236153260</Id>
+					<Name><![CDATA[p_reloadDatabase]]></Name>
+					<X>560</X><Y>60</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726236153258</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726238630353</Id>
+					<Name><![CDATA[p_createCurrentElectricityEA]]></Name>
+					<X>560</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726238630351</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726238717943</Id>
+					<Name><![CDATA[p_runHeadlessAtStartup]]></Name>
+					<X>560</X><Y>100</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1726238717941</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1726495028597</Id>
+					<Name><![CDATA[map_zoomlevel]]></Name>
+					<X>60</X><Y>250</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<ParameterEditor>
+							<Id>1726495028595</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="CollectionVariable">
+					<Id>1726235892488</Id>
+					<Name><![CDATA[databaseNames]]></Name>
+					<X>60</X><Y>160</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
+						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
+						<ElementClass><![CDATA[String[]]]></ElementClass>
+						<ValueElementClass><![CDATA[String]]></ValueElementClass>
+						<CollectionInitializer Class="CodeValue">
+							<Code><![CDATA[//Format: {Excel name, sheet/database name}
+{
+{"Buildings", "buildings"},
+{"GridNodes", "gridnodes"},
+{"Neighbourhoods", "neighbourhoods"},
+{"Chargepoints", "chargepoints"}
+}
+]]></Code>
+						</CollectionInitializer>
+					</Properties>
+
+				</Variable>
+			</Variables>
+			<Functions>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726226738848</Id>
+					<Name><![CDATA[f_overwriteAvgValuesAVGCDatabase]]></Name>
+					<Description><![CDATA[Function used to overwrite parameters in the AVGC_database in the loader ]]></Description>
+					<X>580</X><Y>350</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[if (avg_electricity_consumption_house_kWh_p_yr != null && avg_electricity_consumption_house_kWh_p_yr > 0){
+	loader_L4L.avgc_data.p_avgHouseElectricityConsumption_kWh_yr = avg_electricity_consumption_house_kWh_p_yr;
+}
+if (avg_gas_consumption_house_m3_p_yr != null && avg_gas_consumption_house_m3_p_yr > 0){
+	loader_L4L.avgc_data.p_avgHouseGasConsumption_m3_yr = avg_gas_consumption_house_m3_p_yr;
+}]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726226738852</Id>
+					<Name><![CDATA[f_initializeRemainingTotals]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>580</X><Y>370</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Initialize remaining totals of the area
+loader_L4L.v_remainingNumberOfVans = total_vans_companies;
+loader_L4L.v_remainingNumberOfTrucks = total_trucks_companies;
+loader_L4L.v_remainingElectricityDelivery_kWh = total_electricity_consumption_companies_kWh_p_yr;
+loader_L4L.v_remainingGasConsumption_m3 = total_gas_consumption_companies_m3_p_yr;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726227634344</Id>
+					<Name><![CDATA[f_setProject_data]]></Name>
+					<X>580</X><Y>190</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Create the project data record and send it to loader
+loader_L4L.project_data = Project_data.builder().
+
+//Project settings
+project_name(project_name).
+project_type(project_type).
+survey_type(survey_type).
+
+//Database names
+databaseNames(databaseNames).
+
+//Map centre coordinates
+map_centre_latitude(map_centre_latitude).
+map_centre_longitude(map_centre_longitude).
+map_zoomlevel(map_zoomlevel).
+
+//Project specific actors
+grid_operator(grid_operator).
+hasCongestionPricing(hasCongestionPricing).
+energy_coop(energy_coop).
+energy_supplier(energy_supplier).
+
+//Project totals
+total_electricity_consumption_companies_kWh_p_yr(total_electricity_consumption_companies_kWh_p_yr).
+total_gas_consumption_companies_m3_p_yr(total_gas_consumption_companies_m3_p_yr).
+avg_electricity_consumption_house_kWh_p_yr(avg_electricity_consumption_house_kWh_p_yr).
+avg_gas_consumption_house_m3_p_yr(avg_gas_consumption_house_m3_p_yr).
+total_cars_houses(total_cars_houses).
+total_vans_companies(total_vans_companies).
+total_trucks_companies(total_trucks_companies).
+build();
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726231260460</Id>
+					<Name><![CDATA[f_startModel]]></Name>
+					<X>560</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Send settings to the loader
+f_setSettings();
+
+//Send project data to the loader
+f_setProject_data();
+
+//Project specific initialize functions
+f_projectSpecificInitializeFunctions();
+
+//Startup loader
+loader_L4L.f_startUpLoader_default();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726235796348</Id>
+					<Name><![CDATA[f_projectSpecificInitializeFunctions]]></Name>
+					<X>560</X><Y>330</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Manually overwrite the avgc values
+f_overwriteAvgValuesAVGCDatabase();
+
+//Initialize remaining totals in the loader
+//f_initializeRemainingTotals();]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1726238799507</Id>
+					<Name><![CDATA[f_setSettings]]></Name>
+					<X>580</X><Y>170</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Create the project data record and send it to loader
+loader_L4L.settings = Settings.builder().
+//Simulation settings
+reloadDatabase(p_reloadDatabase).
+createCurrentElectricityEA(p_createCurrentElectricityEA).
+runHeadlessAtStartup(p_runHeadlessAtStartup).
+
+build();]]></Body>
+				</Function>
+			</Functions>
+			<AgentLinks>
+				<AgentLink>
+					<Id>1726154250911</Id>
+					<Name><![CDATA[connections]]></Name>
+					<X>50</X><Y>-50</Y>
+					<Label><X>15</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<HandleReceiveInConnections>false</HandleReceiveInConnections>
+					<AgentLinkType>COLLECTION_OF_LINKS</AgentLinkType>
+					<AgentLinkBidirectional>true</AgentLinkBidirectional>
+					<MessageType><![CDATA[Object]]></MessageType>
+					<LineStyle>SOLID</LineStyle>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineZOrder>UNDER_AGENTS</LineZOrder>
+					<LineArrow>NONE</LineArrow>
+					<LineArrowPosition>END</LineArrowPosition>
+				</AgentLink>
+			</AgentLinks>
+
+			<EmbeddedObjects>
+				<EmbeddedObject>
+					<Id>1726155990352</Id>
+					<Name><![CDATA[loader_L4L]]></Name>
+					<X>560</X><Y>260</Y>
+					<Label><X>20</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<ActiveObjectClass>
+						<PackageName><![CDATA[zerol4l]]></PackageName>
+						<ClassName><![CDATA[Loader_L4L]]></ClassName>
+					</ActiveObjectClass>
+					<GenericParameterSubstitute>
+						<GenericParameterSubstituteReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[Loader_L4L]]></ClassName>
+							<ItemName><![CDATA[1709049506459]]></ItemName>
+						</GenericParameterSubstituteReference>
+					</GenericParameterSubstitute>
+					<Parameters>
+						<Parameter>
+							<Name><![CDATA[p_local4localBackendUrl]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_local4localSession]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[zero_Interface]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_createGridnodeTimeSeries]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[genericProfiles_data]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[project_data]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[settings]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[user]]></Name>
+						</Parameter>
+					</Parameters>
+					<ReplicationFlag>false</ReplicationFlag>
+					<Replication Class="CodeValue">
+						<Code><![CDATA[100]]></Code>
+					</Replication>
+					<CollectionType>ARRAY_LIST_BASED</CollectionType>
+					<InEnvironment>true</InEnvironment>	
+					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<XCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</XCode>
+					<YCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</YCode>
+					<ZCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ZCode>
+					<ColumnCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</ColumnCode>
+					<RowCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</RowCode>
+					<LatitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LatitudeCode>
+					<LongitudeCode Class="CodeValue">
+						<Code><![CDATA[0]]></Code>
+					</LongitudeCode>
+					<LocationNameCode Class="CodeValue">
+						<Code><![CDATA[""]]></Code>
+					</LocationNameCode>
+					<InitializationType>SPECIFIED_NUMBER</InitializationType>
+					<InitializationDatabaseTableQuery>
+						<TableReference>
+						</TableReference>
+					</InitializationDatabaseTableQuery>
+					<InitializationDatabaseType>ONE_AGENT_PER_DATABASE_RECORD</InitializationDatabaseType>
+					<QuantityColumn>
+					</QuantityColumn>
+				</EmbeddedObject>
+			</EmbeddedObjects>
+
+			<Presentation>
+				<Level>
+					<Id>1726154250917</Id>
+					<Name><![CDATA[level]]></Name>
+					<X>0</X><Y>0</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<Z>0</Z>
+					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
+
+			<Presentation>
+				<Text>
+					<Id>1726226738840</Id>
+					<Name><![CDATA[text1]]></Name>
+					<X>50</X><Y>400</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Project specific energy consumption totals and averages]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726226738842</Id>
+					<Name><![CDATA[text4]]></Name>
+					<X>50</X><Y>180</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Project map coordinates]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726226738844</Id>
+					<Name><![CDATA[text3]]></Name>
+					<X>50</X><Y>280</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Project specific actors]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726226738846</Id>
+					<Name><![CDATA[text]]></Name>
+					<X>50</X><Y>30</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Project Settings]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726231195744</Id>
+					<Name><![CDATA[text2]]></Name>
+					<X>550</X><Y>120</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Start project functions]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726235269685</Id>
+					<Name><![CDATA[txt_databaseNames]]></Name>
+					<X>50</X><Y>130</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Database Definition]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726235447790</Id>
+					<Name><![CDATA[txt_projectSpecificLoader]]></Name>
+					<X>550</X><Y>230</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Project specific Loader]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726235740075</Id>
+					<Name><![CDATA[txt_projectSpecificFunctions]]></Name>
+					<X>560</X><Y>300</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Project Specific initialize Functions]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1726238735834</Id>
+					<Name><![CDATA[txt_simulationSettings]]></Name>
+					<X>550</X><Y>30</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Simulation Settings]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+			</Presentation>
+
+				</Level>
+			</Presentation>
+
+		</ActiveObjectClass>
+	</ActiveObjectClasses>
+	<DifferentialEquationsMethod>EULER</DifferentialEquationsMethod>
+	<MixedEquationsMethod>RK45_NEWTON</MixedEquationsMethod>
+	<AlgebraicEquationsMethod>MODIFIED_NEWTON</AlgebraicEquationsMethod>
+	<AbsoluteAccuracy>1.0</AbsoluteAccuracy>
+	<FixedTimeStep>1.0</FixedTimeStep>
+	<RelativeAccuracy>1.0</RelativeAccuracy>
+	<TimeAccuracy>0.1</TimeAccuracy>
+	<Frame>
+		<Width>1920</Width>
+		<Height>980</Height>
+	</Frame>
+	<Database>
+		<Logging>false</Logging>
+		<AutoExport>false</AutoExport>
+		<ShutdownCompact>false</ShutdownCompact>
+		<ImportSettings>
+			<ExternalConnection>
+				<Id>1726240085410</Id>
+				<Name><![CDATA[database]]></Name>
+				<X>0</X><Y>0</Y>
+				<Label><X>10</X><Y>0</Y></Label>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>true</PresentationFlag>
+				<ShowLabel>true</ShowLabel>
+				<DatabaseType>EXCEL_ACCESS</DatabaseType>
+				<ConnectionURL><![CDATA[]]></ConnectionURL>
+				<ConnectOnStartup>true</ConnectOnStartup>
+				<DatabaseName><![CDATA[]]></DatabaseName>
+				<ResourceReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[data_L4L/GridNodes_L4L.xlsx]]></ClassName>
+				</ResourceReference>
+				<Host><![CDATA[localhost]]></Host>
+				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
+				<Login><![CDATA[]]></Login>
+				<Password><![CDATA[]]></Password>
+			</ExternalConnection>
+			<ExternalConnection>
+				<Id>1726155810018</Id>
+				<Name><![CDATA[database]]></Name>
+				<X>0</X><Y>0</Y>
+				<Label><X>10</X><Y>0</Y></Label>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>true</PresentationFlag>
+				<ShowLabel>true</ShowLabel>
+				<DatabaseType>EXCEL_ACCESS</DatabaseType>
+				<ConnectionURL><![CDATA[]]></ConnectionURL>
+				<ConnectOnStartup>true</ConnectOnStartup>
+				<DatabaseName><![CDATA[]]></DatabaseName>
+				<ResourceReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[data_Generic/db_profiles.xlsx]]></ClassName>
+				</ResourceReference>
+				<Host><![CDATA[localhost]]></Host>
+				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
+				<Login><![CDATA[]]></Login>
+				<Password><![CDATA[]]></Password>
+			</ExternalConnection>
+			<ExternalConnection>
+				<Id>1726240192563</Id>
+				<Name><![CDATA[database]]></Name>
+				<X>0</X><Y>0</Y>
+				<Label><X>10</X><Y>0</Y></Label>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>true</PresentationFlag>
+				<ShowLabel>true</ShowLabel>
+				<DatabaseType>EXCEL_ACCESS</DatabaseType>
+				<ConnectionURL><![CDATA[]]></ConnectionURL>
+				<ConnectOnStartup>true</ConnectOnStartup>
+				<DatabaseName><![CDATA[]]></DatabaseName>
+				<ResourceReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[data_L4L/Neighbourhoods_L4L.xlsx]]></ClassName>
+				</ResourceReference>
+				<Host><![CDATA[localhost]]></Host>
+				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
+				<Login><![CDATA[]]></Login>
+				<Password><![CDATA[]]></Password>
+			</ExternalConnection>
+			<ExternalConnection>
+				<Id>1726155785078</Id>
+				<Name><![CDATA[database]]></Name>
+				<X>0</X><Y>0</Y>
+				<Label><X>10</X><Y>0</Y></Label>
+				<PublicFlag>false</PublicFlag>
+				<PresentationFlag>true</PresentationFlag>
+				<ShowLabel>true</ShowLabel>
+				<DatabaseType>EXCEL_ACCESS</DatabaseType>
+				<ConnectionURL><![CDATA[]]></ConnectionURL>
+				<ConnectOnStartup>true</ConnectOnStartup>
+				<DatabaseName><![CDATA[]]></DatabaseName>
+				<ResourceReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[data_L4L/Buildings_L4L.xlsx]]></ClassName>
+				</ResourceReference>
+				<Host><![CDATA[localhost]]></Host>
+				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
+				<Login><![CDATA[]]></Login>
+				<Password><![CDATA[]]></Password>
+			</ExternalConnection>
+			<TableImportSettings>
+				<TableReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[gridnodes]]></ClassName>
+				</TableReference>
+				<ConnectionIndex>0</ConnectionIndex>
+				<ExternalTableName><![CDATA["gridnodes"]]></ExternalTableName>
+				<AutoImport>false</AutoImport>
+			</TableImportSettings>
+			<TableImportSettings>
+				<TableReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[profiles]]></ClassName>
+				</TableReference>
+				<ConnectionIndex>1</ConnectionIndex>
+				<ExternalTableName><![CDATA["profiles_2023"]]></ExternalTableName>
+				<AutoImport>false</AutoImport>
+			</TableImportSettings>
+			<TableImportSettings>
+				<TableReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[neighbourhoods]]></ClassName>
+				</TableReference>
+				<ConnectionIndex>2</ConnectionIndex>
+				<ExternalTableName><![CDATA["neighbourhoods"]]></ExternalTableName>
+				<AutoImport>false</AutoImport>
+			</TableImportSettings>
+			<TableImportSettings>
+				<TableReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[buildings]]></ClassName>
+				</TableReference>
+				<ConnectionIndex>3</ConnectionIndex>
+				<ExternalTableName><![CDATA["buildings"]]></ExternalTableName>
+				<AutoImport>false</AutoImport>
+			</TableImportSettings>
+		</ImportSettings>
+		<ExportSettings>
+		</ExportSettings>
+	</Database>
+
+	<RunConfiguration ActiveObjectClassId="1726154250910">
+		<Id>1658477103163</Id>
+		<Name><![CDATA[RunConfiguration]]></Name>
+		<MaximumMemory>16384</MaximumMemory>
+		<ModelTimeProperties>
+			<StopOption><![CDATA[Stop at specified date]]></StopOption>
+			<InitialDate><![CDATA[1672531200000]]></InitialDate>	
+			<InitialTime><![CDATA[0.0]]></InitialTime>	
+			<FinalDate><![CDATA[1704067200000]]></FinalDate>	
+			<FinalTime><![CDATA[8760.0]]></FinalTime>	
+		</ModelTimeProperties>
+		<AnimationProperties>
+			<StopNever>false</StopNever>
+			<ExecutionMode>realTimeScaled</ExecutionMode>
+			<RealTimeScale>5.0</RealTimeScale>
+			<EnableZoomAndPanning>false</EnableZoomAndPanning>
+			<EnableDeveloperPanel>false</EnableDeveloperPanel>
+			<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+		</AnimationProperties>
+		<Inputs>		
+		</Inputs>
+		<Outputs>
+		</Outputs>
+	</RunConfiguration>
+	<Experiments>	
+		<!--   =========   Simulation Experiment   ========  -->
+		<SimulationExperiment ActiveObjectClassId="1726154250910">
+			<Id>1726135194587</Id>
+			<Name><![CDATA[Simulation]]></Name>
+			<CommandLineArguments><![CDATA[]]></CommandLineArguments>
+			<MaximumMemory>4096</MaximumMemory>
+			<RandomNumberGenerationType>fixedSeed</RandomNumberGenerationType>
+			<CustomGeneratorCode>new Random()</CustomGeneratorCode>
+			<SeedValue>1</SeedValue>
+			<SelectionModeForSimultaneousEvents>LIFO</SelectionModeForSimultaneousEvents>
+			<VmArgs><![CDATA[]]></VmArgs>
+			<LoadRootFromSnapshot>false</LoadRootFromSnapshot>
+
+			<Presentation>
+				<Image>
+					<Id>1726243119961</Id>
+					<Name><![CDATA[zenmo_image]]></Name>
+					<X>600</X><Y>340</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>700</Width>
+					<Height>300</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[logo_zenmo.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+			</Presentation>
+
+			<Parameters>			
+				<Parameter>
+					<ParameterName><![CDATA[project_name]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[map_centre_latitude]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[map_centre_longitude]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[grid_operator]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[energy_coop]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[energy_supplier]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[total_electricity_consumption_companies_kWh_p_yr]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[avg_electricity_consumption_house_kWh_p_yr]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[avg_gas_consumption_house_m3_p_yr]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[total_gas_consumption_companies_m3_p_yr]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[total_cars_houses]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[total_trucks_companies]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[total_vans_companies]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[project_type]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[survey_type]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[hasCongestionPricing]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_reloadDatabase]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_createCurrentElectricityEA]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_runHeadlessAtStartup]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[map_zoomlevel]]></ParameterName>
+				</Parameter>
+			</Parameters>			
+			<PresentationProperties>
+				<EnableZoomAndPanning>true</EnableZoomAndPanning>
+				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
+				<Title><![CDATA[Zero_L4L : Simulation]]></Title>	
+				<EnableDeveloperPanel>true</EnableDeveloperPanel>
+				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
+				<RealTimeScale>5.0</RealTimeScale>
+			</PresentationProperties>
+			<ModelTimeProperties>
+				<StopOption><![CDATA[Never]]></StopOption>
+				<InitialDate><![CDATA[1726099200000]]></InitialDate>	
+				<InitialTime><![CDATA[0.0]]></InitialTime>	
+				<FinalDate><![CDATA[1728691200000]]></FinalDate>	
+				<FinalTime><![CDATA[100.0]]></FinalTime>	
+			</ModelTimeProperties>
+			<BypassInitialScreen>true</BypassInitialScreen>
+		</SimulationExperiment>	
+	</Experiments>
+	<ModelResources>
+		<Resource>
+			<Path><![CDATA[data_Generic/db_profiles.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data_L4L/Buildings_L4L.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data_L4L/GridNodes_L4L.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data_L4L/Neighbourhoods_L4L.xlsx]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[logo_zenmo.png]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[../../webtool/gradle/client/build/libs/local4local-client.jar]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+	</ModelResources>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[com.anylogic.libraries.modules.markup_descriptors]]></LibraryName>
+		<VersionMajor>1</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[zero_engine]]></LibraryName>
+		<VersionMajor>0</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[digital_twin_results]]></LibraryName>
+		<VersionMajor>0</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
+    <RequiredLibraryReference>
+		<LibraryName><![CDATA[zerointerfaceloader]]></LibraryName>
+		<VersionMajor>0</VersionMajor>
+		<VersionMinor>0</VersionMinor>
+		<VersionBuild>0</VersionBuild>
+    </RequiredLibraryReference>
+	<ClassPathEntry>
+		<ResourceReference>
+			<PackageName><![CDATA[zerol4l]]></PackageName>
+			<ClassName><![CDATA[../../webtool/gradle/client/build/libs/local4local-client.jar]]></ClassName>
+		</ResourceReference>
+		<Imported>false</Imported>
+		<Folder>false</Folder>
+	</ClassPathEntry>
+	<CloudModelUuid><![CDATA[123b8977-3095-438e-bc2b-3605a67e7159]]></CloudModelUuid>
+</Model>
+</AnyLogicWorkspace>
