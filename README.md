@@ -45,4 +45,16 @@ docker compose up -d backend frontend
 
 ### AnyLogic
 
-(Todo)
+Ensure client library is up-to-date
+
+```
+cd webtool
+docker compose run --rm gradle-client-shadowjar
+```
+
+Alternatively:
+
+```
+cd webtool
+./gradlew[.bat] client:shadowJar
+```
