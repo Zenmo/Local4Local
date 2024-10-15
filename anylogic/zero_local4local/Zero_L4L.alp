@@ -898,7 +898,7 @@ for (var windFarmData: windFarms) {
 	
 	Double CAPEX_eurpa = windFarmData.getCost().getCAPEX_eur()/10;
 	Double OPEX_eurpa = windFarmData.getCost().getOPEX_eurpy();
-	Double LCOE_eurpkWh = 0.1;//windFarmData.getCost().getLCOE_eurpkWH(); 
+	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH(); 
 	traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
 	var costItem = new J_CostItem(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
 	c_costItems.add(costItem);
@@ -975,7 +975,7 @@ for (var windFarmData: windFarms) {
 					<Body><![CDATA[// Add electricity consumption profiles
 Random random = new Random(seed);
 
-double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.5,1.0) * 8;
+double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.5,1.0) * 3;
 var newAsset = new J_EAConsumption(
 	gcHouse,
 	OL_EnergyAssetType.ELECTRICITY_DEMAND,
@@ -1103,9 +1103,11 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	solarFarm.p_ownerID = connectionOwner.p_actorID;	
 	
 	//Cost item for kostprijs+
-	Double CAPEX_eurpa = null; //solarFarmData.getCAPEX_eurpa();
-	Double OPEX_eurpa = null; //solarFarmData.getOPEX_eurpa();
-	Double LCOE_eurpkWh = 0.1; //solarFarmData.getLCOE_eurpkWh();
+
+	Double CAPEX_eurpa = solarFarmData.getCost().getCAPEX_eur()/10;
+	Double OPEX_eurpa = solarFarmData.getCost().getOPEX_eurpy();
+	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH(); 
+	
 	var costItem = new J_CostItem(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
 	c_costItems.add(costItem);
 }]]></Body>
@@ -1130,6 +1132,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 					</Parameter>
 					<Body><![CDATA[    
 for (var batteryData: batteries) {
+	traceln("creating L4L battery!");
     //Owner
     ConnectionOwner connectionOwner = energyModel.add_pop_connectionOwners();
         connectionOwner.set_p_actorID( "battery_" + connectionOwner.getId());
@@ -1138,7 +1141,7 @@ for (var batteryData: batteries) {
         connectionOwner.set_p_actorGroup("production");
         connectionOwner.p_energyCoopID = energyCoop.p_actorID;
     
-    //Grid
+    //GridConnection
     GCGridBattery gridBattery = energyModel.add_GridBatteries();
         gridBattery.set_p_gridConnectionID( "battery_" + gridBattery.getId() );
         gridBattery.set_p_ownerID( connectionOwner.p_actorID );
@@ -1147,16 +1150,17 @@ for (var batteryData: batteries) {
         gridBattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
         gridBattery.set_p_contractedFeedinCapacity_kW(batteryData.getPeakPower_kW() );
         gridBattery.set_p_contractedDeliveryCapacity_kW( batteryData.getPeakPower_kW() );
+        gridBattery.set_p_batteryOperationMode(OL_BatteryOperationMode.BALANCE);
  
     //Battery Asset
     f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
     
     //Cost item for kostprijs+
-    Double CAPEX_eurpa = null; //solarFarmData.getCAPEX_eurpa();
+    /*Double CAPEX_eurpa = null; //solarFarmData.getCAPEX_eurpa();
 	Double OPEX_eurpa = null; //solarFarmData.getOPEX_eurpa();
 	Double LCOE_eurpkWh = 0.1; //solarFarmData.getLCOE_eurpkWh();
 	var costItem = new J_CostItem(gridBattery.c_productionAssets.get(gridBattery.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
-	c_costItems.add(costItem);
+	c_costItems.add(costItem);*/
 }]]></Body>
 				</Function>
 				<Function AccessType="public" StaticFunction="false">
@@ -1738,7 +1742,7 @@ t_scenarioDescription.setText(t_scenario_XXX);]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1725976724055</Id>
 					<Name><![CDATA[f_setSliderPresets_L4L]]></Name>
-					<X>-280</X><Y>610</Y>
+					<X>-280</X><Y>680</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
