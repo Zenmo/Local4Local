@@ -33,9 +33,9 @@ val startPilot = Pilot(
     ),
     windFarms = listOf(
         WindFarm(
-            nominalPower_kW = 2000.0,
+            nominalPower_kW = 1000.0,
             AssetCost(
-                LCOE_eurpkWH = 0.07,
+                LCOE_eurpkWH = 0.08,
                 CAPEX_eur = 0.0,
                 interest_r = 0.0,
                 depreciationPeriod_y = 0.0,
@@ -45,9 +45,9 @@ val startPilot = Pilot(
     ),
     solarFarms = listOf(
         SolarFarm(
-            nominalPower_kW = 2000.0,
+            nominalPower_kW = 1000.0,
             AssetCost(
-                LCOE_eurpkWH = 0.04,
+                LCOE_eurpkWH = 0.10,
             )
         )
     ),
@@ -56,10 +56,10 @@ val startPilot = Pilot(
             capacity_kWh = 200.0,
             peakPower_kW = 100.0,
             cost = AssetCost(
-                CAPEX_eur = 100_000.0,
+                CAPEX_eur = 20_000.0,
                 interest_r = 0.05,
                 depreciationPeriod_y = 30.0,
-                OPEX_eurpy = 1000.0,
+                OPEX_eurpy = 500.0,
             )
         ),
     )
