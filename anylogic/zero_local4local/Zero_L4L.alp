@@ -246,7 +246,8 @@ zero_Interface = interface_L4L;
 //Set parameters/pointers in the interface and resultsUI
 zero_Interface.energyModel = energyModel;
 zero_Interface.uI_Results.energyModel = energyModel;
-zero_Interface.p_selectedProjectType = project_data.project_type();]]></Body>
+zero_Interface.p_selectedProjectType = project_data.project_type();
+zero_Interface.settings = settings;]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1303,6 +1304,9 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 						<Parameter>
 							<Name><![CDATA[settings]]></Name>
 						</Parameter>
+						<Parameter>
+							<Name><![CDATA[map_scale]]></Name>
+						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
 					<Replication Class="CodeValue">
@@ -1411,6 +1415,9 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[settings]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[map_scale]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -2647,7 +2654,7 @@ databaseNames(databaseNames).
 //Map centre coordinates
 map_centre_latitude(map_centre_latitude).
 map_centre_longitude(map_centre_longitude).
-map_zoomlevel(map_zoomlevel).
+//map_zoomlevel(map_zoomlevel).
 
 //Project specific actors
 grid_operator(grid_operator).
