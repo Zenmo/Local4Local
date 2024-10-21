@@ -24,3 +24,7 @@ dependencies {
     // Http4k documentation prefers Apache above the Java built-in client but it seems fine
     //implementation("org.http4k:http4k-client-apache")
 }
+
+kotlin {
+    jvmToolchain(17)
+}
