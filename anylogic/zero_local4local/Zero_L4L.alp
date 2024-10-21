@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021045" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021032" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -46,6 +46,18 @@
 		<ActiveObjectClass>
 			<Id>1709049506453</Id>
 			<Name><![CDATA[Loader_L4L]]></Name>
+			<AdditionalClassCode><![CDATA[@Override
+public void f_createInterface(){
+	f_createInterface_L4L();
+}
+@Override
+public void f_readDatabase(){
+	f_readDatabase_L4L();
+}
+@Override
+public void f_createGridConnections(){
+	f_createGridConnections_L4L();
+}]]></AdditionalClassCode>
 			<ExtendsReference>
 				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
 				<ClassName><![CDATA[Zero_Loader]]></ClassName>
@@ -795,7 +807,7 @@ var energyCoop = f_createLocal4LocalEnergyCoop();
 f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
-f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
+//f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
 
 ]]></Body>
