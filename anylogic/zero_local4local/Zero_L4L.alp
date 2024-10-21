@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021032" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021045" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -46,23 +46,6 @@
 		<ActiveObjectClass>
 			<Id>1709049506453</Id>
 			<Name><![CDATA[Loader_L4L]]></Name>
-			<AdditionalClassCode><![CDATA[
-@Override
-public void f_createInterface(){
-	f_createInterface_L4L();
-}
-
-@Override
-public void f_readDatabase(){
-	f_readDatabase_L4L();
-}
-
-@Override
-public void f_createGridConnections(){
-	f_createGridConnections_L4L();
-}
-]]></AdditionalClassCode>
-			<Import><![CDATA[import zerointerfaceloader.OL_ProjectType;]]></Import>
 			<ExtendsReference>
 				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
 				<ClassName><![CDATA[Zero_Loader]]></ClassName>
@@ -800,7 +783,7 @@ for(Tuple row : rows){
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658120</Id>
 					<Name><![CDATA[f_createLocal4LocalPilot]]></Name>
-					<X>-980</X><Y>400</Y>
+					<X>-980</X><Y>450</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -822,7 +805,7 @@ f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 					<ReturnType><![CDATA[EnergyCoopL4L]]></ReturnType>
 					<Id>1727353658122</Id>
 					<Name><![CDATA[f_createLocal4LocalEnergyCoop]]></Name>
-					<X>-960</X><Y>420</Y>
+					<X>-960</X><Y>470</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -842,7 +825,7 @@ return energyCoop;]]></Body>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658124</Id>
 					<Name><![CDATA[f_createLocal4LocalWindFarms]]></Name>
-					<X>-940</X><Y>460</Y>
+					<X>-940</X><Y>510</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -888,7 +871,7 @@ for (var windFarmData: windFarms) {
 	Double OPEX_eurpa = windFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH(); 
 	traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_CostItem(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
 	energyCoop.c_costItems.add(costItem);
 }
 ]]></Body>
@@ -898,7 +881,7 @@ for (var windFarmData: windFarms) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658126</Id>
 					<Name><![CDATA[f_createLocal4LocalHouseholds]]></Name>
-					<X>-940</X><Y>500</Y>
+					<X>-940</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -943,7 +926,7 @@ for (var windFarmData: windFarms) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658128</Id>
 					<Name><![CDATA[f_addLocal4LocalHouseAssets]]></Name>
-					<X>-920</X><Y>520</Y>
+					<X>-920</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1053,7 +1036,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1728318637132</Id>
 					<Name><![CDATA[f_createLocal4LocalSolarFarms]]></Name>
-					<X>-940</X><Y>440</Y>
+					<X>-940</X><Y>490</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1096,7 +1079,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	Double OPEX_eurpa = solarFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH(); 
 	
-	var costItem = new J_CostItem(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
 	energyCoop.c_costItems.add(costItem);
 }]]></Body>
 				</Function>
@@ -1105,7 +1088,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1728378028745</Id>
 					<Name><![CDATA[f_createLocal4LocalBatteries]]></Name>
-					<X>-940</X><Y>480</Y>
+					<X>-940</X><Y>530</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1147,7 +1130,7 @@ for (var batteryData: batteries) {
     /*Double CAPEX_eurpa = null; //solarFarmData.getCAPEX_eurpa();
 	Double OPEX_eurpa = null; //solarFarmData.getOPEX_eurpa();
 	Double LCOE_eurpkWh = 0.1; //solarFarmData.getLCOE_eurpkWh();
-	var costItem = new J_CostItem(gridBattery.c_productionAssets.get(gridBattery.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
+	var costItem = new J_AssetCost(gridBattery.c_productionAssets.get(gridBattery.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
 	energyCoop.c_costItems.add(costItem);*/
 }]]></Body>
 				</Function>
@@ -3205,6 +3188,30 @@ public void f_calculateKPIs(){
 			<CurrentLevel>1729007122551</CurrentLevel>
 			<ConnectionsId>1729007122545</ConnectionsId>
 			<Variables>
+				<Variable Class="Parameter">
+					<Id>1729495881792</Id>
+					<Name><![CDATA[bufferPrice_eurpMWh]]></Name>
+					<X>660</X><Y>850</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[20.0]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1729495881790</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1729007310573</Id>
 					<Name><![CDATA[c_costItems]]></Name>
@@ -3215,7 +3222,7 @@ public void f_calculateKPIs(){
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" AccessType="public" StaticVariable="false">
 						<CollectionClass><![CDATA[ArrayList]]></CollectionClass>
-						<ElementClass><![CDATA[J_CostItem]]></ElementClass>
+						<ElementClass><![CDATA[J_AssetCost]]></ElementClass>
 						<ValueElementClass><![CDATA[String]]></ValueElementClass>
 					</Properties>
 
@@ -3223,8 +3230,8 @@ public void f_calculateKPIs(){
 			</Variables>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[J_CoopReport]]></ReturnType>
 					<Id>1729007245414</Id>
 					<Name><![CDATA[f_getFinancesL4L]]></Name>
 					<Description><![CDATA[Executed on simulation end to export data.
@@ -3236,17 +3243,18 @@ public void f_calculateKPIs(){
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[int nbCostItems = c_costItems.size();
-double totalProduction_kWh = 0;
+					<Body><![CDATA[double totalProduction_kWh = 0;
 double totalCost_eur = 0;
+var coopReport = J_CoopReport.builder();
 
 for (var ci : c_costItems) {
-	//assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
-	totalCost_eur += ci.getLCOE_eurpkWh() * -ci.getEnergyAsset().getEnergyUsed_kWh();
-	totalProduction_kWh += -ci.getEnergyAsset().getEnergyUsed_kWh();
-	traceln("Energy produced or costitem: %s kWh", -ci.getEnergyAsset().getEnergyUsed_kWh());
+	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
+	totalCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
+	totalProduction_kWh += -ci.energyAsset().getEnergyUsed_kWh();
+	traceln("Energy produced or costitem: %s kWh", -ci.energyAsset().getEnergyUsed_kWh());
 }
 double assetAvgLCOE_eurpMWh = totalCost_eur / totalProduction_kWh * 1000;
+coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalProduction_kWh * 1000, totalCost_eur));
 traceln("Average LCOE of own assets: %s", assetAvgLCOE_eurpMWh);
 
 double bufferCost_eurpMWh = 20; // 2ct/kWh additional costs, retail, financing, etc.
@@ -3331,7 +3339,7 @@ if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
 	traceln("Coop total costs: %s €", EDVincome_eur);
 }
 
-
+return coopReport.build();
 ]]></Body>
 				</Function>
 			</Functions>
@@ -3665,37 +3673,118 @@ if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
 		<!--   =========   Java Class   ========  -->
 		<JavaClass>
 			<Id>1728975694741</Id>
-			<Name><![CDATA[J_CostItem]]></Name>
-			<Text><![CDATA[/**
- * J_CostItem
- */	
-public class J_CostItem implements Serializable {
+			<Name><![CDATA[J_AssetCost]]></Name>
+			<Text><![CDATA[
+@lombok.Builder
+@lombok.Value
+@lombok.experimental.Accessors(fluent = true)
+public class J_AssetCost implements Serializable {
 	protected J_EA energyAsset;
 	protected double CAPEX_eurpa;
 	protected double OPEX_eurpa;
 	protected double LCOE_eurpkWh;
-	
-    /**
-     * Default constructor
-     */
-    public J_CostItem(J_EA j_ea, Double CAPEX_eurpa, Double OPEX_eurpa, Double LCOE_eurpkWh) {
-    	this.energyAsset = j_ea;
-    	this.CAPEX_eurpa = CAPEX_eurpa;
-    	this.OPEX_eurpa = OPEX_eurpa;
-    	this.LCOE_eurpkWh = LCOE_eurpkWh;    	
-    }
 
-    public double getLCOE_eurpkWh() {    	
-    	return LCOE_eurpkWh;
-    }
-    
-    public J_EA getEnergyAsset() {
-    	return energyAsset;
-    }
-    
-	@Override
-	public String toString() {
-		return super.toString();
+	/**
+	 * This number is here for model snapshot storing purpose<br>
+	 * It needs to be changed when this class gets changed
+	 */ 
+	private static final long serialVersionUID = 1L;
+}
+]]></Text>
+		</JavaClass>
+		<!--   =========   Java Class   ========  -->
+		<JavaClass>
+			<Id>1729169820611</Id>
+			<Name><![CDATA[J_AccountingLine]]></Name>
+			<Text><![CDATA[
+@lombok.Value
+@lombok.AllArgsConstructor(access = lombok.AccessLevel.PRIVATE)
+@lombok.experimental.Accessors(fluent = true)
+public final class J_AccountingLine implements Serializable {
+	private double quantity_MWh;
+	private double price_eurpMWh;
+	private double totalPrice_eur;
+	
+	public static J_AccountingLine fromPricePerMWh(double quantity_MWh, double price_eurpMWh) {
+		return new J_AccountingLine(
+			quantity_MWh,
+			price_eurpMWh,
+			quantity_MWh * price_eurpMWh
+		);
+	}
+	
+	public static J_AccountingLine fromTotalPrice(double quantity_MWh, double totalPrice_eur) {
+		return new J_AccountingLine(
+			quantity_MWh,
+			totalPrice_eur / quantity_MWh,
+			totalPrice_eur
+		);
+	}
+	
+	public String print() {
+		return String.format("%s MWh, tarief %s €/MWh, waarde: %s €");
+	}
+
+	/**
+	 * This number is here for model snapshot storing purpose<br>
+	 * It needs to be changed when this class gets changed
+	 */ 
+	private static final long serialVersionUID = 1L;
+}
+
+
+
+]]></Text>
+		</JavaClass>
+		<!--   =========   Java Class   ========  -->
+		<JavaClass>
+			<Id>1729171880365</Id>
+			<Name><![CDATA[J_CoopReport]]></Name>
+			<Text><![CDATA[
+import lombok.*;
+
+/**
+ * @author erik
+ *
+ * Reports on the simulated results of an Energy Cooperative
+ * over a longer period, usually a year.
+ */
+@lombok.Builder
+@lombok.Value
+@lombok.experimental.Accessors(fluent = true)
+public class J_CoopReport implements Serializable {
+	J_AccountingLine ownProduction;
+	/*
+	traceln("Totale opwek Coöperatie Assets: %s MWh, tarief: %s €/MWh, waarde: %s €", totalOwnElectricityProduced_MWh, kostprijs_eurpMWh, totalOwnElectricityProduced_MWh*kostprijs_eurpMWh); // Also need production from own assets only!
+	traceln("Gelijktijdige opwek en verbruik (incl zelfverbruik teruglevering van leden): %s MWh", v_totalElectricitySelfConsumed_MWh);
+	traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh, selfConsumptionCoopAssets_MWh * (kostprijs_eurpMWh+bufferCost_eurpMWh));
+	traceln("Ongelijktijdige levering: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh));
+	traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityImported_kWh/1000, EPEXcosts_eur/(v_electricityImported_kWh/1000), EPEXcosts_eur);
+	traceln("Totale verkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityExported_kWh/1000, EPEXincome_eur/(v_electricityExported_kWh/1000), EPEXincome_eur);
+
+	traceln("Totale levering aan klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", roundToDecimal(totalDeliveredElec_MWh,2), gemiddeldeLeveringsprijs_eurpMWh, gemiddeldeLeveringsprijs_eurpMWh*totalDeliveredElec_MWh);
+
+	traceln("Totale teruglevering van klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", customerFeedIn_MWh, kostprijs_eurpMWh, customerFeedIn_MWh*kostprijs_eurpMWh);
+
+	traceln("Coop gelijktijdigheid: fractie van eigen opwek geleverd aan leden: %s", selfConsumptionCoopAssets_MWh/totalOwnElectricityProduced_MWh);
+	//traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-energyModel.v_totalElectricityExport_MWh/totalOwnElectricityProduced_MWh); // Kan negatief worden!
+	traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-v_electricityExported_kWh/1000/totalOwnElectricityProduced_MWh); // Kan negatief worden!
+
+	traceln("Kostprijs+ met SDE verrekend: %s €/MWh", roundToInt(kostprijs_eurpMWh + bufferCost_eurpMWh));
+	traceln("Gemiddelde leveringsprijs: %s €/MWh", roundToInt( gemiddeldeLeveringsprijs_eurpMWh ));
+	traceln("Leveranciersprijs ongelijktijdige stroom: %s €/MWh", roundToInt(leveranciersprijs_eurpMWh) );
+
+	traceln("SDE++ income: %s €", SDEincome_eur);
+	traceln("EDV total income: %s €", roundToInt(EDVcosts_eur));
+	traceln("EDV total costs: %s €", roundToInt(EDVincome_eur));
+	*/
+	
+	public String print() {
+		var result = "";
+		result += "Totale opwek Coöperatie Assets: " + ownProduction.print() + "\n";
+		
+		
+		return result;
 	}
 
 	/**
@@ -3738,6 +3827,11 @@ public class J_CostItem implements Serializable {
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
+		<Resource>
+			<Path><![CDATA[../interface_loader/lombok.jar]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
 	</ModelResources>
     <RequiredLibraryReference>
 		<LibraryName><![CDATA[com.anylogic.libraries.modules.markup_descriptors]]></LibraryName>
@@ -3769,6 +3863,14 @@ public class J_CostItem implements Serializable {
 			<ClassName><![CDATA[local4local-client.jar]]></ClassName>
 		</ResourceReference>
 		<Imported>true</Imported>
+		<Folder>false</Folder>
+	</ClassPathEntry>
+	<ClassPathEntry>
+		<ResourceReference>
+			<PackageName><![CDATA[zerol4l]]></PackageName>
+			<ClassName><![CDATA[../interface_loader/lombok.jar]]></ClassName>
+		</ResourceReference>
+		<Imported>false</Imported>
 		<Folder>false</Folder>
 	</ClassPathEntry>
 	<CloudModelUuid><![CDATA[123b8977-3095-438e-bc2b-3605a67e7159]]></CloudModelUuid>
