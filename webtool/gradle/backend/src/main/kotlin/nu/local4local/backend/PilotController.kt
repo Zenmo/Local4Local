@@ -16,6 +16,7 @@ import org.http4k.routing.bind
 import org.http4k.routing.path
 import org.http4k.routing.routes
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.Double
 
 val startPilot = Pilot(
     name = "startPilot",
@@ -64,6 +65,7 @@ val startPilot = Pilot(
         ),
     )
 )
+
 
 class PilotController {
     val pilots = ConcurrentHashMap(
