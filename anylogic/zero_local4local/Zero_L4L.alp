@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021042" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021045" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -4110,7 +4110,7 @@ public void f_calculateKPIs(){
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[double totalProduction_kWh = 0;
 double totalCost_eur = 0;
-var coopReport = J_CoopReport.builder();
+var coopReport = new J_CoopReport();
 
 for (var ci : c_costItems) {
 	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
@@ -4167,11 +4167,15 @@ double EDVincome_eur = (kostprijs_eurpMWh + bufferCost_eurpMWh) * v_totalElectri
 traceln("Totale opwek Coöperatie Assets: %s MWh, tarief: %s €/MWh, waarde: %s €", totalOwnElectricityProduced_MWh, kostprijs_eurpMWh, totalOwnElectricityProduced_MWh*kostprijs_eurpMWh); // Also need production from own assets only!
 traceln("Gelijktijdige opwek en verbruik (incl zelfverbruik teruglevering van leden): %s MWh", v_totalElectricitySelfConsumed_MWh);
 traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh, selfConsumptionCoopAssets_MWh * (kostprijs_eurpMWh+bufferCost_eurpMWh));
+coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
 traceln("Ongelijktijdige levering: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh));
+coopReport.nonsimultaneousDelivery(J_AccountingLine.fromTotalPrice(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh, leveranciersprijs_eurpMWh));
 traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityImported_kWh/1000, EPEXcosts_eur/(v_electricityImported_kWh/1000), EPEXcosts_eur);
+coopReport.importation(J_AccountingLine.fromTotalPrice(v_electricityImported_kWh / 1000, EPEXcosts_eur));
 traceln("Totale verkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityExported_kWh/1000, EPEXincome_eur/(v_electricityExported_kWh/1000), EPEXincome_eur);
 
 traceln("Totale levering aan klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", roundToDecimal(totalDeliveredElec_MWh,2), gemiddeldeLeveringsprijs_eurpMWh, gemiddeldeLeveringsprijs_eurpMWh*totalDeliveredElec_MWh);
+coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
 
 traceln("Totale teruglevering van klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", customerFeedIn_MWh, kostprijs_eurpMWh, customerFeedIn_MWh*kostprijs_eurpMWh);
 
@@ -4204,7 +4208,7 @@ if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
 	traceln("Coop total costs: %s €", EDVincome_eur);
 }
 
-return coopReport.build();
+return coopReport;
 ]]></Body>
 				</Function>
 			</Functions>
@@ -4723,6 +4727,10 @@ public final class J_AccountingLine implements Serializable {
 		);
 	}
 	
+	public static J_AccountingLine NaN() {
+		return new J_AccountingLine(Double.NaN, Double.NaN, Double.NaN);
+	}
+	
 	public String print() {
 		return String.format("%s MWh, tarief %s €/MWh, waarde: %s €");
 	}
@@ -4749,37 +4757,20 @@ import lombok.*;
  * @author erik
  *
  * Reports on the simulated results of an Energy Cooperative
- * over a longer period, usually a year.
+ * over a longer period, usually one year.
  */
-@lombok.Builder
-@lombok.Value
+@lombok.Data
 @lombok.experimental.Accessors(fluent = true)
 public class J_CoopReport implements Serializable {
-	J_AccountingLine ownProduction;
-	/*
-	traceln("Totale opwek Coöperatie Assets: %s MWh, tarief: %s €/MWh, waarde: %s €", totalOwnElectricityProduced_MWh, kostprijs_eurpMWh, totalOwnElectricityProduced_MWh*kostprijs_eurpMWh); // Also need production from own assets only!
-	traceln("Gelijktijdige opwek en verbruik (incl zelfverbruik teruglevering van leden): %s MWh", v_totalElectricitySelfConsumed_MWh);
-	traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh, selfConsumptionCoopAssets_MWh * (kostprijs_eurpMWh+bufferCost_eurpMWh));
-	traceln("Ongelijktijdige levering: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh));
-	traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityImported_kWh/1000, EPEXcosts_eur/(v_electricityImported_kWh/1000), EPEXcosts_eur);
-	traceln("Totale verkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityExported_kWh/1000, EPEXincome_eur/(v_electricityExported_kWh/1000), EPEXincome_eur);
-
-	traceln("Totale levering aan klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", roundToDecimal(totalDeliveredElec_MWh,2), gemiddeldeLeveringsprijs_eurpMWh, gemiddeldeLeveringsprijs_eurpMWh*totalDeliveredElec_MWh);
-
-	traceln("Totale teruglevering van klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", customerFeedIn_MWh, kostprijs_eurpMWh, customerFeedIn_MWh*kostprijs_eurpMWh);
-
-	traceln("Coop gelijktijdigheid: fractie van eigen opwek geleverd aan leden: %s", selfConsumptionCoopAssets_MWh/totalOwnElectricityProduced_MWh);
-	//traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-energyModel.v_totalElectricityExport_MWh/totalOwnElectricityProduced_MWh); // Kan negatief worden!
-	traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-v_electricityExported_kWh/1000/totalOwnElectricityProduced_MWh); // Kan negatief worden!
-
-	traceln("Kostprijs+ met SDE verrekend: %s €/MWh", roundToInt(kostprijs_eurpMWh + bufferCost_eurpMWh));
-	traceln("Gemiddelde leveringsprijs: %s €/MWh", roundToInt( gemiddeldeLeveringsprijs_eurpMWh ));
-	traceln("Leveranciersprijs ongelijktijdige stroom: %s €/MWh", roundToInt(leveranciersprijs_eurpMWh) );
-
-	traceln("SDE++ income: %s €", SDEincome_eur);
-	traceln("EDV total income: %s €", roundToInt(EDVcosts_eur));
-	traceln("EDV total costs: %s €", roundToInt(EDVincome_eur));
-	*/
+	J_AccountingLine ownProduction = J_AccountingLine.NaN();
+	
+	J_AccountingLine selfConsumption = J_AccountingLine.NaN();
+	
+	J_AccountingLine importation = J_AccountingLine.NaN();
+	
+	J_AccountingLine nonsimultaneousDelivery = J_AccountingLine.NaN();
+	
+	J_AccountingLine totalDelivery = J_AccountingLine.NaN();
 	
 	public String print() {
 		var result = "";
