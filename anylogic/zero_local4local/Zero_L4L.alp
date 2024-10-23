@@ -242,7 +242,8 @@ zero_Interface = interface_L4L;
 zero_Interface.energyModel = energyModel;
 zero_Interface.uI_Results.energyModel = energyModel;
 zero_Interface.p_selectedProjectType = project_data.project_type();
-zero_Interface.settings = settings;]]></Body>
+zero_Interface.settings = settings;
+]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -907,6 +908,13 @@ for (var windFarmData: windFarms) {
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
 					<Body><![CDATA[for (int g = 0; g < householdGroups.size(); g++) {
+	if (g > 0) {
+	    throw new RuntimeException(
+	        "More than 1 household group is not supported yet"
+	        + "because of setting PV ratio per group"
+	    );
+	}
+
     var householdGroup = householdGroups.get(g);
 
 	for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
@@ -930,6 +938,8 @@ for (var windFarmData: windFarms) {
 		//Asset
 		f_addLocal4LocalHouseAssets(gridHouse, householdGroup, g*1000+i );
 	}
+	
+	this.interface_L4L.householdGroup = householdGroup;
 }
 ]]></Body>
 				</Function>
@@ -956,7 +966,7 @@ for (var windFarmData: windFarms) {
 						<Type><![CDATA[int]]></Type>
 					</Parameter>
 					<Body><![CDATA[// Add electricity consumption profiles
-Random random = new Random(seed);
+//Random random = new Random(seed);
 
 double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.5,1.0) * 3;
 var newAsset = new J_EAConsumption(
@@ -1512,6 +1522,18 @@ import java.io.PrintStream;]]></Import>
 			<CurrentLevel>1722364114821</CurrentLevel>
 			<ConnectionsId>1722364114815</ConnectionsId>
 			<Variables>
+				<Variable Class="PlainVariable">
+					<Id>1729677220922</Id>
+					<Name><![CDATA[householdGroup]]></Name>
+					<X>-260</X><Y>700</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[nu.local4local.common.HouseholdGroup]]></Type>        
+					</Properties>
+				</Variable>
 				<Variable Class="Parameter">
 					<Id>1724419523225</Id>
 					<Name><![CDATA[t_scenario_current]]></Name>
@@ -1743,6 +1765,26 @@ t_scenarioDescription.setText(t_scenario_XXX);]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[
+this.uI_Tabs.pop_tabElectricity
+    .get(0)
+    .getSliderRooftopPVHouses_pct()
+    .setValue(this.householdGroup.getHasPV_r() * 100, true);
+
+// TODO: this doesn't seem to do anything
+this.uI_Tabs.pop_tabHeating
+    .get(0)
+    .getSliderElectricHeatPumpHouseholds_pct()
+    .setValue(this.householdGroup.getHasHeatPump_r() * 100, true);
+    
+this.uI_Tabs.pop_tabMobility
+    .get(0)
+    .getSliderElectricCars_pct()
+    .setValue(this.householdGroup.getHasChargePoint_r() * 100, true);
+
+if (householdGroup.getHasHomeBattery_r() > 0.0) {
+    traceln(RED, "Home battery not supported yet");
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
