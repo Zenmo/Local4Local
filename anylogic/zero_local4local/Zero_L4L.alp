@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021032" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021042" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -2123,7 +2123,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729583313003</Id>
 					<Name><![CDATA[txt_eigen_opwek]]></Name>
-					<X>-440</X><Y>-60</Y>
+					<X>-460</X><Y>-65</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2210,7 +2210,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729592553502</Id>
 					<Name><![CDATA[txt_gelijktijdig]]></Name>
-					<X>-440</X><Y>-20</Y>
+					<X>-460</X><Y>-15</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2231,7 +2231,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729592559444</Id>
 					<Name><![CDATA[txt_ongelijktijdig]]></Name>
-					<X>-446</X><Y>34</Y>
+					<X>-460</X><Y>35</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2252,7 +2252,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729592562951</Id>
 					<Name><![CDATA[txt_som]]></Name>
-					<X>-460</X><Y>80</Y>
+					<X>-460</X><Y>85</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2339,7 +2339,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729592610489</Id>
 					<Name><![CDATA[txt_energievolume]]></Name>
-					<X>-160</X><Y>-115</Y>
+					<X>-10</X><Y>-115</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2355,12 +2355,12 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 						<Size>24</Size>
 						<Style>0</Style>
 					</Font>
-					<Alignment>LEFT</Alignment>
+					<Alignment>RIGHT</Alignment>
 				</Text>
 				<Text>
 					<Id>1729592614031</Id>
 					<Name><![CDATA[txt_tarief]]></Name>
-					<X>10</X><Y>-115</Y>
+					<X>160</X><Y>-115</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2376,12 +2376,12 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 						<Size>24</Size>
 						<Style>0</Style>
 					</Font>
-					<Alignment>LEFT</Alignment>
+					<Alignment>RIGHT</Alignment>
 				</Text>
 				<Text>
 					<Id>1729592616978</Id>
 					<Name><![CDATA[txt_totaalwaarde]]></Name>
-					<X>180</X><Y>-115</Y>
+					<X>330</X><Y>-115</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2397,7 +2397,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 						<Size>24</Size>
 						<Style>0</Style>
 					</Font>
-					<Alignment>LEFT</Alignment>
+					<Alignment>RIGHT</Alignment>
 				</Text>
 				<Rectangle>
 					<Id>1729592823487</Id>
@@ -2666,7 +2666,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595334291</Id>
 					<Name><![CDATA[eigen_opwek1]]></Name>
-					<X>-20</X><Y>-80</Y>
+					<X>-10</X><Y>-65</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2688,7 +2688,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595390819</Id>
 					<Name><![CDATA[eigen_opwek2]]></Name>
-					<X>-20</X><Y>-25</Y>
+					<X>-10</X><Y>-15</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2710,7 +2710,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595394342</Id>
 					<Name><![CDATA[eigen_opwek3]]></Name>
-					<X>-20</X><Y>25</Y>
+					<X>-10</X><Y>35</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2732,7 +2732,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595397213</Id>
 					<Name><![CDATA[eigen_opwek4]]></Name>
-					<X>-20</X><Y>75</Y>
+					<X>-10</X><Y>85</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2754,7 +2754,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595402132</Id>
 					<Name><![CDATA[txt_gemiddeld_tarief]]></Name>
-					<X>150</X><Y>75</Y>
+					<X>160</X><Y>85</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2776,7 +2776,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595404286</Id>
 					<Name><![CDATA[eigen_opwek6]]></Name>
-					<X>150</X><Y>25</Y>
+					<X>160</X><Y>35</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2798,7 +2798,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595408033</Id>
 					<Name><![CDATA[txt_kostprijs_plus]]></Name>
-					<X>150</X><Y>-25</Y>
+					<X>160</X><Y>-15</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2820,7 +2820,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595410451</Id>
 					<Name><![CDATA[eigen_opwek8]]></Name>
-					<X>150</X><Y>-75</Y>
+					<X>160</X><Y>-65</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2842,7 +2842,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595413931</Id>
 					<Name><![CDATA[eigen_opwek9]]></Name>
-					<X>320</X><Y>-75</Y>
+					<X>330</X><Y>-65</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2864,7 +2864,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595416383</Id>
 					<Name><![CDATA[eigen_opwek10]]></Name>
-					<X>320</X><Y>-25</Y>
+					<X>330</X><Y>-15</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2886,7 +2886,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595420144</Id>
 					<Name><![CDATA[eigen_opwek11]]></Name>
-					<X>320</X><Y>25</Y>
+					<X>330</X><Y>35</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2908,7 +2908,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729595426227</Id>
 					<Name><![CDATA[eigen_opwek12]]></Name>
-					<X>320</X><Y>75</Y>
+					<X>330</X><Y>85</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3127,7 +3127,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Windpark 1]]></Text>
+					<Text><![CDATA[Windpark]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>36</Size>
@@ -3492,6 +3492,113 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 						<Name>Calibri</Name>
 						<Size>48</Size>
 						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1729690631528</Id>
+					<Name><![CDATA[txt_table]]></Name>
+					<X>-1010</X><Y>1450</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Kosten overzicht]]></Text>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>48</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1729690744518</Id>
+					<Name><![CDATA[txt_assetName4]]></Name>
+					<X>-1250</X><Y>1790</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Kostprijs+: ]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1729690755597</Id>
+					<Name><![CDATA[txt_assetName5]]></Name>
+					<X>-1250</X><Y>1850</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Gemiddeld leveringstarief voor klant: ]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1729690775737</Id>
+					<Name><![CDATA[txt_kostprijs_plus1]]></Name>
+					<X>-1070</X><Y>1800</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Kostprijs+]]></Text>
+					<TextCode><![CDATA[this.f_getCoopReport().selfConsumption().printPrice_eurpMWh()]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1729690783826</Id>
+					<Name><![CDATA[txt_gemiddeld_tarief1]]></Name>
+					<X>-665</X><Y>1860</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Gemiddeld tarief]]></Text>
+					<TextCode><![CDATA[this.f_getCoopReport().totalDelivery().printPrice_ctpkWh()]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>36</Size>
+						<Style>0</Style>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
@@ -5478,22 +5585,27 @@ public final class J_AccountingLine implements Serializable {
 	}
 	
 	public String printQuantity_MWh() {
-		return printValue(quantity_MWh, "MWh");
+		return printValue(quantity_MWh, 0, "MWh");
 	}
 	
 	public String printPrice_eurpMWh() {
-		return printValue(price_eurpMWh, "€/MWh");
+		return printValue(price_eurpMWh, 0, "€/MWh");
 	}
 	
 	public String printTotalPrice_eur() {
-		return printValue(totalPrice_eur, "€");
+		return printValue(totalPrice_eur, 0, "€");
+	}
+	
+	public String printPrice_ctpkWh() {
+		double price_ctpkWh = price_eurpMWh / 10;
+		return printValue(price_ctpkWh, 1, "ct/kWh");
 	}
 	
 	/**
 	 * It just so happens that we round all values on whole numbers.
 	 */
-	private static String printValue(double value, String unit) {
-		var str = Double.isNaN(value) ? '-' : String.format(Locale.GERMAN, "%,.0f", value);
+	private static String printValue(double value, int decimal, String unit) {
+		var str = Double.isNaN(value) ? '-' : String.format(Locale.GERMAN, "%,."+ decimal + "f", value);
 		
 		return str + " " + unit;
 	}
