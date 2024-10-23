@@ -886,6 +886,7 @@ for (var windFarmData: windFarms) {
 	traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
 	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
 	energyCoop.c_costItems.add(costItem);
+	this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
 ]]></Body>
 				</Function>
@@ -940,6 +941,7 @@ for (var windFarmData: windFarms) {
 	}
 	
 	this.interface_L4L.householdGroup = householdGroup;
+	this.interface_L4L.txt_assetPrefix_value3.setText(String.format("%s MWh", householdGroup.getAnnualBaseConsumptionAvg_kWh()*householdGroup.getHouseholds_n()/1000));
 }
 ]]></Body>
 				</Function>
@@ -1103,6 +1105,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	
 	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
 	energyCoop.c_costItems.add(costItem);
+	this.interface_L4L.txt_assetPrefix_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1772,10 +1775,14 @@ this.uI_Tabs.pop_tabElectricity
     .setValue(this.householdGroup.getHasPV_r() * 100, true);
 
 // TODO: this doesn't seem to do anything
-this.uI_Tabs.pop_tabHeating
+/*this.uI_Tabs.pop_tabHeating
     .get(0)
     .getSliderElectricHeatPumpHouseholds_pct()
-    .setValue(this.householdGroup.getHasHeatPump_r() * 100, true);
+    //.setValue(this.householdGroup.getHasHeatPump_r() * 100, true);
+    .setValue(100, true);*/
+    
+this.uI_Tabs.pop_tabHeating
+    .get(0).f_setHeatingSystemsHouseholds(this.householdGroup.getHasHeatPump_r() * 100);
     
 this.uI_Tabs.pop_tabMobility
     .get(0)
@@ -1929,7 +1936,7 @@ if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[uI_Results.f_setChartBalance_Presentation(-1930, 990, true);
+					<Body><![CDATA[uI_Results.f_setChartBalance_Presentation(-3230, 990, true);
 // uI_Results.v_selectedChartType = OL_ChartTypes.DIAGRAM;
 uI_Results.f_setSelectedChartType(1); //Diagram
 uI_Results.f_showCorrectChart();
@@ -2080,7 +2087,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729595620037</Id>
 					<Name><![CDATA[table]]></Name>
-					<X>-1180</X><Y>1480</Y>
+					<X>-780</X><Y>1640</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2926,7 +2933,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672318520</Id>
 					<Name><![CDATA[asset]]></Name>
-					<X>-1320</X><Y>1900</Y>
+					<X>-660</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3051,7 +3058,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672325154</Id>
 					<Name><![CDATA[asset1]]></Name>
-					<X>-920</X><Y>1780</Y>
+					<X>-260</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3176,7 +3183,8 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672367443</Id>
 					<Name><![CDATA[asset2]]></Name>
-					<X>-920</X><Y>1900</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-260</X><Y>1380</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3301,7 +3309,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672425523</Id>
 					<Name><![CDATA[asset3]]></Name>
-					<X>-1720</X><Y>1900</Y>
+					<X>-1080</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3426,7 +3434,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Image>
 					<Id>1729672999597</Id>
 					<Name><![CDATA[img_logo]]></Name>
-					<X>-1920</X><Y>1000</Y>
+					<X>-340</X><Y>1000</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3469,7 +3477,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729673517119</Id>
 					<Name><![CDATA[txt_graph]]></Name>
-					<X>-420</X><Y>1160</Y>
+					<X>-1740</X><Y>1160</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4054,6 +4062,55 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1729681165302</Id>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+					<X>214</X><Y>59</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["https://local4local-backend.zenmo.com"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1729681165300</Id>
+							<Label><![CDATA[p_local4localBackendUrl]]></Label>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1729681165307</Id>
+					<Name><![CDATA[p_local4localSession]]></Name>
+					<X>214</X><Y>79</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[String]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA["startPilot"]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1729681165305</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1726235892488</Id>
 					<Name><![CDATA[databaseNames]]></Name>
@@ -4179,7 +4236,10 @@ f_setProject_data();
 f_projectSpecificInitializeFunctions();
 
 //Startup loader
-loader_L4L.f_startUpLoader_default();]]></Body>
+loader_L4L.p_local4localBackendUrl=p_local4localBackendUrl;
+loader_L4L.p_local4localSession=p_local4localSession;
+loader_L4L.f_startUpLoader_default();
+]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -5200,10 +5260,28 @@ return coopReport;]]></Body>
 			<ExecutionMode>realTimeScaled</ExecutionMode>
 			<RealTimeScale>5.0</RealTimeScale>
 			<EnableZoomAndPanning>false</EnableZoomAndPanning>
-			<EnableDeveloperPanel>false</EnableDeveloperPanel>
+			<EnableDeveloperPanel>true</EnableDeveloperPanel>
 			<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 		</AnimationProperties>
-		<Inputs>		
+		<Inputs>
+    		<RunConfigurationInput>
+				<Id>1729681210407</Id>
+				<Name><![CDATA[P_local4localBackendUrl]]></Name>
+				<InputReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[StartUp_L4L]]></ClassName>
+					<ItemName><![CDATA[p_local4localBackendUrl]]></ItemName>
+				</InputReference>
+    		</RunConfigurationInput>
+    		<RunConfigurationInput>
+				<Id>1729681211611</Id>
+				<Name><![CDATA[p_local4localSession]]></Name>
+				<InputReference>
+					<PackageName><![CDATA[zerol4l]]></PackageName>
+					<ClassName><![CDATA[StartUp_L4L]]></ClassName>
+					<ItemName><![CDATA[p_local4localSession]]></ItemName>
+				</InputReference>
+    		</RunConfigurationInput>		
 		</Inputs>
 		<Outputs>
 		</Outputs>
@@ -5307,6 +5385,12 @@ return coopReport;]]></Body>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[map_zoomlevel]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_local4localBackendUrl]]></ParameterName>
+				</Parameter>
+				<Parameter>
+					<ParameterName><![CDATA[p_local4localSession]]></ParameterName>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
@@ -5471,7 +5555,7 @@ public class J_CoopReport implements Serializable {
 	<ModelResources>
 		<Resource>
 			<Path><![CDATA[data_Generic/db_profiles.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
@@ -5491,7 +5575,7 @@ public class J_CoopReport implements Serializable {
 		</Resource>
 		<Resource>
 			<Path><![CDATA[logo_zenmo.png]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
@@ -5506,17 +5590,37 @@ public class J_CoopReport implements Serializable {
 		</Resource>
 		<Resource>
 			<Path><![CDATA[noun-solarfarm.png]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
 			<Path><![CDATA[noun-windmill.png]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
 			<Path><![CDATA[noun-house.png]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data_Generic/AlbatrossProcessedVehicleTrips.xlsx]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data_Generic/inputECookerPatterns.xlsx]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data_Generic/inputTruckTripPatterns.xlsx]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[data_Generic/Laadprofielen_standaard.xlsx]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 	</ModelResources>
@@ -5560,6 +5664,6 @@ public class J_CoopReport implements Serializable {
 		<Imported>false</Imported>
 		<Folder>false</Folder>
 	</ClassPathEntry>
-	<CloudModelUuid><![CDATA[123b8977-3095-438e-bc2b-3605a67e7159]]></CloudModelUuid>
+	<CloudModelUuid><![CDATA[b9f2137d-b8cc-462f-85a4-fb2379f0eb39]]></CloudModelUuid>
 </Model>
 </AnyLogicWorkspace>
