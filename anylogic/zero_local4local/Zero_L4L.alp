@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021045" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021042" AlpVersion="8.9.1">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -1887,7 +1887,12 @@ if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[this.viewAreaL4L.navigateTo();
+					<Body><![CDATA[uI_Results.f_setChartBalance_Presentation(-1930, 990, true);
+// uI_Results.v_selectedChartType = OL_ChartTypes.DIAGRAM;
+uI_Results.f_setSelectedChartType(1); //Diagram
+uI_Results.f_showCorrectChart();
+this.viewAreaL4L.navigateTo();
+
 ]]></Body>
 				</Function>
 			</Functions>
