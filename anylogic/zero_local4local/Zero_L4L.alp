@@ -947,7 +947,7 @@ for (var windFarmData: windFarms) {
 	}
 	
 	this.interface_L4L.householdGroup = householdGroup;
-	this.interface_L4L.txt_assetPrefix_value3.setText(String.format("%s MWh", householdGroup.getAnnualBaseConsumptionAvg_kWh()*householdGroup.getHouseholds_n()/1000));
+	this.interface_L4L.txt_assetPrefix_value3.setText(String.format("%s", householdGroup.getHouseholds_n()));
 }
 ]]></Body>
 				</Function>
@@ -3451,7 +3451,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Verbruik:]]></Text>
+					<Text><![CDATA[Aantal:]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>24</Size>
@@ -3472,7 +3472,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[___ MWh]]></Text>
+					<Text><![CDATA[___]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>24</Size>
