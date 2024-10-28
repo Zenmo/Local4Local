@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.1.202408021032" AlpVersion="8.9.1">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -87,6 +87,12 @@ public void f_startUpLoader_default(){
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localSession]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -140,9 +146,7 @@ public void f_startUpLoader_default(){
 					<RowsCountCode><![CDATA[100]]></RowsCountCode>
 					<NeigborhoodType>MOORE</NeigborhoodType>
 					<LayoutType>USER_DEF</LayoutType>
-					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
 					<NetworkType>USER_DEF</NetworkType>
-					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
 					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
 					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
 					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
@@ -976,7 +980,7 @@ for (var windFarmData: windFarms) {
 					<Body><![CDATA[// Add electricity consumption profiles
 //Random random = new Random(seed);
 
-double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.5,1.0) * 3;
+double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.2,1.0);
 var newAsset = new J_EAConsumption(
 	gcHouse,
 	OL_EnergyAssetType.ELECTRICITY_DEMAND,
@@ -1340,7 +1344,7 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 					</Replication>
 					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<InEnvironment>true</InEnvironment>	
-					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<InitialLocationType>XYZ</InitialLocationType>
 					<XCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
 					</XCode>
@@ -1356,12 +1360,6 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 					<RowCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
 					</RowCode>
-					<LatitudeCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</LatitudeCode>
-					<LongitudeCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</LongitudeCode>
 					<LocationNameCode Class="CodeValue">
 						<Code><![CDATA[""]]></Code>
 					</LocationNameCode>
@@ -1456,6 +1454,21 @@ import java.io.PrintStream;]]></Import>
 				<Parameter>
 					<Name><![CDATA[map_scale]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_current]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_2]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_3]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_custom]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -1509,9 +1522,7 @@ import java.io.PrintStream;]]></Import>
 					<RowsCountCode><![CDATA[100]]></RowsCountCode>
 					<NeigborhoodType>MOORE</NeigborhoodType>
 					<LayoutType>USER_DEF</LayoutType>
-					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
 					<NetworkType>USER_DEF</NetworkType>
-					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
 					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
 					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
 					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
@@ -3731,9 +3742,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<RowsCountCode><![CDATA[100]]></RowsCountCode>
 					<NeigborhoodType>MOORE</NeigborhoodType>
 					<LayoutType>USER_DEF</LayoutType>
-					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
 					<NetworkType>USER_DEF</NetworkType>
-					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
 					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
 					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
 					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
@@ -4510,7 +4519,7 @@ build();]]></Body>
 					</Replication>
 					<CollectionType>ARRAY_LIST_BASED</CollectionType>
 					<InEnvironment>true</InEnvironment>	
-					<InitialLocationType>AT_ANIMATION_POSITION</InitialLocationType>
+					<InitialLocationType>XYZ</InitialLocationType>
 					<XCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
 					</XCode>
@@ -4526,12 +4535,6 @@ build();]]></Body>
 					<RowCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
 					</RowCode>
-					<LatitudeCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</LatitudeCode>
-					<LongitudeCode Class="CodeValue">
-						<Code><![CDATA[0]]></Code>
-					</LongitudeCode>
 					<LocationNameCode Class="CodeValue">
 						<Code><![CDATA[""]]></Code>
 					</LocationNameCode>
@@ -4870,9 +4873,7 @@ public void f_calculateKPIs(){
 					<RowsCountCode><![CDATA[100]]></RowsCountCode>
 					<NeigborhoodType>MOORE</NeigborhoodType>
 					<LayoutType>USER_DEF</LayoutType>
-					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
 					<NetworkType>USER_DEF</NetworkType>
-					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
 					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
 					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
 					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
@@ -5199,9 +5200,7 @@ return coopReport;]]></Body>
 					<RowsCountCode><![CDATA[100]]></RowsCountCode>
 					<NeigborhoodType>MOORE</NeigborhoodType>
 					<LayoutType>USER_DEF</LayoutType>
-					<LayoutTypeApplyOnStartup>true</LayoutTypeApplyOnStartup>
 					<NetworkType>USER_DEF</NetworkType>
-					<NetworkTypeApplyOnStartup>true</NetworkTypeApplyOnStartup>
 					<ConnectionsPerAgentCode><![CDATA[2]]></ConnectionsPerAgentCode>
 					<ConnectionsRangeCode><![CDATA[50]]></ConnectionsRangeCode>
 					<NeighborLinkFractionCode><![CDATA[0.95]]></NeighborLinkFractionCode>
