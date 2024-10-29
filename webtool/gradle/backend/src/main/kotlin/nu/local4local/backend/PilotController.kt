@@ -20,7 +20,6 @@ import kotlin.Double
 
 val startPilot = Pilot(
     name = "startPilot",
-    bufferPrice_eurpkWh = 0.01,
     householdGroups = listOf(
         HouseholdGroup(
             type = "Mix",

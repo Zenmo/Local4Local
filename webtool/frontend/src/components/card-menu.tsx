@@ -5,7 +5,9 @@ import { Button } from "@radix-ui/themes"
 import './styles.css';
 
 export const CardMenu: FunctionComponent<{ 
-    onDelete: () => void, }> = ({onDelete}) => {
+    onDelete?: () => void,
+    onEdit?: () => void,
+}> = ({onDelete, onEdit}) => {
     return (
         <DropdownMenu.Root>
             <DropdownMenu.Trigger asChild>
@@ -13,10 +15,13 @@ export const CardMenu: FunctionComponent<{
                 <DotsVerticalIcon style={{ color: 'black' }}/>
             </Button>
             </DropdownMenu.Trigger>
-            <DropdownMenu.Content className="dropdown-content" align="end">
-                <DropdownMenu.Item onClick={onDelete} className="dropdown-item">
-                    Delete
-                </DropdownMenu.Item>
+            <DropdownMenu.Content className="dropdown-content" align="end" style={{cursor: "pointer"}}>
+                {onDelete && <DropdownMenu.Item onClick={onDelete} className="dropdown-item">
+                    Verwijderen
+                </DropdownMenu.Item>}
+                {onEdit && <DropdownMenu.Item onClick={onEdit} className="dropdown-item">
+                    Bewerken
+                </DropdownMenu.Item>}
             </DropdownMenu.Content>
         </DropdownMenu.Root>
     );

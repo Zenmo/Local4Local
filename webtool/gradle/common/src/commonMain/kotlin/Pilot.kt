@@ -17,8 +17,12 @@ data class Pilot(
     val windFarms: List<WindFarm> = emptyList(),
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
-    val bufferPrice_eurpkWh: Double? = 0.01,
+    val supplierCost: SupplierCost = SupplierCost(),
 ) {
+    @Deprecated("Moved to supplierCost.bufferPrice_eurpkWh", ReplaceWith("supplierCost.bufferPrice_eurpkWh"))
+    val bufferPrice_eurpkWh
+        get() = supplierCost.bufferPrice_eurpkWh
+
     // Create
     fun create(asset: AssetType) = when (asset) {
         is HouseholdGroup -> copy(householdGroups = this.householdGroups + asset)
@@ -39,14 +43,21 @@ data class Pilot(
         else -> "Unknown type"
     }
 
-    fun withBufferPrice(bufferPrice_eurpkWh: Double): Pilot =
-        copy(bufferPrice_eurpkWh = bufferPrice_eurpkWh)
-    fun withoutBufferPrice(): Pilot =
-        copy(bufferPrice_eurpkWh = 0.0)
+    fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
 
     fun toJson(): String =
         Json.encodeToString(this)
 }
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+@Serializable
+data class SupplierCost (
+    val bufferPrice_eurpkWh: Double = 0.01,
+    val onbalansMarkup_r: Double = 0.08,
+    val feedInCompensation_eurpkWh: Double = 0.00,
+)
+
 sealed interface AssetType
 
 @OptIn(ExperimentalJsExport::class)
