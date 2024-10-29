@@ -34,10 +34,10 @@ export const AddDropdown: FunctionComponent<{
             <DropdownMenu.Item onSelect={addBattery}>
                 Batterij
             </DropdownMenu.Item>
-            <DropdownMenu.Item onSelect={addHeatStorage}>
+            <DropdownMenu.Item onSelect={addHeatStorage} style={{display: "none"}}>
                 Warmte-opslag
             </DropdownMenu.Item>
-            <DropdownMenu.Item onSelect={addCompany}>
+            <DropdownMenu.Item onSelect={addCompany} style={{display: "none"}}>
                 Bedrijf
             </DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addBufferPrice}>

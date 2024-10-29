@@ -49,9 +49,9 @@ export const HouseholdForm: FunctionComponent<{
                     <label className="form-label" htmlFor="hasChargePoint_r">Percentage met laadpaal [%]</label>
                     <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={ (initialData?.hasChargePoint_r || 0.4) * 100 } min={0} max={100} />
                 </div>
-                <div className="radix-grid">
+                <div className="radix-grid" style={{display: "none"}}>
                     <label className="form-label" htmlFor="hasHomeBattery_r">Percentage met thuisbatterij [%]</label>
-                    <input className="form-input" type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={ (initialData?.hasHomeBattery_r || 0.1) * 100 } min={0} max={100} />
+                    <input className="form-input" type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={ (initialData?.hasHomeBattery_r || 0.0) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="annualBaseConsumptionAvg_kWh">Jaarlijks gemiddeld verbruik (kWh)</label>
