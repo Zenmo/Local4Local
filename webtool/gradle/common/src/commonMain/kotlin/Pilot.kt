@@ -17,8 +17,7 @@ data class Pilot(
     val windFarms: List<WindFarm> = emptyList(),
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
-    val bufferPrice_eurpkWh: Double? = 0.0,
-
+    val bufferPrice_eurpkWh: Double? = 0.01,
 ) {
     // Create
     fun create(asset: AssetType) = when (asset) {
