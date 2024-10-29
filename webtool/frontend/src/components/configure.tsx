@@ -10,11 +10,13 @@ import {BatteryDisplay, BatteryForm} from "./battery.tsx"
 import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
 import {SupplierCostDisplay, SupplierCostForm} from "./supplier-cost.tsx"
+import {BiogasGeneratorDisplay, BiogasGeneratorForm} from "./biogas-generator.tsx"
 
 export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilot) => void }> = ({pilot, setPilot}) => {
     const [showAddHouseholdGroup, setShowAddHouseholdGroup] = useState(false)
     const [showAddSolarFarm, setShowAddSolarFarm] = useState(false)
     const [showAddWindFarm, setShowAddWindFarm] = useState(false)
+    const [showAddBiogasGenerator, setShowAddBiogasGenerator] = useState(false)
     const [showAddBattery, setShowAddBattery] = useState(false)
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
     const [showEditSupplierCost, setShowEditSupplierCost] = useState(false)
@@ -23,6 +25,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
         showAddHouseholdGroup ||
         showAddSolarFarm ||
         showAddWindFarm ||
+        showAddBiogasGenerator ||
         showAddBattery ||
         showAddHeatStorage ||
         showEditSupplierCost
@@ -51,6 +54,13 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                 <WindFarmDisplay windFarm={it} key={"windFarm_" + i} 
                     toDelete={() => setPilot(pilot.remove(it))}
                 />)}
+
+            {pilot.biogasGenerators.asJsReadonlyArrayView().map((it, i) =>
+                <BiogasGeneratorDisplay
+                    biogasGenerator={it}
+                    key={"biogasGenerator_" + i}
+                    toDelete={() => setPilot(pilot.remove(it))}
+                />)}
             
             {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
                 <BatteryDisplay key={"battery_" + i} battery={it} 
@@ -71,6 +81,8 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                 <SolarFarmForm saveSolarFarm={(asset: SolarFarm) => setPilot(pilot.create(asset))} hide={() => setShowAddSolarFarm(false)} />}
             {showAddWindFarm &&
                 <WindFarmForm saveWindFarm={(asset: WindFarm) => setPilot(pilot.create(asset))} hide={() => setShowAddWindFarm(false)} />}
+            {showAddBiogasGenerator &&
+                <BiogasGeneratorForm save={(asset) => setPilot(pilot.create(asset))} hide={() => setShowAddBiogasGenerator(false)} />}
             {showAddBattery &&
                 <BatteryForm saveBattery={(asset: Battery) => setPilot(pilot.create(asset))} hide={() => setShowAddBattery(false)} />}
             {showAddHeatStorage &&
@@ -86,6 +98,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     addWindFarm={() => setShowAddWindFarm(true)}
                     addBattery={() => setShowAddBattery(true)}
                     addHeatStorage={() => setShowAddHeatStorage(true)}
+                    addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
                 />}
         </Grid>
     )

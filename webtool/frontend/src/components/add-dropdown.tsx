@@ -8,6 +8,7 @@ export const AddDropdown: FunctionComponent<{
     addBattery: () => void
     addHeatStorage: () => void
     addCompany?: () => void
+    addBiogasGenerator?: () => void
     style: CSSProperties
 }> = ({
     addHouseholdGroup,
@@ -16,6 +17,7 @@ export const AddDropdown: FunctionComponent<{
     addBattery,
     addHeatStorage,
     addCompany = () => alert("Bedrijf nog niet geïmplementeerd"),
+    addBiogasGenerator,
     style,
 }) => (
     <DropdownMenu.Root>
@@ -37,6 +39,9 @@ export const AddDropdown: FunctionComponent<{
             </DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addCompany} style={{display: "none"}}>
                 Bedrijf
+            </DropdownMenu.Item>
+            <DropdownMenu.Item onSelect={addBiogasGenerator}>
+                Biogasmotor
             </DropdownMenu.Item>
         </DropdownMenu.Content>
     </DropdownMenu.Root>

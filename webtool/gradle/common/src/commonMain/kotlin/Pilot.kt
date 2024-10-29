@@ -17,6 +17,7 @@ data class Pilot(
     val windFarms: List<WindFarm> = emptyList(),
     val batteries: List<Battery> = emptyList(),
     val heatStorages: List<HeatStorage> = emptyList(),
+    val biogasGenerators: List<BiogasGenerator> = emptyList(),
     val supplierCost: SupplierCost = SupplierCost(),
 ) {
     @Deprecated("Moved to supplierCost.bufferPrice_eurpkWh", ReplaceWith("supplierCost.bufferPrice_eurpkWh"))
@@ -24,23 +25,25 @@ data class Pilot(
         get() = supplierCost.bufferPrice_eurpkWh
 
     // Create
-    fun create(asset: AssetType) = when (asset) {
+    fun create(asset: AssetType): Pilot = when (asset) {
         is HouseholdGroup -> copy(householdGroups = this.householdGroups + asset)
         is SolarFarm -> copy(solarFarms = this.solarFarms + asset)
         is WindFarm -> copy(windFarms = this.windFarms + asset)
         is Battery -> copy(batteries = this.batteries + asset)
         is HeatStorage -> copy(heatStorages = this.heatStorages + asset)
-        else -> "Unknown type"
+        is BiogasGenerator -> copy(biogasGenerators = this.biogasGenerators + asset)
+        else -> throw Exception("Unknown type")
     }
 
     // Delete
-    fun remove(asset: AssetType) = when (asset) {
+    fun remove(asset: AssetType): Pilot = when (asset) {
         is HouseholdGroup -> copy(householdGroups = this.householdGroups - asset)
         is SolarFarm -> copy(solarFarms = this.solarFarms - asset)
         is WindFarm -> copy(windFarms = this.windFarms - asset)
         is Battery -> copy(batteries = this.batteries - asset)
         is HeatStorage -> copy(heatStorages = this.heatStorages - asset)
-        else -> "Unknown type"
+        is BiogasGenerator -> copy(biogasGenerators = this.biogasGenerators - asset)
+        else -> throw Exception("Unknown type")
     }
 
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
@@ -58,6 +61,9 @@ data class SupplierCost (
     val feedInCompensation_eurpkWh: Double = 0.00,
 )
 
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+@Serializable
 sealed interface AssetType
 
 @OptIn(ExperimentalJsExport::class)
@@ -114,6 +120,14 @@ data class ConsumptionAsset(
 @Serializable
 data class SolarFarm(
     val nominalPower_kW: Double,
+    val cost: AssetCost,
+): AssetType
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+@Serializable
+data class BiogasGenerator(
+    val power_kW: Double,
     val cost: AssetCost,
 ): AssetType
 
