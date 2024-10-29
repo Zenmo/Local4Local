@@ -1,9 +1,10 @@
 import {FormEvent, FunctionComponent} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {Battery, AssetCost} from "local4local"
+import {Battery} from "local4local"
 import {PiCarBatteryLight} from "react-icons/pi"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 import {CardMenu} from "./card-menu.tsx"
+import {costFromFormData} from "./cost-from-form-data.ts"
 
 export const BatteryDisplay: FunctionComponent<{
     battery: Battery,
@@ -47,18 +48,10 @@ export const BatteryForm: FunctionComponent<{
         const form = event.target as HTMLFormElement
         const formData = new FormData(form);
 
-        const cost =  new AssetCost(
-            parseFloat(formData.get("LCOE_eurpkWH") as string) || 0,
-            parseFloat(formData.get("CAPEX_eur") as string) || 0,
-            parseFloat(formData.get("interest_r") as string) * 0.01 || 0,
-            parseFloat(formData.get("depreciationPeriod_y") as string) || 0,
-            parseFloat(formData.get("OPEX_eurpy") as string) || 0,
-        );
-
         const battery = new Battery(
             parseFloat(formData.get("capacity_kWh") as string),
             parseFloat(formData.get("peakPower_kW") as string),
-            cost,
+            costFromFormData(formData),
         )
 
         saveBattery(battery)

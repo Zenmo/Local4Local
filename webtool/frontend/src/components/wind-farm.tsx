@@ -1,9 +1,10 @@
 import {FormEvent, FunctionComponent} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {WindFarm, AssetCost} from "local4local"
+import {WindFarm} from "local4local"
 import { GiWindTurbine } from "react-icons/gi";
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 import {CardMenu} from "./card-menu.tsx"
+import {costFromFormData} from "./cost-from-form-data.ts"
 
 export const WindFarmDisplay: FunctionComponent<{
     windFarm: WindFarm,
@@ -43,17 +44,9 @@ export const WindFarmForm: FunctionComponent<{
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
 
-        const cost =  new AssetCost(
-            parseFloat(formData.get("LCOE_eurpkWH") as string) || 0,
-            parseFloat(formData.get("CAPEX_eur") as string) || 0,
-            parseFloat(formData.get("interest_r") as string) * 0.01 || 0,
-            parseFloat(formData.get("depreciationPeriod_y") as string) || 0,
-            parseFloat(formData.get("OPEX_eurpy") as string) || 0,
-        );
-
         const windFarm = new WindFarm(
             parseFloat(formData.get("nominalPower_kW") as string),
-            cost,
+            costFromFormData(formData),
         );
 
         saveWindFarm(windFarm)

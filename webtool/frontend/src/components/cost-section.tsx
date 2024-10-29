@@ -4,7 +4,8 @@ import { PiMoneyWavyLight } from "react-icons/pi"
 import {AssetCost} from "local4local"
 
 const titles = {
-    "LCOE_eurpkWH": "Kosten per kWh [€/kWh] (LCOE)",
+    "sdeSubsidy_eurpkWh": "SDE subsidietarief [ct/kWh]",
+    "LCOE_eurpkWh": "Kosten per kWh [€/kWh] (LCOE)",
     "CAPEX_eur": "Aanschaf [€] (CAPEX)",
     "interest_r": "Rente [%]",
     "depreciationPeriod_y": "Afschrijvingsperiode [jaar]",
@@ -17,10 +18,16 @@ export const CostDisplay: FunctionComponent<{ cost: AssetCost, hideCostPerKwh?: 
             <CostHeading />
             <DataList.Root>
                 { !hideCostPerKwh && (
-                    <DataList.Item>
-                        <DataList.Label minWidth="88px">{titles["LCOE_eurpkWH"]}</DataList.Label>
-                        <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
-                    </DataList.Item>
+                    <>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["sdeSubsidy_eurpkWh"]}</DataList.Label>
+                            <DataList.Value>{cost.sdeSubsidy_eurpkWH}</DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["LCOE_eurpkWh"]}</DataList.Label>
+                            <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
+                        </DataList.Item>
+                    </>
                 )}
                 <DataList.Item>
                     <DataList.Label minWidth="88px">{titles["CAPEX_eur"]}</DataList.Label>
@@ -56,30 +63,37 @@ export const CostSection: FunctionComponent<{hideCostPerKwh?: boolean}> = ({hide
         <div>
             <CostHeading/>
             { !hideCostPerKwh && (
-                <div>   
-                    <div className="radix-grid" >
-                        <label className="form-label" htmlFor="LCOE_eurpkWH">{titles["LCOE_eurpkWH"]}*</label>
-                        <input className="form-input" type="number" id="LCOE_eurpkWH" name="LCOE_eurpkWH"
-                            min={0} step={0.001} 
-                            placeholder="€/kWh"
-                            title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
+                <>
+                    <div className="radix-grid">
+                        <label className="form-label" htmlFor="LCOE_eurpkWh">{titles["LCOE_eurpkWh"]}*</label>
+                        <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
+                               min={0} step={0.001}
+                               placeholder="€/kWh"
+                               title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
                             including CAPEX, OPEX and interest"
                         />
                     </div>
                     <div className="form-message">
-                        <Text >
-                        *Dit veld gebruik je op basis van ervaring of expert judgement.<br />
-                        De overige kostenvelden laat je dan leeg.
+                        <Text>
+                            *Dit veld gebruik je op basis van ervaring of expert judgement.<br/>
+                            De overige kostenvelden laat je dan leeg.
                         </Text>
                     </div>
-                </div>
+                    <div className="radix-grid">
+                        <label className="form-label" htmlFor="sdeSubsidy_eurpkWh">{titles["sdeSubsidy_eurpkWh"]}*</label>
+                        <input className="form-input" type="number" id="sdeSubsidy_eurpkWh" name="sdeSubsidy_eurpkWh"
+                               min={0} step={0.001}
+                               placeholder="€/kWh"
+                        />
+                    </div>
+                </>
             )}
-           
+
 
             <div className="radix-grid">
                 <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"]}</label>
                 <input className="form-input" type="number" id="CAPEX_eur" name="CAPEX_eur" min={0} step={0.001}
-                    placeholder="€"/>
+                       placeholder="€"/>
             </div>
             <div className="radix-grid">
                 <label className="form-label" htmlFor="interest_r">{titles["interest_r"]}</label>

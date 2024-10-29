@@ -1,9 +1,10 @@
 import {FormEvent, FunctionComponent} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {BiogasGenerator, AssetCost} from "local4local"
+import {BiogasGenerator} from "local4local"
 import {CardMenu} from "./card-menu.tsx"
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 import {ImFire} from "react-icons/im"
+import {costFromFormData} from "./cost-from-form-data.ts"
 
 export const BiogasGeneratorDisplay: FunctionComponent<{
     biogasGenerator: BiogasGenerator,
@@ -42,17 +43,10 @@ export const BiogasGeneratorForm: FunctionComponent<{
         event.preventDefault()
         const form = event.target as HTMLFormElement
         const formData = new FormData(form)
-        const cost =  new AssetCost(
-            parseFloat(formData.get("LCOE_eurpkWH") as string) || 0,
-            parseFloat(formData.get("CAPEX_eur") as string) || 0,
-            parseFloat(formData.get("interest_r") as string) * 0.01 || 0,
-            parseFloat(formData.get("depreciationPeriod_y") as string) || 0,
-            parseFloat(formData.get("OPEX_eurpy") as string) || 0,
-        );
 
         const generator = new BiogasGenerator(
             parseFloat(formData.get("power_kW") as string),
-            cost,
+            costFromFormData(formData),
         )
         save(generator)
         hide()
