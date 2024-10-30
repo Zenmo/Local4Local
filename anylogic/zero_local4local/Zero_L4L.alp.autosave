@@ -1508,7 +1508,6 @@ public void f_setStartView() {
 	f_setStartView_L4L();
 }
 
-
 @Override
 public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 	super.f_updateUIresultsEnergyCoop(AC, EC);
