@@ -4,7 +4,7 @@ import { PiMoneyWavyLight } from "react-icons/pi"
 import {AssetCost} from "local4local"
 
 const titles = {
-    "sdeSubsidy_eurpkWh": "SDE subsidietarief [ct/kWh]",
+    "sdeSubsidy_eurpkWh": "SDE subsidietarief [€/kWh]",
     "LCOE_eurpkWh": "Kosten per kWh [€/kWh] (LCOE)",
     "CAPEX_eur": "Aanschaf [€] (CAPEX)",
     "interest_r": "Rente [%]",

@@ -32,7 +32,7 @@ export const AddDropdown: FunctionComponent<{
             <DropdownMenu.Item onSelect={addWindFarm}>Windpark</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addSolarFarm}>Zonnepark</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addBattery}>
-                Batterij
+                Leveranciersopslag
             </DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addHeatStorage} style={{display: "none"}}>
                 Warmte-opslag
