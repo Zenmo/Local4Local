@@ -909,7 +909,7 @@ for (var windFarmData: windFarms) {
 		SDEtariff_eurpKwh = LCOE_eurpkWh;
 	}
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, 0.0);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
@@ -1133,7 +1133,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 		SDEtariff_eurpKwh = LCOE_eurpkWh;
 	}
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, 0.0);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_assetPrefix_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 }]]></Body>
@@ -1325,7 +1325,7 @@ for (var generatorData: biogasGenerators) {
 		SDEtariff_eurpKwh = LCOE_eurpkWh;
 	}
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, 0.0);
+	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
 	energyCoop.c_AssetCosts.add(costItem);
 	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
@@ -5214,14 +5214,20 @@ for (var ci : c_AssetCosts) {
 	double SDE_tariff_eurpMWh = 1000*ci.SDE_tariff_eurpkWh();
 	double SDEincome_eur = 0;
 	double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).acc_annualElectricityBalance_kW.getTimeSeries();
+	double productionEPEXvalue_eur = 0;
+	
 	for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
 		// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
+		productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
 		SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
 	}
 	//traceln("SDE income: %s eur", SDEincome_eur);
+	ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
+	ci.setTotalProduction_MWh( -ci.energyAsset().getEnergyUsed_kWh() / 1000 );
 	ci.setSDEincome_eur(SDEincome_eur);
-	totalSDEincome_eur += SDEincome_eur;
-	
+	traceln("Asset production average EPEX value: %s eurpMWh", ci.getAvgProductionValue_eurpMWh());
+	traceln("SDEincome_eur: %s", ci.getSDEincome_eur());
+	totalSDEincome_eur += SDEincome_eur;	
 }
 double assetAvgLCOE_eurpMWh=0;
 if (totalOwnProduction_MWh>0){
@@ -5874,7 +5880,7 @@ if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 			<Id>1728975694741</Id>
 			<Name><![CDATA[J_AssetCost]]></Name>
 			<Text><![CDATA[
-@lombok.Builder
+//@lombok.Builder
 @lombok.Data
 @lombok.experimental.Accessors(fluent = true)
 public class J_AssetCost implements Serializable {
@@ -5883,9 +5889,18 @@ public class J_AssetCost implements Serializable {
 	protected double OPEX_eurpa;
 	protected double LCOE_eurpkWh;
 	protected double SDE_tariff_eurpkWh;
-	protected double SDEincome_eur;
+	protected double SDEincome_eur = 0;
+	protected double productionEPEXvalue_eur = 0;
+	protected double totalProduction_MWh = 0;
 	
-	//public J_AssetCost(J_EA j_ea, double CAPEX_eurpa, )
+	public J_AssetCost(J_EA j_ea, double CAPEX_eurpa, double OPEX_eurpa, double LCOE_eurpkWh, double SDE_tariff_eurpkWh) {
+		this.energyAsset = j_ea;
+		this.CAPEX_eurpa = CAPEX_eurpa;
+		this.OPEX_eurpa = OPEX_eurpa;
+		this.LCOE_eurpkWh = LCOE_eurpkWh;
+		this.SDE_tariff_eurpkWh = SDE_tariff_eurpkWh;
+
+	}
 	
 	public void setSDEincome_eur(double SDEincome_eur) {
 		this.SDEincome_eur = SDEincome_eur;
@@ -5894,7 +5909,27 @@ public class J_AssetCost implements Serializable {
 	public double getSDEincome_eur() {
 		return this.SDEincome_eur;
 	}
+	
+	public void setProductionEPEXvalue_eur(double productionEPEXvalue_eur) {
+		this.productionEPEXvalue_eur = productionEPEXvalue_eur;
+	}
+	
+	public double getProductionEPEXvalue_eur() {
+		return this.productionEPEXvalue_eur;
+	}
+	
+	public void setTotalProduction_MWh(double totalProduction_MWh) {
+		this.totalProduction_MWh = totalProduction_MWh;
+	}
 
+	public double getTotalProduction_MWh() {
+		return this.totalProduction_MWh;
+	}
+	
+	public double getAvgProductionValue_eurpMWh() {
+		return this.productionEPEXvalue_eur / this.totalProduction_MWh;
+	}
+	
 	/**
 	 * This number is here for model snapshot storing purpose<br>
 	 * It needs to be changed when this class gets changed
