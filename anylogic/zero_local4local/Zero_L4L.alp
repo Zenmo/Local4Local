@@ -1508,7 +1508,6 @@ public void f_setStartView() {
 	f_setStartView_L4L();
 }
 
-
 @Override
 public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 	super.f_updateUIresultsEnergyCoop(AC, EC);
@@ -5227,7 +5226,7 @@ public void f_calculateKPIs(){
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[double totalOwnProduction_kWh = 0;
+					<Body><![CDATA[double totalOwnProduction_MWh = 0;
 double totalOwnProductionCost_eur = 0;
 var coopReport = new J_CoopReport();
 
@@ -5237,7 +5236,7 @@ double totalSDEincome_eur = 0;
 for (var ci : c_AssetCosts) {
 	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
 	totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
-	totalOwnProduction_kWh += -ci.energyAsset().getEnergyUsed_kWh();
+	totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
 	traceln("Energy produced of costitem: %s kWh", -ci.energyAsset().getEnergyUsed_kWh());
 	
 	// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
@@ -5254,14 +5253,15 @@ for (var ci : c_AssetCosts) {
 	totalSDEincome_eur += SDEincome_eur;
 	
 }
+double assetAvgLCOE_eurpMWh=0;
+if (totalOwnProduction_MWh>0){
+	assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_MWh;
+}
 
-double assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_kWh * 1000;
-if ( c_AssetCosts.size() == 0) {
+/*if ( c_AssetCosts.size() == 0) {
 	assetAvgLCOE_eurpMWh = 55;
 	traceln("Setting LCOE_eurpMWH to %s eurpMWh because there are no coop production assets!", assetAvgLCOE_eurpMWh);
-	//totalCost_eur = (v_totalElectricitySelfConsumed_MWh + v_electricityExported_kWh/1000) * assetAvgLCOE_eurpMWh;	
-	//totalProduction_kWh = v_totalElectricitySelfConsumed_MWh*1000 + v_electricityExported_kWh;
-}
+}*/
 // Initialize totals
 //double SDEincome_eur = 0; // SDE++ subsidie meerekenen? Dwz. invoersubsidie wanneer marktprijs lager is dan ...ct/kWh. 
 double EPEXcosts_eur = 0;
@@ -5291,7 +5291,7 @@ for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant 
 //totalSDEincome_eur = SDEincome_eur;
 
 traceln("Average LCOE of own assets: %s eur/MWh", assetAvgLCOE_eurpMWh);
-traceln("Average LCOE of own assets with SDE subsidies: %s eur/MWh", (totalOwnProductionCost_eur-totalSDEincome_eur)/ totalOwnProduction_kWh * 1000 );
+traceln("Average LCOE of own assets with SDE subsidies: %s eur/MWh", (totalOwnProductionCost_eur-totalSDEincome_eur)/ totalOwnProduction_MWh);
 
 
 double totalOwnElectricityProduced_MWh = acc_annualOwnElectricityProduction_kW.getSum()  * energyModel.p_timeStep_h / 1000;
@@ -5300,6 +5300,10 @@ traceln("Average FeedInEpexValue_eurpMWh: %s", FeedInEPEXvalue_eur/v_customerFee
 
 double totalDeliveredElec_MWh = v_totalElectricitySelfConsumed_MWh + v_electricityImported_kWh/1000; // v_totalElectricitySelfConsumed_MWh includes feed-in from customers that is re-delivered. However, it's only delivery, not feed-in! (Niet gesaldeerd)
 double customerFeedIn_MWh = v_electricityExported_kWh/1000 + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - v_electricityImported_kWh/1000; // This should include all the energy that is received from customers!
+if (abs(customerFeedIn_MWh - v_customerFeedIn_MWh) > 0.1) {
+	traceln("Feedin error: %s MWh", customerFeedIn_MWh - v_customerFeedIn_MWh);
+	throw new RuntimeException("Feedin calcs don't match!");
+}
 //double nettDeliveredElec_MWh = totalDeliveredElec_MWh - customerFeedIn_MWh; // 
 
 double kostprijs_eurpMWh;
@@ -5307,6 +5311,11 @@ if ( totalOwnElectricityProduced_MWh == 0 ) {
 	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
 } else {
 	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh - totalSDEincome_eur / totalOwnElectricityProduced_MWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
+}
+if (p_feedinCompensation_eurpMWh == 0.0) {
+	traceln("p_feedinCompensation_eurpMWh is zero, using asset-kostprijs  of %s eur/MWh as feedinCompensation", kostprijs_eurpMWh);
+	p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;
+	
 }
 
 double kostprijsPlus_eurpMWh = kostprijs_eurpMWh + p_bufferPrice_eurpMWh;
@@ -5316,14 +5325,13 @@ double kostprijsPlus_eurpMWh = kostprijs_eurpMWh + p_bufferPrice_eurpMWh;
 double selfConsumptionElectricity_MWh=v_selfConsumptionCoopAssets_MWh;
 double leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnElectricityProduced_MWh  + p_feedinCompensation_eurpMWh * customerFeedIn_MWh + EPEXcosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
 double leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh )/(totalDeliveredElec_MWh - selfConsumptionElectricity_MWh); // Zorg dat EDV break-even draait
-
 // Gemiddelde leveringsprijs
 double gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) ) / totalDeliveredElec_MWh;
 //double leveranciersprijs_eurpMWh = 
 double leveranciersInkomsten_eur = (kostprijs_eurpMWh + p_bufferPrice_eurpMWh) * selfConsumptionElectricity_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) * leveranciersprijs_eurpMWh;
 //totalDeliveredElec_MWh = nettDeliveredElec_MWh; // Assume that nettDelivered is what counts for finances, such that feed-in tarrif is accounted for!
 
-coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_kWh / 1000, totalOwnProductionCost_eur-totalSDEincome_eur));
+coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
 coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(selfConsumptionElectricity_MWh, kostprijs_eurpMWh+p_bufferPrice_eurpMWh));
 //coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
 coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+p_bufferPrice_eurpMWh));
@@ -5369,15 +5377,28 @@ v_coopReport = coopReport;
 // Include FeedIn in Coop production
 coopReport = new J_CoopReport();
 
+// Add feedin as 'own production'
+totalOwnProduction_MWh += v_customerFeedIn_MWh;
+totalOwnProductionCost_eur += v_customerFeedIn_MWh*p_feedinCompensation_eurpMWh;
+assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_MWh;
+if ( totalOwnElectricityProduced_MWh == 0.0 || totalSDEincome_eur == 0.0) {
+	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
+} else {
+	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh - totalSDEincome_eur / totalOwnProduction_MWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
+}
+kostprijsPlus_eurpMWh = kostprijs_eurpMWh + p_bufferPrice_eurpMWh;
+traceln("kostprijs+ met meetellen teruglevering als eigen opwek: %s eur/MWh", kostprijsPlus_eurpMWh);
+
 selfConsumptionElectricity_MWh=v_totalElectricitySelfConsumed_MWh;
-leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnElectricityProduced_MWh  + p_feedinCompensation_eurpMWh * customerFeedIn_MWh + EPEXcosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
+leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnProduction_MWh + EPEXcosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
+//leveranciersKosten_eur = totalOwnProductionCost_eur - totalSDEincome_eur + EPEXcosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
 leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh )/(totalDeliveredElec_MWh - selfConsumptionElectricity_MWh); // Zorg dat EDV break-even draait
 
 // Gemiddelde leveringsprijs
 gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) ) / totalDeliveredElec_MWh;
 leveranciersInkomsten_eur = (kostprijs_eurpMWh + p_bufferPrice_eurpMWh) * selfConsumptionElectricity_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) * leveranciersprijs_eurpMWh;
 
-coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_kWh / 1000 + customerFeedIn_MWh, totalOwnProductionCost_eur-totalSDEincome_eur + customerFeedIn_MWh*p_feedinCompensation_eurpMWh));
+coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
 coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(selfConsumptionElectricity_MWh, kostprijs_eurpMWh+p_bufferPrice_eurpMWh));
 //coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
 coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+p_bufferPrice_eurpMWh));
@@ -5385,7 +5406,14 @@ coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliver
 coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_electricityImported_kWh / 1000, EPEXcosts_eur));
 coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_electricityExported_kWh / 1000, EPEXincome_eur));
 coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
-v_coopReportIncludeFeedinInOwnConsumption = coopReport;]]></Body>
+v_coopReportIncludeFeedinInOwnConsumption = coopReport;
+
+if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
+	traceln("Coop not running break-even!!");
+	traceln("Coop total income: %s €", leveranciersKosten_eur);
+	traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
+	throw new RuntimeException("Coop finances not balanced!");
+}]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
