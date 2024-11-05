@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -909,12 +909,12 @@ for (var windFarmData: windFarms) {
 		SDEtariff_eurpKwh = LCOE_eurpkWh;
 	}
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
-	energyCoop.c_costItems.add(costItem);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_windpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
-	//this.interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", windFarmData.getSdeSubsidy_eurpkWh()));
+	this.interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
 	//this.interface_L4L.txt_windpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 }
 ]]></Body>
@@ -1143,12 +1143,12 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 		SDEtariff_eurpKwh = LCOE_eurpkWh;
 	}
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
-	energyCoop.c_costItems.add(costItem);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_solarpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
-	//this.interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", solarFarmData.getSdeSubsidy_eurpkWh()));
+	this.interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
 	//this.interface_L4L.txt_solarpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 	
 }]]></Body>
@@ -3923,6 +3923,10 @@ Opwek en Levering]]></Text>
 					<Id>1730119914285</Id>
 					<Name><![CDATA[cb_includeFeedinInCoopProduction]]></Name>
 					<X>-1280</X><Y>1320</Y>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<BasicProperties Width="440" Height="40">
                         <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
@@ -3942,8 +3946,6 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 						<LinkTo>false</LinkTo>
 	 				</ExtendedProperties>
 				</Control>
-
-					
 				<Group>
 					<Id>1730730050427</Id>
 					<Name><![CDATA[grp_solarpark_expnd]]></Name>
