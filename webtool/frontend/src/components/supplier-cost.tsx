@@ -16,7 +16,7 @@ export const SupplierCostDisplay: FunctionComponent<{
             </Flex>
             <DataList.Root>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Bufferprijs [€/kWh]</DataList.Label>
+                    <DataList.Label minWidth="88px">Leveranciersopslag [€/kWh]</DataList.Label>
                     <DataList.Value>{supplierCost.bufferPrice_eurpkWh.toString()}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
@@ -63,7 +63,7 @@ export const SupplierCostForm: FunctionComponent<{
             <SupplierCostHeading/>
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="bufferPrice_eurpkWh">Bufferprijs [€/kWh]</label>
+                    <label className="form-label" htmlFor="bufferPrice_eurpkWh">Leveranciersopslag [€/kWh]</label>
                     <input className="form-input"
                            type="number"
                            id="bufferPrice_eurpkWh"
