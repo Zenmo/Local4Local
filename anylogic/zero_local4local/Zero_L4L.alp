@@ -63,6 +63,11 @@ public void f_createGridConnections(){
 public void f_startUpLoader_default(){
 	super.f_startUpLoader_default();
 	f_startUpLoader_L4L();
+}
+
+@Override
+public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType asset_type, String asset_name, double installedPower_kW){
+	f_addEnergyProduction_L4L(parentGC, asset_type, asset_name, installedPower_kW);
 }]]></AdditionalClassCode>
 			<ExtendsReference>
 				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
@@ -86,12 +91,6 @@ public void f_startUpLoader_default(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -814,12 +813,17 @@ for(Tuple row : rows){
 					<Body><![CDATA[var client = new nu.local4local.client.Client(p_local4localBackendUrl);
 var pilot = client.getPilot(p_local4localSession);
 var energyCoop = f_createLocal4LocalEnergyCoop();
-energyCoop.p_bufferPrice_eurpMWh = pilot.getBufferPrice_eurpkWh() == null ? 20 : pilot.getBufferPrice_eurpkWh()*1000;
+energyCoop.p_bufferPrice_eurpMWh = pilot.getBufferPrice_eurpkWh()*1000;// == null ? 10 : pilot.getBufferPrice_eurpkWh()*1000;
+energyCoop.p_feedinCompensation_eurpMWh = 1000*pilot.getSupplierCost().getFeedInCompensation_eurpkWh();
+energyCoop.p_onbalansMarkup_r = pilot.getSupplierCost().getOnbalansMarkup_r();
+
 f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
-f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
+f_createLocal4LocalBiogasGenerator(pilot.getBiogasGenerators(), energyCoop);
+
 f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
+f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 
 ]]></Body>
 				</Function>
@@ -878,6 +882,13 @@ for (var windFarmData: windFarms) {
 	    windFarmData.getNominalPower_kW()
 	);
 	
+	/*	f_addEnergyProduction(
+		windFarm, 
+	    OL_EnergyAssetType.GAS_BURNER , 
+	    "Biogas Generator",
+	    windFarmData.getNominalPower_kW()
+	);*/
+		
 	//Owner
 	ConnectionOwner	COWF = energyModel.add_pop_connectionOwners();
 		COWF.p_actorID = windFarm.p_gridConnectionID + " coop";
@@ -892,11 +903,19 @@ for (var windFarmData: windFarms) {
 	
 	Double CAPEX_eurpa = windFarmData.getCost().getCAPEX_eur()/10;
 	Double OPEX_eurpa = windFarmData.getCost().getOPEX_eurpy();
-	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH(); 
+	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH();
+	Double SDEtariff_eurpKwh = windFarmData.getCost().getSdeSubsidy_eurpkWH();
+	if (SDEtariff_eurpKwh == 0){
+		SDEtariff_eurpKwh = LCOE_eurpkWh;
+	}
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
-	energyCoop.c_costItems.add(costItem);
-	this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	energyCoop.c_AssetCosts.add(costItem);
+	this.interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_windpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
+	this.interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+	//this.interface_L4L.txt_windpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 }
 ]]></Body>
 				</Function>
@@ -905,7 +924,7 @@ for (var windFarmData: windFarms) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658126</Id>
 					<Name><![CDATA[f_createLocal4LocalHouseholds]]></Name>
-					<X>-940</X><Y>550</Y>
+					<X>-940</X><Y>570</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -929,6 +948,7 @@ for (var windFarmData: windFarms) {
     var householdGroup = householdGroups.get(g);
 
 	for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
+	//for (int i = 1; i <= 1 ; i += 1) {
 		// Grid
 		GCHouse gridHouse = energyModel.add_Houses();
 			gridHouse.p_gridConnectionID = "house_" + g + "_" + i;
@@ -951,7 +971,13 @@ for (var windFarmData: windFarms) {
 	}
 	
 	this.interface_L4L.householdGroup = householdGroup;
-	this.interface_L4L.txt_assetPrefix_value3.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_expnd_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_expnd_hasPV_value.setText(String.format("%s"+" %%", householdGroup.getHasPV_r()*100));
+	this.interface_L4L.txt_households_expnd_hasHeatPump_value.setText(String.format("%s"+" %%", householdGroup.getHasHeatPump_r()*100));
+	this.interface_L4L.txt_households_expnd_hasChargePoint_value.setText(String.format("%s"+" %%", householdGroup.getHasChargePoint_r()*100));
+	this.interface_L4L.txt_housholds_expnd_annualBaseConsumption_value.setText(String.format("%s"+" MWh", householdGroup.getAnnualBaseConsumptionAvg_kWh()/1000));
+	
 }
 ]]></Body>
 				</Function>
@@ -960,7 +986,7 @@ for (var windFarmData: windFarms) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1727353658128</Id>
 					<Name><![CDATA[f_addLocal4LocalHouseAssets]]></Name>
-					<X>-920</X><Y>570</Y>
+					<X>-920</X><Y>590</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1111,11 +1137,20 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 
 	Double CAPEX_eurpa = solarFarmData.getCost().getCAPEX_eur()/10;
 	Double OPEX_eurpa = solarFarmData.getCost().getOPEX_eurpy();
-	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH(); 
+	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH();
+	Double SDEtariff_eurpKwh = solarFarmData.getCost().getSdeSubsidy_eurpkWH();
+	if (SDEtariff_eurpKwh == 0){
+		SDEtariff_eurpKwh = LCOE_eurpkWh;
+	}
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
-	energyCoop.c_costItems.add(costItem);
-	this.interface_L4L.txt_assetPrefix_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	energyCoop.c_AssetCosts.add(costItem);
+	this.interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_solarpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
+	this.interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+	//this.interface_L4L.txt_solarpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
+	
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1123,7 +1158,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1728378028745</Id>
 					<Name><![CDATA[f_createLocal4LocalBatteries]]></Name>
-					<X>-940</X><Y>530</Y>
+					<X>-940</X><Y>550</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -1174,7 +1209,6 @@ for (var batteryData: batteries) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1728981169338</Id>
 					<Name><![CDATA[f_addEnergyProduction_L4L]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>810</X><Y>230</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -1203,7 +1237,7 @@ double yearlyProductionMethane_kWh 	= 0;
 double yearlyProductionHydrogen_kWh = 0;
 double timestep_h 					= energyModel.p_timeStep_h;
 double outputTemperature_degC 		= 0;
-J_profilePointer profilePointer = null;
+J_ProfilePointer profilePointer = null;
 
 switch (asset_type){
 
@@ -1219,6 +1253,12 @@ case WINDMILL:
 	//asset_name = "Windmill onshore";'
 	profilePointer=energyModel.pp_windOnshoreProduction;
 	capacityElectric_kW = installedPower_kW;
+break;
+
+case GAS_BURNER: 
+	capacityElectric_kW = installedPower_kW;
+	profilePointer=energyModel.f_findProfile("FLAT_PROFILE");
+	traceln("Creating biogasGenerator asset!");
 break;
 
 case PHOTOTHERMAL: //NOT USED YET
@@ -1244,6 +1284,67 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[interface_L4L.uI_Results.v_area = interface_L4L.uI_Results.v_collective;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1730293622188</Id>
+					<Name><![CDATA[f_createLocal4LocalBiogasGenerator]]></Name>
+					<X>-940</X><Y>530</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[biogasGenerators]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.BiogasGenerator>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
+						<Type><![CDATA[EnergyCoopL4L]]></Type>
+					</Parameter>
+					<Body><![CDATA[
+for (var generatorData: biogasGenerators) {
+    
+    //Grid
+	GCEnergyProduction biogasGeneratorSite = energyModel.add_EnergyProductionSites();
+		biogasGeneratorSite.set_p_gridConnectionID( "biogasGenerator0" );
+		biogasGeneratorSite.set_p_physicalConnectionCapacity_kW( generatorData.getPower_kW());
+		biogasGeneratorSite.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
+	
+	//Asset
+	f_addEnergyProduction(
+		biogasGeneratorSite, 
+	    OL_EnergyAssetType.GAS_BURNER , 
+	    "Biogas Generator",
+	    generatorData.getPower_kW()
+	);
+	
+	//Owner
+	ConnectionOwner	COWF = energyModel.add_pop_connectionOwners();
+		COWF.p_actorID = biogasGeneratorSite.p_gridConnectionID + " coop";
+		COWF.p_actorType = OL_ActorType.CONNECTIONOWNER;
+		COWF.p_actorGroup = "production";
+		COWF.p_connectionOwnerType = OL_ConnectionOwnerType.COOP;
+	COWF.p_energyCoopID = energyCoop.p_actorID;
+	
+	biogasGeneratorSite.p_ownerID = COWF.p_actorID;
+	
+	//Cost item for kostprijs+
+	
+	Double CAPEX_eurpa = generatorData.getCost().getCAPEX_eur()/10;
+	Double OPEX_eurpa = generatorData.getCost().getOPEX_eurpy();
+	Double LCOE_eurpkWh = generatorData.getCost().getLCOE_eurpkWH(); 
+	Double SDEtariff_eurpKwh = generatorData.getCost().getSdeSubsidy_eurpkWH();
+	if (SDEtariff_eurpKwh == 0){
+		SDEtariff_eurpKwh = LCOE_eurpkWh;
+	}
+	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
+	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	energyCoop.c_AssetCosts.add(costItem);
+	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
+}
+]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -1416,7 +1517,6 @@ public void f_setStartView() {
 	f_setStartView_L4L();
 }
 
-
 @Override
 public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 	super.f_updateUIresultsEnergyCoop(AC, EC);
@@ -1453,21 +1553,6 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[map_scale]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -1570,6 +1655,21 @@ import java.io.PrintStream;]]></Import>
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[nu.local4local.common.HouseholdGroup]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1730121494176</Id>
+					<Name><![CDATA[b_includeFeedInInCoopProduction]]></Name>
+					<X>-880</X><Y>930</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[boolean]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[false]]></Code>
+						</InitialValue>
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
@@ -1816,13 +1916,14 @@ this.uI_Tabs.pop_tabElectricity
     //.setValue(this.householdGroup.getHasHeatPump_r() * 100, true);
     .setValue(100, true);*/
     
-this.uI_Tabs.pop_tabHeating
-    .get(0).f_setHeatingSystemsHouseholds(this.householdGroup.getHasHeatPump_r() * 100);
+//this.uI_Tabs.pop_tabHeating
+//    .get(0).f_setHeatingSystemsHouseholds(this.householdGroup.getHasHeatPump_r() * 100);
     
 this.uI_Tabs.pop_tabMobility
     .get(0)
     .getSliderElectricCars_pct()
     .setValue(this.householdGroup.getHasChargePoint_r() * 100, true);
+    //.setValue(100, true);
 
 if (householdGroup.getHasHomeBattery_r() > 0.0) {
     traceln(RED, "Home battery not supported yet");
@@ -1971,11 +2072,22 @@ if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[uI_Results.f_setChartBalance_Presentation(-3230, 990, true);
+					<Body><![CDATA[ui_Results_presentation_group.setX(-1800);
+ui_Results_presentation_group.setY(1300);
+
+//uI_Results.gr_radioButtons.setVisible(false);
 // uI_Results.v_selectedChartType = OL_ChartTypes.DIAGRAM;
-uI_Results.f_setSelectedChartType(1); //Diagram
-uI_Results.f_showCorrectChart();
-uI_Results.chartBalans.f_disableRadioButtons();
+//uI_Results.f_setSelectedChartType(1); //Diagram
+//uI_Results.f_showCorrectChart();
+
+uI_Results.f_setRadioButtons(null,null,false);
+uI_Results.f_setChartProfiles_Presentation(null,null,false);
+
+uI_Results.f_setChartGelijktijdigheid_Presentation(null,null,true);
+uI_Results.chartGelijktijdigheid.f_setCharts();
+//uI_Results.chartBalans.f_disableRadioButtons();
+
+
 this.viewAreaL4L.navigateTo();
 
 ]]></Body>
@@ -1993,7 +2105,11 @@ this.viewAreaL4L.navigateTo();
 					<Body><![CDATA[var energyCoop = this.energyModel.pop_energyCoops.get(0);
 var local4localCoop = (EnergyCoopL4L) energyCoop;
 
-return local4localCoop.v_coopReport;]]></Body>
+if ( b_includeFeedInInCoopProduction ) {
+	return local4localCoop.v_coopReportIncludeFeedinInOwnConsumption;
+} else {
+	return local4localCoop.v_coopReport;
+}]]></Body>
 				</Function>
 				<Function AccessType="public" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -2013,8 +2129,15 @@ return local4localCoop.v_coopReport;]]></Body>
 						<Name><![CDATA[EC]]></Name>
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
-					<Body><![CDATA[area.v_annualSelfConsumedElectricity_MWh = ((EnergyCoopL4L)EC).v_selfConsumptionCoopAssets_MWh;
-area.v_annualElectricityImport_MWh = EC.v_totalElectricitySelfConsumed_MWh + EC.v_electricityImported_kWh/1000 - area.v_annualSelfConsumedElectricity_MWh;
+					<Body><![CDATA[if (b_includeFeedInInCoopProduction) {
+	area.v_annualSelfConsumedElectricity_MWh = ((EnergyCoopL4L)EC).v_totalElectricitySelfConsumed_MWh;
+	area.v_annualElectricityImport_MWh = EC.v_electricityImported_kWh/1000;
+	area.v_annualElectricityExport_MWh = EC.v_electricityExported_kWh/1000;
+} else {
+	area.v_annualSelfConsumedElectricity_MWh = ((EnergyCoopL4L)EC).v_selfConsumptionCoopAssets_MWh;
+	area.v_annualElectricityImport_MWh = EC.v_electricityImported_kWh/1000 + EC.v_totalElectricitySelfConsumed_MWh  - area.v_annualSelfConsumedElectricity_MWh;
+	area.v_annualElectricityExport_MWh = EC.v_electricityExported_kWh/1000 + EC.v_totalElectricitySelfConsumed_MWh  - area.v_annualSelfConsumedElectricity_MWh;
+}
 //area.v_annualElectricityExport_MWh = EC.v_electricityExported_kWh/1000;
 //area.v_annualSelfConsumedElectricity_MWh = EC.v_totalElectricitySelfConsumed_MWh;
 
@@ -2995,13 +3118,14 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Group>
 				<Group>
 					<Id>1729672318520</Id>
-					<Name><![CDATA[asset]]></Name>
+					<Name><![CDATA[grp_solarpark]]></Name>
 					<X>-660</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_solarpark_expnd.setVisible(true);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3009,7 +3133,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672102524</Id>
-					<Name><![CDATA[rrect_asset]]></Name>
+					<Name><![CDATA[rrect_solarpark]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3032,7 +3156,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672116692</Id>
-					<Name><![CDATA[img_asset]]></Name>
+					<Name><![CDATA[img_solarpark]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3054,7 +3178,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672163807</Id>
-					<Name><![CDATA[txt_assetName]]></Name>
+					<Name><![CDATA[txt_solarpark_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3075,7 +3199,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672191145</Id>
-					<Name><![CDATA[txt_assetPrefix]]></Name>
+					<Name><![CDATA[txt_solarpark_power]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3096,7 +3220,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672237346</Id>
-					<Name><![CDATA[txt_assetPrefix_value]]></Name>
+					<Name><![CDATA[txt_solarpark_power_value]]></Name>
 					<X>50</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3120,13 +3244,14 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Group>
 				<Group>
 					<Id>1729672325154</Id>
-					<Name><![CDATA[asset1]]></Name>
+					<Name><![CDATA[grp_windpark]]></Name>
 					<X>-260</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_windpark_expnd.setVisible(true);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3134,7 +3259,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672325156</Id>
-					<Name><![CDATA[rrect_asset1]]></Name>
+					<Name><![CDATA[rrect_windpark]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3157,7 +3282,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672325158</Id>
-					<Name><![CDATA[img_asset1]]></Name>
+					<Name><![CDATA[img_windpark]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3179,7 +3304,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672325160</Id>
-					<Name><![CDATA[txt_assetName1]]></Name>
+					<Name><![CDATA[txt_windpark_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3200,7 +3325,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672325162</Id>
-					<Name><![CDATA[txt_assetPrefix1]]></Name>
+					<Name><![CDATA[txt_windpark_power]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3221,7 +3346,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672325164</Id>
-					<Name><![CDATA[txt_assetPrefix_value1]]></Name>
+					<Name><![CDATA[txt_windpark_power_value]]></Name>
 					<X>50</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3245,14 +3370,14 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Group>
 				<Group>
 					<Id>1729672367443</Id>
-					<Name><![CDATA[asset2]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-260</X><Y>1380</Y>
+					<Name><![CDATA[grp_windpark_expnd]]></Name>
+					<X>-260</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag>false</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_windpark_expnd.setVisible(false);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3260,7 +3385,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672367445</Id>
-					<Name><![CDATA[rrect_asset2]]></Name>
+					<Name><![CDATA[rrect_windpark_expnd]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3275,7 +3400,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
 					<Width>380</Width>
-					<Height>100</Height>
+					<Height>200</Height>
 					<Rotation>0.0</Rotation>
 					<FillColor>-2031617</FillColor>
 					<FillMaterial>null</FillMaterial>
@@ -3283,7 +3408,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672367447</Id>
-					<Name><![CDATA[img_asset2]]></Name>
+					<Name><![CDATA[img_windpark_expnd]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3305,7 +3430,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672367449</Id>
-					<Name><![CDATA[txt_assetName2]]></Name>
+					<Name><![CDATA[txt_windpark_expnd_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3316,7 +3441,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Windpark 2]]></Text>
+					<Text><![CDATA[Windpark]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>36</Size>
@@ -3326,7 +3451,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672367451</Id>
-					<Name><![CDATA[txt_assetPrefix2]]></Name>
+					<Name><![CDATA[txt_windpark_expnd_power]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3346,8 +3471,50 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
+					<Id>1730728362930</Id>
+					<Name><![CDATA[txt_windpark_expnd_LCOE]]></Name>
+					<X>-180</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Kosten per kWh (LCOE):]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730728411875</Id>
+					<Name><![CDATA[txt_windpark_expnd_LCOE_value]]></Name>
+					<X>30</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
 					<Id>1729672367453</Id>
-					<Name><![CDATA[txt_assetPrefix_value2]]></Name>
+					<Name><![CDATA[txt_windpark_expnd_power_value]]></Name>
 					<X>50</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3366,18 +3533,103 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+				<Text>
+					<Id>1730729764811</Id>
+					<Name><![CDATA[txt_windpark_expnd_SDESubsidy]]></Name>
+					<X>-180</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[SDE Subsidietarief:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730729782713</Id>
+					<Name><![CDATA[txt_windpark_expnd_totalProduction]]></Name>
+					<X>-180</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Opwek per jaar:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730729807577</Id>
+					<Name><![CDATA[txt_windpark_expnd_totalProduction_value]]></Name>
+					<X>-50</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MWh/jaar]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730729828768</Id>
+					<Name><![CDATA[txt_windpark_expnd_SDESubsidy_value]]></Name>
+					<X>-20</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
 			</Presentation>
 
 				</Group>
 				<Group>
 					<Id>1729672425523</Id>
-					<Name><![CDATA[asset3]]></Name>
-					<X>-1080</X><Y>1260</Y>
+					<Name><![CDATA[grp_households]]></Name>
+					<X>-1060</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_households_expnd.setVisible(true);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3385,7 +3637,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672425525</Id>
-					<Name><![CDATA[rrect_asset3]]></Name>
+					<Name><![CDATA[rrect_households]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3408,7 +3660,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672425527</Id>
-					<Name><![CDATA[img_asset3]]></Name>
+					<Name><![CDATA[img_households]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3430,7 +3682,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672425529</Id>
-					<Name><![CDATA[txt_assetName3]]></Name>
+					<Name><![CDATA[txt_households_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3451,7 +3703,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672425531</Id>
-					<Name><![CDATA[txt_assetPrefix3]]></Name>
+					<Name><![CDATA[txt_households]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3472,8 +3724,8 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672425533</Id>
-					<Name><![CDATA[txt_assetPrefix_value3]]></Name>
-					<X>30</X><Y>10</Y>
+					<Name><![CDATA[txt_households_value]]></Name>
+					<X>10</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3519,7 +3771,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729673052333</Id>
 					<Name><![CDATA[txt_title]]></Name>
-					<X>-1580</X><Y>1040</Y>
+					<X>-1400</X><Y>1060</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3529,10 +3781,10 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Dashboard [blank] coöperatie]]></Text>
+					<Text><![CDATA[Coöperatiedashboard]]></Text>
 					<Font>
 						<Name>Calibri</Name>
-						<Size>72</Size>
+						<Size>90</Size>
 						<Style>1</Style>
 					</Font>
 					<Alignment>LEFT</Alignment>
@@ -3540,7 +3792,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729673517119</Id>
 					<Name><![CDATA[txt_graph]]></Name>
-					<X>-1740</X><Y>1160</Y>
+					<X>-1760</X><Y>1180</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3550,7 +3802,8 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Gelijktijdigheid]]></Text>
+					<Text><![CDATA[Gelijktijdigheid
+Opwek en Levering]]></Text>
 					<Font>
 						<Name>Calibri</Name>
 						<Size>48</Size>
@@ -3571,7 +3824,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Kosten overzicht]]></Text>
+					<Text><![CDATA[Kostenoverzicht]]></Text>
 					<Font>
 						<Name>Calibri</Name>
 						<Size>48</Size>
@@ -3624,7 +3877,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729690775737</Id>
 					<Name><![CDATA[txt_kostprijs_plus1]]></Name>
-					<X>-1070</X><Y>1800</Y>
+					<X>-1070</X><Y>1792</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3646,7 +3899,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729690783826</Id>
 					<Name><![CDATA[txt_gemiddeld_tarief1]]></Name>
-					<X>-420</X><Y>1860</Y>
+					<X>-420</X><Y>1850</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3665,6 +3918,580 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+				<Control Type="CheckBox">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1730119914285</Id>
+					<Name><![CDATA[cb_includeFeedinInCoopProduction]]></Name>
+					<X>-1280</X><Y>1320</Y>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="440" Height="40">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor/>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[b_includeFeedInInCoopProduction = cb_includeFeedinInCoopProduction.isSelected(); 
+f_getCoopReport(); 
+f_updateUIresultsEnergyCoop_L4L(uI_Results.v_collective, this.energyModel.pop_energyCoops.get(0)); 
+//uI_Results.f_setSelectedChartType(1); //Diagram
+//uI_Results.f_showCorrectChart();
+
+uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="14" Style="1"/>
+						<LabelText><![CDATA[Teruglevering klanten als cooperatie-opwek beschouwen]]></LabelText>
+						<DefaultValueCode><![CDATA[false]]></DefaultValueCode>
+						<LinkTo>false</LinkTo>
+	 				</ExtendedProperties>
+				</Control>
+				<Group>
+					<Id>1730730050427</Id>
+					<Name><![CDATA[grp_solarpark_expnd]]></Name>
+					<X>-660</X><Y>1260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_solarpark_expnd.setVisible(false);]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<RoundedRectangle>
+					<Id>1730730050429</Id>
+					<Name><![CDATA[rrect__solarpark_expnd]]></Name>
+					<X>-190</X><Y>-50</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>380</Width>
+					<Height>200</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1331</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Image>
+					<Id>1730730050431</Id>
+					<Name><![CDATA[img__solarpark_expnd]]></Name>
+					<X>-180</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>80</Width>
+					<Height>80</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[noun-solarfarm.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Text>
+					<Id>1730730050433</Id>
+					<Name><![CDATA[txt_solarpark_expnd_title]]></Name>
+					<X>-80</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Zonnepark]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730050435</Id>
+					<Name><![CDATA[txt_solarpark_expnd_power]]></Name>
+					<X>-80</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Vermogen:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730050437</Id>
+					<Name><![CDATA[txt_solarpark_expnd_power_value]]></Name>
+					<X>50</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MW]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091293</Id>
+					<Name><![CDATA[txt_solarpark_expnd_LCOE]]></Name>
+					<X>-170</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Kosten per kWh (LCOE):]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091295</Id>
+					<Name><![CDATA[txt_solarpark_expnd_LCOE_value]]></Name>
+					<X>40</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091297</Id>
+					<Name><![CDATA[txt_solarpark_expnd_SDESubsidy]]></Name>
+					<X>-170</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[SDE Subsidietarief:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091299</Id>
+					<Name><![CDATA[txt_solarpark_expnd_totalProduction]]></Name>
+					<X>-170</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Opwek per jaar:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091301</Id>
+					<Name><![CDATA[txt_solarpark_expnd_totalProduction_value]]></Name>
+					<X>-40</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MWh/jaar]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091303</Id>
+					<Name><![CDATA[txt_solarpark_expnd_SDESubsidy_value]]></Name>
+					<X>-10</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+			</Presentation>
+
+				</Group>
+				<Group>
+					<Id>1730730115139</Id>
+					<Name><![CDATA[grp_households_expnd]]></Name>
+					<X>-1060</X><Y>1260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_households_expnd.setVisible(false);]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<RoundedRectangle>
+					<Id>1730730115141</Id>
+					<Name><![CDATA[rrect_households_expnd]]></Name>
+					<X>-190</X><Y>-50</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>380</Width>
+					<Height>220</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Image>
+					<Id>1730730115143</Id>
+					<Name><![CDATA[img_households_expnd]]></Name>
+					<X>-180</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>80</Width>
+					<Height>80</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[noun-house.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Text>
+					<Id>1730730115145</Id>
+					<Name><![CDATA[txt_households_expnd_title]]></Name>
+					<X>-80</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Huishoudens]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730115147</Id>
+					<Name><![CDATA[txt_households_expnd]]></Name>
+					<X>-80</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Aantal:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730115149</Id>
+					<Name><![CDATA[txt_households_expnd_value]]></Name>
+					<X>10</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730196671</Id>
+					<Name><![CDATA[txt_households_expnd_hasPV]]></Name>
+					<X>-180</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[% met zonnepanelen:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730219101</Id>
+					<Name><![CDATA[txt_households_expnd_hasHeatPump]]></Name>
+					<X>-180</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[% met warmtepomp:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730237382</Id>
+					<Name><![CDATA[txt_households_expnd_hasChargePoint]]></Name>
+					<X>-180</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[% met laadpaal:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730248533</Id>
+					<Name><![CDATA[txt_housholds_expnd_annualBaseConsumption]]></Name>
+					<X>-180</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Jaarlijks huishoudelijk verbruik:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730280723</Id>
+					<Name><![CDATA[txt_households_expnd_hasPV_value]]></Name>
+					<X>0</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ %]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730294289</Id>
+					<Name><![CDATA[txt_households_expnd_hasHeatPump_value]]></Name>
+					<X>-10</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ %]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730303189</Id>
+					<Name><![CDATA[txt_households_expnd_hasChargePoint_value]]></Name>
+					<X>-40</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ %]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730315596</Id>
+					<Name><![CDATA[txt_housholds_expnd_annualBaseConsumption_value]]></Name>
+					<X>80</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+			</Presentation>
+
+				</Group>
 			</Presentation>
 
 				</Level>
@@ -4765,7 +5592,7 @@ build();]]></Body>
 			<AdditionalClassCode><![CDATA[@Override
 public void f_calculateKPIs(){
 	super.f_calculateKPIs();
-	this.v_coopReport = f_getFinancesL4L();
+	f_getFinancesL4L();
 }]]></AdditionalClassCode>
 			<ExtendsReference>
 				<PackageName><![CDATA[zero_engine]]></PackageName>
@@ -4914,7 +5741,7 @@ public void f_calculateKPIs(){
 				<Variable Class="PlainVariable">
 					<Id>1729601818209</Id>
 					<Name><![CDATA[v_coopReport]]></Name>
-					<X>660</X><Y>890</Y>
+					<X>660</X><Y>920</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4929,7 +5756,34 @@ public void f_calculateKPIs(){
 				<Variable Class="PlainVariable">
 					<Id>1729691963838</Id>
 					<Name><![CDATA[v_selfConsumptionCoopAssets_MWh]]></Name>
-					<X>40</X><Y>890</Y>
+					<X>40</X><Y>910</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1730121166984</Id>
+					<Name><![CDATA[v_coopReportIncludeFeedinInOwnConsumption]]></Name>
+					<X>660</X><Y>940</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[J_CoopReport]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new J_CoopReport()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1730132441987</Id>
+					<Name><![CDATA[v_customerFeedIn_MWh]]></Name>
+					<X>40</X><Y>930</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4962,9 +5816,57 @@ public void f_calculateKPIs(){
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1730297167530</Id>
+					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
+					<X>660</X><Y>870</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[50]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1730297167528</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
+				<Variable Class="Parameter">
+					<Id>1730304641116</Id>
+					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
+					<X>660</X><Y>890</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[double]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[0.1]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1730304641114</Id>
+							<EditorContolType>TEXT_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1729007310573</Id>
-					<Name><![CDATA[c_costItems]]></Name>
+					<Name><![CDATA[c_AssetCosts]]></Name>
 					<X>664</X><Y>825</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -4980,7 +5882,7 @@ public void f_calculateKPIs(){
 			</Variables>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[J_CoopReport]]></ReturnType>
 					<Id>1729007245414</Id>
 					<Name><![CDATA[f_getFinancesL4L]]></Name>
@@ -4993,113 +5895,197 @@ public void f_calculateKPIs(){
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[double totalProduction_kWh = 0;
-double totalCost_eur = 0;
+					<Body><![CDATA[double totalOwnProduction_MWh = 0;
+double totalOwnProductionCost_eur = 0;
 var coopReport = new J_CoopReport();
 
-for (var ci : c_costItems) {
-	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
-	totalCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
-	totalProduction_kWh += -ci.energyAsset().getEnergyUsed_kWh();
-	traceln("Energy produced or costitem: %s kWh", -ci.energyAsset().getEnergyUsed_kWh());
-}
-double assetAvgLCOE_eurpMWh = totalCost_eur / totalProduction_kWh * 1000;
+int arrayLength = acc_annualElectricityBalance_kW.getTimeSeries().length;
+double totalSDEincome_eur = 0;
 
-double bufferCost_eurpMWh = 20; // 2ct/kWh additional costs, retail, financing, etc.
+for (var ci : c_AssetCosts) {
+	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
+	totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
+	totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
+	traceln("Energy produced of costitem: %s kWh", -ci.energyAsset().getEnergyUsed_kWh());
+	
+	// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
+	
+	double SDE_tariff_eurpMWh = 1000*ci.SDE_tariff_eurpkWh();
+	double SDEincome_eur = 0;
+	double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).acc_annualElectricityBalance_kW.getTimeSeries();
+	double productionEPEXvalue_eur = 0;
+	
+	for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
+		// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
+		productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+		SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
+	}
+	//traceln("SDE income: %s eur", SDEincome_eur);
+	ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
+	ci.setTotalProduction_MWh( -ci.energyAsset().getEnergyUsed_kWh() / 1000 );
+	ci.setSDEincome_eur(SDEincome_eur);
+	traceln("Asset production average EPEX value: %s eurpMWh", ci.getAvgProductionValue_eurpMWh());
+	traceln("SDEincome_eur: %s", ci.getSDEincome_eur());
+	totalSDEincome_eur += SDEincome_eur;	
+}
+double assetAvgLCOE_eurpMWh=0;
+if (totalOwnProduction_MWh>0){
+	assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_MWh;
+}
 
 // Initialize totals
-double SDEincome_eur = 0; // SDE++ subsidie meerekenen? Dwz. invoersubsidie wanneer marktprijs lager is dan ...ct/kWh. 
+//double SDEincome_eur = 0; // SDE++ subsidie meerekenen? Dwz. invoersubsidie wanneer marktprijs lager is dan ...ct/kWh. 
 double EPEXcosts_eur = 0;
 double EPEXincome_eur = 0;
-//double selfConsumptionCoopAssets_MWh = 0; // The part of the 'owned' production that is delivered to customers (as opposed to sold on market)
+double FeedInEPEXvalue_eur = 0;
 
-int arrayLength = acc_annualElectricityBalance_kW.getTimeSeries().length;
+//double selfConsumptionCoopAssets_MWh = 0; // The part of the 'owned' production that is delivered to customers (as opposed to sold on market)
+v_selfConsumptionCoopAssets_MWh = 0;
+
 for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant arrays.
 	// Loop through coop nett power to calculate yearly money to EPEX
 	EPEXcosts_eur += max(0,acc_annualElectricityBalance_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	EPEXincome_eur += max(0,-acc_annualElectricityBalance_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	
-	// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
-	SDEincome_eur += acc_annualOwnElectricityProduction_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * max(0,assetAvgLCOE_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
+	// Onbalanskosten: reken p_onbalansMarkup_r kosten op alle EPEX transacties:
+	//onbalansCosts_eur += p_onbalansMarkup_r * abs(acc_annualElectricityBalance_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	
+	//totalSDEincome_eur += acc_annualOwnElectricityProduction_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * max(0,assetAvgLCOE_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
+	// Need feedIn accumulator to calculate customer Feedin costs based on hourly EPEX price.
+	FeedInEPEXvalue_eur += acc_annualCustomerFeedIn_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+
 	// Opwek van eigen productie assets die geleverd wordt aan klanten:
 	v_selfConsumptionCoopAssets_MWh += max(0,acc_annualOwnElectricityProduction_kW.getTimeSeries()[i] - max(0,-acc_annualElectricityBalance_kW.getTimeSeries()[i]))*energyModel.p_timeStep_h/1000;
 }
+double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
 
-
-traceln("Average LCOE of own assets: %s", assetAvgLCOE_eurpMWh);
-traceln("Average LCOE of own assets with SDE subsidies: %s", (totalCost_eur-SDEincome_eur)/ totalProduction_kWh * 1000 );
-coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalProduction_kWh / 1000, totalCost_eur-SDEincome_eur));
-
+traceln("Average LCOE of own assets: %s eur/MWh", assetAvgLCOE_eurpMWh);
+traceln("Average LCOE of own assets with SDE subsidies: %s eur/MWh", (totalOwnProductionCost_eur-totalSDEincome_eur)/ totalOwnProduction_MWh);
 
 
 double totalOwnElectricityProduced_MWh = acc_annualOwnElectricityProduction_kW.getSum()  * energyModel.p_timeStep_h / 1000;
+v_customerFeedIn_MWh = acc_annualCustomerFeedIn_kW.getIntegral() / 1000;
+traceln("Average FeedInEpexValue_eurpMWh: %s", FeedInEPEXvalue_eur/v_customerFeedIn_MWh);
 
 double totalDeliveredElec_MWh = v_totalElectricitySelfConsumed_MWh + v_electricityImported_kWh/1000; // v_totalElectricitySelfConsumed_MWh includes feed-in from customers that is re-delivered. However, it's only delivery, not feed-in! (Niet gesaldeerd)
 double customerFeedIn_MWh = v_electricityExported_kWh/1000 + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - v_electricityImported_kWh/1000; // This should include all the energy that is received from customers!
-double nettDeliveredElec_MWh = totalDeliveredElec_MWh - customerFeedIn_MWh; // 
+if (abs(customerFeedIn_MWh - v_customerFeedIn_MWh) > 0.1) {
+	traceln("Feedin error: %s MWh", customerFeedIn_MWh - v_customerFeedIn_MWh);
+	throw new RuntimeException("Feedin calcs don't match!");
+}
+//double nettDeliveredElec_MWh = totalDeliveredElec_MWh - customerFeedIn_MWh; // 
 
-double kostprijs_eurpMWh = assetAvgLCOE_eurpMWh - SDEincome_eur / totalOwnElectricityProduced_MWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
-double kostprijsPlus_eurpMWh = kostprijs_eurpMWh + bufferCost_eurpMWh;
+double kostprijs_eurpMWh;
+if ( totalOwnElectricityProduced_MWh == 0 ) {
+	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
+} else {
+	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh - totalSDEincome_eur / totalOwnElectricityProduced_MWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
+}
+if (p_feedinCompensation_eurpMWh == 0.0) {
+	traceln("p_feedinCompensation_eurpMWh is zero, using asset-kostprijs  of %s eur/MWh as feedinCompensation", kostprijs_eurpMWh);
+	p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;
+	
+}
+
+double kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
 //double EPEXbalance_eur = EPEXincome_eur - EPEXcosts_eur; // positive balance means nett-income!
 
 // Leveranciersprijs
-//double EDVcosts_eur = (kostprijs_eurpMWh + bufferCost_eurpMWh) * (totalOwnElectricityProduced_MWh + customerFeedIn_MWh ) + EPEXcosts_eur ; 
-double EDVcosts_eur = kostprijs_eurpMWh * ( totalOwnElectricityProduced_MWh + customerFeedIn_MWh ) + EPEXcosts_eur + totalDeliveredElec_MWh * bufferCost_eurpMWh; 
-double leveranciersprijs_eurpMWh = (EDVcosts_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * v_selfConsumptionCoopAssets_MWh )/(totalDeliveredElec_MWh - v_selfConsumptionCoopAssets_MWh); // Zorg dat EDV break-even draait
+double selfConsumptionElectricity_MWh=v_selfConsumptionCoopAssets_MWh;
 
+double leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnElectricityProduced_MWh  + p_feedinCompensation_eurpMWh * customerFeedIn_MWh + EPEXcosts_eur + onbalansCosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
+double leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh )/(totalDeliveredElec_MWh - selfConsumptionElectricity_MWh); // Zorg dat EDV break-even draait
 // Gemiddelde leveringsprijs
-double gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * v_selfConsumptionCoopAssets_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - v_selfConsumptionCoopAssets_MWh) ) / totalDeliveredElec_MWh;
+double gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) ) / totalDeliveredElec_MWh;
 //double leveranciersprijs_eurpMWh = 
-double EDVincome_eur = (kostprijs_eurpMWh + bufferCost_eurpMWh) * v_selfConsumptionCoopAssets_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - v_selfConsumptionCoopAssets_MWh) * leveranciersprijs_eurpMWh;
+double leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) * leveranciersprijs_eurpMWh;
 //totalDeliveredElec_MWh = nettDeliveredElec_MWh; // Assume that nettDelivered is what counts for finances, such that feed-in tarrif is accounted for!
+
+coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
+coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(selfConsumptionElectricity_MWh, kostprijsPlus_eurpMWh));
+//coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
+coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
+coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-selfConsumptionElectricity_MWh, leveranciersprijs_eurpMWh));
+coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_electricityImported_kWh / 1000, EPEXcosts_eur));
+coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_electricityExported_kWh / 1000, EPEXincome_eur));
+coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
+coopReport.onbalans(J_AccountingLine.fromTotalPrice(v_electricityImported_kWh+v_electricityExported_kWh, onbalansCosts_eur));
 
 traceln("Totale opwek Coöperatie Assets: %s MWh, tarief: %s €/MWh, waarde: %s €", totalOwnElectricityProduced_MWh, kostprijs_eurpMWh, totalOwnElectricityProduced_MWh*kostprijs_eurpMWh); // Also need production from own assets only!
 traceln("Gelijktijdige opwek en verbruik (incl zelfverbruik teruglevering van leden): %s MWh", v_totalElectricitySelfConsumed_MWh);
-traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", v_selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh, v_selfConsumptionCoopAssets_MWh * (kostprijs_eurpMWh+bufferCost_eurpMWh));
-coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(v_selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
-coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
-traceln("Ongelijktijdige levering: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_selfConsumptionCoopAssets_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh));
-coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-v_selfConsumptionCoopAssets_MWh, leveranciersprijs_eurpMWh));
+traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh, v_selfConsumptionCoopAssets_MWh * kostprijsPlus_eurpMWh);
+traceln("Ongelijktijdige levering, incl zelfverbruik teruglevering van leden: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_selfConsumptionCoopAssets_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_selfConsumptionCoopAssets_MWh));
+traceln("Ongelijktijdige levering, excl zelfverbruik teruglevering van leden: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh));
+
 traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityImported_kWh/1000, EPEXcosts_eur/(v_electricityImported_kWh/1000), EPEXcosts_eur);
-coopReport.importation(J_AccountingLine.fromTotalPrice(v_electricityImported_kWh / 1000, EPEXcosts_eur));
 traceln("Totale verkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_electricityExported_kWh/1000, EPEXincome_eur/(v_electricityExported_kWh/1000), EPEXincome_eur);
 
 traceln("Totale levering aan klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", roundToDecimal(totalDeliveredElec_MWh,2), gemiddeldeLeveringsprijs_eurpMWh, gemiddeldeLeveringsprijs_eurpMWh*totalDeliveredElec_MWh);
-coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
 
-traceln("Totale teruglevering van klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", customerFeedIn_MWh, kostprijs_eurpMWh, customerFeedIn_MWh*kostprijs_eurpMWh);
+traceln("Totale teruglevering van klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", customerFeedIn_MWh, p_feedinCompensation_eurpMWh, customerFeedIn_MWh*p_feedinCompensation_eurpMWh);
 
 traceln("Coop gelijktijdigheid: fractie van eigen opwek geleverd aan leden: %s", v_selfConsumptionCoopAssets_MWh/totalOwnElectricityProduced_MWh);
 //traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-energyModel.v_totalElectricityExport_MWh/totalOwnElectricityProduced_MWh); // Kan negatief worden!
 traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-v_electricityExported_kWh/1000/totalOwnElectricityProduced_MWh); // Kan negatief worden!
 
-traceln("Kostprijs+ met SDE verrekend: %s €/MWh", roundToInt(kostprijs_eurpMWh + bufferCost_eurpMWh));
+traceln("Kostprijs+ met SDE verrekend: %s €/MWh", roundToInt(kostprijsPlus_eurpMWh));
 traceln("Gemiddelde leveringsprijs: %s €/MWh", roundToInt( gemiddeldeLeveringsprijs_eurpMWh ));
 traceln("Leveranciersprijs ongelijktijdige stroom: %s €/MWh", roundToInt(leveranciersprijs_eurpMWh) );
 
-traceln("SDE++ income: %s €", SDEincome_eur);
-traceln("EDV total income: %s €", roundToInt(EDVcosts_eur));
-traceln("EDV total costs: %s €", roundToInt(EDVincome_eur));
+traceln("SDE++ income: %s €", totalSDEincome_eur);
+traceln("Total onbalans costs: %s €", onbalansCosts_eur);
+traceln("EDV total income: %s €", roundToInt(leveranciersKosten_eur));
+traceln("EDV total costs: %s €", roundToInt(leveranciersInkomsten_eur));
 
-
-/// Outputs voor UI:
-
-// Totale eigen productie van coop (excl zonnepanelen huishoudens)
-traceln("Totale opwek Coöperatie Assets: %s MWh, tarief: %s €/MWh, waarde: %s €", totalOwnElectricityProduced_MWh, kostprijs_eurpMWh, totalOwnElectricityProduced_MWh*kostprijs_eurpMWh); // Also need production from own assets only!
-// Gelijktijdige levering aan klanten van eigen productie
-traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", v_selfConsumptionCoopAssets_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh, v_selfConsumptionCoopAssets_MWh * (kostprijs_eurpMWh+bufferCost_eurpMWh));
-// Ongelijktijdige levering aan klanten van op EPEX ingekochte stroom
-traceln("Ongelijktijdige levering: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh));
-
-
-if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
+if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 	traceln("Coop not running break-even!!");
-	traceln("Coop total income: %s €", EDVcosts_eur);
-	traceln("Coop total costs: %s €", EDVincome_eur);
+	//traceln("Coop total income: %s €", leveranciersKosten_eur);
+	//traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
 }
 
-return coopReport;]]></Body>
+v_coopReport = coopReport;
+
+// Include FeedIn in Coop production
+coopReport = new J_CoopReport();
+
+// Add feedin as 'own production'
+totalOwnProduction_MWh += v_customerFeedIn_MWh;
+totalOwnProductionCost_eur += v_customerFeedIn_MWh*p_feedinCompensation_eurpMWh;
+assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_MWh;
+if ( totalOwnElectricityProduced_MWh == 0.0 || totalSDEincome_eur == 0.0) {
+	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
+} else {
+	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh - totalSDEincome_eur / totalOwnProduction_MWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
+}
+kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
+traceln("kostprijs+ met meetellen teruglevering als eigen opwek: %s eur/MWh", kostprijsPlus_eurpMWh);
+
+selfConsumptionElectricity_MWh=v_totalElectricitySelfConsumed_MWh;
+leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnProduction_MWh + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh + EPEXcosts_eur + onbalansCosts_eur; 
+//leveranciersKosten_eur = totalOwnProductionCost_eur - totalSDEincome_eur + EPEXcosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
+leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh )/(totalDeliveredElec_MWh - selfConsumptionElectricity_MWh); // Zorg dat EDV break-even draait
+
+// Gemiddelde leveringsprijs
+gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) ) / totalDeliveredElec_MWh;
+leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) * leveranciersprijs_eurpMWh;
+
+coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
+coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(selfConsumptionElectricity_MWh, kostprijsPlus_eurpMWh));
+//coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
+coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
+coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-selfConsumptionElectricity_MWh, leveranciersprijs_eurpMWh));
+coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_electricityImported_kWh / 1000, EPEXcosts_eur));
+coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_electricityExported_kWh / 1000, EPEXincome_eur));
+coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
+coopReport.onbalans(J_AccountingLine.fromTotalPrice(v_electricityImported_kWh+v_electricityExported_kWh, onbalansCosts_eur));
+v_coopReportIncludeFeedinInOwnConsumption = coopReport;
+
+if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
+	traceln("Coop not running break-even!!");
+	traceln("Coop total income: %s €", leveranciersKosten_eur);
+	traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
+	throw new RuntimeException("Coop finances not balanced!");
+}]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -5593,15 +6579,56 @@ return coopReport;]]></Body>
 			<Id>1728975694741</Id>
 			<Name><![CDATA[J_AssetCost]]></Name>
 			<Text><![CDATA[
-@lombok.Builder
-@lombok.Value
+//@lombok.Builder
+@lombok.Data
 @lombok.experimental.Accessors(fluent = true)
 public class J_AssetCost implements Serializable {
 	protected J_EA energyAsset;
 	protected double CAPEX_eurpa;
 	protected double OPEX_eurpa;
 	protected double LCOE_eurpkWh;
+	protected double SDE_tariff_eurpkWh;
+	protected double SDEincome_eur = 0;
+	protected double productionEPEXvalue_eur = 0;
+	protected double totalProduction_MWh = 0;
+	
+	public J_AssetCost(J_EA j_ea, double CAPEX_eurpa, double OPEX_eurpa, double LCOE_eurpkWh, double SDE_tariff_eurpkWh) {
+		this.energyAsset = j_ea;
+		this.CAPEX_eurpa = CAPEX_eurpa;
+		this.OPEX_eurpa = OPEX_eurpa;
+		this.LCOE_eurpkWh = LCOE_eurpkWh;
+		this.SDE_tariff_eurpkWh = SDE_tariff_eurpkWh;
 
+	}
+	
+	public void setSDEincome_eur(double SDEincome_eur) {
+		this.SDEincome_eur = SDEincome_eur;
+	}
+	
+	public double getSDEincome_eur() {
+		return this.SDEincome_eur;
+	}
+	
+	public void setProductionEPEXvalue_eur(double productionEPEXvalue_eur) {
+		this.productionEPEXvalue_eur = productionEPEXvalue_eur;
+	}
+	
+	public double getProductionEPEXvalue_eur() {
+		return this.productionEPEXvalue_eur;
+	}
+	
+	public void setTotalProduction_MWh(double totalProduction_MWh) {
+		this.totalProduction_MWh = totalProduction_MWh;
+	}
+
+	public double getTotalProduction_MWh() {
+		return this.totalProduction_MWh;
+	}
+	
+	public double getAvgProductionValue_eurpMWh() {
+		return this.productionEPEXvalue_eur / this.totalProduction_MWh;
+	}
+	
 	/**
 	 * This number is here for model snapshot storing purpose<br>
 	 * It needs to be changed when this class gets changed
@@ -5706,17 +6733,24 @@ import lombok.*;
 @lombok.Data
 @lombok.experimental.Accessors(fluent = true)
 public class J_CoopReport implements Serializable {
+	
 	J_AccountingLine ownProduction = J_AccountingLine.NaN();
 	
 	J_AccountingLine selfConsumption = J_AccountingLine.NaN();
 	
-	J_AccountingLine importation = J_AccountingLine.NaN();
+//	J_AccountingLine selfConsumptionIncFeedin = J_AccountingLine.NaN();
+	
+	J_AccountingLine EPEXbuy = J_AccountingLine.NaN();
+	
+	J_AccountingLine EPEXsell = J_AccountingLine.NaN();
 	
 	J_AccountingLine nonsimultaneousDelivery = J_AccountingLine.NaN();
 	
 	J_AccountingLine totalDelivery = J_AccountingLine.NaN();
 	
 	J_AccountingLine reDeliveryFeedIn = J_AccountingLine.NaN();
+	
+	J_AccountingLine onbalans = J_AccountingLine.NaN();
 	
 	public String print() {
 		var result = "";
@@ -5762,11 +6796,6 @@ public class J_CoopReport implements Serializable {
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
-			<Path><![CDATA[local4local-client.jar]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
 			<Path><![CDATA[../interface_loader/lombok.jar]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
@@ -5806,6 +6835,11 @@ public class J_CoopReport implements Serializable {
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
+		<Resource>
+			<Path><![CDATA[local4local-client.jar]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
 	</ModelResources>
     <RequiredLibraryReference>
 		<LibraryName><![CDATA[com.anylogic.libraries.modules.markup_descriptors]]></LibraryName>
@@ -5834,17 +6868,17 @@ public class J_CoopReport implements Serializable {
 	<ClassPathEntry>
 		<ResourceReference>
 			<PackageName><![CDATA[zerol4l]]></PackageName>
-			<ClassName><![CDATA[local4local-client.jar]]></ClassName>
+			<ClassName><![CDATA[../interface_loader/lombok.jar]]></ClassName>
 		</ResourceReference>
-		<Imported>true</Imported>
+		<Imported>false</Imported>
 		<Folder>false</Folder>
 	</ClassPathEntry>
 	<ClassPathEntry>
 		<ResourceReference>
 			<PackageName><![CDATA[zerol4l]]></PackageName>
-			<ClassName><![CDATA[../interface_loader/lombok.jar]]></ClassName>
+			<ClassName><![CDATA[local4local-client.jar]]></ClassName>
 		</ResourceReference>
-		<Imported>false</Imported>
+		<Imported>true</Imported>
 		<Folder>false</Folder>
 	</ClassPathEntry>
 	<CloudModelUuid><![CDATA[b9f2137d-b8cc-462f-85a4-fb2379f0eb39]]></CloudModelUuid>
