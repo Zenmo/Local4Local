@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -909,9 +909,13 @@ for (var windFarmData: windFarms) {
 		SDEtariff_eurpKwh = LCOE_eurpkWh;
 	}
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
-	energyCoop.c_AssetCosts.add(costItem);
-	this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
+	energyCoop.c_costItems.add(costItem);
+	this.interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_windpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
+	//this.interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", windFarmData.getSdeSubsidy_eurpkWh()));
+	//this.interface_L4L.txt_windpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 }
 ]]></Body>
 				</Function>
@@ -967,7 +971,13 @@ for (var windFarmData: windFarms) {
 	}
 	
 	this.interface_L4L.householdGroup = householdGroup;
-	this.interface_L4L.txt_assetPrefix_value3.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_expnd_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_expnd_hasPV_value.setText(String.format("%s"+" %%", householdGroup.getHasPV_r()*100));
+	this.interface_L4L.txt_households_expnd_hasHeatPump_value.setText(String.format("%s"+" %%", householdGroup.getHasHeatPump_r()*100));
+	this.interface_L4L.txt_households_expnd_hasChargePoint_value.setText(String.format("%s"+" %%", householdGroup.getHasChargePoint_r()*100));
+	this.interface_L4L.txt_housholds_expnd_annualBaseConsumption_value.setText(String.format("%s"+" MWh", householdGroup.getAnnualBaseConsumptionAvg_kWh()/1000));
+	
 }
 ]]></Body>
 				</Function>
@@ -1133,9 +1143,14 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 		SDEtariff_eurpKwh = LCOE_eurpkWh;
 	}
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
-	energyCoop.c_AssetCosts.add(costItem);
-	this.interface_L4L.txt_assetPrefix_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh);
+	energyCoop.c_costItems.add(costItem);
+	this.interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
+	this.interface_L4L.txt_solarpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
+	//this.interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", solarFarmData.getSdeSubsidy_eurpkWh()));
+	//this.interface_L4L.txt_solarpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
+	
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1901,8 +1916,8 @@ this.uI_Tabs.pop_tabElectricity
     //.setValue(this.householdGroup.getHasHeatPump_r() * 100, true);
     .setValue(100, true);*/
     
-this.uI_Tabs.pop_tabHeating
-    .get(0).f_setHeatingSystemsHouseholds(this.householdGroup.getHasHeatPump_r() * 100);
+//this.uI_Tabs.pop_tabHeating
+//    .get(0).f_setHeatingSystemsHouseholds(this.householdGroup.getHasHeatPump_r() * 100);
     
 this.uI_Tabs.pop_tabMobility
     .get(0)
@@ -3103,13 +3118,14 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Group>
 				<Group>
 					<Id>1729672318520</Id>
-					<Name><![CDATA[asset]]></Name>
+					<Name><![CDATA[grp_solarpark]]></Name>
 					<X>-660</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_solarpark_expnd.setVisible(true);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3117,7 +3133,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672102524</Id>
-					<Name><![CDATA[rrect_asset]]></Name>
+					<Name><![CDATA[rrect_solarpark]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3140,7 +3156,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672116692</Id>
-					<Name><![CDATA[img_asset]]></Name>
+					<Name><![CDATA[img_solarpark]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3162,7 +3178,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672163807</Id>
-					<Name><![CDATA[txt_assetName]]></Name>
+					<Name><![CDATA[txt_solarpark_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3183,7 +3199,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672191145</Id>
-					<Name><![CDATA[txt_assetPrefix]]></Name>
+					<Name><![CDATA[txt_solarpark_power]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3204,7 +3220,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672237346</Id>
-					<Name><![CDATA[txt_assetPrefix_value]]></Name>
+					<Name><![CDATA[txt_solarpark_power_value]]></Name>
 					<X>50</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3228,13 +3244,14 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Group>
 				<Group>
 					<Id>1729672325154</Id>
-					<Name><![CDATA[asset1]]></Name>
+					<Name><![CDATA[grp_windpark]]></Name>
 					<X>-260</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_windpark_expnd.setVisible(true);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3242,7 +3259,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672325156</Id>
-					<Name><![CDATA[rrect_asset1]]></Name>
+					<Name><![CDATA[rrect_windpark]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3265,7 +3282,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672325158</Id>
-					<Name><![CDATA[img_asset1]]></Name>
+					<Name><![CDATA[img_windpark]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3287,7 +3304,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672325160</Id>
-					<Name><![CDATA[txt_assetName1]]></Name>
+					<Name><![CDATA[txt_windpark_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3308,7 +3325,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672325162</Id>
-					<Name><![CDATA[txt_assetPrefix1]]></Name>
+					<Name><![CDATA[txt_windpark_power]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3329,7 +3346,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672325164</Id>
-					<Name><![CDATA[txt_assetPrefix_value1]]></Name>
+					<Name><![CDATA[txt_windpark_power_value]]></Name>
 					<X>50</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3353,14 +3370,14 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Group>
 				<Group>
 					<Id>1729672367443</Id>
-					<Name><![CDATA[asset2]]></Name>
-					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>-260</X><Y>1380</Y>
+					<Name><![CDATA[grp_windpark_expnd]]></Name>
+					<X>-260</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
+					<PresentationFlag>false</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_windpark_expnd.setVisible(false);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3368,7 +3385,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672367445</Id>
-					<Name><![CDATA[rrect_asset2]]></Name>
+					<Name><![CDATA[rrect_windpark_expnd]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3383,7 +3400,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
 					<Width>380</Width>
-					<Height>100</Height>
+					<Height>200</Height>
 					<Rotation>0.0</Rotation>
 					<FillColor>-2031617</FillColor>
 					<FillMaterial>null</FillMaterial>
@@ -3391,7 +3408,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672367447</Id>
-					<Name><![CDATA[img_asset2]]></Name>
+					<Name><![CDATA[img_windpark_expnd]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3413,7 +3430,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672367449</Id>
-					<Name><![CDATA[txt_assetName2]]></Name>
+					<Name><![CDATA[txt_windpark_expnd_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3424,7 +3441,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Windpark 2]]></Text>
+					<Text><![CDATA[Windpark]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>36</Size>
@@ -3434,7 +3451,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672367451</Id>
-					<Name><![CDATA[txt_assetPrefix2]]></Name>
+					<Name><![CDATA[txt_windpark_expnd_power]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3454,8 +3471,50 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Alignment>LEFT</Alignment>
 				</Text>
 				<Text>
+					<Id>1730728362930</Id>
+					<Name><![CDATA[txt_windpark_expnd_LCOE]]></Name>
+					<X>-180</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Kosten per kWh (LCOE):]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730728411875</Id>
+					<Name><![CDATA[txt_windpark_expnd_LCOE_value]]></Name>
+					<X>30</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
 					<Id>1729672367453</Id>
-					<Name><![CDATA[txt_assetPrefix_value2]]></Name>
+					<Name><![CDATA[txt_windpark_expnd_power_value]]></Name>
 					<X>50</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3474,18 +3533,103 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					</Font>
 					<Alignment>LEFT</Alignment>
 				</Text>
+				<Text>
+					<Id>1730729764811</Id>
+					<Name><![CDATA[txt_windpark_expnd_SDESubsidy]]></Name>
+					<X>-180</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[SDE Subsidietarief:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730729782713</Id>
+					<Name><![CDATA[txt_windpark_expnd_totalProduction]]></Name>
+					<X>-180</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Opwek per jaar:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730729807577</Id>
+					<Name><![CDATA[txt_windpark_expnd_totalProduction_value]]></Name>
+					<X>-50</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MWh/jaar]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730729828768</Id>
+					<Name><![CDATA[txt_windpark_expnd_SDESubsidy_value]]></Name>
+					<X>-20</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
 			</Presentation>
 
 				</Group>
 				<Group>
 					<Id>1729672425523</Id>
-					<Name><![CDATA[asset3]]></Name>
-					<X>-1080</X><Y>1260</Y>
+					<Name><![CDATA[grp_households]]></Name>
+					<X>-1060</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_households_expnd.setVisible(true);]]></OnClickCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
@@ -3493,7 +3637,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 			<Presentation>
 				<RoundedRectangle>
 					<Id>1729672425525</Id>
-					<Name><![CDATA[rrect_asset3]]></Name>
+					<Name><![CDATA[rrect_households]]></Name>
 					<X>-190</X><Y>-50</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3516,7 +3660,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</RoundedRectangle>
 				<Image>
 					<Id>1729672425527</Id>
-					<Name><![CDATA[img_asset3]]></Name>
+					<Name><![CDATA[img_households]]></Name>
 					<X>-180</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3538,7 +3682,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Image>
 				<Text>
 					<Id>1729672425529</Id>
-					<Name><![CDATA[txt_assetName3]]></Name>
+					<Name><![CDATA[txt_households_title]]></Name>
 					<X>-80</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3559,7 +3703,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672425531</Id>
-					<Name><![CDATA[txt_assetPrefix3]]></Name>
+					<Name><![CDATA[txt_households]]></Name>
 					<X>-80</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
@@ -3580,8 +3724,8 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1729672425533</Id>
-					<Name><![CDATA[txt_assetPrefix_value3]]></Name>
-					<X>30</X><Y>10</Y>
+					<Name><![CDATA[txt_households_value]]></Name>
+					<X>10</X><Y>10</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3779,11 +3923,6 @@ Opwek en Levering]]></Text>
 					<Id>1730119914285</Id>
 					<Name><![CDATA[cb_includeFeedinInCoopProduction]]></Name>
 					<X>-1280</X><Y>1320</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<BasicProperties Width="440" Height="40">
                         <EmbeddedIcon>false</EmbeddedIcon>	
 						<TextColor/>
@@ -3803,6 +3942,554 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 						<LinkTo>false</LinkTo>
 	 				</ExtendedProperties>
 				</Control>
+
+					
+				<Group>
+					<Id>1730730050427</Id>
+					<Name><![CDATA[grp_solarpark_expnd]]></Name>
+					<X>-660</X><Y>1260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_solarpark_expnd.setVisible(false);]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<RoundedRectangle>
+					<Id>1730730050429</Id>
+					<Name><![CDATA[rrect__solarpark_expnd]]></Name>
+					<X>-190</X><Y>-50</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>380</Width>
+					<Height>200</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1331</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Image>
+					<Id>1730730050431</Id>
+					<Name><![CDATA[img__solarpark_expnd]]></Name>
+					<X>-180</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>80</Width>
+					<Height>80</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[noun-solarfarm.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Text>
+					<Id>1730730050433</Id>
+					<Name><![CDATA[txt_solarpark_expnd_title]]></Name>
+					<X>-80</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Zonnepark]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730050435</Id>
+					<Name><![CDATA[txt_solarpark_expnd_power]]></Name>
+					<X>-80</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Vermogen:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730050437</Id>
+					<Name><![CDATA[txt_solarpark_expnd_power_value]]></Name>
+					<X>50</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MW]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091293</Id>
+					<Name><![CDATA[txt_solarpark_expnd_LCOE]]></Name>
+					<X>-170</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Kosten per kWh (LCOE):]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091295</Id>
+					<Name><![CDATA[txt_solarpark_expnd_LCOE_value]]></Name>
+					<X>40</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091297</Id>
+					<Name><![CDATA[txt_solarpark_expnd_SDESubsidy]]></Name>
+					<X>-170</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[SDE Subsidietarief:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091299</Id>
+					<Name><![CDATA[txt_solarpark_expnd_totalProduction]]></Name>
+					<X>-170</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Opwek per jaar:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091301</Id>
+					<Name><![CDATA[txt_solarpark_expnd_totalProduction_value]]></Name>
+					<X>-40</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MWh/jaar]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730091303</Id>
+					<Name><![CDATA[txt_solarpark_expnd_SDESubsidy_value]]></Name>
+					<X>-10</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ €/kWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+			</Presentation>
+
+				</Group>
+				<Group>
+					<Id>1730730115139</Id>
+					<Name><![CDATA[grp_households_expnd]]></Name>
+					<X>-1060</X><Y>1260</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_households_expnd.setVisible(false);]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<RoundedRectangle>
+					<Id>1730730115141</Id>
+					<Name><![CDATA[rrect_households_expnd]]></Name>
+					<X>-190</X><Y>-50</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>380</Width>
+					<Height>220</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Image>
+					<Id>1730730115143</Id>
+					<Name><![CDATA[img_households_expnd]]></Name>
+					<X>-180</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>80</Width>
+					<Height>80</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[noun-house.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Text>
+					<Id>1730730115145</Id>
+					<Name><![CDATA[txt_households_expnd_title]]></Name>
+					<X>-80</X><Y>-40</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Huishoudens]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730115147</Id>
+					<Name><![CDATA[txt_households_expnd]]></Name>
+					<X>-80</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Aantal:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730115149</Id>
+					<Name><![CDATA[txt_households_expnd_value]]></Name>
+					<X>10</X><Y>10</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730196671</Id>
+					<Name><![CDATA[txt_households_expnd_hasPV]]></Name>
+					<X>-180</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[% met zonnepanelen:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730219101</Id>
+					<Name><![CDATA[txt_households_expnd_hasHeatPump]]></Name>
+					<X>-180</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[% met warmtepomp:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730237382</Id>
+					<Name><![CDATA[txt_households_expnd_hasChargePoint]]></Name>
+					<X>-180</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[% met laadpaal:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730248533</Id>
+					<Name><![CDATA[txt_housholds_expnd_annualBaseConsumption]]></Name>
+					<X>-180</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Jaarlijks huishoudelijk verbruik:]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730280723</Id>
+					<Name><![CDATA[txt_households_expnd_hasPV_value]]></Name>
+					<X>0</X><Y>50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ %]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730294289</Id>
+					<Name><![CDATA[txt_households_expnd_hasHeatPump_value]]></Name>
+					<X>-10</X><Y>80</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ %]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730303189</Id>
+					<Name><![CDATA[txt_households_expnd_hasChargePoint_value]]></Name>
+					<X>-40</X><Y>110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ %]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1730730315596</Id>
+					<Name><![CDATA[txt_housholds_expnd_annualBaseConsumption_value]]></Name>
+					<X>80</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[___ MWh]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>18</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+			</Presentation>
+
+				</Group>
 			</Presentation>
 
 				</Level>
