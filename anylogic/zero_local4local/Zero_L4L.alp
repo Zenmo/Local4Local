@@ -2057,16 +2057,22 @@ if (abs(EDVcosts_eur-EDVincome_eur) > 1) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[//uI_Results.f_setChartBalance_Presentation(-3230, 990, true);
-ui_Results_presentation_group.setX(-1800);
+					<Body><![CDATA[ui_Results_presentation_group.setX(-1800);
 ui_Results_presentation_group.setY(1300);
 
 //uI_Results.gr_radioButtons.setVisible(false);
 // uI_Results.v_selectedChartType = OL_ChartTypes.DIAGRAM;
-uI_Results.f_setSelectedChartType(1); //Diagram
-uI_Results.f_showCorrectChart();
-uI_Results.chartBalans.f_disableRadioButtons();
-uI_Results.f_disableRadioButtons();
+//uI_Results.f_setSelectedChartType(1); //Diagram
+//uI_Results.f_showCorrectChart();
+
+uI_Results.f_setRadioButtons(null,null,false);
+uI_Results.f_setChartProfiles_Presentation(null,null,false);
+
+uI_Results.f_setChartGelijktijdigheid_Presentation(null,null,true);
+uI_Results.chartGelijktijdigheid.f_setCharts();
+//uI_Results.chartBalans.f_disableRadioButtons();
+
+
 this.viewAreaL4L.navigateTo();
 
 ]]></Body>
@@ -3642,7 +3648,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729673517119</Id>
 					<Name><![CDATA[txt_graph]]></Name>
-					<X>-1740</X><Y>1160</Y>
+					<X>-1760</X><Y>1180</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3652,7 +3658,8 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Gelijktijdigheid]]></Text>
+					<Text><![CDATA[Gelijktijdigheid
+Opwek en Levering]]></Text>
 					<Font>
 						<Name>Calibri</Name>
 						<Size>48</Size>
@@ -3783,8 +3790,11 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[b_includeFeedInInCoopProduction = cb_includeFeedinInCoopProduction.isSelected(); 
 f_getCoopReport(); 
-f_updateUIresultsEnergyCoop_L4L(uI_Results.v_collective, this.energyModel.pop_energyCoops.get(0)); uI_Results.f_setSelectedChartType(1); //Diagram
-uI_Results.f_showCorrectChart();]]></ActionCode>
+f_updateUIresultsEnergyCoop_L4L(uI_Results.v_collective, this.energyModel.pop_energyCoops.get(0)); 
+//uI_Results.f_setSelectedChartType(1); //Diagram
+//uI_Results.f_showCorrectChart();
+
+uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 					</BasicProperties>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="14" Style="1"/>
