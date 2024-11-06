@@ -1,15 +1,22 @@
 import {Tabs} from '@radix-ui/themes';
 import {Configure} from "./configure.tsx"
-import {FunctionComponent, useState} from "react"
+import {FunctionComponent, useEffect, useState} from "react"
 import {savePilot} from "../services/save.ts"
 import {startSimulation} from "../services/anylogic.ts"
-import {Pilot} from "local4local"
+import {HouseholdGroup, Pilot} from "local4local"
 import {Simulate} from "./simulate.tsx"
 import {EmotionProps} from "../services/types"
 import {Intro} from "./intro.tsx"
 
 export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
     const [pilot, setPilot] = useState(new Pilot("Pilot"))
+
+    useEffect(() => {
+        // Set Default HouseholdGroup, minimum required to get run the simulation
+        const defaultHouseholdGroup = new HouseholdGroup("Huishoudens", 100, 0.0, 0.0, 0.0, 0.0, 0);
+        setPilot(pilot.create(defaultHouseholdGroup))
+        localStorage.setItem('dataLoaded', 'true'); // Mark as loaded
+    }, []);
 
     const onClickStart = async (anylogicElementId: string) => {
         const sessionId = await savePilot(pilot)
