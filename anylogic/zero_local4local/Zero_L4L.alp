@@ -947,6 +947,8 @@ for (var windFarmData: windFarms) {
 
     var householdGroup = householdGroups.get(g);
 
+	//if (householdGroup == null) { break; }
+	
 	for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
 	//for (int i = 1; i <= 1 ; i += 1) {
 		// Grid
@@ -1903,30 +1905,31 @@ t_scenarioDescription.setText(t_scenario_XXX);]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[
-this.uI_Tabs.pop_tabElectricity
-    .get(0)
-    .getSliderRooftopPVHouses_pct()
-    .setValue(this.householdGroup.getHasPV_r() * 100, true);
-
-// TODO: this doesn't seem to do anything
-/*this.uI_Tabs.pop_tabHeating
-    .get(0)
-    .getSliderElectricHeatPumpHouseholds_pct()
-    //.setValue(this.householdGroup.getHasHeatPump_r() * 100, true);
-    .setValue(100, true);*/
-    
-//this.uI_Tabs.pop_tabHeating
-//    .get(0).f_setHeatingSystemsHouseholds(this.householdGroup.getHasHeatPump_r() * 100);
-    
-this.uI_Tabs.pop_tabMobility
-    .get(0)
-    .getSliderElectricCars_pct()
-    .setValue(this.householdGroup.getHasChargePoint_r() * 100, true);
-    //.setValue(100, true);
-
-if (householdGroup.getHasHomeBattery_r() > 0.0) {
-    traceln(RED, "Home battery not supported yet");
+					<Body><![CDATA[	if (householdGroup!=null) {
+	this.uI_Tabs.pop_tabElectricity
+	    .get(0)
+	    .getSliderRooftopPVHouses_pct()
+	    .setValue(this.householdGroup.getHasPV_r() * 100, true);
+	
+	// TODO: this doesn't seem to do anything
+	/*this.uI_Tabs.pop_tabHeating
+	    .get(0)
+	    .getSliderElectricHeatPumpHouseholds_pct()
+	    //.setValue(this.householdGroup.getHasHeatPump_r() * 100, true);
+	    .setValue(100, true);*/
+	    
+	//this.uI_Tabs.pop_tabHeating
+	//    .get(0).f_setHeatingSystemsHouseholds(this.householdGroup.getHasHeatPump_r() * 100);
+	    
+	this.uI_Tabs.pop_tabMobility
+	    .get(0)
+	    .getSliderElectricCars_pct()
+	    .setValue(this.householdGroup.getHasChargePoint_r() * 100, true);
+	    //.setValue(100, true);
+	
+	if (householdGroup.getHasHomeBattery_r() > 0.0) {
+	    traceln(RED, "Home battery not supported yet");
+	}
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -2141,7 +2144,21 @@ if ( b_includeFeedInInCoopProduction ) {
 //area.v_annualElectricityExport_MWh = EC.v_electricityExported_kWh/1000;
 //area.v_annualSelfConsumedElectricity_MWh = EC.v_totalElectricitySelfConsumed_MWh;
 
+double solarFarmProduction_MWh=0;
+double windFarmProduction_MWh=0;
+EC= (EnergyCoopL4L)energyModel.pop_energyCoops.get(0);
+for (J_AssetCost ci : ((EnergyCoopL4L)EC).c_AssetCosts ) {
+	if (ci.energyAsset().energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC ) {
+		solarFarmProduction_MWh += ci.getTotalProduction_MWh();
+	}
+	
+	if (ci.energyAsset().energyAssetType == OL_EnergyAssetType.WINDMILL ) {
+		windFarmProduction_MWh += ci.getTotalProduction_MWh();
+	}
+}
 
+txt_solarpark_expnd_totalProduction_value.setText(roundToInt(solarFarmProduction_MWh) + " MWh/jaar");
+txt_windpark_expnd_totalProduction_value.setText(roundToInt(windFarmProduction_MWh) + " MWh/jaar");
 
 ]]></Body>
 				</Function>
