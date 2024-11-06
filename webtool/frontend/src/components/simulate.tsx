@@ -1,25 +1,30 @@
 import {FunctionComponent, PropsWithChildren} from "react"
-import {Intro} from "./intro.tsx";
+import {Button, Heading} from "@radix-ui/themes";
 
 export const Simulate: FunctionComponent<{
-    showInfo: boolean,
-}> = ({showInfo}) => {
-
+    showSimulation: boolean,
+    onClickStart: (elementId: string) => void
+}> = ({showSimulation, onClickStart}) => {
     const anylogicElementId = "anylogic"
 
     return (
         <>
-            {showInfo ? (
-                <Center>
-                    <div id={anylogicElementId} style={{width: "100%", aspectRatio: "8/5"}}/>
-                </Center>
-                ) :
+        <Heading as="h3">
+            Simulate
+        </Heading>
+        <Center>
+            {showSimulation ?
+                <div id={anylogicElementId} style={{width: "100%", aspectRatio: "8/5"}}/>
+                :
                 <div>
-                    {/* Content that should be shown/hidden based on Configure settings */}
-                    <Intro />
+                    <Button type="button" onClick={() => onClickStart(anylogicElementId)}>
+                        (her)start simulatie
+                    </Button>
                 </div>
+
             }
-        </>
+        </Center>
+       </>
     )
 }
 
