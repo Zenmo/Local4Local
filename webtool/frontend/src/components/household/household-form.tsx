@@ -35,11 +35,11 @@ export const HouseholdForm: FunctionComponent<{
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="households_n">Aantal huishoudens</label>
-                    <input className="form-input" type="number" id="households_n" name="households_n" defaultValue={ initialData?.households_n || 100 } min={0} />
+                    <input className="form-input" type="number" id="households_n" name="households_n" defaultValue={ initialData?.households_n || 200 } min={0} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="hasPV_r">Percentage met zonnepanelen [%]</label>
-                    <input className="form-input" type="number" id="hasPV_r" name="hasPV_r" defaultValue={(initialData?.hasHeatPump_r || 0.2) * 100 } min={0} max={100} />
+                    <input className="form-input" type="number" id="hasPV_r" name="hasPV_r" defaultValue={(initialData?.hasPV_r || 0.2) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="hasHeatPump_r">Percentage met warmtepomp [%]</label>
@@ -47,7 +47,7 @@ export const HouseholdForm: FunctionComponent<{
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="hasChargePoint_r">Percentage met laadpaal [%]</label>
-                    <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={ (initialData?.hasChargePoint_r || 0.4) * 100 } min={0} max={100} />
+                    <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={ (initialData?.hasChargePoint_r || 0.2) * 100 } min={0} max={100} />
                 </div>
                 {/*<div className="radix-grid" style={{display: "none"}}>*/}
                 {/*    <label className="form-label" htmlFor="hasHomeBattery_r">Percentage met thuisbatterij [%]</label>*/}
@@ -55,7 +55,7 @@ export const HouseholdForm: FunctionComponent<{
                 {/*</div>*/}
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="annualBaseConsumptionAvg_kWh">Jaarlijks huishoudelijk verbruik (kWh)</label>
-                    <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={ initialData?.annualBaseConsumptionAvg_kWh || 4500 } min={0} />
+                    <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={ initialData?.annualBaseConsumptionAvg_kWh || 3000 } min={0} />
                 </div>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
