@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -978,7 +978,7 @@ for (var windFarmData: windFarms) {
 	this.interface_L4L.txt_households_expnd_hasPV_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasPV_r()*100)));
 	this.interface_L4L.txt_households_expnd_hasHeatPump_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasHeatPump_r()*100)));
 	this.interface_L4L.txt_households_expnd_hasChargePoint_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasChargePoint_r()*100)));
-	this.interface_L4L.txt_housholds_expnd_annualBaseConsumption_value.setText(String.format("%s"+" MWh", roundToInt(householdGroup.getAnnualBaseConsumptionAvg_kWh()/1000)));
+	this.interface_L4L.txt_housholds_expnd_annualBaseConsumption_value.setText(String.format("%s"+" kWh", roundToInt(householdGroup.getAnnualBaseConsumptionAvg_kWh())));
 	
 	if (householdGroup.getHasPV_r() <= 0) {
 		this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
