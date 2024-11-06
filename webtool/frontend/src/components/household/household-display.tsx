@@ -36,12 +36,12 @@ export const HouseholdDisplay: FunctionComponent<{
                     <DataList.Label minWidth="88px">Percentage met laadpaal</DataList.Label>
                     <DataList.Value>{householdGroup.hasChargePoint_r * 100} %</DataList.Value>
                 </DataList.Item>
+                {/*<DataList.Item>*/}
+                {/*    <DataList.Label minWidth="88px">Percentage met thuisbatterij</DataList.Label>*/}
+                {/*    <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>*/}
+                {/*</DataList.Item>*/}
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Percentage met thuisbatterij</DataList.Label>
-                    <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                    <DataList.Label minWidth="88px">Jaarlijks gemiddeld verbruik</DataList.Label>
+                    <DataList.Label minWidth="88px">Jaarlijks huishoudelijk verbruik</DataList.Label>
                     <DataList.Value>{householdGroup.annualBaseConsumptionAvg_kWh} kWh</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
