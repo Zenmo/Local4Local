@@ -20,6 +20,8 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
     const [showAddBattery, setShowAddBattery] = useState(false)
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
     const [showEditSupplierCost, setShowEditSupplierCost] = useState(false)
+    const [selectedHouseholdGroup, setSelectedHouseholdGroup] = useState<HouseholdGroup | null>(null);
+
 
     const showAddDropdown = !(
         showAddHouseholdGroup ||
@@ -39,12 +41,35 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     save={(supplierCost: SupplierCost) => setPilot(pilot.withSupplierCost(supplierCost))}
                     hide={() => setShowEditSupplierCost(false)}
                 />
-                : <SupplierCostDisplay supplierCost={pilot.supplierCost} onEdit={() => setShowEditSupplierCost(true)}/>}
+                :
+                <SupplierCostDisplay supplierCost={pilot.supplierCost} onEdit={() => setShowEditSupplierCost(true)}/>
+            }
+
             {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
-                <HouseholdDisplay key={"householdGroup_" + i} householdGroup={it} 
-                    toDelete={() => setPilot(pilot.remove(it))}
-                />)}
-           
+                selectedHouseholdGroup == it ? (
+                    <HouseholdForm
+                        key={"householdGroup_" + i}
+                        save={(asset: HouseholdGroup) => {
+                            // setPilot(pilot.replaceHouseHoldGroup(i, asset))
+                            // setPilot(pilot.remove(it));
+                            setPilot(pilot.create(asset));
+                            setSelectedHouseholdGroup(null);
+                        }}
+                        hide={() => {
+                            setSelectedHouseholdGroup(null);
+                        }}
+                        initialData={selectedHouseholdGroup}
+                    />
+                ) : (
+                    <HouseholdDisplay
+                        key={"householdGroup_" + i}
+                        householdGroup={it}
+                        onEdit={() => { setSelectedHouseholdGroup(it)}}
+                        toDelete={() => setPilot(pilot.remove(it))}
+                    />
+                )
+            )}
+
             {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
                 <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it} 
                     toDelete={() => setPilot(pilot.remove(it))}
@@ -73,8 +98,8 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                 />)}
             
             {showAddHouseholdGroup &&
-                <HouseholdForm 
-                    saveHouseholdGroup={(asset: HouseholdGroup) => setPilot(pilot.create(asset))} 
+                <HouseholdForm
+                    save={(asset: HouseholdGroup) => setPilot(pilot.create(asset))}
                     hide={() => setShowAddHouseholdGroup(false)}
                 />}
             {showAddSolarFarm &&
