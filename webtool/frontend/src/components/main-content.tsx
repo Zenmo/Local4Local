@@ -13,7 +13,7 @@ export const MainContent: FunctionComponent<EmotionProps> = ({className}) => {
 
     useEffect(() => {
         // Set Default HouseholdGroup, minimum required to get run the simulation
-        const defaultHouseholdGroup = new HouseholdGroup("Huishoudens", 100, 0.0, 0.0, 0.0, 0.0, 0);
+        const defaultHouseholdGroup = new HouseholdGroup("Huishoudens", 200, 0.2, 0.1, 0.2, 0.0, 3000);
         setPilot(pilot.create(defaultHouseholdGroup))
         localStorage.setItem('dataLoaded', 'true'); // Mark as loaded
     }, []);
