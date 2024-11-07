@@ -39,19 +39,19 @@ export const HouseholdForm: FunctionComponent<{
                     <input className="form-input" type="number" id="households_n" name="households_n" defaultValue={ initialData?.households_n || 200 } min={0} />
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="hasPV_r">Percentage met zonnepanelen [%]</label>
+                    <label className="form-label" htmlFor="hasPV_r">Aandeel met zonnepanelen [%]</label>
                     <input className="form-input" type="number" id="hasPV_r" name="hasPV_r" defaultValue={(initialData?.hasPV_r || 0.2) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="hasHeatPump_r">Percentage met warmtepomp [%]</label>
+                    <label className="form-label" htmlFor="hasHeatPump_r">Aandeel met warmtepomp [%]</label>
                     <input className="form-input" type="number" id="hasHeatPump_r" name="hasHeatPump_r" defaultValue={ (initialData?.hasHeatPump_r || 0.1) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="hasChargePoint_r">Percentage met laadpaal [%]</label>
+                    <label className="form-label" htmlFor="hasChargePoint_r">Aandeel met laadpaal [%]</label>
                     <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={ (initialData?.hasChargePoint_r || 0.2) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid" style={{display: "none"}}>
-                    <label className="form-label" htmlFor="hasHomeBattery_r">Percentage met thuisbatterij [%]</label>
+                    <label className="form-label" htmlFor="hasHomeBattery_r">Aandeel met thuisbatterij [%]</label>
                     <input className="form-input" type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={ (initialData?.hasHomeBattery_r || 0.0) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid">

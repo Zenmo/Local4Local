@@ -26,19 +26,19 @@ export const HouseholdDisplay: FunctionComponent<{
                     <DataList.Value>{householdGroup.households_n}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Percentage met zonnepanelen</DataList.Label>
+                    <DataList.Label minWidth="88px">Aandeel met zonnepanelen</DataList.Label>
                     <DataList.Value>{householdGroup.hasPV_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Percentage met warmtepomp</DataList.Label>
+                    <DataList.Label minWidth="88px">Aandeel met warmtepomp</DataList.Label>
                     <DataList.Value>{householdGroup.hasHeatPump_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Percentage met laadpaal</DataList.Label>
+                    <DataList.Label minWidth="88px">Aandeel met laadpaal</DataList.Label>
                     <DataList.Value>{householdGroup.hasChargePoint_r * 100} %</DataList.Value>
                 </DataList.Item>
                 {/*<DataList.Item>*/}
-                {/*    <DataList.Label minWidth="88px">Percentage met thuisbatterij</DataList.Label>*/}
+                {/*    <DataList.Label minWidth="88px">Aandeel met thuisbatterij</DataList.Label>*/}
                 {/*    <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>*/}
                 {/*</DataList.Item>*/}
                 <DataList.Item>
