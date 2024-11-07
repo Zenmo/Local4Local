@@ -46,10 +46,10 @@ data class Pilot(
         else -> throw Exception("Unknown type")
     }
 
-    fun replaceHouseHoldGroup(index: Int, group: HouseholdGroup): Pilot {
+    fun replaceHouseHoldGroup(index: Int, householdGroup: HouseholdGroup): Pilot {
         val newGroups = this.householdGroups.toMutableList()
-        newGroups[index] = group
-        copy(householdGroups = newGroups)
+        newGroups[index] = householdGroup
+        return copy(householdGroups = newGroups)
     }
 
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)

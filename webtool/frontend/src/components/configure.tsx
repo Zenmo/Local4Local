@@ -50,9 +50,7 @@ export const Configure: FunctionComponent<{ pilot: Pilot, setPilot: (pilot: Pilo
                     <HouseholdForm
                         key={"householdGroup_" + i}
                         save={(asset: HouseholdGroup) => {
-                            // setPilot(pilot.replaceHouseHoldGroup(i, asset))
-                            // setPilot(pilot.remove(it));
-                            setPilot(pilot.create(asset));
+                            setPilot(pilot.replaceHouseHoldGroup(i, asset))
                             setSelectedHouseholdGroup(null);
                         }}
                         hide={() => {
