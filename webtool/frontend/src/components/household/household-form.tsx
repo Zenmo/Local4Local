@@ -4,10 +4,11 @@ import {Button, Card} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
 
 export const HouseholdForm: FunctionComponent<{
-    initialData?: HouseholdGroup | null; 
-    saveHouseholdGroup: (householdGroup: HouseholdGroup) => void,
+    initialData?: HouseholdGroup | null;
+    save: (householdGroup: HouseholdGroup) => void,
     hide: () => void,
-}> = ({initialData, saveHouseholdGroup, hide}) => {
+}> = ({initialData, save, hide}) => {
+    console.log("editHouseHold")
     const addHouseHold = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -21,7 +22,7 @@ export const HouseholdForm: FunctionComponent<{
             parseFloat(formData.get("hasHomeBattery_r") as string) * 0.01,
             parseFloat(formData.get("annualBaseConsumptionAvg_kWh") as string),
         );
-        saveHouseholdGroup(householdGroup);
+        save(householdGroup);
         hide();
     };
 

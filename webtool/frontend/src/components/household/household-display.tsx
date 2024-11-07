@@ -6,14 +6,15 @@ import {CardMenu} from "./../card-menu.tsx"
 
 export const HouseholdDisplay: FunctionComponent<{ 
     householdGroup: HouseholdGroup,
+    onEdit: () => void,
     toDelete: () => void,
-}> = ({householdGroup,toDelete}) => {
+}> = ({householdGroup, toDelete, onEdit}) => {
 
     return (
         <Card>
             <Flex className="head-title">
                 <HouseholdHeading />
-                <CardMenu onDelete={toDelete}/>
+                <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
             <DataList.Root>
                 <DataList.Item>
