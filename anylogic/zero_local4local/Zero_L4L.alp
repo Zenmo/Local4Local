@@ -917,7 +917,10 @@ for (var windFarmData: windFarms) {
 	this.interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
 	//this.interface_L4L.txt_windpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 }
-]]></Body>
+if (windFarms.size() == 0) {
+	interface_L4L.grp_windpark_expnd.setVisible(false);
+	interface_L4L.grp_windpark.setVisible(false);
+}]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -984,6 +987,14 @@ for (var windFarmData: windFarms) {
 		this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
 	}
 }
+/*
+if (householdGroups.size()==0) {
+	interface_L4L.grp_households_expnd.setVisible(false);
+	interface_L4L.grp_households.setVisible(false);
+	//cb_includeFeedinInCoopProduction.setVisible(false);
+}
+*/
+
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1156,6 +1167,10 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	this.interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
 	//this.interface_L4L.txt_solarpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 	
+}
+if (solarFarms.size() == 0) {
+	interface_L4L.grp_solarpark_expnd.setVisible(false);
+	interface_L4L.grp_solarpark.setVisible(false);
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
