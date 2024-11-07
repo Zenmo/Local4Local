@@ -1,19 +1,23 @@
 import {FunctionComponent, PropsWithChildren} from "react"
-import {Button} from "@radix-ui/themes"
+import {Button} from "@radix-ui/themes";
 
 export const Simulate: FunctionComponent<{
+    showSimulation: boolean,
     onClickStart: (elementId: string) => void
-}> = ({onClickStart}) => {
+}> = ({showSimulation, onClickStart}) => {
     const anylogicElementId = "anylogic"
 
     return (
         <>
-            <Center>
-                <Button type="button" onClick={() => onClickStart(anylogicElementId)}>
-                    (her)start simulatie
-                </Button>
-            </Center>
-            <div id={anylogicElementId} style={{width: "100%", aspectRatio: "8/5"}}/>
+            {showSimulation ?
+                <div id={anylogicElementId} style={{width: "100%", aspectRatio: "8/5"}}/>
+                :
+                <Center>
+                    <Button type="button" onClick={() => onClickStart(anylogicElementId)}>
+                        (her)start simulatie
+                    </Button>
+                </Center>
+            }
         </>
     )
 }
