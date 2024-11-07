@@ -35,7 +35,7 @@ const BatteryHeading = () => (
     <Heading as="h3" style={{paddingBottom: ".5rem"}}>
         <PiCarBatteryLight />
         &nbsp;
-        Leveranciersopslag
+        Batterij
     </Heading>
 )
 
