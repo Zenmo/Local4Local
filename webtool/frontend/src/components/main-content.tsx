@@ -5,38 +5,50 @@ import {startSimulation} from "../services/anylogic.ts"
 import {Pilot} from "local4local"
 import {Simulate} from "./simulate.tsx"
 import {EmotionProps} from "../services/types"
+import {Intro} from "./intro.tsx";
+import {Button} from "@radix-ui/themes";
 
 export const MainContent: FunctionComponent<EmotionProps> = () => {
     const [pilot, setPilot] = useState(new Pilot("Pilot"))
+    const [showConfigSimulate, setShowConfigSimulate] = useState(false);
+    const [showSimulation, setShowSimulation] = useState(false);
 
     const onChange = async (pilot: Pilot) => {
         setPilot(pilot)
-        setShowSimulateInfo(false)
+        setShowSimulation(false)
     }
 
     const onClickStart = async (anylogicElementId: string) => {
         const sessionId = await savePilot(pilot)
         startSimulation(anylogicElementId, sessionId)
-        setShowSimulateInfo(true)
+        setShowSimulation(true)
     }
 
-    const [showSimulateInfo, setShowSimulateInfo] = useState(false);
-
     return (
-        <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
-            {/* Configureer Section */}
-            <div style={{width: "30%", padding: "1rem", borderRight: "1px solid #ccc"}}>
-                <Configure
-                    pilot={pilot}
-                    onChange={onChange}
-                    onClickStart={onClickStart}
-                />
-            </div>
-
-            {/* Simuleer Section */}
-            <div style={{width: "80%", padding: "1rem"}}>
-                <Simulate showInfo={showSimulateInfo}/>
-            </div>
-        </div>
+        <>
+            {showConfigSimulate ?
+                <div style={{display: "flex", justifyContent: "center", width: "100%"}}>
+                    <div style={{width: "30%", padding: "1rem", borderRight: "1px solid #ccc"}}>
+                        <Configure
+                            pilot={pilot}
+                            onChange={onChange}
+                        />
+                    </div>
+                    <div style={{width: "80%", padding: "1rem"}}>
+                        <Simulate
+                            showSimulation={showSimulation}
+                            onClickStart={onClickStart}
+                        />
+                    </div>
+                </div>
+                :
+                <div style={{justifyItems: "center"}}>
+                    <Intro/>
+                    <Button type="button" onClick={() => setShowConfigSimulate(true)}>
+                        Start
+                    </Button>
+                </div>
+            }
+        </>
     );
 }

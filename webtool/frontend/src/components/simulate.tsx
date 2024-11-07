@@ -1,5 +1,5 @@
 import {FunctionComponent, PropsWithChildren} from "react"
-import {Button, Heading} from "@radix-ui/themes";
+import {Button} from "@radix-ui/themes";
 
 export const Simulate: FunctionComponent<{
     showSimulation: boolean,
@@ -9,22 +9,16 @@ export const Simulate: FunctionComponent<{
 
     return (
         <>
-        <Heading as="h3">
-            Simulate
-        </Heading>
-        <Center>
             {showSimulation ?
                 <div id={anylogicElementId} style={{width: "100%", aspectRatio: "8/5"}}/>
                 :
-                <div>
+                <Center>
                     <Button type="button" onClick={() => onClickStart(anylogicElementId)}>
                         (her)start simulatie
                     </Button>
-                </div>
-
+                </Center>
             }
-        </Center>
-       </>
+        </>
     )
 }
 
