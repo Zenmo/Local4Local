@@ -9,7 +9,7 @@ import {BatteryDisplay, BatteryForm} from "./battery.tsx"
 import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
 import {SupplierCostDisplay, SupplierCostForm} from "./supplier-cost.tsx"
-import {BiogasGeneratorDisplay, BiogasGeneratorForm} from "./biogas-generator.tsx"
+import {BiogasGeneratorForm, BiogasGeneratorsDisplayEdit} from "./biogas-generator.tsx"
 import {HouseholdsDisplayEdit} from "./household/households-display-edit.tsx";
 import {SolarFarmsDisplayEdit} from "./solarfarm/solarfarms-display-edit.tsx";
 
@@ -49,13 +49,7 @@ export const Configure: FunctionComponent<{
                 <HouseholdsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <SolarFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <WindFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
-
-                {pilot.biogasGenerators.asJsReadonlyArrayView().map((it, i) =>
-                    <BiogasGeneratorDisplay
-                        biogasGenerator={it}
-                        key={"biogasGenerator_" + i}
-                        toDelete={() => onChange(pilot.remove(it))}
-                    />)}
+                <BiogasGeneratorsDisplayEdit pilot={pilot} onChange={onChange}/>
 
                 {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
                     <BatteryDisplay key={"battery_" + i} battery={it}
