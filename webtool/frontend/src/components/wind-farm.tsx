@@ -1,6 +1,6 @@
-import {FormEvent, FunctionComponent} from "react"
+import {FormEvent, FunctionComponent, useState} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {WindFarm} from "local4local"
+import {Pilot, WindFarm} from "local4local"
 import { GiWindTurbine } from "react-icons/gi";
 import {CostSection, CostDisplay} from "./cost-section.tsx"
 import {CardMenu} from "./card-menu.tsx"
@@ -8,13 +8,14 @@ import {costFromFormData} from "./cost-from-form-data.ts"
 
 export const WindFarmDisplay: FunctionComponent<{
     windFarm: WindFarm,
+    onEdit: () => void,
     toDelete: () => void,
-}> = ({windFarm, toDelete}) => {
+}> = ({windFarm, onEdit, toDelete}) => {
     return (
         <Card>
              <Flex className="head-title">
                 <WindFarmHeading/>
-                <CardMenu onDelete={toDelete}/>
+                <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
             <DataList.Root>
                 <DataList.Item>
@@ -36,9 +37,10 @@ const WindFarmHeading = () => (
 )
 
 export const WindFarmForm: FunctionComponent<{
-    saveWindFarm: (s: WindFarm) => void
+    initialData?: WindFarm | null;
+    save: (s: WindFarm) => void
     hide: () => void
-}> = ({saveWindFarm, hide}) => {
+}> = ({initialData, save, hide}) => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
@@ -49,7 +51,7 @@ export const WindFarmForm: FunctionComponent<{
             costFromFormData(formData),
         );
 
-        saveWindFarm(windFarm)
+        save(windFarm)
         hide()
     }
 
@@ -59,12 +61,46 @@ export const WindFarmForm: FunctionComponent<{
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="nominalPower_kW">Vermogen (kW)</label>
-                    <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={2000}/>
+                    <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW || 2000}/>
                 </div>
                 <CostSection />
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
+    )
+}
+
+export const WindFarmsDisplayEdit: FunctionComponent<{
+    pilot: Pilot,
+    onChange: (pilot: Pilot) => void,
+}> = ({pilot, onChange}) => {
+    const [selected, setSelected] = useState<WindFarm | null>(null);
+
+    return (
+        <>
+            {pilot.windFarms.asJsReadonlyArrayView().map((it, i) =>
+                selected == it ? (
+                    <WindFarmForm
+                        key={"WindFarm_" + i}
+                        save={(asset: WindFarm) => {
+                            onChange(pilot.replaceWindFarm(i, asset))
+                            setSelected(null);
+                        }}
+                        hide={() => {
+                            setSelected(null);
+                        }}
+                        initialData={selected}
+                    />
+                ) : (
+                    <WindFarmDisplay
+                        key={"WindFarm_" + i}
+                        windFarm={it}
+                        onEdit={() => { setSelected(it)}}
+                        toDelete={() => onChange(pilot.remove(it))}
+                    />
+                )
+            )}
+        </>
     )
 }

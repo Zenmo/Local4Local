@@ -52,6 +52,12 @@ data class Pilot(
         return copy(householdGroups = newGroups)
     }
 
+    fun replaceWindFarm(index: Int, windFarm: WindFarm): Pilot {
+        val newSet = this.windFarms.toMutableList()
+        newSet[index] = windFarm
+        return copy(windFarms = newSet)
+    }
+
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
 
     fun toJson(): String =
