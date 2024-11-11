@@ -7,11 +7,11 @@ import {SolarFarmForm} from "./solarfarm/solarfarm-form.tsx"
 import {BatteriesDisplayEdit, BatteryForm} from "./assets/battery.tsx"
 import {BiogasGeneratorForm, BiogasGeneratorsDisplayEdit} from "./assets/biogas-generator.tsx"
 import {WindFarmsDisplayEdit, WindFarmForm} from "./assets/wind-farm.tsx"
-import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
 import {SupplierCostDisplay, SupplierCostForm} from "./supplier-cost.tsx"
 import {HouseholdsDisplayEdit} from "./household/households-display-edit.tsx";
 import {SolarFarmsDisplayEdit} from "./solarfarm/solarfarms-display-edit.tsx";
+import {HeatStoragesDisplayEdit} from "./heat-storage/heat-storage-display-edit.tsx";
 
 export const Configure: FunctionComponent<{
     pilot: Pilot,
@@ -51,12 +51,7 @@ export const Configure: FunctionComponent<{
                 <WindFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <BiogasGeneratorsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <BatteriesDisplayEdit pilot={pilot} onChange={onChange}/>
-
-
-                {pilot.heatStorages.asJsReadonlyArrayView().map((it, i) =>
-                    <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i}
-                                        toDelete={() => onChange(pilot.remove(it))}
-                    />)}
+                <HeatStoragesDisplayEdit pilot={pilot} onChange={onChange}/>
 
                 {showAddHouseholdGroup &&
                     <HouseholdForm save={(asset: HouseholdGroup) => onChange(pilot.create(asset))} hide={() => setShowAddHouseholdGroup(false)}/>}
@@ -69,7 +64,7 @@ export const Configure: FunctionComponent<{
                 {showAddBattery &&
                     <BatteryForm save={(asset: Battery) => onChange(pilot.create(asset))} hide={() => setShowAddBattery(false)}/>}
                 {showAddHeatStorage &&
-                    <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => onChange(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)}/>}
+                    <HeatStorageForm save={(asset: HeatStorage) => onChange(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)}/>}
 
                 {showAddDropdown &&
                     <AddDropdown

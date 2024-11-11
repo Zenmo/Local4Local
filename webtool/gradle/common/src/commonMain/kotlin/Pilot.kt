@@ -76,6 +76,12 @@ data class Pilot(
         return copy(batteries = newSet)
     }
 
+    fun replaceHeatStorage(index: Int, heatStorage: HeatStorage): Pilot {
+        val newSet = this.heatStorages.toMutableList()
+        newSet[index] = heatStorage
+        return copy(heatStorages = newSet)
+    }
+
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
 
     fun toJson(): String =

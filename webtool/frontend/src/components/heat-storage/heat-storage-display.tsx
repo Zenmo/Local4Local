@@ -7,13 +7,14 @@ import {CardMenu} from "./../card-menu.tsx"
 
 export const HeatStorageDisplay: FunctionComponent<{
         heatStorage: HeatStorage,
+        onEdit: () => void,
         toDelete: () => void,
-    }> = ({heatStorage, toDelete}) => {
+    }> = ({heatStorage, onEdit, toDelete}) => {
     return (
         <Card>
             <Flex className="head-title">
                 <HeatStorageHeading />
-                <CardMenu onDelete={toDelete}/>
+                <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
             <DataList.Root>
                 <DataList.Item>
