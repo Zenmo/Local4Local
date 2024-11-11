@@ -52,6 +52,12 @@ data class Pilot(
         return copy(householdGroups = newGroups)
     }
 
+    fun replaceSolarFarm(index: Int, solarFarm: SolarFarm): Pilot {
+        val newSet = this.solarFarms.toMutableList()
+        newSet[index] = solarFarm
+        return copy(solarFarms = newSet)
+    }
+
     fun replaceWindFarm(index: Int, windFarm: WindFarm): Pilot {
         val newSet = this.windFarms.toMutableList()
         newSet[index] = windFarm
