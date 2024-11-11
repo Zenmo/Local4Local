@@ -905,8 +905,8 @@ for (var windFarmData: windFarms) {
 	Double OPEX_eurpa = windFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH();
 	Double SDEtariff_eurpKwh = windFarmData.getCost().getSdeSubsidy_eurpkWH();
-	if (SDEtariff_eurpKwh == 0){
-		SDEtariff_eurpKwh = LCOE_eurpkWh;
+	if (SDEtariff_eurpKwh == null){
+		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 	}
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
 	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
@@ -1155,8 +1155,8 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	Double OPEX_eurpa = solarFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH();
 	Double SDEtariff_eurpKwh = solarFarmData.getCost().getSdeSubsidy_eurpkWH();
-	if (SDEtariff_eurpKwh == 0){
-		SDEtariff_eurpKwh = LCOE_eurpkWh;
+	if (SDEtariff_eurpKwh == null){
+		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 	}
 	
 	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
@@ -1356,8 +1356,8 @@ for (var generatorData: biogasGenerators) {
 	Double OPEX_eurpa = generatorData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = generatorData.getCost().getLCOE_eurpkWH(); 
 	Double SDEtariff_eurpKwh = generatorData.getCost().getSdeSubsidy_eurpkWH();
-	if (SDEtariff_eurpKwh == 0){
-		SDEtariff_eurpKwh = LCOE_eurpkWh;
+	if (SDEtariff_eurpKwh == null){
+		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 	}
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
 	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
@@ -3999,7 +3999,7 @@ Opwek en Levering]]></Text>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[Gemiddeld leveringstarief voor klant
-(excl. belasting)]]></Text>
+(excl. belastingen en vastrecht)]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>24</Size>
@@ -5552,6 +5552,8 @@ f_projectSpecificInitializeFunctions();
 loader_L4L.p_local4localBackendUrl=p_local4localBackendUrl;
 loader_L4L.p_local4localSession=p_local4localSession;
 loader_L4L.f_startUpLoader_default();
+
+pieChart.se
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -6236,7 +6238,7 @@ for (var ci : c_AssetCosts) {
 	for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
 		// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
 		productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
-		SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
+		SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(0,energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
 	}
 	//traceln("SDE income: %s eur", SDEincome_eur);
 	ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
