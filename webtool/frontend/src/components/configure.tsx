@@ -10,7 +10,8 @@ import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
 import {SupplierCostDisplay, SupplierCostForm} from "./supplier-cost.tsx"
 import {BiogasGeneratorDisplay, BiogasGeneratorForm} from "./biogas-generator.tsx"
-import {HouseholdDisplayEdit} from "./household/household-display-edit.tsx";
+import {HouseholdsDisplayEdit} from "./household/households-display-edit.tsx";
+import {SolarFarmsDisplayEdit} from "./solarfarm/solarfarms-display-edit.tsx";
 
 export const Configure: FunctionComponent<{
     pilot: Pilot,
@@ -40,25 +41,12 @@ export const Configure: FunctionComponent<{
             </Heading>
             <Grid gap="2" pt="4">
                 {showEditSupplierCost ?
-                    <SupplierCostForm
-                        initialData={pilot.supplierCost}
-                        save={(supplierCost: SupplierCost) => onChange(pilot.withSupplierCost(supplierCost))}
-                        hide={() => setShowEditSupplierCost(false)}
-                    />
-                    : <SupplierCostDisplay supplierCost={pilot.supplierCost}
-                                           onEdit={() => setShowEditSupplierCost(true)}/>}
+                    <SupplierCostForm initialData={pilot.supplierCost} save={(supplierCost: SupplierCost) => onChange(pilot.withSupplierCost(supplierCost))} hide={() => setShowEditSupplierCost(false)}/>
+                    :
+                    <SupplierCostDisplay supplierCost={pilot.supplierCost} onEdit={() => setShowEditSupplierCost(true)}/>
+                }
 
-                <HouseholdDisplayEdit pilot={pilot} onChange={onChange}/>
-
-                {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
-                    <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it}
-                                      toDelete={() => onChange(pilot.remove(it))}
-                    />)}
-
-                {pilot.windFarms.asJsReadonlyArrayView().map((it, i) =>
-                    <WindFarmDisplay windFarm={it} key={"windFarm_" + i}
-                                     toDelete={() => onChange(pilot.remove(it))}
-                    />)}
+                <HouseholdsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <SolarFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
 
                 {pilot.biogasGenerators.asJsReadonlyArrayView().map((it, i) =>
@@ -79,30 +67,20 @@ export const Configure: FunctionComponent<{
                     />)}
 
                 {showAddHouseholdGroup &&
-                    <HouseholdForm
-                        save={(asset: HouseholdGroup) => onChange(pilot.create(asset))}
-                        hide={() => setShowAddHouseholdGroup(false)}
-                    />}
+                    <HouseholdForm save={(asset: HouseholdGroup) => onChange(pilot.create(asset))} hide={() => setShowAddHouseholdGroup(false)}/>}
                 {showAddSolarFarm &&
                     <SolarFarmForm save={(asset: SolarFarm) => onChange(pilot.create(asset))} hide={() => setShowAddSolarFarm(false)}/>}
                 {showAddWindFarm &&
-                    <WindFarmForm saveWindFarm={(asset: WindFarm) => onChange(pilot.create(asset))}
-                                  hide={() => setShowAddWindFarm(false)}/>}
                 {showAddBiogasGenerator &&
-                    <BiogasGeneratorForm save={(asset) => onChange(pilot.create(asset))}
-                                         hide={() => setShowAddBiogasGenerator(false)}/>}
+                    <BiogasGeneratorForm save={(asset) => onChange(pilot.create(asset))} hide={() => setShowAddBiogasGenerator(false)}/>}
                 {showAddBattery &&
-                    <BatteryForm saveBattery={(asset: Battery) => onChange(pilot.create(asset))}
-                                 hide={() => setShowAddBattery(false)}/>}
+                    <BatteryForm saveBattery={(asset: Battery) => onChange(pilot.create(asset))} hide={() => setShowAddBattery(false)}/>}
                 {showAddHeatStorage &&
-                    <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => onChange(pilot.create(asset))}
-                                     hide={() => setShowAddHeatStorage(false)}/>}
+                    <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => onChange(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)}/>}
 
                 {showAddDropdown &&
                     <AddDropdown
-                        style={{
-                            alignSelf: "end",
-                        }}
+                        style={{alignSelf: "end"}}
                         addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
                         addSolarFarm={() => setShowAddSolarFarm(true)}
                         addWindFarm={() => setShowAddWindFarm(true)}
@@ -110,7 +88,6 @@ export const Configure: FunctionComponent<{
                         addHeatStorage={() => setShowAddHeatStorage(true)}
                         addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
                     />}
-
             </Grid>
         </>
     )

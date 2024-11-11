@@ -8,8 +8,7 @@ export const HouseholdDisplay: FunctionComponent<{
     householdGroup: HouseholdGroup,
     onEdit: () => void,
     toDelete: () => void,
-}> = ({householdGroup, toDelete, onEdit}) => {
-
+}> = ({householdGroup, onEdit, toDelete}) => {
     return (
         <Card>
             <Flex className="head-title">
