@@ -1,6 +1,5 @@
 import {FunctionComponent, useState} from "react"
 import {Pilot, HouseholdGroup, SolarFarm, WindFarm, Battery, HeatStorage, SupplierCost} from "local4local"
-import {HouseholdDisplay} from "./household/household-display.tsx"
 import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
 import {Grid, Heading} from "@radix-ui/themes"
@@ -11,6 +10,7 @@ import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
 import {SupplierCostDisplay, SupplierCostForm} from "./supplier-cost.tsx"
 import {BiogasGeneratorDisplay, BiogasGeneratorForm} from "./biogas-generator.tsx"
+import {HouseholdDisplayEdit} from "./household/household-display-edit.tsx";
 
 export const Configure: FunctionComponent<{
     pilot: Pilot,
@@ -23,8 +23,6 @@ export const Configure: FunctionComponent<{
     const [showAddBattery, setShowAddBattery] = useState(false)
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
     const [showEditSupplierCost, setShowEditSupplierCost] = useState(false)
-    const [selectedHouseholdGroup, setSelectedHouseholdGroup] = useState<HouseholdGroup | null>(null);
-
 
     const showAddDropdown = !(
         showAddHouseholdGroup ||
@@ -50,28 +48,7 @@ export const Configure: FunctionComponent<{
                     : <SupplierCostDisplay supplierCost={pilot.supplierCost}
                                            onEdit={() => setShowEditSupplierCost(true)}/>}
 
-                {pilot.householdGroups.asJsReadonlyArrayView().map((it, i) =>
-                    selectedHouseholdGroup == it ? (
-                        <HouseholdForm
-                            key={"householdGroup_" + i}
-                            save={(asset: HouseholdGroup) => {
-                                onChange(pilot.replaceHouseHoldGroup(i, asset))
-                                setSelectedHouseholdGroup(null);
-                            }}
-                            hide={() => {
-                                setSelectedHouseholdGroup(null);
-                            }}
-                            initialData={selectedHouseholdGroup}
-                        />
-                    ) : (
-                        <HouseholdDisplay
-                            key={"householdGroup_" + i}
-                            householdGroup={it}
-                            onEdit={() => { setSelectedHouseholdGroup(it)}}
-                            toDelete={() => onChange(pilot.remove(it))}
-                        />
-                    )
-                )}
+                <HouseholdDisplayEdit pilot={pilot} onChange={onChange}/>
 
                 {pilot.solarFarms.asJsReadonlyArrayView().map((it, i) =>
                     <SolarFarmDisplay key={"solarFarm_" + i} solarFarm={it}

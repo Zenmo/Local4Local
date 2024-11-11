@@ -8,7 +8,6 @@ export const HouseholdForm: FunctionComponent<{
     save: (householdGroup: HouseholdGroup) => void,
     hide: () => void,
 }> = ({initialData, save, hide}) => {
-    console.log("editHouseHold")
     const addHouseHold = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
