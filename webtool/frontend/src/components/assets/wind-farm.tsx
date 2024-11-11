@@ -2,9 +2,9 @@ import {FormEvent, FunctionComponent, useState} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
 import {Pilot, WindFarm} from "local4local"
 import { GiWindTurbine } from "react-icons/gi";
-import {CostSection, CostDisplay} from "./cost-section.tsx"
-import {CardMenu} from "./card-menu.tsx"
-import {costFromFormData} from "./cost-from-form-data.ts"
+import {CostSection, CostDisplay} from "../cost-section.tsx"
+import {CardMenu} from "../card-menu.tsx"
+import {costFromFormData} from "../cost-from-form-data.ts"
 
 export const WindFarmDisplay: FunctionComponent<{
     windFarm: WindFarm,

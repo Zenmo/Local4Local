@@ -4,12 +4,12 @@ import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
 import {Grid, Heading} from "@radix-ui/themes"
 import {SolarFarmForm} from "./solarfarm/solarfarm-form.tsx"
-import {WindFarmsDisplayEdit, WindFarmForm} from "./wind-farm.tsx"
-import {BatteryDisplay, BatteryForm} from "./battery.tsx"
+import {BatteriesDisplayEdit, BatteryForm} from "./assets/battery.tsx"
+import {BiogasGeneratorForm, BiogasGeneratorsDisplayEdit} from "./assets/biogas-generator.tsx"
+import {WindFarmsDisplayEdit, WindFarmForm} from "./assets/wind-farm.tsx"
 import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
 import {SupplierCostDisplay, SupplierCostForm} from "./supplier-cost.tsx"
-import {BiogasGeneratorForm, BiogasGeneratorsDisplayEdit} from "./biogas-generator.tsx"
 import {HouseholdsDisplayEdit} from "./household/households-display-edit.tsx";
 import {SolarFarmsDisplayEdit} from "./solarfarm/solarfarms-display-edit.tsx";
 
@@ -50,11 +50,8 @@ export const Configure: FunctionComponent<{
                 <SolarFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <WindFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <BiogasGeneratorsDisplayEdit pilot={pilot} onChange={onChange}/>
+                <BatteriesDisplayEdit pilot={pilot} onChange={onChange}/>
 
-                {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
-                    <BatteryDisplay key={"battery_" + i} battery={it}
-                                    toDelete={() => onChange(pilot.remove(it))}
-                    />)}
 
                 {pilot.heatStorages.asJsReadonlyArrayView().map((it, i) =>
                     <HeatStorageDisplay heatStorage={it} key={"heatStorage_" + i}
@@ -70,7 +67,7 @@ export const Configure: FunctionComponent<{
                 {showAddBiogasGenerator &&
                     <BiogasGeneratorForm save={(asset) => onChange(pilot.create(asset))} hide={() => setShowAddBiogasGenerator(false)}/>}
                 {showAddBattery &&
-                    <BatteryForm saveBattery={(asset: Battery) => onChange(pilot.create(asset))} hide={() => setShowAddBattery(false)}/>}
+                    <BatteryForm save={(asset: Battery) => onChange(pilot.create(asset))} hide={() => setShowAddBattery(false)}/>}
                 {showAddHeatStorage &&
                     <HeatStorageForm saveHeatStorage={(asset: HeatStorage) => onChange(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)}/>}
 

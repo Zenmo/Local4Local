@@ -70,6 +70,12 @@ data class Pilot(
         return copy(biogasGenerators = newSet)
     }
 
+    fun replaceBattery(index: Int, battery: Battery): Pilot {
+        val newSet = this.batteries.toMutableList()
+        newSet[index] = battery
+        return copy(batteries = newSet)
+    }
+
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
 
     fun toJson(): String =

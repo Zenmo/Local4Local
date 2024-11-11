@@ -1,10 +1,10 @@
 import {FormEvent, FunctionComponent, useState} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
 import {Pilot, BiogasGenerator} from "local4local"
-import {CardMenu} from "./card-menu.tsx"
-import {CostSection, CostDisplay} from "./cost-section.tsx"
+import {CardMenu} from "../card-menu.tsx"
+import {CostSection, CostDisplay} from "../cost-section.tsx"
 import {ImFire} from "react-icons/im"
-import {costFromFormData} from "./cost-from-form-data.ts"
+import {costFromFormData} from "../cost-from-form-data.ts"
 
 export const BiogasGeneratorDisplay: FunctionComponent<{
     biogasGenerator: BiogasGenerator,
