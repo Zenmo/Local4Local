@@ -3,8 +3,8 @@ import {Pilot, HouseholdGroup, SolarFarm, WindFarm, Battery, HeatStorage, Suppli
 import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
 import {Grid, Heading} from "@radix-ui/themes"
-import {SolarFarmDisplay, SolarFarmForm} from "./solar-farm.tsx"
 import {WindFarmDisplay, WindFarmForm} from "./wind-farm.tsx"
+import {SolarFarmForm} from "./solarfarm/solarfarm-form.tsx"
 import {BatteryDisplay, BatteryForm} from "./battery.tsx"
 import {HeatStorageDisplay} from "./heat-storage/heat-storage-display.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
@@ -59,6 +59,7 @@ export const Configure: FunctionComponent<{
                     <WindFarmDisplay windFarm={it} key={"windFarm_" + i}
                                      toDelete={() => onChange(pilot.remove(it))}
                     />)}
+                <SolarFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
 
                 {pilot.biogasGenerators.asJsReadonlyArrayView().map((it, i) =>
                     <BiogasGeneratorDisplay
@@ -83,8 +84,7 @@ export const Configure: FunctionComponent<{
                         hide={() => setShowAddHouseholdGroup(false)}
                     />}
                 {showAddSolarFarm &&
-                    <SolarFarmForm saveSolarFarm={(asset: SolarFarm) => onChange(pilot.create(asset))}
-                                   hide={() => setShowAddSolarFarm(false)}/>}
+                    <SolarFarmForm save={(asset: SolarFarm) => onChange(pilot.create(asset))} hide={() => setShowAddSolarFarm(false)}/>}
                 {showAddWindFarm &&
                     <WindFarmForm saveWindFarm={(asset: WindFarm) => onChange(pilot.create(asset))}
                                   hide={() => setShowAddWindFarm(false)}/>}
