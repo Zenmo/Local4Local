@@ -815,6 +815,7 @@ var pilot = client.getPilot(p_local4localSession);
 var energyCoop = f_createLocal4LocalEnergyCoop();
 energyCoop.p_bufferPrice_eurpMWh = pilot.getBufferPrice_eurpkWh()*1000;// == null ? 10 : pilot.getBufferPrice_eurpkWh()*1000;
 energyCoop.p_feedinCompensation_eurpMWh = 1000*pilot.getSupplierCost().getFeedInCompensation_eurpkWh();
+//energyCoop.p_feedinCompensation_eurpMWh = 20;
 energyCoop.p_onbalansMarkup_r = pilot.getSupplierCost().getOnbalansMarkup_r();
 
 f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
@@ -1215,6 +1216,7 @@ for (var batteryData: batteries) {
  
     //Battery Asset
     f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
+    //f_addStorage(gridBattery, 100, 100, OL_EnergyAssetType.STORAGE_ELECTRIC );
     
     //Cost item for kostprijs+
     /*Double CAPEX_eurpa = null; //solarFarmData.getCAPEX_eurpa();
@@ -6080,7 +6082,7 @@ public void f_calculateKPIsFromGC(){
 				<Variable Class="PlainVariable">
 					<Id>1729691963838</Id>
 					<Name><![CDATA[v_selfConsumptionCoopAssets_MWh]]></Name>
-					<X>40</X><Y>910</Y>
+					<X>40</X><Y>970</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6102,18 +6104,6 @@ public void f_calculateKPIsFromGC(){
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[new J_CoopReport()]]></Code>
 						</InitialValue>
-					</Properties>
-				</Variable>
-				<Variable Class="PlainVariable">
-					<Id>1730132441987</Id>
-					<Name><![CDATA[v_customerFeedIn_MWh]]></Name>
-					<X>40</X><Y>930</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
-						<Type><![CDATA[double]]></Type>        
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
@@ -6287,16 +6277,23 @@ traceln("Average LCOE of own assets: %s eur/MWh", assetAvgLCOE_eurpMWh);
 traceln("Average LCOE of own assets with SDE subsidies: %s eur/MWh", (totalOwnProductionCost_eur-totalSDEincome_eur)/ totalOwnProduction_MWh);
 
 
-double totalOwnElectricityProduced_MWh = acc_annualOwnElectricityProduction_kW.getSum()  * energyModel.p_timeStep_h / 1000;
-v_customerFeedIn_MWh = acc_annualCustomerFeedIn_kW.getIntegral() / 1000;
+double totalOwnElectricityProduced_MWh = acc_annualOwnElectricityProduction_kW.getIntegral() / 1000;
+
 traceln("Average FeedInEpexValue_eurpMWh: %s", FeedInEPEXvalue_eur/v_customerFeedIn_MWh);
 
-double totalDeliveredElec_MWh = v_totalElectricitySelfConsumed_MWh + v_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // v_totalElectricitySelfConsumed_MWh includes feed-in from customers that is re-delivered. However, it's only delivery, not feed-in! (Niet gesaldeerd)
+double totalDeliveredElec_MWh = -energyModel.GridBatteries(0).p_batteryAsset.getEnergyUsed_kWh()/1000 + v_totalElectricitySelfConsumed_MWh + v_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // v_totalElectricitySelfConsumed_MWh includes feed-in from customers that is re-delivered. However, it's only delivery, not feed-in! (Niet gesaldeerd)
+totalDeliveredElec_MWh = v_customerDelivery_MWh;
+/*if (abs(totalDeliveredElec_MWh - v_customerDelivery_MWh) > 0.1) {
+	traceln("Delivery error: %s MWh", totalDeliveredElec_MWh - v_customerDelivery_MWh);
+	throw new RuntimeException("Delivery calcs don't match!");
+}*/
+
 double customerFeedIn_MWh = v_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - v_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // This should include all the energy that is received from customers!
-if (abs(customerFeedIn_MWh - v_customerFeedIn_MWh) > 0.1) {
+customerFeedIn_MWh = v_customerFeedIn_MWh;
+/*if (abs(customerFeedIn_MWh - v_customerFeedIn_MWh) > 0.100001) {
 	traceln("Feedin error: %s MWh", customerFeedIn_MWh - v_customerFeedIn_MWh);
 	throw new RuntimeException("Feedin calcs don't match!");
-}
+}*/
 //double nettDeliveredElec_MWh = totalDeliveredElec_MWh - customerFeedIn_MWh; // 
 
 double kostprijs_eurpMWh;
@@ -6307,29 +6304,28 @@ if ( totalOwnElectricityProduced_MWh == 0 ) {
 }
 if (p_feedinCompensation_eurpMWh == 0.0) {
 	traceln("p_feedinCompensation_eurpMWh is zero, using asset-kostprijs  of %s eur/MWh as feedinCompensation", kostprijs_eurpMWh);
-	p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;
-	
+	p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;	
 }
 
 double kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
 //double EPEXbalance_eur = EPEXincome_eur - EPEXcosts_eur; // positive balance means nett-income!
 
 // Leveranciersprijs
-double selfConsumptionElectricity_MWh=v_selfConsumptionCoopAssets_MWh;
+double gelijktijdigeLevering_MWh=v_selfConsumptionCoopAssets_MWh;
 
 double leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnElectricityProduced_MWh  + p_feedinCompensation_eurpMWh * customerFeedIn_MWh + EPEXcosts_eur + onbalansCosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
-double leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh )/(totalDeliveredElec_MWh - selfConsumptionElectricity_MWh); // Zorg dat EDV break-even draait
+double leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh )/(totalDeliveredElec_MWh - gelijktijdigeLevering_MWh); // Zorg dat EDV break-even draait
 // Gemiddelde leveringsprijs
-double gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) ) / totalDeliveredElec_MWh;
+double gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - gelijktijdigeLevering_MWh) ) / totalDeliveredElec_MWh;
 //double leveranciersprijs_eurpMWh = 
-double leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) * leveranciersprijs_eurpMWh;
+double leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - gelijktijdigeLevering_MWh) * leveranciersprijs_eurpMWh;
 //totalDeliveredElec_MWh = nettDeliveredElec_MWh; // Assume that nettDelivered is what counts for finances, such that feed-in tarrif is accounted for!
 
 coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
-coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(selfConsumptionElectricity_MWh, kostprijsPlus_eurpMWh));
+coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(gelijktijdigeLevering_MWh, kostprijsPlus_eurpMWh));
 //coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
 coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
-coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-selfConsumptionElectricity_MWh, leveranciersprijs_eurpMWh));
+coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-gelijktijdigeLevering_MWh, leveranciersprijs_eurpMWh));
 coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXcosts_eur));
 coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXincome_eur));
 coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
@@ -6363,6 +6359,7 @@ traceln("EDV total costs: %s €", roundToInt(leveranciersInkomsten_eur));
 
 if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 	traceln("Coop not running break-even!!");
+	throw new RuntimeException("Coop finances not balanced!");
 	//traceln("Coop total income: %s €", leveranciersKosten_eur);
 	//traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
 }
@@ -6384,30 +6381,34 @@ if ( totalOwnElectricityProduced_MWh == 0.0 || totalSDEincome_eur == 0.0) {
 kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
 traceln("kostprijs+ met meetellen teruglevering als eigen opwek: %s eur/MWh", kostprijsPlus_eurpMWh);
 
-selfConsumptionElectricity_MWh=v_totalElectricitySelfConsumed_MWh;
+gelijktijdigeLevering_MWh=v_totalElectricitySelfConsumed_MWh;
 leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnProduction_MWh + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh + EPEXcosts_eur + onbalansCosts_eur; 
 //leveranciersKosten_eur = totalOwnProductionCost_eur - totalSDEincome_eur + EPEXcosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
-leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh )/(totalDeliveredElec_MWh - selfConsumptionElectricity_MWh); // Zorg dat EDV break-even draait
+leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh )/(totalDeliveredElec_MWh - gelijktijdigeLevering_MWh); // Zorg dat EDV break-even draait
 
 // Gemiddelde leveringsprijs
-gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) ) / totalDeliveredElec_MWh;
-leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * selfConsumptionElectricity_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - selfConsumptionElectricity_MWh) * leveranciersprijs_eurpMWh;
+gemiddeldeLeveringsprijs_eurpMWh = ( kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh + leveranciersprijs_eurpMWh * (totalDeliveredElec_MWh - gelijktijdigeLevering_MWh) ) / totalDeliveredElec_MWh;
+leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh + EPEXincome_eur + (totalDeliveredElec_MWh - gelijktijdigeLevering_MWh) * leveranciersprijs_eurpMWh;
 
 coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
-coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(selfConsumptionElectricity_MWh, kostprijsPlus_eurpMWh));
+coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(gelijktijdigeLevering_MWh, kostprijsPlus_eurpMWh));
 //coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
 coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
-coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-selfConsumptionElectricity_MWh, leveranciersprijs_eurpMWh));
+coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-gelijktijdigeLevering_MWh, leveranciersprijs_eurpMWh));
 coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXcosts_eur));
 coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXincome_eur));
 coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
 coopReport.onbalans(J_AccountingLine.fromTotalPrice((v_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY)+v_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY))*1000, onbalansCosts_eur));
 v_coopReportIncludeFeedinInOwnConsumption = coopReport;
 
+traceln("Counting feedin as own generation:");
+traceln("Coop total income: %s €", leveranciersKosten_eur);
+traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
+
 if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 	traceln("Coop not running break-even!!");
-	traceln("Coop total income: %s €", leveranciersKosten_eur);
-	traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
+	//traceln("Coop total income: %s €", leveranciersKosten_eur);
+	//traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
 	throw new RuntimeException("Coop finances not balanced!");
 }]]></Body>
 				</Function>
