@@ -16,7 +16,7 @@ export const HeatStoragesDisplayEdit: FunctionComponent<{
                     <HeatStorageForm
                         key={"HeatStorage_" + i}
                         save={(asset: HeatStorage) => {
-                            onChange(pilot.replaceHeatStorage(i, asset))
+                            onChange(pilot.replaceAsset(asset, i))
                             setSelected(null);
                         }}
                         hide={() => {

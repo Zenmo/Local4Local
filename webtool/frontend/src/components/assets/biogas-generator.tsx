@@ -83,7 +83,7 @@ export const BiogasGeneratorsDisplayEdit: FunctionComponent<{
                     <BiogasGeneratorForm
                         key={"BiogasGenerator_" + i}
                         save={(asset: BiogasGenerator) => {
-                            onChange(pilot.replaceBiogasGenerator(i, asset))
+                            onChange(pilot.replaceAsset(asset, i))
                             setSelected(null);
                         }}
                         hide={() => {

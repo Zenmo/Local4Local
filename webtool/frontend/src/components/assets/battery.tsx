@@ -93,7 +93,7 @@ export const BatteriesDisplayEdit: FunctionComponent<{
                     <BatteryForm
                         key={"Battery_" + i}
                         save={(asset: Battery) => {
-                            onChange(pilot.replaceBattery(i, asset))
+                            onChange(pilot.replaceAsset(asset, i))
                             setSelected(null);
                         }}
                         hide={() => {

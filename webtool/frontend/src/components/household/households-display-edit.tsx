@@ -15,7 +15,7 @@ export const HouseholdsDisplayEdit: FunctionComponent<{
                 <HouseholdForm
                     key={"householdGroup_" + i}
                     save={(asset: HouseholdGroup) => {
-                        onChange(pilot.replaceHouseHoldGroup(i, asset))
+                        onChange(pilot.replaceAsset(asset, i))
                         setSelectedHouseholdGroup(null);
                     }}
                     hide={() => {

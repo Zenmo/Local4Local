@@ -84,7 +84,7 @@ export const WindFarmsDisplayEdit: FunctionComponent<{
                     <WindFarmForm
                         key={"WindFarm_" + i}
                         save={(asset: WindFarm) => {
-                            onChange(pilot.replaceWindFarm(i, asset))
+                            onChange(pilot.replaceAsset(asset, i))
                             setSelected(null);
                         }}
                         hide={() => {
