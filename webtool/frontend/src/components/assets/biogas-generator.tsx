@@ -62,7 +62,7 @@ export const BiogasGeneratorForm: FunctionComponent<{
                     <label className="form-label" htmlFor="power_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="power_kW" name="power_kW" defaultValue={ initialData?.power_kW || 200}/>
                 </div>
-                <CostSection />
+                <CostSection initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>

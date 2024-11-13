@@ -49,7 +49,7 @@ export const HeatStorageForm: FunctionComponent<{
                     <input className="form-input" type="number" id="maxTemp_degC" name="maxTemp_degC" defaultValue={ initialData?.maxTemp_degC || 95} />
                 </div>
 
-                <CostSection />
+                <CostSection initialData={initialData?.cost}/>
 
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>

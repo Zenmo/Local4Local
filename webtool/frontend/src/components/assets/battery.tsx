@@ -56,7 +56,7 @@ export const BatteryForm: FunctionComponent<{
             costFromFormData(formData),
         )
 
-       save(battery)
+        save(battery)
         hide()
     }
 
@@ -72,7 +72,7 @@ export const BatteryForm: FunctionComponent<{
                     <label className="form-label" htmlFor="peakPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW || 100} />
                 </div>
-                <CostSection hideCostPerKwh={true} />
+                <CostSection hideCostPerKwh={true} initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
