@@ -8,8 +8,7 @@ export const HouseholdForm: FunctionComponent<{
     save: (householdGroup: HouseholdGroup) => void,
     hide: () => void,
 }> = ({initialData, save, hide}) => {
-    console.log("editHouseHold")
-    const addHouseHold = (event: FormEvent) => {
+    const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
         const formData = new FormData(form);
@@ -29,7 +28,7 @@ export const HouseholdForm: FunctionComponent<{
     return (
         <Card className="form-box">
             <HouseholdHeading />
-            <form onSubmit={addHouseHold}>
+            <form onSubmit={onSubmit}>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="type">Type</label>
                     <input className="form-input" type="text" id="type" name="type" defaultValue= { initialData?.type || "Huishoudens" }/>

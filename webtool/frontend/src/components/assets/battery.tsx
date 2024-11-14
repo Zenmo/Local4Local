@@ -1,20 +1,21 @@
-import {FormEvent, FunctionComponent} from "react"
+import {FormEvent, FunctionComponent, useState} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {Battery} from "local4local"
+import {Pilot, Battery} from "local4local"
 import {PiCarBatteryLight} from "react-icons/pi"
-import {CostSection, CostDisplay} from "./cost-section.tsx"
-import {CardMenu} from "./card-menu.tsx"
-import {costFromFormData} from "./cost-from-form-data.ts"
+import {CostSection, CostDisplay} from "../cost-section.tsx"
+import {CardMenu} from "../card-menu.tsx"
+import {costFromFormData} from "../cost-from-form-data.ts"
 
 export const BatteryDisplay: FunctionComponent<{
     battery: Battery,
+    onEdit: () => void,
     toDelete: () => void,
-}> = ({battery, toDelete}) => {
+}> = ({battery, onEdit, toDelete}) => {
     return (
         <Card>
             <Flex className="head-title">
                 <BatteryHeading />
-                <CardMenu onDelete={toDelete}/>
+                <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
             <DataList.Root>
                 <DataList.Item>
@@ -40,9 +41,10 @@ const BatteryHeading = () => (
 )
 
 export const BatteryForm: FunctionComponent<{
-    saveBattery: (s: Battery) => void
+    initialData?: Battery | null;
+    save: (save: Battery) => void
     hide: () => void
-}> = ({saveBattery, hide}) => {
+}> = ({initialData, save, hide}) => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -54,7 +56,7 @@ export const BatteryForm: FunctionComponent<{
             costFromFormData(formData),
         )
 
-        saveBattery(battery)
+        save(battery)
         hide()
     }
 
@@ -64,16 +66,50 @@ export const BatteryForm: FunctionComponent<{
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="capacity_kWh">Capaciteit (kWh)</label>
-                    <input className="form-input" type="number" id="capacity_kWh" name="capacity_kWh" defaultValue={100} />
+                    <input className="form-input" type="number" id="capacity_kWh" name="capacity_kWh" defaultValue={ initialData?.capacity_kWh || 100} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="peakPower_kW">Vermogen (kW)</label>
-                    <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={100} />
+                    <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW || 100} />
                 </div>
-                <CostSection hideCostPerKwh={true} />
+                <CostSection hideCostPerKwh={true} initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
+    )
+}
+
+export const BatteriesDisplayEdit: FunctionComponent<{
+    pilot: Pilot,
+    onChange: (pilot: Pilot) => void,
+}> = ({pilot, onChange}) => {
+    const [selected, setSelected] = useState<Battery | null>(null);
+
+    return (
+        <>
+            {pilot.batteries.asJsReadonlyArrayView().map((it, i) =>
+                selected == it ? (
+                    <BatteryForm
+                        key={"Battery_" + i}
+                        save={(asset: Battery) => {
+                            onChange(pilot.replaceAsset(asset, i))
+                            setSelected(null);
+                        }}
+                        hide={() => {
+                            setSelected(null);
+                        }}
+                        initialData={selected}
+                    />
+                ) : (
+                    <BatteryDisplay
+                        key={"Battery_" + i}
+                        battery={it}
+                        onEdit={() => { setSelected(it)}}
+                        toDelete={() => onChange(pilot.remove(it))}
+                    />
+                )
+            )}
+        </>
     )
 }

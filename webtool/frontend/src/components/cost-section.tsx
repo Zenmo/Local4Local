@@ -20,12 +20,12 @@ export const CostDisplay: FunctionComponent<{ cost: AssetCost, hideCostPerKwh?: 
                 { !hideCostPerKwh && (
                     <>
                         <DataList.Item>
-                            <DataList.Label minWidth="88px">{titles["sdeSubsidy_eurpkWh"]}</DataList.Label>
-                            <DataList.Value>{cost.sdeSubsidy_eurpkWH}</DataList.Value>
-                        </DataList.Item>
-                        <DataList.Item>
                             <DataList.Label minWidth="88px">{titles["LCOE_eurpkWh"]}</DataList.Label>
                             <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["sdeSubsidy_eurpkWh"]}</DataList.Label>
+                            <DataList.Value>{cost.sdeSubsidy_eurpkWH}</DataList.Value>
                         </DataList.Item>
                     </>
                 )}
@@ -58,7 +58,10 @@ const CostHeading = () => (
     </Heading>
 );
 
-export const CostSection: FunctionComponent<{hideCostPerKwh?: boolean}> = ({hideCostPerKwh}) => {
+export const CostSection: FunctionComponent<{
+    hideCostPerKwh?: boolean
+    initialData?: AssetCost | null;
+}> = ({hideCostPerKwh, initialData}) => {
     return (
         <div>
             <CostHeading/>
@@ -69,6 +72,7 @@ export const CostSection: FunctionComponent<{hideCostPerKwh?: boolean}> = ({hide
                         <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
                                min={0} step={0.001}
                                placeholder="€/kWh"
+                               defaultValue={ initialData?.LCOE_eurpkWH || 0}
                                title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
                             including CAPEX, OPEX and interest"
                         />
@@ -84,31 +88,31 @@ export const CostSection: FunctionComponent<{hideCostPerKwh?: boolean}> = ({hide
                         <input className="form-input" type="number" id="sdeSubsidy_eurpkWh" name="sdeSubsidy_eurpkWh"
                                min={0} step={0.001}
                                placeholder="€/kWh"
+                               defaultValue={ initialData?.sdeSubsidy_eurpkWH || 0 }
                         />
                     </div>
                 </>
             )}
 
-
             <div className="radix-grid">
                 <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"]}</label>
                 <input className="form-input" type="number" id="CAPEX_eur" name="CAPEX_eur" min={0} step={0.001}
-                       placeholder="€"/>
+                       placeholder="€" defaultValue={ initialData?.CAPEX_eur || 0 }/>
             </div>
             <div className="radix-grid">
                 <label className="form-label" htmlFor="interest_r">{titles["interest_r"]}</label>
                 <input className="form-input" type="number" id="interest_r" name="interest_r" min={0} max={100} step={0.05}
-                    placeholder="%"/>
+                    placeholder="%" defaultValue={ initialData?.interest_r || 0 }/>
             </div>
             <div className="radix-grid">
                 <label className="form-label" htmlFor="depreciationPeriod_y">{titles["depreciationPeriod_y"]}</label>
                 <input className="form-input" type="number" id="depreciationPeriod_y" name="depreciationPeriod_y" min={0} step={0.001}
-                    placeholder="jaar"/>
+                    placeholder="jaar" defaultValue={ initialData?.depreciationPeriod_y || 0 }/>
             </div>
             <div className="radix-grid">
                 <label className="form-label" htmlFor="OPEX_eurpy">{titles["OPEX_eurpy"]}</label>
                 <input className="form-input" type="number" id="OPEX_eurpy" name="OPEX_eurpy" min={0} step={0.001}
-                    placeholder="€/jaar"/>
+                    placeholder="€/jaar" defaultValue={ initialData?.OPEX_eurpy || 0 }/>
             </div>
         </div>
     )

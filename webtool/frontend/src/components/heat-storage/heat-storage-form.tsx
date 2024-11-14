@@ -7,9 +7,10 @@ import {CostSection} from "../cost-section.tsx"
 import {costFromFormData} from "../cost-from-form-data.ts"
 
 export const HeatStorageForm: FunctionComponent<{
-    saveHeatStorage: (heatStorage: HeatStorage) => void,
+    initialData?: HeatStorage | null;
+    save: (heatStorage: HeatStorage) => void,
     hide: () => void,
-}> = ({saveHeatStorage, hide}) => {
+}> = ({initialData, save, hide}) => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -23,7 +24,7 @@ export const HeatStorageForm: FunctionComponent<{
             costFromFormData(formData),
         );
 
-        saveHeatStorage(heatStorage)
+        save(heatStorage)
         hide()
     }
 
@@ -37,18 +38,18 @@ export const HeatStorageForm: FunctionComponent<{
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="storageVolume_m3">Volume (m3)</label>
-                    <input className="form-input" type="number" id="storageVolume_m3" name="storageVolume_m3" defaultValue={50} min={0} />
+                    <input className="form-input" type="number" id="storageVolume_m3" name="storageVolume_m3" defaultValue={ initialData?.storageVolume_m3 || 50} min={0} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="minTemp_degC">Minimale temperatuur (&deg;C)</label>
-                    <input className="form-input" type="number" id="minTemp_degC" name="minTemp_degC" defaultValue={50} />
+                    <input className="form-input" type="number" id="minTemp_degC" name="minTemp_degC" defaultValue={ initialData?.minTemp_degC || 50} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="maxTemp_degC">Maximale temperatuur (&deg;C)</label>
-                    <input className="form-input" type="number" id="maxTemp_degC" name="maxTemp_degC" defaultValue={95} />
+                    <input className="form-input" type="number" id="maxTemp_degC" name="maxTemp_degC" defaultValue={ initialData?.maxTemp_degC || 95} />
                 </div>
 
-                <CostSection />
+                <CostSection initialData={initialData?.cost}/>
 
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>

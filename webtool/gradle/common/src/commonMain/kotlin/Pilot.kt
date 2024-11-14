@@ -46,10 +46,20 @@ data class Pilot(
         else -> throw Exception("Unknown type")
     }
 
-    fun replaceHouseHoldGroup(index: Int, householdGroup: HouseholdGroup): Pilot {
-        val newGroups = this.householdGroups.toMutableList()
-        newGroups[index] = householdGroup
-        return copy(householdGroups = newGroups)
+    // Generalized replace function
+    fun replaceAsset(newAsset: AssetType, index: Int,): Pilot = when (newAsset) {
+        is HouseholdGroup -> copy(householdGroups = householdGroups.replaceAt(index, newAsset))
+        is SolarFarm -> copy(solarFarms = solarFarms.replaceAt(index, newAsset))
+        is WindFarm -> copy(windFarms = windFarms.replaceAt(index, newAsset))
+        is Battery -> copy(batteries = batteries.replaceAt(index, newAsset))
+        is HeatStorage -> copy(heatStorages = heatStorages.replaceAt(index, newAsset))
+        is BiogasGenerator -> copy(biogasGenerators = biogasGenerators.replaceAt(index, newAsset))
+        else -> throw Exception("Unknown type")
+    }
+
+    // Extension function for List replacement
+    private fun <AssetType> List<AssetType>.replaceAt(index: Int, newAsset: AssetType): List<AssetType> {
+        return toMutableList().apply { this[index] = newAsset }
     }
 
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
