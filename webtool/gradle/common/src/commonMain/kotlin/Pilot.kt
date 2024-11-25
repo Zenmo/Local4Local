@@ -113,6 +113,9 @@ data class HouseholdGroup(
 @Serializable
 data class Company(
     val name: String,
+    val annualElectricityConsumption_kWh: Double,
+    val pvInstalled_kWp: Double,
+    val laadpalen_n: Int,
 )
 
 /*
