@@ -909,8 +909,8 @@ for (var windFarmData: windFarms) {
 	if (SDEtariff_eurpKwh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 	}
-	Double interestRate_r = windFarmData.getCost().getInterest_r();
-	Double depreciationPeriod_y = windFarmData.getCost().getDepreciationPeriod_y();
+	double interestRate_r = windFarmData.getCost().getInterest_r() == null ? 0.06 : windFarmData.getCost().getInterest_r();
+	double depreciationPeriod_y = windFarmData.getCost().getDepreciationPeriod_y() == null ? 15 : windFarmData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
 	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
@@ -6580,10 +6580,10 @@ for (var ci : c_AssetCosts) {
 	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
 	
 	totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
-	if (ci.LCOE_eurpkWh() == 0.0) {
-		totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
-	} else {
+	if (ci.LCOE_eurpkWh() == null) {
 		totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
+	} else {
+		totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
 	}
 	
 	// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
@@ -6795,7 +6795,7 @@ if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 					</Parameter>
 					<Body><![CDATA[double yearlyCosts_eur = 0.0;
 yearlyCosts_eur+=assetCost.OPEX_eurpa();
-yearlyCosts_eur+=assetCost.CAPEX_eur()/assetCost.depreciationPeriod_y();
+yearlyCosts_eur+=assetCost.CAPEX_eur()/max(1,assetCost.depreciationPeriod_y());
 yearlyCosts_eur+=assetCost.CAPEX_eur()*assetCost.interestRate_r();
 traceln("Capex/opex based production costs for asset %s: %s eur/year", assetCost, yearlyCosts_eur);
 return yearlyCosts_eur;]]></Body>
@@ -7818,7 +7818,7 @@ public class J_AssetCost implements Serializable {
 	protected J_EA energyAsset;
 	protected double CAPEX_eur;
 	protected double OPEX_eurpa;
-	protected double LCOE_eurpkWh;
+	protected Double LCOE_eurpkWh;
 	protected double SDE_tariff_eurpkWh;
 	protected double depreciationPeriod_y;
 	protected double interestRate_r;
@@ -7827,7 +7827,7 @@ public class J_AssetCost implements Serializable {
 	protected double productionEPEXvalue_eur = 0;
 	protected double totalProduction_MWh = 0;
 	
-	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, double LCOE_eurpkWh, double SDE_tariff_eurpkWh, double interestRate_r, double depreciationPeriod_y) {
+	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, Double LCOE_eurpkWh, double SDE_tariff_eurpkWh, double interestRate_r, double depreciationPeriod_y) {
 		this.energyAsset = j_ea;
 		this.CAPEX_eur = CAPEX_eur;
 		this.OPEX_eurpa = OPEX_eurpa;
