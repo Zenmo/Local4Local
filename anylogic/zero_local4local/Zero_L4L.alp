@@ -909,8 +909,11 @@ for (var windFarmData: windFarms) {
 	if (SDEtariff_eurpKwh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 	}
+	Double interestRate_r = windFarmData.getCost().getInterest_r();
+	Double depreciationPeriod_y = windFarmData.getCost().getDepreciationPeriod_y();
+	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
@@ -1161,8 +1164,10 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	if (SDEtariff_eurpKwh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 	}
+	Double interestRate_r = solarFarmData.getCost().getInterest_r();
+	Double depreciationPeriod_y = solarFarmData.getCost().getDepreciationPeriod_y();
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
@@ -1365,8 +1370,11 @@ for (var generatorData: biogasGenerators) {
 	if (SDEtariff_eurpKwh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 	}
+	Double interestRate_r = generatorData.getCost().getInterest_r();
+	Double depreciationPeriod_y = generatorData.getCost().getDepreciationPeriod_y();
+	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh);
+	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
@@ -6316,6 +6324,15 @@ public void f_calculateKPIs(){
 				<Parameter>
 					<Name><![CDATA[p_actorSubgroup]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -6410,7 +6427,7 @@ public void f_calculateKPIs(){
 				<Variable Class="PlainVariable">
 					<Id>1729601818209</Id>
 					<Name><![CDATA[v_coopReport]]></Name>
-					<X>660</X><Y>920</Y>
+					<X>1190</X><Y>910</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6437,7 +6454,7 @@ public void f_calculateKPIs(){
 				<Variable Class="PlainVariable">
 					<Id>1730121166984</Id>
 					<Name><![CDATA[v_coopReportIncludeFeedinInOwnConsumption]]></Name>
-					<X>660</X><Y>940</Y>
+					<X>1190</X><Y>930</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6452,7 +6469,7 @@ public void f_calculateKPIs(){
 				<Variable Class="Parameter">
 					<Id>1729495881792</Id>
 					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
-					<X>660</X><Y>850</Y>
+					<X>1190</X><Y>840</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6476,7 +6493,7 @@ public void f_calculateKPIs(){
 				<Variable Class="Parameter">
 					<Id>1730297167530</Id>
 					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
-					<X>660</X><Y>870</Y>
+					<X>1190</X><Y>860</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6500,7 +6517,7 @@ public void f_calculateKPIs(){
 				<Variable Class="Parameter">
 					<Id>1730304641116</Id>
 					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
-					<X>660</X><Y>890</Y>
+					<X>1190</X><Y>880</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6524,7 +6541,7 @@ public void f_calculateKPIs(){
 				<Variable Class="CollectionVariable">
 					<Id>1729007310573</Id>
 					<Name><![CDATA[c_AssetCosts]]></Name>
-					<X>664</X><Y>825</Y>
+					<X>1194</X><Y>815</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6547,7 +6564,7 @@ public void f_calculateKPIs(){
 
 @author: JorritvandenHouten
 @since: Sprint 6]]></Description>
-					<X>663</X><Y>802</Y>
+					<X>1193</X><Y>792</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6561,9 +6578,13 @@ double totalSDEincome_eur = 0;
 
 for (var ci : c_AssetCosts) {
 	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
-	totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
+	
 	totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
-	traceln("Energy produced of costitem: %s kWh", -ci.energyAsset().getEnergyUsed_kWh());
+	if (ci.LCOE_eurpkWh() == 0.0) {
+		totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
+	} else {
+		totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
+	}
 	
 	// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
 	
@@ -6757,6 +6778,27 @@ if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 	//traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
 	throw new RuntimeException("Coop finances not balanced!");
 }]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1732541109430</Id>
+					<Name><![CDATA[f_getYearlyCosts_eur]]></Name>
+					<X>1380</X><Y>790</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[assetCost]]></Name>
+						<Type><![CDATA[J_AssetCost]]></Type>
+					</Parameter>
+					<Body><![CDATA[double yearlyCosts_eur = 0.0;
+yearlyCosts_eur+=assetCost.OPEX_eurpa();
+yearlyCosts_eur+=assetCost.CAPEX_eur()/assetCost.depreciationPeriod_y();
+yearlyCosts_eur+=assetCost.CAPEX_eur()*assetCost.interestRate_r();
+traceln("Capex/opex based production costs for asset %s: %s eur/year", assetCost, yearlyCosts_eur);
+return yearlyCosts_eur;]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -7774,21 +7816,25 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 @lombok.experimental.Accessors(fluent = true)
 public class J_AssetCost implements Serializable {
 	protected J_EA energyAsset;
-	protected double CAPEX_eurpa;
+	protected double CAPEX_eur;
 	protected double OPEX_eurpa;
 	protected double LCOE_eurpkWh;
 	protected double SDE_tariff_eurpkWh;
+	protected double depreciationPeriod_y;
+	protected double interestRate_r;
+	
 	protected double SDEincome_eur = 0;
 	protected double productionEPEXvalue_eur = 0;
 	protected double totalProduction_MWh = 0;
 	
-	public J_AssetCost(J_EA j_ea, double CAPEX_eurpa, double OPEX_eurpa, double LCOE_eurpkWh, double SDE_tariff_eurpkWh) {
+	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, double LCOE_eurpkWh, double SDE_tariff_eurpkWh, double interestRate_r, double depreciationPeriod_y) {
 		this.energyAsset = j_ea;
-		this.CAPEX_eurpa = CAPEX_eurpa;
+		this.CAPEX_eur = CAPEX_eur;
 		this.OPEX_eurpa = OPEX_eurpa;
 		this.LCOE_eurpkWh = LCOE_eurpkWh;
 		this.SDE_tariff_eurpkWh = SDE_tariff_eurpkWh;
-
+		this.interestRate_r = interestRate_r;
+		this.depreciationPeriod_y = depreciationPeriod_y;
 	}
 	
 	public void setSDEincome_eur(double SDEincome_eur) {
