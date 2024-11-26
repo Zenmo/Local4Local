@@ -3177,7 +3177,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Width>170</Width>
 					<Height>50</Height>
 					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
+					<FillColor>-2951726</FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle>
 				<Rectangle>
@@ -3221,7 +3221,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Width>170</Width>
 					<Height>50</Height>
 					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
+					<FillColor>-3896</FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle>
 				<Rectangle>
@@ -5102,7 +5102,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Group>
 					<Id>1730998285479</Id>
 					<Name><![CDATA[grp_balanceWarning]]></Name>
-					<X>-1720</X><Y>1440</Y>
+					<X>-1730</X><Y>1440</Y>
 					<Label><X>7.559</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -7110,6 +7110,9 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 				<Parameter>
 					<Name><![CDATA[p_address]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_quaternaryHeatingAsset]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -7202,7 +7205,7 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 			<ConnectionsId>1732205702999</ConnectionsId>
 			<Functions>
 				<Function AccessType="public" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1732205725339</Id>
 					<Name><![CDATA[f_batteryManagementBalanceGrid_L4L]]></Name>
@@ -7255,7 +7258,7 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 	
 	chargeSetpoint_kW = FeedforwardGain_kWpKw * (currentCoopElectricitySurplus_kW - chargeOffset_kW) + (SOC_setp_fr - batterySOC) * FeedbackGain_kWpSOC;
 	chargeSetpoint_kW = min(max(chargeSetpoint_kW, availableDischargePower_kW),availableChargePower_kW); // Don't allow too much (dis)charging!
-	p_batteryAsset.v_powerFraction_fr = max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW())); // Convert to powerFraction and limit power	
+	return max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW())); // Convert to powerFraction and limit power	
 	//traceln("Coop surpluss " + currentCoopElectricitySurplus_kW + "kW, Battery charging power " + p_batteryAsset.v_powerFraction_fr*p_batteryAsset.j_ea.getElectricCapacity_kW() + " kW at " + currentBatteryStateOfCharge*100 + " % SOC");
 	//traceln("hello?");
 	
@@ -7283,11 +7286,13 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 		p_batteryAsset.v_powerFraction_fr = max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW()));
 	}
 	*/
+} else {
+	return 0.0;
 }
 ]]></Body>
 				</Function>
 				<Function AccessType="public" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1732207567939</Id>
 					<Name><![CDATA[f_batteryManagementPriceGrid_L4L]]></Name>
@@ -7360,11 +7365,13 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 	chargeSetpoint_kW = p_batteryAsset.getCapacityElectric_kW()*(WTP_eurpkWh - currentElectricityPriceCharge_eurpkWh)*priceGain_kWhpeur;
 					
 	chargeSetpoint_kW = min(max(chargeSetpoint_kW, availableDischargePower_kW),availableChargePower_kW); // Don't allow too much (dis)charging!
-	p_batteryAsset.v_powerFraction_fr = max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW())); // Convert to powerFraction and limit power
+	return max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW())); // Convert to powerFraction and limit power
+} else {
+	return 0.0;
 }]]></Body>
 				</Function>
 				<Function AccessType="public" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1732207567941</Id>
 					<Name><![CDATA[f_batteryManagementBalanceSupply_L4L]]></Name>
@@ -7416,9 +7423,11 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 	
 	chargeSetpoint_kW = FeedforwardGain_kWpKw * (currentCoopElectricitySurplus_kW - chargeOffset_kW) + (SOC_setp_fr - batterySOC) * FeedbackGain_kWpSOC;
 	chargeSetpoint_kW = min(max(chargeSetpoint_kW, availableDischargePower_kW),availableChargePower_kW); // Don't allow too much (dis)charging!
-	p_batteryAsset.v_powerFraction_fr = max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW())); // Convert to powerFraction and limit power
+	return max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW())); // Convert to powerFraction and limit power
 	//traceln("Coop surpluss " + currentCoopElectricitySurplus_kW + "kW, Battery charging power " + p_batteryAsset.v_powerFraction_fr*p_batteryAsset.j_ea.getElectricCapacity_kW() + " kW at " + currentBatteryStateOfCharge*100 + " % SOC");
 	//traceln("hello?");
+} else {
+	return 0.0;
 }
 ]]></Body>
 				</Function>
@@ -7435,18 +7444,19 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 					<Body><![CDATA[if ( p_batteryAsset != null ) {
 	if ( p_batteryAsset.getStorageCapacity_kWh() != 0.0 && p_batteryAsset.getCapacityElectric_kW() != 0.0) {
 		v_batterySOC_fr = p_batteryAsset.getCurrentStateOfCharge();
+		double powerFraction_fr = 0.0;
 		if( p_batteryOperationMode == OL_BatteryOperationMode.BALANCE){
 			//f_batteryManagementGridLoad(v_batterySOC_fr);
-			f_batteryManagementBalanceGrid(v_batterySOC_fr);
+			powerFraction_fr = f_batteryManagementBalanceGrid_L4L(v_batterySOC_fr);
 		} else if (p_batteryOperationMode == OL_BatteryOperationMode.BALANCE_SUPPLY){ // Tries to minimize supply peaks
-			f_batteryManagementBalanceSupply(v_batterySOC_fr);
-		} else if (p_batteryOperationMode == OL_BatteryOperationMode.PRICE){
-			f_batteryManagementPrice(v_batterySOC_fr);
+			powerFraction_fr = f_batteryManagementBalanceSupply_L4L(v_batterySOC_fr);
+		//} else if (p_batteryOperationMode == OL_BatteryOperationMode.PRICE){
+		//	powerFraction_fr = f_batteryManagementPrice(v_batterySOC_fr);
 		} else if (p_batteryOperationMode == OL_BatteryOperationMode.NODAL_PRICING){
-			f_batteryManagementPriceGrid(v_batterySOC_fr);
+			powerFraction_fr = f_batteryManagementPriceGrid_L4L(v_batterySOC_fr);
 		}
 		
-		p_batteryAsset.f_updateAllFlows(p_batteryAsset.v_powerFraction_fr);	
+		p_batteryAsset.f_updateAllFlows(powerFraction_fr);	
 		
 		//v_batteryPowerElectric_kW = flowsMap.get(OL_EnergyCarriers.ELECTRICITY);
 		v_batterySOC_fr = p_batteryAsset.getCurrentStateOfCharge();
