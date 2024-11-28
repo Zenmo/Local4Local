@@ -92,6 +92,12 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localSession]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -810,7 +816,7 @@ for(Tuple row : rows){
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[var client = new nu.local4local.client.Client(p_local4localBackendUrl);
+					<Body><![CDATA[nu.local4local.client.Client client = new nu.local4local.client.Client(p_local4localBackendUrl);
 var pilot = client.getPilot(p_local4localSession);
 var energyCoop = f_createLocal4LocalEnergyCoop();
 energyCoop.p_bufferPrice_eurpMWh = pilot.getBufferPrice_eurpkWh()*1000;// == null ? 10 : pilot.getBufferPrice_eurpkWh()*1000;
@@ -1071,7 +1077,6 @@ if (random.nextDouble() <= householdGroupData.getHasPV_r()) {
 } else {*/
 	new J_EAConversionGasBurner(
 		gcHouse,
-		OL_EnergyAssetType.GAS_BURNER,
 		50, 0.99,
 		energyModel.p_timeStep_h, 90
 	);
@@ -1587,6 +1592,21 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[map_scale]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_current]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_2]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_3]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -2319,12 +2339,12 @@ if( targetHeatPumpAmount < nbHeatPumps){
 			J_EAConsumption heatDemandAsset = findFirst(gc.c_consumptionAssets, j_ea->j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
 			J_EAConversionGasBurner gasBurner;
 			if (heatDemandAsset != null) {
-				gasBurner = new J_EAConversionGasBurner(gc, OL_EnergyAssetType.GAS_BURNER, heatDemandAsset.yearlyDemand_kWh/8760*10, 0.99, energyModel.p_timeStep_h, 90);
+				gasBurner = new J_EAConversionGasBurner(gc, heatDemandAsset.yearlyDemand_kWh/8760*10, 0.99, energyModel.p_timeStep_h, 90);
 			}
 			else {
 				J_EAProfile heatDemandProfile = (J_EAProfile)findFirst(gc.c_profileAssets, x->x instanceof J_EAProfile && x.energyCarrier == OL_EnergyCarriers.HEAT);
 				double peakHeatDemand_kW = Arrays.stream(heatDemandProfile.a_energyProfile_kWh).max().orElseThrow(() -> new RuntimeException());
-				gasBurner = new J_EAConversionGasBurner(gc, OL_EnergyAssetType.GAS_BURNER, peakHeatDemand_kW, 0.99, energyModel.p_timeStep_h, 90);
+				gasBurner = new J_EAConversionGasBurner(gc, peakHeatDemand_kW, 0.99, energyModel.p_timeStep_h, 90);
 			}	
 			gc.p_heatingType = OL_GridConnectionHeatingType.GASBURNER;		
 		}
@@ -2339,11 +2359,10 @@ else {
 			J_EAConversionHeatPump heatPump;
 			J_EAConsumption heatDemandAsset = findFirst(gc.c_consumptionAssets, j_ea -> j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
 			if (heatDemandAsset != null) { // als house een standaard warmtebehoefte profiel heeft
-				heatPump = new J_EAConversionHeatPump(gc, energyModel.p_timeStep_h, heatDemandAsset.yearlyDemand_kWh/8760*10 / 3, 0.5, energyModel.v_currentAmbientTemperature_degC, 60, "AIR", 0, 1);
-				
+				heatPump = new J_EAConversionHeatPump(gc, heatDemandAsset.yearlyDemand_kWh/8760*10 / 3, 0.5, energyModel.p_timeStep_h, 60, energyModel.v_currentAmbientTemperature_degC, 0, 1);				
 			} 
 			else if (gc.p_BuildingThermalAsset != null){ //als huis een building heatmodel heeft
-				heatPump = new J_EAConversionHeatPump(gc, energyModel.p_timeStep_h, 5, 0.5, energyModel.v_currentAmbientTemperature_degC, 60, "AIR", 0, 1);
+				heatPump = new J_EAConversionHeatPump(gc, 5, 0.5, energyModel.p_timeStep_h, 60, energyModel.v_currentAmbientTemperature_degC, 0, 1);
 				//J_EAStorageHeat buffer = new J_EAStorageHeat(gc, OL_EAStorageTypes.HEATBUFFER, 10, 0, energyModel.p_timeStep_h, 75, 15, 90, 50, 50000, "AIR" );
 				//Agent parentAgent, OL_EAStorageTypes heatStorageType, double capacityHeat_kW, double lossFactor_WpK, double timestep_h, double initialTemperature_degC, double minTemperature_degC, double maxTemperature_degC, double setTemperature_degC, double heatCapacity_JpK, String ambientTempType 
 				//voeg heatbuffer toe
@@ -2351,7 +2370,7 @@ else {
 			else { //anders moet het huis een heatProfiel krijgen
 				J_EAProfile heatDemandProfile = (J_EAProfile)findFirst(gc.c_profileAssets, x->x instanceof J_EAProfile && x.energyCarrier == OL_EnergyCarriers.HEAT);
 				double peakHeatDemand_kW = Arrays.stream(heatDemandProfile.a_energyProfile_kWh).max().orElseThrow(() -> new RuntimeException());
-				heatPump = new J_EAConversionHeatPump(gc, energyModel.p_timeStep_h, peakHeatDemand_kW / 3, 0.5, energyModel.v_currentAmbientTemperature_degC, 60, "AIR", 0, 1);
+				heatPump = new J_EAConversionHeatPump(gc, energyModel.p_timeStep_h, peakHeatDemand_kW / 3, 0.5, energyModel.v_currentAmbientTemperature_degC, 60, 0, 1);
 			}
 			nbHeatPumps ++;
 			c_orderedHeatingSystemsHouses.remove(gc);
