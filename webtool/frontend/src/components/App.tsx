@@ -12,6 +12,16 @@ export function App() {
         <Theme css={css`
             display: flex;
             flex-direction: column;
+
+            --cursor-button: pointer;
+            --cursor-checkbox: pointer;
+            --cursor-disabled: default;
+            --cursor-link: pointer;
+            --cursor-menu-item: pointer;
+            --cursor-radio: pointer;
+            --cursor-slider-thumb: grab;
+            --cursor-slider-thumb-active: grabbing;
+            --cursor-switch: pointer;
         `}>
             <Header />
             <MainContent css={css`

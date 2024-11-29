@@ -2,7 +2,7 @@ import {FunctionComponent, useState} from "react"
 import {Pilot, HouseholdGroup, Company, SolarFarm, WindFarm, Battery, HeatStorage, SupplierCost} from "local4local"
 import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
-import {Grid, Heading} from "@radix-ui/themes"
+import {Flex, Grid} from "@radix-ui/themes"
 import {SolarFarmForm} from "./solarfarm/solarfarm-form.tsx"
 import {BatteriesDisplayEdit, BatteryForm} from "./assets/battery.tsx"
 import {BiogasGeneratorForm, BiogasGeneratorsDisplayEdit} from "./assets/biogas-generator.tsx"
@@ -14,6 +14,7 @@ import {SolarFarmsDisplayEdit} from "./solarfarm/solarfarms-display-edit.tsx";
 import {HeatStoragesDisplayEdit} from "./heat-storage/heat-storage-display-edit.tsx";
 import {CompanyDisplayEdit} from "./company/company-display-edit.tsx"
 import {CompanyForm} from "./company/company-form.tsx"
+import {SaveButton} from "./save.tsx"
 
 export const Configure: FunctionComponent<{
     pilot: Pilot,
@@ -40,9 +41,6 @@ export const Configure: FunctionComponent<{
     )
     return (
         <>
-            <Heading as="h3">
-                Configure
-            </Heading>
             <Grid gap="2" pt="4">
                 {showEditSupplierCost ?
                     <SupplierCostForm initialData={pilot.supplierCost} save={(supplierCost: SupplierCost) => onChange(pilot.withSupplierCost(supplierCost))} hide={() => setShowEditSupplierCost(false)}/>
@@ -74,16 +72,19 @@ export const Configure: FunctionComponent<{
                     <HeatStorageForm save={(asset: HeatStorage) => onChange(pilot.create(asset))} hide={() => setShowAddHeatStorage(false)}/>}
 
                 {showAddDropdown &&
-                    <AddDropdown
-                        style={{alignSelf: "end"}}
-                        addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
-                        addCompany={() => setShowAddCompany(true)}
-                        addSolarFarm={() => setShowAddSolarFarm(true)}
-                        addWindFarm={() => setShowAddWindFarm(true)}
-                        addBattery={() => setShowAddBattery(true)}
-                        addHeatStorage={() => setShowAddHeatStorage(true)}
-                        addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
-                    />}
+                    <Flex gap=".5rem" justify="end">
+                        <SaveButton pilot={pilot} />
+                        <AddDropdown
+                            addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
+                            addCompany={() => setShowAddCompany(true)}
+                            addSolarFarm={() => setShowAddSolarFarm(true)}
+                            addWindFarm={() => setShowAddWindFarm(true)}
+                            addBattery={() => setShowAddBattery(true)}
+                            addHeatStorage={() => setShowAddHeatStorage(true)}
+                            addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
+                        />
+                    </Flex>
+                }
             </Grid>
         </>
     )

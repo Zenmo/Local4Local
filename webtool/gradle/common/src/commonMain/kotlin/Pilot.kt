@@ -79,6 +79,27 @@ data class Pilot(
 
 @OptIn(ExperimentalJsExport::class)
 @JsExport
+fun pilotFromJson(json: String) = Json.decodeFromString<Pilot>(json)
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+fun createDefaultStartPilot() = Pilot(
+    name = "start",
+    householdGroups = listOf(
+        HouseholdGroup(
+            type = "Huishoudens",
+            households_n = 200,
+            hasPV_r = 0.2,
+            hasHeatPump_r = 0.1,
+            hasChargePoint_r = 0.2,
+            hasHomeBattery_r = 0.0,
+            annualBaseConsumptionAvg_kWh = 3000.0,
+        )
+    )
+)
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
 @Serializable
 data class SupplierCost (
     val bufferPrice_eurpkWh: Double = 0.01,

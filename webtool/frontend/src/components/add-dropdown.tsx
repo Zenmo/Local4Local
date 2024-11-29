@@ -9,7 +9,7 @@ export const AddDropdown: FunctionComponent<{
     addHeatStorage: () => void
     addCompany?: () => void
     addBiogasGenerator?: () => void
-    style: CSSProperties
+    style?: CSSProperties
 }> = ({
     addHouseholdGroup,
     addWindFarm,
