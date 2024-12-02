@@ -31,12 +31,12 @@ jobs:
           working-directory: ./webtool/frontend
       -   run: npm run build
           working-directory: ./webtool/frontend
-      -   name: Build And Deploy
-          id: builddeploy
-          uses: Azure/static-web-apps-deploy@v1
           env:
               VITE_BACKEND_URL: https://local4local-backend.zenmo.com
               VITE_ANYLOGIC_CALLBACK_URL: https://local4local-backend.zenmo.com
+      -   name: Build And Deploy
+          id: builddeploy
+          uses: Azure/static-web-apps-deploy@v1
           with:
             azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_DEPLOY_TOKEN }}
             repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
