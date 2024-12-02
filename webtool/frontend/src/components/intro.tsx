@@ -32,8 +32,7 @@ export const Intro = () => {
             </p>
             <p>
                 Dit geeft je de mogelijkheid om jouw optimale <strong>energiegemeenschap</strong> te vormen, zowel op gebied
-                van
-                <strong>energiebalans</strong> en <strong>duurzaamheid</strong>, als ook met een
+                van <strong>energiebalans</strong> en <strong>duurzaamheid</strong>, als ook met een
                 aantrekkelijk <strong>energietarief</strong> voor je leden. Probeer het zelf
                 uit, het is makkelijker dan je denkt!
             </p>

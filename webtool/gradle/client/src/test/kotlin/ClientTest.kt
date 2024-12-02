@@ -1,5 +1,6 @@
 package nu.local4local.client
 
+import nu.local4local.common.AssetCost
 import nu.local4local.common.Pilot
 import nu.local4local.common.WindFarm
 import kotlin.test.Test
@@ -37,7 +38,7 @@ class ClientTest {
             "addedSession",
             Pilot(
                 name = "addedPilot", windFarms = listOf(
-                    WindFarm(nominalPower_kW = 42.0)
+                    WindFarm(nominalPower_kW = 42.0, cost = AssetCost())
                 )
             )
         )
