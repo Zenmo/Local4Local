@@ -832,7 +832,7 @@ f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 
-]]></Body>
+f_createLocal4LocalCompanies(pilot.getCompanies(), energyCoop);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -1383,6 +1383,116 @@ for (var generatorData: biogasGenerators) {
 	energyCoop.c_AssetCosts.add(costItem);
 	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1733153788280</Id>
+					<Name><![CDATA[f_createLocal4LocalCompanies]]></Name>
+					<X>-960</X><Y>610</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[companies]]></Name>
+						<Type><![CDATA[List<nu.local4local.common.Company>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[energyCoop]]></Name>
+						<Type><![CDATA[EnergyCoop]]></Type>
+					</Parameter>
+					<Body><![CDATA[for (int g = 0; g < companies.size(); g++) {
+	/*if (g > 0) {
+	    throw new RuntimeException(
+	        "More than 1 household group is not supported yet"
+	        + "because of setting PV ratio per group"
+	    );
+	}*/
+
+    //var company = companies.get(g);
+    nu.local4local.common.Company company = companies.get(g);
+//for (int g = 0; g < 3; g++) {
+
+	//var householdGroup = householdGroups.get(0);
+	
+	//for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
+	//for (int i = 1; i <= 1 ; i += 1) {
+		// Grid
+		GCUtility gcCompany = energyModel.add_UtilityConnections();
+			gcCompany.p_gridConnectionID = "company_" + g;
+			//gcCompany.set_p_heatingType( OL_GridConnectionHeatingType.GASBURNER);
+			gcCompany.set_p_ownerID( gcCompany.p_gridConnectionID + "owner" );	
+			gcCompany.set_p_physicalConnectionCapacity_kW( company.getAnnualElectricityConsumption_kWh()/8760.0*5.0);
+			gcCompany.set_p_floorSurfaceArea_m2(100);
+			//gcCompany.v_dayTempSetpoint_degC = 20;
+			//gcCompany.v_nightTempSetpoint_degC = 17;
+		
+		// Owner
+		ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
+			connectionOwner.p_actorID = gcCompany.p_ownerID;
+			connectionOwner.p_actorType = OL_ActorType.CONNECTIONOWNER;
+			connectionOwner.p_connectionOwnerType = OL_ConnectionOwnerType.COMPANY;
+			connectionOwner.p_energyCoopID = energyCoop.p_actorID;
+		
+		//Asset
+		f_addLocal4LocalCompanyAssets(gcCompany, company);
+	
+	/*
+	this.interface_L4L.c_householdGroups.add(householdGroup);
+	this.interface_L4L.txt_households_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_expnd_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
+	this.interface_L4L.txt_households_expnd_hasPV_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasPV_r()*100)));
+	this.interface_L4L.txt_households_expnd_hasHeatPump_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasHeatPump_r()*100)));
+	this.interface_L4L.txt_households_expnd_hasChargePoint_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasChargePoint_r()*100)));
+	this.interface_L4L.txt_housholds_expnd_annualBaseConsumption_value.setText(String.format("%s"+" kWh", roundToInt(householdGroup.getAnnualBaseConsumptionAvg_kWh())));
+	*/
+	
+}
+
+]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1733153928650</Id>
+					<Name><![CDATA[f_addLocal4LocalCompanyAssets]]></Name>
+					<X>-940</X><Y>630</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[gcCompany]]></Name>
+						<Type><![CDATA[GCUtility]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[companyData]]></Name>
+						<Type><![CDATA[nu.local4local.common.Company]]></Type>
+					</Parameter>
+					<Body><![CDATA[// Add electricity consumption profiles
+//Random random = new Random(seed);
+
+double yearlyDemandElectricity_kWh = companyData.getAnnualElectricityConsumption_kWh();
+var newAsset = new J_EAConsumption(
+	gcCompany,
+	OL_EnergyAssetType.ELECTRICITY_DEMAND,
+	"Office_other_electricity",
+	yearlyDemandElectricity_kWh,
+	OL_EnergyCarriers.ELECTRICITY,
+	energyModel.p_timeStep_h,
+	null
+);
+
+// Solar Panel
+if (companyData.getPvInstalled_kWp() > 0.0) {
+	f_addEnergyProduction(
+		gcCompany,
+		OL_EnergyAssetType.PHOTOVOLTAIC,
+		"Solar Panel",
+		companyData.getPvInstalled_kWp());
+};
 ]]></Body>
 				</Function>
 			</Functions>
@@ -6689,8 +6799,8 @@ if ( totalOwnElectricityProduced_MWh == 0 ) {
 	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh - totalSDEincome_eur / totalOwnElectricityProduced_MWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
 }
 if (p_feedinCompensation_eurpMWh == 0.0) {
-	traceln("p_feedinCompensation_eurpMWh is zero, using asset-kostprijs  of %s eur/MWh as feedinCompensation", kostprijs_eurpMWh);
-	p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;	
+	traceln("p_feedinCompensation_eurpMWh is zero! Feedin from prosumers is now 'free electricity' for the coop!");
+	//p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;	
 }
 
 double kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
