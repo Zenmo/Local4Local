@@ -58,11 +58,20 @@ data class Pilot(
     }
 
     // Extension function for List replacement
-    private fun <AssetType> List<AssetType>.replaceAt(index: Int, newAsset: AssetType): List<AssetType> {
-        return toMutableList().apply { this[index] = newAsset }
+    private fun <T> List<T>.replaceAt(index: Int, newValue: T): List<T> {
+        return toMutableList().apply { this[index] = newValue }
     }
 
+    private fun <T> List<T>.replace(oldValue: T, newValue: T): List<T> =
+        map { if (it == oldValue) newValue else it }
+
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
+
+    fun addCompany(company: Company) = copy(companies = companies + company)
+
+    fun removeCompany(company: Company) = copy(companies = companies - company)
+
+    fun replaceCompany(old: Company, new: Company) = copy(companies = companies.replace(old, new))
 
     fun toJson(): String =
         Json.encodeToString(this)
@@ -113,6 +122,10 @@ data class HouseholdGroup(
 @Serializable
 data class Company(
     val name: String,
+    val annualElectricityConsumption_kWh: Double,
+    val pvInstalled_kWp: Double,
+    // disabled for now
+//    val chargePoints_n: Int,
 )
 
 /*

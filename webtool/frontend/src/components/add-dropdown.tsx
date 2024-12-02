@@ -16,7 +16,7 @@ export const AddDropdown: FunctionComponent<{
     addSolarFarm,
     addBattery,
     addHeatStorage,
-    addCompany = () => alert("Bedrijf nog niet geïmplementeerd"),
+    addCompany,
     addBiogasGenerator,
     style,
 }) => (
@@ -29,6 +29,7 @@ export const AddDropdown: FunctionComponent<{
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
             <DropdownMenu.Item onSelect={addHouseholdGroup}>Huishoudens</DropdownMenu.Item>
+            <DropdownMenu.Item onSelect={addCompany}>Bedrijf</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addWindFarm}>Windpark</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addSolarFarm}>Zonnepark</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addBattery}>
@@ -36,9 +37,6 @@ export const AddDropdown: FunctionComponent<{
             </DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addHeatStorage} style={{display: "none"}}>
                 Warmte-opslag
-            </DropdownMenu.Item>
-            <DropdownMenu.Item onSelect={addCompany} style={{display: "none"}}>
-                Bedrijf
             </DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addBiogasGenerator}>
                 Biogasmotor
