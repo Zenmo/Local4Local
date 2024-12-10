@@ -12,12 +12,20 @@ const titles = {
     "OPEX_eurpy": "Onderhoudskosten [€/jaar] (OPEX)",
 }
 
-export const CostDisplay: FunctionComponent<{ cost: AssetCost, hideCostPerKwh?: boolean }> = ({cost, hideCostPerKwh}) => {
+export const CostDisplay: FunctionComponent<{
+    cost: AssetCost,
+    showCostPerKwh?: boolean,
+    showTotalCostFactors?: boolean
+}> = ({
+    cost,
+    showCostPerKwh = true,
+    showTotalCostFactors = false,
+}) => {
     return (
         <div>
             <CostHeading />
             <DataList.Root>
-                { !hideCostPerKwh && (
+                {showCostPerKwh && (
                     <>
                         <DataList.Item>
                             <DataList.Label minWidth="88px">{titles["LCOE_eurpkWh"]}</DataList.Label>
@@ -29,22 +37,26 @@ export const CostDisplay: FunctionComponent<{ cost: AssetCost, hideCostPerKwh?: 
                         </DataList.Item>
                     </>
                 )}
-                <DataList.Item>
-                    <DataList.Label minWidth="88px">{titles["CAPEX_eur"]}</DataList.Label>
-                    <DataList.Value>{cost.CAPEX_eur}</DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                    <DataList.Label minWidth="88px">{titles["interest_r"]}</DataList.Label>
-                    <DataList.Value>{(cost.interest_r || 0) * 100}</DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                    <DataList.Label minWidth="88px">{titles["depreciationPeriod_y"]}</DataList.Label>
-                    <DataList.Value>{cost.depreciationPeriod_y}</DataList.Value>
-                </DataList.Item>
-                <DataList.Item>
-                    <DataList.Label minWidth="88px">{titles["OPEX_eurpy"]}</DataList.Label>
-                    <DataList.Value>{cost.OPEX_eurpy}</DataList.Value>
-                </DataList.Item>
+                {showTotalCostFactors &&
+                    <>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["CAPEX_eur"]}</DataList.Label>
+                            <DataList.Value>{cost.CAPEX_eur}</DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["interest_r"]}</DataList.Label>
+                            <DataList.Value>{(cost.interest_r || 0) * 100}</DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["depreciationPeriod_y"]}</DataList.Label>
+                            <DataList.Value>{cost.depreciationPeriod_y}</DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["OPEX_eurpy"]}</DataList.Label>
+                            <DataList.Value>{cost.OPEX_eurpy}</DataList.Value>
+                        </DataList.Item>
+                    </>
+                }
             </DataList.Root>
         </div>
     )
@@ -59,13 +71,18 @@ const CostHeading = () => (
 );
 
 export const CostSection: FunctionComponent<{
-    hideCostPerKwh?: boolean
-    initialData?: AssetCost | null;
-}> = ({hideCostPerKwh, initialData}) => {
+    showCostPerKwh?: boolean
+    showTotalCostFactors?: boolean
+    initialData?: AssetCost | null
+}> = ({
+    showCostPerKwh = true,
+    showTotalCostFactors = false,
+    initialData
+}) => {
     return (
-        <div>
+        <>
             <CostHeading/>
-            { !hideCostPerKwh && (
+            { showCostPerKwh && (
                 <>
                     <div className="radix-grid">
                         <label className="form-label" htmlFor="LCOE_eurpkWh">{titles["LCOE_eurpkWh"]}*</label>
@@ -94,26 +111,30 @@ export const CostSection: FunctionComponent<{
                 </>
             )}
 
-            <div className="radix-grid">
-                <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"]}</label>
-                <input className="form-input" type="number" id="CAPEX_eur" name="CAPEX_eur" min={0} step={0.001}
-                       placeholder="€" defaultValue={ initialData?.CAPEX_eur || 0 }/>
-            </div>
-            <div className="radix-grid">
-                <label className="form-label" htmlFor="interest_r">{titles["interest_r"]}</label>
-                <input className="form-input" type="number" id="interest_r" name="interest_r" min={0} max={100} step={0.05}
-                    placeholder="%" defaultValue={ initialData?.interest_r || 0 }/>
-            </div>
-            <div className="radix-grid">
-                <label className="form-label" htmlFor="depreciationPeriod_y">{titles["depreciationPeriod_y"]}</label>
-                <input className="form-input" type="number" id="depreciationPeriod_y" name="depreciationPeriod_y" min={0} step={0.001}
-                    placeholder="jaar" defaultValue={ initialData?.depreciationPeriod_y || 0 }/>
-            </div>
-            <div className="radix-grid">
-                <label className="form-label" htmlFor="OPEX_eurpy">{titles["OPEX_eurpy"]}</label>
-                <input className="form-input" type="number" id="OPEX_eurpy" name="OPEX_eurpy" min={0} step={0.001}
-                    placeholder="€/jaar" defaultValue={ initialData?.OPEX_eurpy || 0 }/>
-            </div>
-        </div>
+            {showTotalCostFactors &&
+                <>
+                    <div className="radix-grid">
+                        <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"]}</label>
+                        <input className="form-input" type="number" id="CAPEX_eur" name="CAPEX_eur" min={0} step={0.001}
+                               placeholder="€" defaultValue={ initialData?.CAPEX_eur || 0 }/>
+                    </div>
+                    <div className="radix-grid">
+                        <label className="form-label" htmlFor="interest_r">{titles["interest_r"]}</label>
+                        <input className="form-input" type="number" id="interest_r" name="interest_r" min={0} max={100} step={0.05}
+                            placeholder="%" defaultValue={ initialData?.interest_r || 0 }/>
+                    </div>
+                    <div className="radix-grid">
+                        <label className="form-label" htmlFor="depreciationPeriod_y">{titles["depreciationPeriod_y"]}</label>
+                        <input className="form-input" type="number" id="depreciationPeriod_y" name="depreciationPeriod_y" min={0} step={0.001}
+                            placeholder="jaar" defaultValue={ initialData?.depreciationPeriod_y || 0 }/>
+                    </div>
+                    <div className="radix-grid">
+                        <label className="form-label" htmlFor="OPEX_eurpy">{titles["OPEX_eurpy"]}</label>
+                        <input className="form-input" type="number" id="OPEX_eurpy" name="OPEX_eurpy" min={0} step={0.001}
+                            placeholder="€/jaar" defaultValue={ initialData?.OPEX_eurpy || 0 }/>
+                    </div>
+                </>
+            }
+        </>
     )
 }

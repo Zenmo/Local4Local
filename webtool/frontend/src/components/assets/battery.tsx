@@ -26,7 +26,7 @@ export const BatteryDisplay: FunctionComponent<{
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay cost={battery.cost} hideCostPerKwh={true} />
+                <CostDisplay cost={battery.cost} showCostPerKwh={false} showTotalCostFactors={true} />
             </DataList.Root>
         </Card>
     )
@@ -72,7 +72,7 @@ export const BatteryForm: FunctionComponent<{
                     <label className="form-label" htmlFor="peakPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW || 100} />
                 </div>
-                <CostSection hideCostPerKwh={true} initialData={initialData?.cost}/>
+                <CostSection showCostPerKwh={false} showTotalCostFactors={true} initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
