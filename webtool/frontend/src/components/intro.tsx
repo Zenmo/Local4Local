@@ -31,6 +31,10 @@ export const Intro = () => {
                 het <strong>kostprijs+ tarief</strong>.
             </p>
             <p>
+                Bij de bepaling van de tarieven voor gelijktijdige en ongelijktijdige levering wordt gezorgd dat de cooperatie en de leverancier <strong>precies break-even </strong> draaien. 
+                Zonder winstoogmerk, maar ook zonder verlies te draaien dus.
+            </p>
+            <p>
                 Dit geeft je de mogelijkheid om jouw optimale <strong>energiegemeenschap</strong> te vormen, zowel op gebied
                 van <strong>energiebalans</strong> en <strong>duurzaamheid</strong>, als ook met een
                 aantrekkelijk <strong>energietarief</strong> voor je leden. Probeer het zelf
