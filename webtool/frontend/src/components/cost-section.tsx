@@ -94,12 +94,14 @@ export const CostSection: FunctionComponent<{
                             including CAPEX, OPEX and interest"
                         />
                     </div>
-                    <div className="form-message">
-                        <Text>
-                            *Dit veld gebruik je op basis van ervaring of expert judgement.<br/>
-                            De overige kostenvelden laat je dan leeg.
-                        </Text>
-                    </div>
+                    {showTotalCostFactors &&
+                        <div className="form-message">
+                            <Text>
+                                *Dit veld gebruik je op basis van ervaring of expert judgement.<br/>
+                                De overige kostenvelden laat je dan leeg.
+                            </Text>
+                        </div>
+                    }
                     <div className="radix-grid">
                         <label className="form-label" htmlFor="sdeSubsidy_eurpkWh">{titles["sdeSubsidy_eurpkWh"]}*</label>
                         <input className="form-input" type="number" id="sdeSubsidy_eurpkWh" name="sdeSubsidy_eurpkWh"
@@ -121,7 +123,7 @@ export const CostSection: FunctionComponent<{
                     <div className="radix-grid">
                         <label className="form-label" htmlFor="interest_r">{titles["interest_r"]}</label>
                         <input className="form-input" type="number" id="interest_r" name="interest_r" min={0} max={100} step={0.05}
-                            placeholder="%" defaultValue={ initialData?.interest_r || 0 }/>
+                            placeholder="%" defaultValue={ (initialData?.interest_r || 0) * 100}/>
                     </div>
                     <div className="radix-grid">
                         <label className="form-label" htmlFor="depreciationPeriod_y">{titles["depreciationPeriod_y"]}</label>
