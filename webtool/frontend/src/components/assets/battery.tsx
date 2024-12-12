@@ -26,8 +26,8 @@ export const BatteryDisplay: FunctionComponent<{
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay cost={battery.cost} showCostPerKwh={false} showTotalCostFactors={true} />
             </DataList.Root>
+            <CostDisplay cost={battery.cost} showCostPerKwh={false} showTotalCostFactors={true} />
         </Card>
     )
 }

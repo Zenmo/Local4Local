@@ -22,8 +22,8 @@ export const BiogasGeneratorDisplay: FunctionComponent<{
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{biogasGenerator.power_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay cost={biogasGenerator.cost} />
             </DataList.Root>
+            <CostDisplay cost={biogasGenerator.cost} />
         </Card>
     )
 }

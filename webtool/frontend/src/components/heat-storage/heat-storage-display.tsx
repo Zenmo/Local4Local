@@ -33,8 +33,8 @@ export const HeatStorageDisplay: FunctionComponent<{
                     <DataList.Label minWidth="88px">Maximale temperatuur</DataList.Label>
                     <DataList.Value>{heatStorage.maxTemp_degC} &deg;C</DataList.Value>
                 </DataList.Item>
-                <CostDisplay cost={heatStorage.cost} />
             </DataList.Root>
+            <CostDisplay cost={heatStorage.cost} />
         </Card>
     )
 }

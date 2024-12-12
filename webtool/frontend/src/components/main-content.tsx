@@ -28,14 +28,18 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
     return (
         <>
             {showConfigSimulate ?
-                <div style={{display: "flex", justifyContent: "center", width: "100%"}} css={css} className={className}>
-                    <div style={{width: "30%", padding: "1rem", borderRight: "1px solid #ccc"}}>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "start",
+                    width: "100%",
+                }} css={css} className={className}>
+                    <div style={{maxWidth: "25rem", padding: "1rem", borderRight: "1px solid #ccc"}}>
                         <Configure
                             pilot={pilot}
                             onChange={onChange}
                         />
                     </div>
-                    <div style={{width: "80%", padding: "1rem"}}>
+                    <div style={{padding: "0", flexGrow: "1"}}>
                         <Simulate
                             showSimulation={showSimulation}
                             onClickStart={onClickStart}
@@ -43,8 +47,14 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
                     </div>
                 </div>
                 :
-                <div style={{justifyItems: "center"}} css={css} className={className}>
-                    <Intro/>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    margin: "1rem",
+                    maxWidth: "50rem"
+                }} css={css} className={className}>
+                    <Intro style={{marginBottom: "1rem"}}/>
                     <Button type="button" onClick={() => setShowConfigSimulate(true)}>
                         Start
                     </Button>

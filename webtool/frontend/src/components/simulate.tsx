@@ -10,7 +10,13 @@ export const Simulate: FunctionComponent<{
     return (
         <>
             {showSimulation ?
-                <div id={anylogicElementId} style={{width: "100%", aspectRatio: "8/5"}}/>
+                <div id={anylogicElementId} style={{
+                    width: "100%",
+                    aspectRatio: "8/5",
+                    // anylogic uses absolute positioning.
+                    // this makes it relative to this parent element
+                    position: "relative",
+                }}/>
                 :
                 <Center>
                     <Button type="button" onClick={() => onClickStart(anylogicElementId)}>

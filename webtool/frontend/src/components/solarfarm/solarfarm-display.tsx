@@ -21,8 +21,8 @@ export const SolarFarmDisplay: FunctionComponent<{
                     <DataList.Label minWidth="88px">Vermogen</DataList.Label>
                     <DataList.Value>{solarFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay cost={solarFarm.cost} />
             </DataList.Root>
+            <CostDisplay cost={solarFarm.cost} />
         </Card>
     )
 }

@@ -1,6 +1,8 @@
-export const Intro = () => {
+import {CSSProperties, FunctionComponent} from "react"
+
+export const Intro: FunctionComponent<{style?: CSSProperties}> = ({style = {}}) => {
     return (
-        <div style={{padding: "1rem", margin: "1rem", textAlign: "justify", width: "50%", border: "1px solid #ccc", borderRadius: "7px"}}>
+        <div style={{padding: "1rem", textAlign: "justify", border: "1px solid #ccc", borderRadius: "7px", ...style}}>
             <p>
                 <strong>Let op, de tool is nog in ontwikkeling! Loop je tegen problemen aan of heb je feedback, laat het ons weten!</strong>
             </p>
