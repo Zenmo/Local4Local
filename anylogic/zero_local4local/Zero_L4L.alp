@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -902,7 +902,7 @@ for (var windFarmData: windFarms) {
 	
 	//Cost item for kostprijs+
 	
-	Double CAPEX_eurpa = windFarmData.getCost().getCAPEX_eur()/10;
+	Double CAPEX_eur = windFarmData.getCost().getCAPEX_eur();
 	Double OPEX_eurpa = windFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH();
 	Double SDEtariff_eurpKwh = windFarmData.getCost().getSdeSubsidy_eurpkWH();
@@ -913,7 +913,7 @@ for (var windFarmData: windFarms) {
 	double depreciationPeriod_y = windFarmData.getCost().getDepreciationPeriod_y() == null ? 15 : windFarmData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
@@ -1158,7 +1158,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	
 	//Cost item for kostprijs+
 
-	Double CAPEX_eurpa = solarFarmData.getCost().getCAPEX_eur()/10;
+	Double CAPEX_eur = solarFarmData.getCost().getCAPEX_eur();
 	Double OPEX_eurpa = solarFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH();
 	Double SDEtariff_eurpKwh = solarFarmData.getCost().getSdeSubsidy_eurpkWH();
@@ -1168,7 +1168,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	Double interestRate_r = solarFarmData.getCost().getInterest_r();
 	Double depreciationPeriod_y = solarFarmData.getCost().getDepreciationPeriod_y();
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
@@ -1228,6 +1228,21 @@ for (var batteryData: batteries) {
     //Battery Asset
     f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
     //f_addStorage(gridBattery, 100, 100, OL_EnergyAssetType.STORAGE_ELECTRIC );
+     
+    Double CAPEX_eur = batteryData.getCost().getCAPEX_eur();
+	Double OPEX_eurpa = batteryData.getCost().getOPEX_eurpy();
+	Double LCOE_eurpkWh = batteryData.getCost().getLCOE_eurpkWH();
+	Double SDEtariff_eurpKwh = batteryData.getCost().getSdeSubsidy_eurpkWH();
+	if (SDEtariff_eurpKwh == null){
+		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
+	}
+	double interestRate_r = batteryData.getCost().getInterest_r() == null ? 0.06 : batteryData.getCost().getInterest_r();
+	double depreciationPeriod_y = batteryData.getCost().getDepreciationPeriod_y() == null ? 15 : batteryData.getCost().getDepreciationPeriod_y();
+	
+	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
+	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	energyCoop.c_AssetCosts.add(costItem);
+    
     
     //Cost item for kostprijs+
     /*Double CAPEX_eurpa = null; //solarFarmData.getCAPEX_eurpa();
@@ -1365,7 +1380,7 @@ for (var generatorData: biogasGenerators) {
 	
 	//Cost item for kostprijs+
 	
-	Double CAPEX_eurpa = generatorData.getCost().getCAPEX_eur()/10;
+	Double CAPEX_eur = generatorData.getCost().getCAPEX_eur();
 	Double OPEX_eurpa = generatorData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = generatorData.getCost().getLCOE_eurpkWH(); 
 	Double SDEtariff_eurpKwh = generatorData.getCost().getSdeSubsidy_eurpkWH();
@@ -1376,7 +1391,7 @@ for (var generatorData: biogasGenerators) {
 	Double depreciationPeriod_y = generatorData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eurpa, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
@@ -8248,33 +8263,38 @@ double totalSDEincome_eur = 0;
 
 for (var ci : c_AssetCosts) {
 	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
-	
-	totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
-	if (ci.LCOE_eurpkWh() == null) {
+	OL_EnergyAssetType assetType = ci.energyAsset().energyAssetType;
+	traceln("AssetType: %s", assetType);
+	if (assetType != OL_EnergyAssetType.STORAGE_ELECTRIC) {		
+		totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
+		if (ci.LCOE_eurpkWh() == null) {
+			totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
+		} else {
+			totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
+		}
+		
+		// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
+		
+		double SDE_tariff_eurpMWh = 1000*ci.SDE_tariff_eurpkWh();
+		double SDEincome_eur = 0;
+		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries();
+		double productionEPEXvalue_eur = 0;
+		
+		for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
+			// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
+			productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+			SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(0,energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
+		}
+		//traceln("SDE income: %s eur", SDEincome_eur);
+		ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
+		ci.setTotalProduction_MWh( -ci.energyAsset().getEnergyUsed_kWh() / 1000 );
+		ci.setSDEincome_eur(SDEincome_eur);
+		traceln("Asset production average EPEX value: %s eurpMWh", ci.getAvgProductionValue_eurpMWh());
+		traceln("SDEincome_eur: %s", ci.getSDEincome_eur());
+		totalSDEincome_eur += SDEincome_eur;	
+	} else { // for battery asset only add costs!
 		totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
-	} else {
-		totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
 	}
-	
-	// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
-	
-	double SDE_tariff_eurpMWh = 1000*ci.SDE_tariff_eurpkWh();
-	double SDEincome_eur = 0;
-	double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries();
-	double productionEPEXvalue_eur = 0;
-	
-	for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
-		// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
-		productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
-		SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(0,energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
-	}
-	//traceln("SDE income: %s eur", SDEincome_eur);
-	ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
-	ci.setTotalProduction_MWh( -ci.energyAsset().getEnergyUsed_kWh() / 1000 );
-	ci.setSDEincome_eur(SDEincome_eur);
-	traceln("Asset production average EPEX value: %s eurpMWh", ci.getAvgProductionValue_eurpMWh());
-	traceln("SDEincome_eur: %s", ci.getSDEincome_eur());
-	totalSDEincome_eur += SDEincome_eur;	
 }
 double assetAvgLCOE_eurpMWh=0;
 if (totalOwnProduction_MWh>0){
@@ -8304,6 +8324,7 @@ for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant 
 
 	// Opwek van eigen productie assets die geleverd wordt aan klanten:
 	v_selfConsumptionCoopAssets_MWh += max(0,acc_totalOwnElectricityProduction_kW.getTimeSeries()[i] - max(0,-am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries()[i]))*energyModel.p_timeStep_h/1000;
+	// !!There is an implicit merrit order assumption in this line, related to self consumption of own asset production vs self consumption of customer feedin!!
 }
 double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
 
@@ -8780,9 +8801,6 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_address]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_quaternaryHeatingAsset]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
