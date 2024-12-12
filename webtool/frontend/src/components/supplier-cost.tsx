@@ -14,17 +14,17 @@ export const SupplierCostDisplay: FunctionComponent<{
                 <SupplierCostHeading />
                 <CardMenu onEdit={onEdit}/>
             </Flex>
-            <DataList.Root>
+            <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Leveranciersopslag [€/kWh]</DataList.Label>
+                    <DataList.Label>Leveranciersopslag [€/kWh]</DataList.Label>
                     <DataList.Value>{supplierCost.bufferPrice_eurpkWh.toString()}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Opslag onbalans</DataList.Label>
+                    <DataList.Label>Opslag onbalans</DataList.Label>
                     <DataList.Value>{supplierCost.onbalansMarkup_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Terugleververgoeding [€/kWh]</DataList.Label>
+                    <DataList.Label>Terugleververgoeding [€/kWh]</DataList.Label>
                     <DataList.Value>{supplierCost.feedInCompensation_eurpkWh.toString()}</DataList.Value>
                 </DataList.Item>
             </DataList.Root>

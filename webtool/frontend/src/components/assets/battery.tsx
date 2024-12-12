@@ -17,13 +17,13 @@ export const BatteryDisplay: FunctionComponent<{
                 <BatteryHeading />
                 <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
-            <DataList.Root>
+            <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Capaciteit</DataList.Label>
+                    <DataList.Label>Capaciteit</DataList.Label>
                     <DataList.Value>{battery.capacity_kWh} kWh</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Vermogen</DataList.Label>
+                    <DataList.Label>Vermogen</DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
             </DataList.Root>

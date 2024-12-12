@@ -16,21 +16,21 @@ export const HeatStorageDisplay: FunctionComponent<{
                 <HeatStorageHeading />
                 <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
-            <DataList.Root>
+            <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Opslagmedium</DataList.Label>
+                    <DataList.Label>Opslagmedium</DataList.Label>
                     <DataList.Value>{heatStorage.storageMedium}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Volume</DataList.Label>
+                    <DataList.Label>Volume</DataList.Label>
                     <DataList.Value>{heatStorage.storageVolume_m3} m3</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Minimale temperatuur</DataList.Label>
+                    <DataList.Label>Minimale temperatuur</DataList.Label>
                     <DataList.Value>{heatStorage.minTemp_degC} &deg;C</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Maximale temperatuur</DataList.Label>
+                    <DataList.Label>Maximale temperatuur</DataList.Label>
                     <DataList.Value>{heatStorage.maxTemp_degC} &deg;C</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
