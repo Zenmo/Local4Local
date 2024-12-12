@@ -1,10 +1,11 @@
 import {FunctionComponent} from "react"
-import {DataList, Heading, Text} from "@radix-ui/themes"
+import {DataList, Heading, Link, Text} from "@radix-ui/themes"
 import { PiMoneyWavyLight } from "react-icons/pi"
 import {AssetCost} from "local4local"
 
 const titles = {
-    "sdeSubsidy_eurpkWh": "SDE subsidietarief [€/kWh]",
+    "sdeAanvraagbedrag_eurpkWh": "SDE Aanvraagbedrag [€/kWh]",
+    "sdeBasisenergieprijs_eurpkWh": "SDE Basisenergieprijs [€/kWh]",
     "LCOE_eurpkWh": "Kosten per kWh [€/kWh] (LCOE)",
     "CAPEX_eur": "Aanschaf [€] (CAPEX)",
     "interest_r": "Rente [%]",
@@ -32,8 +33,12 @@ export const CostDisplay: FunctionComponent<{
                             <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label minWidth="88px">{titles["sdeSubsidy_eurpkWh"]}</DataList.Label>
-                            <DataList.Value>{cost.sdeSubsidy_eurpkWH}</DataList.Value>
+                            <DataList.Label minWidth="88px">{titles["sdeAanvraagbedrag_eurpkWh"]}</DataList.Label>
+                            <DataList.Value>{cost.sdeAanvraagbedrag_eurpkWh}</DataList.Value>
+                        </DataList.Item>
+                        <DataList.Item>
+                            <DataList.Label minWidth="88px">{titles["sdeBasisenergieprijs_eurpkWh"]}</DataList.Label>
+                            <DataList.Value>{cost.sdeBasisenergieprijs_eurpkWh}</DataList.Value>
                         </DataList.Item>
                     </>
                 )}
@@ -89,7 +94,7 @@ export const CostSection: FunctionComponent<{
                         <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
                                min={0} step={0.001}
                                placeholder="€/kWh"
-                               defaultValue={ initialData?.LCOE_eurpkWH || 0}
+                               defaultValue={initialData?.LCOE_eurpkWH || 0}
                                title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
                             including CAPEX, OPEX and interest"
                         />
@@ -97,18 +102,35 @@ export const CostSection: FunctionComponent<{
                     {showTotalCostFactors &&
                         <div className="form-message">
                             <Text>
-                                *Dit veld gebruik je op basis van ervaring of expert judgement.<br/>
+                                *Dit veld gebruik je op basis van ervaring of expert judgement.<br />
                                 De overige kostenvelden laat je dan leeg.
                             </Text>
                         </div>
                     }
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="sdeSubsidy_eurpkWh">{titles["sdeSubsidy_eurpkWh"]}*</label>
-                        <input className="form-input" type="number" id="sdeSubsidy_eurpkWh" name="sdeSubsidy_eurpkWh"
+                        <label className="form-label"
+                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeAanvraagbedrag_eurpkWh"]}*</label>
+                        <input className="form-input" type="number" id="sdeAanvraagbedrag_eurpkWh"
+                               name="sdeAanvraagbedrag_eurpkWh"
                                min={0} step={0.001}
                                placeholder="€/kWh"
-                               defaultValue={ initialData?.sdeSubsidy_eurpkWH || 0 }
+                               defaultValue={initialData?.sdeAanvraagbedrag_eurpkWh || 0}
                         />
+                    </div>
+                    <div className="radix-grid">
+                        <label className="form-label"
+                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeBasisenergieprijs_eurpkWh"]}*</label>
+                        <input className="form-input" type="number" id="sdeBasisenergieprijs_eurpkWh"
+                               name="sdeBasisenergieprijs_eurpkWh"
+                               min={0} step={0.001}
+                               placeholder="€/kWh"
+                               defaultValue={initialData?.sdeBasisenergieprijs_eurpkWh || 0}
+                        />
+                    </div>
+                    <div className="form-message">
+                        <Text>
+                            Voor uitleg zie de website van <Link href="https://www.rvo.nl/subsidies-financiering/sde/orienteren#basis--en-aanvraagbedrag">RVO</Link>
+                        </Text>
                     </div>
                 </>
             )}
@@ -118,7 +140,7 @@ export const CostSection: FunctionComponent<{
                     <div className="radix-grid">
                         <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"]}</label>
                         <input className="form-input" type="number" id="CAPEX_eur" name="CAPEX_eur" min={0} step={0.001}
-                               placeholder="€" defaultValue={ initialData?.CAPEX_eur || 0 }/>
+                               placeholder="€" defaultValue={initialData?.CAPEX_eur || 0} />
                     </div>
                     <div className="radix-grid">
                         <label className="form-label" htmlFor="interest_r">{titles["interest_r"]}</label>
