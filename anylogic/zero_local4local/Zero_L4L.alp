@@ -906,14 +906,16 @@ for (var windFarmData: windFarms) {
 	Double OPEX_eurpa = windFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH();
 	Double SDEtariff_eurpKwh = windFarmData.getCost().getSdeSubsidy_eurpkWH();
-	if (SDEtariff_eurpKwh == null){
+	Double SDE_basisenergieprijs_eurpkWh = windFarmData.getCost().getSDE_basisenergieprijs_eurpkWh();
+	if (SDEtariff_eurpKwh == null || SDE_basisenergieprijs_eurpkWh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
+		SDE_basisenergieprijs_eurpkWh = 0.0;
 	}
 	double interestRate_r = windFarmData.getCost().getInterest_r() == null ? 0.06 : windFarmData.getCost().getInterest_r();
 	double depreciationPeriod_y = windFarmData.getCost().getDepreciationPeriod_y() == null ? 15 : windFarmData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
@@ -1162,13 +1164,15 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	Double OPEX_eurpa = solarFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH();
 	Double SDEtariff_eurpKwh = solarFarmData.getCost().getSdeSubsidy_eurpkWH();
-	if (SDEtariff_eurpKwh == null){
+	Double SDE_basisenergieprijs_eurpkWh = solarFarmData.getCost().getSDE_basisenergieprijs_eurpkWh();
+	if (SDEtariff_eurpKwh == null || SDE_basisenergieprijs_eurpkWh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
+		SDE_basisenergieprijs_eurpkWh = 0.0;
 	}
 	Double interestRate_r = solarFarmData.getCost().getInterest_r();
 	Double depreciationPeriod_y = solarFarmData.getCost().getDepreciationPeriod_y();
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	this.interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 	this.interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
@@ -1232,15 +1236,11 @@ for (var batteryData: batteries) {
     Double CAPEX_eur = batteryData.getCost().getCAPEX_eur();
 	Double OPEX_eurpa = batteryData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = batteryData.getCost().getLCOE_eurpkWH();
-	Double SDEtariff_eurpKwh = batteryData.getCost().getSdeSubsidy_eurpkWH();
-	if (SDEtariff_eurpKwh == null){
-		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
-	}
 	double interestRate_r = batteryData.getCost().getInterest_r() == null ? 0.06 : batteryData.getCost().getInterest_r();
 	double depreciationPeriod_y = batteryData.getCost().getDepreciationPeriod_y() == null ? 15 : batteryData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, 0.0, 0.0, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
     
     
@@ -1384,14 +1384,16 @@ for (var generatorData: biogasGenerators) {
 	Double OPEX_eurpa = generatorData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = generatorData.getCost().getLCOE_eurpkWH(); 
 	Double SDEtariff_eurpKwh = generatorData.getCost().getSdeSubsidy_eurpkWH();
-	if (SDEtariff_eurpKwh == null){
+	Double SDE_basisenergieprijs_eurpkWh = generatorData.getCost().getSDE_basisenergieprijs_eurpkWh();
+	if (SDEtariff_eurpKwh == null || SDE_basisenergieprijs_eurpkWh == null ){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
+		SDE_basisenergieprijs_eurpkWh = 0.0; 
 	}
 	Double interestRate_r = generatorData.getCost().getInterest_r();
 	Double depreciationPeriod_y = generatorData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y);
 	energyCoop.c_AssetCosts.add(costItem);
 	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
@@ -8275,7 +8277,8 @@ for (var ci : c_AssetCosts) {
 		
 		// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
 		
-		double SDE_tariff_eurpMWh = 1000*ci.SDE_tariff_eurpkWh();
+		double SDE_tariff_eurpMWh = 1000*ci.SDE_aanvraagbedrag_eurpkWh();
+		double SDE_lowerLimit_eurpMWh = 1000*ci.SDE_basisenergieprijs_eurpkWh();
 		double SDEincome_eur = 0;
 		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries();
 		double productionEPEXvalue_eur = 0;
@@ -8283,7 +8286,7 @@ for (var ci : c_AssetCosts) {
 		for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
 			// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
 			productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
-			SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(0,energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
+			SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(SDE_lowerLimit_eurpMWh, energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
 		}
 		//traceln("SDE income: %s eur", SDEincome_eur);
 		ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
@@ -9518,7 +9521,8 @@ public class J_AssetCost implements Serializable {
 	protected double CAPEX_eur;
 	protected double OPEX_eurpa;
 	protected Double LCOE_eurpkWh;
-	protected double SDE_tariff_eurpkWh;
+	protected double SDE_aanvraagbedrag_eurpkWh;
+	protected double SDE_basisenergieprijs_eurpkWh;
 	protected double depreciationPeriod_y;
 	protected double interestRate_r;
 	
@@ -9526,12 +9530,13 @@ public class J_AssetCost implements Serializable {
 	protected double productionEPEXvalue_eur = 0;
 	protected double totalProduction_MWh = 0;
 	
-	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, Double LCOE_eurpkWh, double SDE_tariff_eurpkWh, double interestRate_r, double depreciationPeriod_y) {
+	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, Double LCOE_eurpkWh, double SDE_aanvraagbedrag_eurpkWh, double SDE_basisenergieprijs_eurpkWh, double interestRate_r, double depreciationPeriod_y) {
 		this.energyAsset = j_ea;
 		this.CAPEX_eur = CAPEX_eur;
 		this.OPEX_eurpa = OPEX_eurpa;
 		this.LCOE_eurpkWh = LCOE_eurpkWh;
-		this.SDE_tariff_eurpkWh = SDE_tariff_eurpkWh;
+		this.SDE_aanvraagbedrag_eurpkWh = SDE_aanvraagbedrag_eurpkWh;
+		this.SDE_basisenergieprijs_eurpkWh = SDE_basisenergieprijs_eurpkWh;
 		this.interestRate_r = interestRate_r;
 		this.depreciationPeriod_y = depreciationPeriod_y;
 	}
