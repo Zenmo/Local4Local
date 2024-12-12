@@ -905,8 +905,8 @@ for (var windFarmData: windFarms) {
 	Double CAPEX_eur = windFarmData.getCost().getCAPEX_eur();
 	Double OPEX_eurpa = windFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = windFarmData.getCost().getLCOE_eurpkWH();
-	Double SDEtariff_eurpKwh = windFarmData.getCost().getSdeSubsidy_eurpkWH();
-	Double SDE_basisenergieprijs_eurpkWh = windFarmData.getCost().getSDE_basisenergieprijs_eurpkWh();
+	Double SDEtariff_eurpKwh = windFarmData.getCost().getSdeAanvraagbedrag_eurpkWh();
+	Double SDE_basisenergieprijs_eurpkWh = windFarmData.getCost().getSdeBasisenergieprijs_eurpkWh();
 	if (SDEtariff_eurpKwh == null || SDE_basisenergieprijs_eurpkWh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 		SDE_basisenergieprijs_eurpkWh = 0.0;
@@ -1163,8 +1163,8 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 	Double CAPEX_eur = solarFarmData.getCost().getCAPEX_eur();
 	Double OPEX_eurpa = solarFarmData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = solarFarmData.getCost().getLCOE_eurpkWH();
-	Double SDEtariff_eurpKwh = solarFarmData.getCost().getSdeSubsidy_eurpkWH();
-	Double SDE_basisenergieprijs_eurpkWh = solarFarmData.getCost().getSDE_basisenergieprijs_eurpkWh();
+	Double SDEtariff_eurpKwh = solarFarmData.getCost().getSdeAanvraagbedrag_eurpkWh();
+	Double SDE_basisenergieprijs_eurpkWh = solarFarmData.getCost().getSdeBasisenergieprijs_eurpkWh();
 	if (SDEtariff_eurpKwh == null || SDE_basisenergieprijs_eurpkWh == null){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 		SDE_basisenergieprijs_eurpkWh = 0.0;
@@ -1383,8 +1383,8 @@ for (var generatorData: biogasGenerators) {
 	Double CAPEX_eur = generatorData.getCost().getCAPEX_eur();
 	Double OPEX_eurpa = generatorData.getCost().getOPEX_eurpy();
 	Double LCOE_eurpkWh = generatorData.getCost().getLCOE_eurpkWH(); 
-	Double SDEtariff_eurpKwh = generatorData.getCost().getSdeSubsidy_eurpkWH();
-	Double SDE_basisenergieprijs_eurpkWh = generatorData.getCost().getSDE_basisenergieprijs_eurpkWh();
+	Double SDEtariff_eurpKwh = generatorData.getCost().getSdeAanvraagbedrag_eurpkWh();
+	Double SDE_basisenergieprijs_eurpkWh = generatorData.getCost().getSdeBasisenergieprijs_eurpkWh();
 	if (SDEtariff_eurpKwh == null || SDE_basisenergieprijs_eurpkWh == null ){
 		SDEtariff_eurpKwh = 0.0;//LCOE_eurpkWh;
 		SDE_basisenergieprijs_eurpkWh = 0.0; 
@@ -8914,26 +8914,14 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 						<Name><![CDATA[batterySOC]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[GridNode node = l_parentNodeElectric.getConnectedAgent();
-if (p_batteryAsset.getStorageCapacity_kWh() != 0){	
+					<Body><![CDATA[if (p_batteryAsset.getStorageCapacity_kWh() != 0){	
+	GridNode GN = l_parentNodeElectric.getConnectedAgent();
 	double currentCoopElectricitySurplus_kW = 0;
 	double CoopConnectionCapacity_kW = 0;
 	double v_previousPowerBattery_kW = v_previousPowerElectricity_kW;// Assumes battery is only asset on gridconnection!! p_batteryAsset.electricityConsumption_kW-p_batteryAsset.electricityProduction_kW;
-	//traceln("Previous battery power: " + v_previousPowerElectricity_kW);
-	GridNode GN = l_parentNodeElectric.getConnectedAgent();
-	if(l_ownerActor.getConnectedAgent() instanceof ConnectionOwner) {
-		/*if(((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent instanceof EnergyCoop ) { // get electricity balance from Coop 			
-			currentCoopElectricitySurplus_kW = ((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_electricitySurplus_kW + v_previousPowerBattery_kW;
-			CoopConnectionCapacity_kW = 0.9*((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_allowedCapacity_kW; // Use only 90% of capacity for robustness against delay			
-		} else { // Get gridload directly from node*/
-			currentCoopElectricitySurplus_kW = -GN.v_currentLoad_kW + v_previousPowerBattery_kW;			
-			CoopConnectionCapacity_kW = 0.9*GN.p_capacity_kW; // Use only 90% of capacity for robustness against delay
-		//}
-	} else { // Get gridload directly from node
-		currentCoopElectricitySurplus_kW = -node.v_currentLoad_kW + v_previousPowerBattery_kW;			
-		CoopConnectionCapacity_kW = 0.95*node.p_capacity_kW; // Use only 90% of capacity for robustness against delay
-	}
-	//traceln("Operating buurtbatterij, current local surplus is %s kW.", currentCoopElectricitySurplus_kW);	
+	
+	currentCoopElectricitySurplus_kW = -GN.v_currentLoad_kW + v_previousPowerBattery_kW;			
+	CoopConnectionCapacity_kW = 0.95*GN.p_capacity_kW; // Use only 90% of capacity for robustness against delay
 		
 	double availableChargePower_kW = CoopConnectionCapacity_kW + currentCoopElectricitySurplus_kW; // Max battery charging power within grid capacity
 	double availableDischargePower_kW = currentCoopElectricitySurplus_kW - CoopConnectionCapacity_kW; // Max discharging power within grid capacity
@@ -8943,10 +8931,8 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 	double chargeSetpoint_kW = 0;
 	
 	// ----------------------------------------------------
-	//FeedforwardGain_kWpKw = 0.3; // Feedforward based on current surpluss in Coop
-	//FeedbackGain_kWpSOC = 1.5 * 0.6 * p_batteryAsset.getElectricCapacity_kW();
 	double SOC_setp_fr = 0.8;
-	SOC_setp_fr = (0.5 + 0.4 * Math.sin(2*Math.PI*(energyModel.t_h-18)/24))-3*GN.v_electricityYieldForecast_fr; // Sinusoidal setpoint: aim for high SOC at 18:00h
+	SOC_setp_fr = (0.5 + 0.4 * Math.cos(2*Math.PI*(energyModel.t_h+18)/24))-3*GN.v_electricityYieldForecast_fr; // Sinusoidal setpoint: aim for high SOC at 18:00h
 	
 	chargeSetpoint_kW = FeedforwardGain_kWpKw * (currentCoopElectricitySurplus_kW - chargeOffset_kW) + (SOC_setp_fr - batterySOC) * FeedbackGain_kWpSOC;
 	chargeSetpoint_kW = min(max(chargeSetpoint_kW, availableDischargePower_kW),availableChargePower_kW); // Don't allow too much (dis)charging!
