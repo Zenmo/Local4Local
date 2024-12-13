@@ -1448,6 +1448,10 @@ for (var generatorData: biogasGenerators) {
 	
 }
 
+if (companies.size() > 0) {
+	this.interface_L4L.txt_households_systemview_label.setText("Huishoudens en bedrijven");
+}
+
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -2322,10 +2326,10 @@ for (J_AssetCost ci : ((EnergyCoopL4L)EC).c_AssetCosts ) {
 
 txt_solarpark_expnd_totalProduction_value.setText(roundToInt(solarFarmProduction_MWh) + " MWh/jaar");
 txt_solarpark_systemview_totalProduction_value.setText(roundToInt(solarFarmProduction_MWh) + " MWh");
-txt_solarpark_systemview_totalProduction_price.setText(solarFarmPrice_eurpMWh + " €/MWh");
+txt_solarpark_systemview_totalProduction_price.setText(roundToInt(solarFarmPrice_eurpMWh) + " €/MWh");
 txt_windpark_expnd_totalProduction_value.setText(roundToInt(windFarmProduction_MWh) + " MWh/jaar");
 txt_windpark_systemview_totalProduction_value.setText(roundToInt(windFarmProduction_MWh) + " MWh");
-txt_windpark_systemview_totalProduction_price.setText(windFarmPrice_eurpMWh + " €/MWh");
+txt_windpark_systemview_totalProduction_price.setText(roundToInt(windFarmPrice_eurpMWh) + " €/MWh");
 ]]></Body>
 				</Function>
 				<Function AccessType="protected" StaticFunction="false">
@@ -2727,9 +2731,9 @@ f_resetSettings();]]></Body>
 
 			<Presentation>
 				<Rectangle>
-					<Id>1733845025770</Id>
-					<Name><![CDATA[rectangle]]></Name>
-					<X>-3380</X><Y>1340</Y>
+					<Id>1734094392321</Id>
+					<Name><![CDATA[rectangle1]]></Name>
+					<X>-3200</X><Y>1110</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2742,8 +2746,30 @@ f_resetSettings();]]></Body>
 					<LineColor>-16777216</LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width>680</Width>
-					<Height>300</Height>
+					<Width>350</Width>
+					<Height>190</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
+					<Id>1733845025770</Id>
+					<Name><![CDATA[rectangle]]></Name>
+					<X>-3334.666</X><Y>1440</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>589.333</Width>
+					<Height>260</Height>
 					<Rotation>0.0</Rotation>
 					<FillColor>-1</FillColor>
 					<FillMaterial>null</FillMaterial>
@@ -2751,7 +2777,7 @@ f_resetSettings();]]></Body>
 				<RoundedRectangle>
 					<Id>1733844429953</Id>
 					<Name><![CDATA[roundRectangle2]]></Name>
-					<X>-2500</X><Y>1200</Y>
+					<X>-2479.6</X><Y>1260</Y>
 					<Label><X>10</X><Y>10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2764,8 +2790,8 @@ f_resetSettings();]]></Body>
 					<LineColor>-16777216</LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
-					<Width>340</Width>
-					<Height>500</Height>
+					<Width>299.2</Width>
+					<Height>440</Height>
 					<Rotation>0.0</Rotation>
 					<FillColor>-1</FillColor>
 					<FillMaterial>null</FillMaterial>
@@ -5503,7 +5529,7 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 				<Image>
 					<Id>1733842434635</Id>
 					<Name><![CDATA[image1]]></Name>
-					<X>-2980</X><Y>1380</Y>
+					<X>-3000</X><Y>1480</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5511,8 +5537,8 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
-					<Width>220</Width>
-					<Height>220</Height>
+					<Width>180</Width>
+					<Height>180</Height>
 					<Rotation>0.0</Rotation>
 					<ImageFiles>
 						<ImageResourceReference>
@@ -5525,7 +5551,7 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 				<Image>
 					<Id>1733842464197</Id>
 					<Name><![CDATA[image2]]></Name>
-					<X>-3300</X><Y>1376.12</Y>
+					<X>-3274.545</X><Y>1480</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5533,8 +5559,8 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
-					<Width>280</Width>
-					<Height>225.677</Height>
+					<Width>229.091</Width>
+					<Height>180</Height>
 					<Rotation>0.0</Rotation>
 					<ImageFiles>
 						<ImageResourceReference>
@@ -5547,7 +5573,7 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 				<Image>
 					<Id>1733842947500</Id>
 					<Name><![CDATA[image5]]></Name>
-					<X>-2500</X><Y>1280</Y>
+					<X>-2476.666</X><Y>1320</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5555,8 +5581,8 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
-					<Width>340</Width>
-					<Height>291.428</Height>
+					<Width>293.333</Width>
+					<Height>251.428</Height>
 					<Rotation>0.0</Rotation>
 					<ImageFiles>
 						<ImageResourceReference>
@@ -5569,7 +5595,7 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 				<Line>
 					<Id>1733844451648</Id>
 					<Name><![CDATA[line]]></Name>
-					<X>-2500</X><Y>1600</Y>
+					<X>-2480</X><Y>1600</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5586,14 +5612,14 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 					<BeginArrowStyle>0</BeginArrowStyle>
 					<EndArrowSize>1</EndArrowSize>
 					<EndArrowStyle>0</EndArrowStyle>
-					<Dx>340</Dx>
+					<Dx>300</Dx>
 					<Dy>0</Dy>
 					<Dz>0</Dz>
 				</Line>
 				<Polyline>
 					<Id>1733844576242</Id>
 					<Name><![CDATA[polyline]]></Name>
-					<X>-2340</X><Y>1720</Y>
+					<X>-2330</X><Y>1720</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5615,38 +5641,14 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 					   <Point><X>0</X><Y>140</Y><Z>0</Z></Point>
-					   <Point><X>-1160</X><Y>140</Y><Z>0</Z></Point>
+					   <Point><X>-1170</X><Y>140</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
 				</Polyline>
 				<Line>
-					<Id>1733844709909</Id>
-					<Name><![CDATA[line1]]></Name>
-					<X>-3450</X><Y>1500</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>10</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<Dx>130</Dx>
-					<Dy>0</Dy>
-					<Dz>0</Dz>
-				</Line>
-				<Line>
 					<Id>1733844742408</Id>
 					<Name><![CDATA[line2]]></Name>
-					<X>-2740</X><Y>1400</Y>
+					<X>-2700</X><Y>1500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5670,7 +5672,7 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 				<Polyline>
 					<Id>1733845839884</Id>
 					<Name><![CDATA[polyline16]]></Name>
-					<X>-2340</X><Y>1705</Y>
+					<X>-2330</X><Y>1705</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5697,38 +5699,9 @@ Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
 					<Closed>false</Closed>
 				</Polyline>
 				<Polyline>
-					<Id>1733845933110</Id>
-					<Name><![CDATA[polyline18]]></Name>
-					<X>-3300</X><Y>1500</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor>-16777216</FillColor>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>-35</X><Y>-30</Y><Z>0</Z></Point>
-					   <Point><X>-35</X><Y>30</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Polyline>
 					<Id>1733845950898</Id>
 					<Name><![CDATA[polyline19]]></Name>
-					<X>-2760</X><Y>1400</Y>
+					<X>-2720</X><Y>1500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5801,7 +5774,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Text>
 					<Id>1733905595156</Id>
 					<Name><![CDATA[eigen_opwek7]]></Name>
-					<X>-2620</X><Y>1360</Y>
+					<X>-2580</X><Y>1460</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5823,7 +5796,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Text>
 					<Id>1733905648144</Id>
 					<Name><![CDATA[eigen_opwek15]]></Name>
-					<X>-2620</X><Y>1340</Y>
+					<X>-2580</X><Y>1440</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5889,8 +5862,8 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				</Text>
 				<Text>
 					<Id>1733909300760</Id>
-					<Name><![CDATA[txt_households_expnd_title2]]></Name>
-					<X>-3040</X><Y>1640</Y>
+					<Name><![CDATA[txt_households_systemview_label]]></Name>
+					<X>-3040</X><Y>1700</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5911,7 +5884,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Text>
 					<Id>1733909441636</Id>
 					<Name><![CDATA[txt_households_expnd_title3]]></Name>
-					<X>-2330</X><Y>1630</Y>
+					<X>-2330</X><Y>1600</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5921,7 +5894,8 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[EPEX SPOT markt]]></Text>
+					<Text><![CDATA[EPEX
+SPOT markt]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>36</Size>
@@ -5929,307 +5903,6 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					</Font>
 					<Alignment>CENTER</Alignment>
 				</Text>
-				<Group>
-					<Id>1733910698539</Id>
-					<Name><![CDATA[grp_windpark_systemview]]></Name>
-					<X>-3640</X><Y>1680</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-
-			<Presentation>
-				<RoundedRectangle>
-					<Id>1733843006148</Id>
-					<Name><![CDATA[roundRectangle1]]></Name>
-					<X>-260</X><Y>-160</Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>300</Width>
-					<Height>300</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1638401</FillColor>
-					<FillMaterial>null</FillMaterial>
-					<ArcRadius>10</ArcRadius>
-				</RoundedRectangle>
-				<Image>
-					<Id>1733842486489</Id>
-					<Name><![CDATA[image4]]></Name>
-					<X>-240</X><Y>-140</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Width>260</Width>
-					<Height>260</Height>
-					<Rotation>0.0</Rotation>
-					<ImageFiles>
-						<ImageResourceReference>
-							<PackageName><![CDATA[zerol4l]]></PackageName>
-							<ClassName><![CDATA[noun-windmill.png]]></ClassName>
-						</ImageResourceReference>
-					</ImageFiles>
-					<OriginalSize>false</OriginalSize>
-				</Image>
-				<Polyline>
-					<Id>1733845242904</Id>
-					<Name><![CDATA[polyline7]]></Name>
-					<X>200</X><Y>-20</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>6</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor/>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>30</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>30</X><Y>180</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Polyline>
-					<Id>1733844923077</Id>
-					<Name><![CDATA[polyline5]]></Name>
-					<X>200</X><Y>-20</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>4</LineWidth>
-					<LineColor>-1638401</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor/>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>30</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>30</X><Y>180</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Polyline>
-					<Id>1733845269123</Id>
-					<Name><![CDATA[polyline8]]></Name>
-					<X>20</X><Y>-20</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>6</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor/>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>180</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>180</X><Y>-140</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Polyline>
-					<Id>1733844881621</Id>
-					<Name><![CDATA[polyline4]]></Name>
-					<X>20</X><Y>-20</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>4</LineWidth>
-					<LineColor>-1638401</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor/>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>180</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>180</X><Y>-140</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Polyline>
-					<Id>1733845750551</Id>
-					<Name><![CDATA[polyline14]]></Name>
-					<X>255</X><Y>140</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor>-1638401</FillColor>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>-25</X><Y>30</Y><Z>0</Z></Point>
-					   <Point><X>-50</X><Y>0</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Polyline>
-					<Id>1733845780091</Id>
-					<Name><![CDATA[polyline15]]></Name>
-					<X>225</X><Y>-140</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor>-1638401</FillColor>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>-25</X><Y>-30</Y><Z>0</Z></Point>
-					   <Point><X>-50</X><Y>0</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Text>
-					<Id>1733909415442</Id>
-					<Name><![CDATA[txt_windpark_expnd_title1]]></Name>
-					<X>-100</X><Y>140</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Windpark]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>36</Size>
-						<Style>0</Style>
-					</Font>
-					<Alignment>CENTER</Alignment>
-				</Text>
-				<Text>
-					<Id>1733909113483</Id>
-					<Name><![CDATA[txt_windpark_systemview_totalProduction_price]]></Name>
-					<X>120</X><Y>-50</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[windAssetOpwekPrice]]></Text>
-					<TextCode><![CDATA[//this.f_getCoopReport().selfConsumption().printPrice_eurpMWh()]]></TextCode>
-					<Font>
-						<Name>Calibri</Name>
-						<Size>24</Size>
-						<Style>2</Style>
-					</Font>
-					<Alignment>CENTER</Alignment>
-				</Text>
-				<Text>
-					<Id>1733909079343</Id>
-					<Name><![CDATA[txt_windpark_systemview_totalProduction_value]]></Name>
-					<X>120</X><Y>-70</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[windAssetOpwekEnergy]]></Text>
-					<TextCode><![CDATA[//this.f_getCoopReport().selfConsumption().printQuantity_MWh()]]></TextCode>
-					<Font>
-						<Name>Calibri</Name>
-						<Size>24</Size>
-						<Style>2</Style>
-					</Font>
-					<Alignment>CENTER</Alignment>
-				</Text>
-			</Presentation>
-
-				</Group>
 				<Group>
 					<Id>1733910783330</Id>
 					<Name><![CDATA[grp_solarpark_systemview]]></Name>
@@ -6372,7 +6045,8 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 					   <Point><X>40</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>40</X><Y>190</Y><Z>0</Z></Point>
+					   <Point><X>40</X><Y>-120</Y><Z>0</Z></Point>
+					   <Point><X>290</X><Y>-120</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
 				</Polyline>
@@ -6401,14 +6075,15 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
 					   <Point><X>40</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>40</X><Y>190</Y><Z>0</Z></Point>
+					   <Point><X>40</X><Y>-120</Y><Z>0</Z></Point>
+					   <Point><X>290</X><Y>-120</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
 				</Polyline>
 				<Polyline>
 					<Id>1733845664222</Id>
 					<Name><![CDATA[polyline11]]></Name>
-					<X>175</X><Y>-45</Y>
+					<X>445</X><Y>-355</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6429,8 +6104,8 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<FillMaterial>null</FillMaterial>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>25</X><Y>30</Y><Z>0</Z></Point>
-					   <Point><X>50</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>20</X><Y>25</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>50</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
 				</Polyline>
@@ -6502,7 +6177,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Polyline>
 					<Id>1733846296098</Id>
 					<Name><![CDATA[polyline20]]></Name>
-					<X>185</X><Y>320</Y>
+					<X>185</X><Y>330</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6523,7 +6198,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<FillMaterial>null</FillMaterial>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>-25</X><Y>30</Y><Z>0</Z></Point>
+					   <Point><X>-25</X><Y>20</Y><Z>0</Z></Point>
 					   <Point><X>-50</X><Y>0</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
@@ -6548,7 +6223,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Polyline>
 					<Id>1733845334430</Id>
 					<Name><![CDATA[polyline10]]></Name>
-					<X>-340</X><Y>-20</Y>
+					<X>-390</X><Y>80</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6557,7 +6232,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<ZHeight>10</ZHeight>
-					<LineWidth>10</LineWidth>
+					<LineWidth>6</LineWidth>
 					<LineColor>-16777216</LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
@@ -6569,46 +6244,15 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<FillMaterial>null</FillMaterial>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>0</X><Y>-80</Y><Z>0</Z></Point>
-					   <Point><X>340</X><Y>-80</Y><Z>0</Z></Point>
-					   <Point><X>340</X><Y>0</Y><Z>0</Z></Point>
-					</Points>
-					<Closed>false</Closed>
-				</Polyline>
-				<Polyline>
-					<Id>1733844771941</Id>
-					<Name><![CDATA[polyline1]]></Name>
-					<X>-340</X><Y>-20</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>8</LineWidth>
-					<LineColor>-3604536</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<BeginArrowSize>1</BeginArrowSize>
-					<BeginArrowStyle>0</BeginArrowStyle>
-					<EndArrowSize>1</EndArrowSize>
-					<EndArrowStyle>0</EndArrowStyle>
-					<FillColor/>
-					<FillMaterial>null</FillMaterial>
-					<Points>
-					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>0</X><Y>-80</Y><Z>0</Z></Point>
-					   <Point><X>340</X><Y>-80</Y><Z>0</Z></Point>
-					   <Point><X>340</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>-210</Y><Z>0</Z></Point>
+					   <Point><X>70</X><Y>-210</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
 				</Polyline>
 				<Line>
 					<Id>1733845353574</Id>
 					<Name><![CDATA[line4]]></Name>
-					<X>120</X><Y>100</Y>
+					<X>140</X><Y>160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6617,7 +6261,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<ZHeight>10</ZHeight>
-					<LineWidth>10</LineWidth>
+					<LineWidth>6</LineWidth>
 					<LineColor>-16777216</LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
@@ -6632,7 +6276,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Line>
 					<Id>1733844984260</Id>
 					<Name><![CDATA[line3]]></Name>
-					<X>120</X><Y>100</Y>
+					<X>140</X><Y>160</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6641,7 +6285,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<EmbeddedIcon>false</EmbeddedIcon>
 					<Z>0</Z>
 					<ZHeight>10</ZHeight>
-					<LineWidth>8</LineWidth>
+					<LineWidth>4</LineWidth>
 					<LineColor>-3604536</LineColor>
 					<LineMaterial>null</LineMaterial>
 					<LineStyle>SOLID</LineStyle>
@@ -6656,7 +6300,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Polyline>
 					<Id>1733845817691</Id>
 					<Name><![CDATA[polyline12]]></Name>
-					<X>30</X><Y>-40</Y>
+					<X>-335</X><Y>-155</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6677,15 +6321,15 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<FillMaterial>null</FillMaterial>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>-30</X><Y>35</Y><Z>0</Z></Point>
-					   <Point><X>-60</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>20</X><Y>25</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>50</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
 				</Polyline>
 				<Polyline>
 					<Id>1733845882544</Id>
 					<Name><![CDATA[polyline17]]></Name>
-					<X>305</X><Y>70</Y>
+					<X>340</X><Y>135</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6706,15 +6350,15 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<FillMaterial>null</FillMaterial>
 					<Points>
 					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
-					   <Point><X>35</X><Y>30</Y><Z>0</Z></Point>
-					   <Point><X>0</X><Y>60</Y><Z>0</Z></Point>
+					   <Point><X>20</X><Y>25</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>50</Y><Z>0</Z></Point>
 					</Points>
 					<Closed>false</Closed>
 				</Polyline>
 				<Text>
 					<Id>1733905605461</Id>
 					<Name><![CDATA[eigen_opwek13]]></Name>
-					<X>-140</X><Y>-140</Y>
+					<X>-300</X><Y>-20</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6736,7 +6380,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Text>
 					<Id>1733905625754</Id>
 					<Name><![CDATA[eigen_opwek5]]></Name>
-					<X>-140</X><Y>-160</Y>
+					<X>-300</X><Y>-40</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6758,7 +6402,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Text>
 					<Id>1733909128389</Id>
 					<Name><![CDATA[eigen_opwek20]]></Name>
-					<X>240</X><Y>120</Y>
+					<X>240</X><Y>200</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6780,7 +6424,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Text>
 					<Id>1733909140122</Id>
 					<Name><![CDATA[eigen_opwek21]]></Name>
-					<X>240</X><Y>140</Y>
+					<X>240</X><Y>220</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6799,13 +6443,42 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					</Font>
 					<Alignment>CENTER</Alignment>
 				</Text>
+				<Polyline>
+					<Id>1733844771941</Id>
+					<Name><![CDATA[polyline1]]></Name>
+					<X>-390</X><Y>80</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>4</LineWidth>
+					<LineColor>-3604536</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>-210</Y><Z>0</Z></Point>
+					   <Point><X>70</X><Y>-210</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
 			</Presentation>
 
 				</Group>
 				<Text>
 					<Id>1733905636046</Id>
 					<Name><![CDATA[eigen_opwek14]]></Name>
-					<X>-3360</X><Y>1420</Y>
+					<X>-2730</X><Y>1150</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6827,7 +6500,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Text>
 					<Id>1733905583392</Id>
 					<Name><![CDATA[txt_kostprijs_plus1]]></Name>
-					<X>-3360</X><Y>1440</Y>
+					<X>-2730</X><Y>1170</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6846,6 +6519,474 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					</Font>
 					<Alignment>CENTER</Alignment>
 				</Text>
+				<Group>
+					<Id>1733910698539</Id>
+					<Name><![CDATA[grp_windpark_systemview]]></Name>
+					<X>-3640</X><Y>1680</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<Polyline>
+					<Id>1733845242904</Id>
+					<Name><![CDATA[polyline7]]></Name>
+					<X>200</X><Y>-20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>6</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>30</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>30</X><Y>180</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
+				<Polyline>
+					<Id>1733844923077</Id>
+					<Name><![CDATA[polyline5]]></Name>
+					<X>200</X><Y>-20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>4</LineWidth>
+					<LineColor>-1638401</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>30</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>30</X><Y>180</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
+				<Polyline>
+					<Id>1733845269123</Id>
+					<Name><![CDATA[polyline8]]></Name>
+					<X>20</X><Y>-20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>6</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>240</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>240</X><Y>-440</Y><Z>0</Z></Point>
+					   <Point><X>430</X><Y>-440</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
+				<Polyline>
+					<Id>1733844881621</Id>
+					<Name><![CDATA[polyline4]]></Name>
+					<X>20</X><Y>-20</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>4</LineWidth>
+					<LineColor>-1638401</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>240</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>240</X><Y>-440</Y><Z>0</Z></Point>
+					   <Point><X>430</X><Y>-440</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
+				<Polyline>
+					<Id>1733845750551</Id>
+					<Name><![CDATA[polyline14]]></Name>
+					<X>255</X><Y>150</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor>-1638401</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>-25</X><Y>20</Y><Z>0</Z></Point>
+					   <Point><X>-50</X><Y>0</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
+				<Polyline>
+					<Id>1733845780091</Id>
+					<Name><![CDATA[polyline15]]></Name>
+					<X>445</X><Y>-435</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor>-1638401</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>20</X><Y>-25</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>-50</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
+				<Text>
+					<Id>1733909415442</Id>
+					<Name><![CDATA[txt_windpark_expnd_title1]]></Name>
+					<X>-100</X><Y>140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Windpark]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<RoundedRectangle>
+					<Id>1733843006148</Id>
+					<Name><![CDATA[roundRectangle1]]></Name>
+					<X>-260</X><Y>-160</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>300</Width>
+					<Height>300</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1638401</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Image>
+					<Id>1733842486489</Id>
+					<Name><![CDATA[image4]]></Name>
+					<X>-240</X><Y>-140</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>260</Width>
+					<Height>260</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[noun-windmill.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Text>
+					<Id>1733909079343</Id>
+					<Name><![CDATA[txt_windpark_systemview_totalProduction_value]]></Name>
+					<X>120</X><Y>-70</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[windAssetOpwekEnergy]]></Text>
+					<TextCode><![CDATA[//this.f_getCoopReport().selfConsumption().printQuantity_MWh()]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>24</Size>
+						<Style>2</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<Text>
+					<Id>1733909113483</Id>
+					<Name><![CDATA[txt_windpark_systemview_totalProduction_price]]></Name>
+					<X>120</X><Y>-50</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[windAssetOpwekPrice]]></Text>
+					<TextCode><![CDATA[//this.f_getCoopReport().selfConsumption().printPrice_eurpMWh()]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>24</Size>
+						<Style>2</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+			</Presentation>
+
+				</Group>
+				<Text>
+					<Id>1734093011890</Id>
+					<Name><![CDATA[txt_households_systemview_prosumer]]></Name>
+					<X>-3180</X><Y>1650</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Prosumenten]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<Text>
+					<Id>1734093056950</Id>
+					<Name><![CDATA[txt_households_systemview_prosumer1]]></Name>
+					<X>-2910</X><Y>1650</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Consumenten]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<Image>
+					<Id>1734094413333</Id>
+					<Name><![CDATA[image6]]></Name>
+					<X>-3070</X><Y>1160</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>130</Width>
+					<Height>130</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[noun-house.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Image>
+					<Id>1734094423589</Id>
+					<Name><![CDATA[image7]]></Name>
+					<X>-3140</X><Y>1120</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>180</Width>
+					<Height>154.286</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[noun-electricity-3408805.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
+				<Text>
+					<Id>1734094456796</Id>
+					<Name><![CDATA[txt_households_systemview_label1]]></Name>
+					<X>-3030</X><Y>1300</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Energieleverancier]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>36</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<Polyline>
+					<Id>1734095501894</Id>
+					<Name><![CDATA[polyline13]]></Name>
+					<X>-2780</X><Y>1420</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>10</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor/>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>0</X><Y>-220</Y><Z>0</Z></Point>
+					   <Point><X>-80</X><Y>-220</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
+				<Polyline>
+					<Id>1734095554953</Id>
+					<Name><![CDATA[polyline21]]></Name>
+					<X>-2780</X><Y>1430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<BeginArrowSize>1</BeginArrowSize>
+					<BeginArrowStyle>0</BeginArrowStyle>
+					<EndArrowSize>1</EndArrowSize>
+					<EndArrowStyle>0</EndArrowStyle>
+					<FillColor>-16777216</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<Points>
+					   <Point><X>0</X><Y>0</Y><Z>0</Z></Point>
+					   <Point><X>30</X><Y>-30</Y><Z>0</Z></Point>
+					   <Point><X>-30</X><Y>-30</Y><Z>0</Z></Point>
+					</Points>
+					<Closed>false</Closed>
+				</Polyline>
 			</Presentation>
 
 				</Level>
