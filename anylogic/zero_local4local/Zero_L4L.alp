@@ -824,8 +824,10 @@ f_createLocal4LocalBiogasGenerator(pilot.getBiogasGenerators(), energyCoop);
 
 f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
-f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 
+this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
+this.interface_L4L.grp_prosumer_systemview.setVisible(false);
+f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 f_createLocal4LocalCompanies(pilot.getCompanies(), energyCoop);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -992,9 +994,9 @@ if (windFarms.size() == 0) {
 	this.interface_L4L.txt_households_expnd_hasChargePoint_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasChargePoint_r()*100)));
 	this.interface_L4L.txt_housholds_expnd_annualBaseConsumption_value.setText(String.format("%s"+" kWh", roundToInt(householdGroup.getAnnualBaseConsumptionAvg_kWh())));
 	
-	if (householdGroup.getHasPV_r() <= 0) {
-		this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
-		this.interface_L4L.grp_prosumer_systemview.setVisible(false);
+	if (householdGroup.getHasPV_r() > 0) {
+		this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(true);
+		this.interface_L4L.grp_prosumer_systemview.setVisible(true);
 	}
 }
 /*
@@ -1453,6 +1455,7 @@ for (var generatorData: biogasGenerators) {
 		//Asset
 		f_addLocal4LocalCompanyAssets(gcCompany, company);
 	
+	
 	/*
 	this.interface_L4L.c_householdGroups.add(householdGroup);
 	this.interface_L4L.txt_households_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
@@ -1505,7 +1508,9 @@ if (companyData.getPvInstalled_kWp() > 0.0) {
 		gcCompany,
 		OL_EnergyAssetType.PHOTOVOLTAIC,
 		"Solar Panel",
-		companyData.getPvInstalled_kWp());
+		companyData.getPvInstalled_kWp());	
+	this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(true);
+	this.interface_L4L.grp_prosumer_systemview.setVisible(true);
 };
 ]]></Body>
 				</Function>
@@ -7492,10 +7497,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 						<CollectionInitializer Class="CodeValue">
 							<Code><![CDATA[//Format: {Excel name, sheet/database name}
 {
-{"Buildings", "buildings"},
-{"GridNodes", "gridnodes"},
-{"Neighbourhoods", "neighbourhoods"},
-{"Chargepoints", "chargepoints"}
+//{"Buildings", "buildings"},
 }
 ]]></Code>
 						</CollectionInitializer>
@@ -9202,27 +9204,6 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 		<ShutdownCompact>false</ShutdownCompact>
 		<ImportSettings>
 			<ExternalConnection>
-				<Id>1726240085410</Id>
-				<Name><![CDATA[database]]></Name>
-				<X>0</X><Y>0</Y>
-				<Label><X>10</X><Y>0</Y></Label>
-				<PublicFlag>false</PublicFlag>
-				<PresentationFlag>true</PresentationFlag>
-				<ShowLabel>true</ShowLabel>
-				<DatabaseType>EXCEL_ACCESS</DatabaseType>
-				<ConnectionURL><![CDATA[]]></ConnectionURL>
-				<ConnectOnStartup>true</ConnectOnStartup>
-				<DatabaseName><![CDATA[]]></DatabaseName>
-				<ResourceReference>
-					<PackageName><![CDATA[zerol4l]]></PackageName>
-					<ClassName><![CDATA[data_L4L/GridNodes_L4L.xlsx]]></ClassName>
-				</ResourceReference>
-				<Host><![CDATA[localhost]]></Host>
-				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
-				<Login><![CDATA[]]></Login>
-				<Password><![CDATA[]]></Password>
-			</ExternalConnection>
-			<ExternalConnection>
 				<Id>1726155810018</Id>
 				<Name><![CDATA[database]]></Name>
 				<X>0</X><Y>0</Y>
@@ -9243,83 +9224,14 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 				<Login><![CDATA[]]></Login>
 				<Password><![CDATA[]]></Password>
 			</ExternalConnection>
-			<ExternalConnection>
-				<Id>1726240192563</Id>
-				<Name><![CDATA[database]]></Name>
-				<X>0</X><Y>0</Y>
-				<Label><X>10</X><Y>0</Y></Label>
-				<PublicFlag>false</PublicFlag>
-				<PresentationFlag>true</PresentationFlag>
-				<ShowLabel>true</ShowLabel>
-				<DatabaseType>EXCEL_ACCESS</DatabaseType>
-				<ConnectionURL><![CDATA[]]></ConnectionURL>
-				<ConnectOnStartup>true</ConnectOnStartup>
-				<DatabaseName><![CDATA[]]></DatabaseName>
-				<ResourceReference>
-					<PackageName><![CDATA[zerol4l]]></PackageName>
-					<ClassName><![CDATA[data_L4L/Neighbourhoods_L4L.xlsx]]></ClassName>
-				</ResourceReference>
-				<Host><![CDATA[localhost]]></Host>
-				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
-				<Login><![CDATA[]]></Login>
-				<Password><![CDATA[]]></Password>
-			</ExternalConnection>
-			<ExternalConnection>
-				<Id>1726155785078</Id>
-				<Name><![CDATA[database]]></Name>
-				<X>0</X><Y>0</Y>
-				<Label><X>10</X><Y>0</Y></Label>
-				<PublicFlag>false</PublicFlag>
-				<PresentationFlag>true</PresentationFlag>
-				<ShowLabel>true</ShowLabel>
-				<DatabaseType>EXCEL_ACCESS</DatabaseType>
-				<ConnectionURL><![CDATA[]]></ConnectionURL>
-				<ConnectOnStartup>true</ConnectOnStartup>
-				<DatabaseName><![CDATA[]]></DatabaseName>
-				<ResourceReference>
-					<PackageName><![CDATA[zerol4l]]></PackageName>
-					<ClassName><![CDATA[data_L4L/Buildings_L4L.xlsx]]></ClassName>
-				</ResourceReference>
-				<Host><![CDATA[localhost]]></Host>
-				<JdbcDriverClassName><![CDATA[net.sourceforge.jtds.jdbc.Driver]]></JdbcDriverClassName>
-				<Login><![CDATA[]]></Login>
-				<Password><![CDATA[]]></Password>
-			</ExternalConnection>
-			<TableImportSettings>
-				<TableReference>
-					<PackageName><![CDATA[zerol4l]]></PackageName>
-					<ClassName><![CDATA[gridnodes]]></ClassName>
-				</TableReference>
-				<ConnectionIndex>0</ConnectionIndex>
-				<ExternalTableName><![CDATA["gridnodes"]]></ExternalTableName>
-				<AutoImport>false</AutoImport>
-			</TableImportSettings>
 			<TableImportSettings>
 				<TableReference>
 					<PackageName><![CDATA[zerol4l]]></PackageName>
 					<ClassName><![CDATA[profiles]]></ClassName>
 				</TableReference>
-				<ConnectionIndex>1</ConnectionIndex>
+				<ConnectionIndex>0</ConnectionIndex>
 				<ExternalTableName><![CDATA["profiles_2023"]]></ExternalTableName>
-				<AutoImport>false</AutoImport>
-			</TableImportSettings>
-			<TableImportSettings>
-				<TableReference>
-					<PackageName><![CDATA[zerol4l]]></PackageName>
-					<ClassName><![CDATA[neighbourhoods]]></ClassName>
-				</TableReference>
-				<ConnectionIndex>2</ConnectionIndex>
-				<ExternalTableName><![CDATA["neighbourhoods"]]></ExternalTableName>
-				<AutoImport>false</AutoImport>
-			</TableImportSettings>
-			<TableImportSettings>
-				<TableReference>
-					<PackageName><![CDATA[zerol4l]]></PackageName>
-					<ClassName><![CDATA[buildings]]></ClassName>
-				</TableReference>
-				<ConnectionIndex>3</ConnectionIndex>
-				<ExternalTableName><![CDATA["buildings"]]></ExternalTableName>
-				<AutoImport>false</AutoImport>
+				<AutoImport>true</AutoImport>
 			</TableImportSettings>
 		</ImportSettings>
 		<ExportSettings>
@@ -9701,21 +9613,6 @@ public class J_CoopReport implements Serializable {
 		<Resource>
 			<Path><![CDATA[data_Generic/db_profiles.xlsx]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[data_L4L/Buildings_L4L.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[data_L4L/GridNodes_L4L.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[data_L4L/Neighbourhoods_L4L.xlsx]]></Path>
-			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
