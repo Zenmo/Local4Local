@@ -2266,7 +2266,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();
 
 //uI_Results.chartBalans.f_disableRadioButtons();
 
-
+pauseSimulation();
 this.viewAreaL4L.navigateTo();
 
 ]]></Body>
@@ -4531,7 +4531,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="14" Style="1"/>
 						<LabelText><![CDATA[Teruglevering klanten als cooperatie-opwek beschouwen]]></LabelText>
-						<DefaultValueCode><![CDATA[false]]></DefaultValueCode>
+						<DefaultValueCode><![CDATA[true]]></DefaultValueCode>
 						<LinkTo>false</LinkTo>
 	 				</ExtendedProperties>
 				</Control>
