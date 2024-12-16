@@ -16,13 +16,13 @@ export const SolarFarmDisplay: FunctionComponent<{
                 <SolarFarmHeading />
                 <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
-            <DataList.Root>
+            <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Vermogen</DataList.Label>
+                    <DataList.Label>Vermogen</DataList.Label>
                     <DataList.Value>{solarFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay cost={solarFarm.cost} />
             </DataList.Root>
+            <CostDisplay cost={solarFarm.cost} />
         </Card>
     )
 }

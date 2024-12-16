@@ -17,21 +17,21 @@ export const CompanyDisplay: FunctionComponent<{
                 <CompanyHeading />
                 <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
-            <DataList.Root>
+            <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Naam</DataList.Label>
+                    <DataList.Label>Naam</DataList.Label>
                     <DataList.Value>{company.name}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Bruto jaarverbruik</DataList.Label>
+                    <DataList.Label>Bruto jaarverbruik</DataList.Label>
                     <DataList.Value>{numberFormatter.format(company.annualElectricityConsumption_kWh)} kWh</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Zonnepanelen</DataList.Label>
+                    <DataList.Label>Zonnepanelen</DataList.Label>
                     <DataList.Value>{numberFormatter.format(company.pvInstalled_kWp)} kWp</DataList.Value>
                 </DataList.Item>
                 {/*<DataList.Item>*/}
-                {/*    <DataList.Label minWidth="88px">Aantal laadpunten</DataList.Label>*/}
+                {/*    <DataList.Label>Aantal laadpunten</DataList.Label>*/}
                 {/*    <DataList.Value>{company.chargePoints_n}</DataList.Value>*/}
                 {/*</DataList.Item>*/}
             </DataList.Root>

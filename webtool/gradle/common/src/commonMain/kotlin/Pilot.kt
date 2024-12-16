@@ -116,7 +116,8 @@ sealed interface AssetType
 @JsExport
 @Serializable
 data class AssetCost(
-    val sdeSubsidy_eurpkWH: Double? = 0.0,
+    val sdeAanvraagbedrag_eurpkWh: Double? = 0.0,
+    val sdeBasisenergieprijs_eurpkWh: Double? = 0.0,
     val LCOE_eurpkWH: Double? = 0.0,
     val CAPEX_eur: Double? = 0.0,
     val interest_r: Double? = 0.0,

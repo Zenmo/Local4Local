@@ -15,33 +15,33 @@ export const HouseholdDisplay: FunctionComponent<{
                 <HouseholdHeading />
                 <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
-            <DataList.Root>
+            <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Type</DataList.Label>
+                    <DataList.Label>Type</DataList.Label>
                     <DataList.Value>{householdGroup.type}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Aantal huishoudens</DataList.Label>
+                    <DataList.Label>Aantal huishoudens</DataList.Label>
                     <DataList.Value>{householdGroup.households_n}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Aandeel met zonnepanelen</DataList.Label>
+                    <DataList.Label>Aandeel met zonnepanelen</DataList.Label>
                     <DataList.Value>{householdGroup.hasPV_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Aandeel met warmtepomp</DataList.Label>
+                    <DataList.Label>Aandeel met warmtepomp</DataList.Label>
                     <DataList.Value>{householdGroup.hasHeatPump_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Aandeel met laadpaal</DataList.Label>
+                    <DataList.Label>Aandeel met laadpaal</DataList.Label>
                     <DataList.Value>{householdGroup.hasChargePoint_r * 100} %</DataList.Value>
                 </DataList.Item>
                 {/*<DataList.Item>*/}
-                {/*    <DataList.Label minWidth="88px">Aandeel met thuisbatterij</DataList.Label>*/}
+                {/*    <DataList.Label>Aandeel met thuisbatterij</DataList.Label>*/}
                 {/*    <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>*/}
                 {/*</DataList.Item>*/}
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Jaarlijks huishoudelijk verbruik</DataList.Label>
+                    <DataList.Label>Jaarlijks huishoudelijk verbruik</DataList.Label>
                     <DataList.Value>{householdGroup.annualBaseConsumptionAvg_kWh} kWh</DataList.Value>
                 </DataList.Item>
             </DataList.Root>

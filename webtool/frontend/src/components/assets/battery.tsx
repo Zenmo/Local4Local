@@ -17,17 +17,17 @@ export const BatteryDisplay: FunctionComponent<{
                 <BatteryHeading />
                 <CardMenu onDelete={toDelete} onEdit={onEdit}/>
             </Flex>
-            <DataList.Root>
+            <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Capaciteit</DataList.Label>
+                    <DataList.Label>Capaciteit</DataList.Label>
                     <DataList.Value>{battery.capacity_kWh} kWh</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label minWidth="88px">Vermogen</DataList.Label>
+                    <DataList.Label>Vermogen</DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
-                <CostDisplay cost={battery.cost} hideCostPerKwh={true} />
             </DataList.Root>
+            <CostDisplay cost={battery.cost} showCostPerKwh={false} showTotalCostFactors={true} />
         </Card>
     )
 }
@@ -72,7 +72,7 @@ export const BatteryForm: FunctionComponent<{
                     <label className="form-label" htmlFor="peakPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW || 100} />
                 </div>
-                <CostSection hideCostPerKwh={true} initialData={initialData?.cost}/>
+                <CostSection showCostPerKwh={false} showTotalCostFactors={true} initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
