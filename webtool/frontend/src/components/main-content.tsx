@@ -1,5 +1,5 @@
 import {Configure} from "./configure.tsx"
-import {FunctionComponent, useState} from "react"
+import {FunctionComponent, useRef, useState} from "react"
 import {savePilot} from "../services/save.ts"
 import {startSimulation} from "../services/anylogic.ts"
 import {Pilot} from "local4local"
@@ -13,16 +13,25 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
     const [pilot, setPilot] = useState(intializePilotFromDeeplink)
     const [showConfigSimulate, setShowConfigSimulate] = useState(false);
     const [showSimulation, setShowSimulation] = useState(false);
+    const simulationRef = useRef<AnyLogicCloudClient.Animation>()
+
+    const stopAnyLogicSession = () => {
+        if (simulationRef.current) {
+            simulationRef.current.stop()
+        }
+    }
 
     const onChange = async (pilot: Pilot) => {
         setPilot(pilot)
+        stopAnyLogicSession()
         setShowSimulation(false)
     }
 
     const onClickStart = async (anylogicElementId: string) => {
+        stopAnyLogicSession()
         const sessionId = await savePilot(pilot)
-        startSimulation(anylogicElementId, sessionId)
         setShowSimulation(true)
+        simulationRef.current = await startSimulation(anylogicElementId, sessionId)
     }
 
     return (
