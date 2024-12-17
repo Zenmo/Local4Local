@@ -1048,7 +1048,7 @@ var newAsset = new J_EAConsumption(
 J_EABuilding buildingAsset = new J_EABuilding(
 	gcHouse, 
 	300,
-	normal(50,1.57*200),
+	normal(20,1.57*100),
 	energyModel.p_timeStep_h,
 	normal(1, 17.9),
 	normal(1e6,1e7),
@@ -2753,6 +2753,28 @@ f_resetSettings();]]></Body>
 
 			<Presentation>
 				<Rectangle>
+					<Id>1734422478490</Id>
+					<Name><![CDATA[rect_kostprijs_plus3]]></Name>
+					<X>-2770</X><Y>1532</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>130</Width>
+					<Height>46</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1761968014</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Rectangle>
+				<Rectangle>
 					<Id>1734364244626</Id>
 					<Name><![CDATA[rect_kostprijs_plus1]]></Name>
 					<X>-3340</X><Y>1534</Y>
@@ -3404,7 +3426,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 					<Width>170</Width>
 					<Height>50</Height>
 					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
+					<FillColor>-1761968014</FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Rectangle>
 				<Rectangle>
@@ -5240,7 +5262,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Group>
 					<Id>1730998285479</Id>
 					<Name><![CDATA[grp_balanceWarning]]></Name>
-					<X>-1740</X><Y>1480</Y>
+					<X>-1720</X><Y>1440</Y>
 					<Label><X>7.559</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -5294,7 +5316,9 @@ Je energiegemeenschap heeft een groot overschot aan opwek.
 Breng je gemeenschap in balans door meer klanten toe te voegen 
 of door minder opwekvermogen toe te kennen aan je energiegemeenschap
 
-Het kostenoverzicht is nu waarschijnlijk niet representatief.]]></Text>
+Het kostenoverzicht is nu waarschijnlijk niet representatief.
+
+Klik op dit vlak om verder te gaan.]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>48</Size>
@@ -7441,7 +7465,7 @@ SPOT markt]]></Text>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Huishoudens]]></Text>
+					<Text><![CDATA[Leden cq. klanten]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>36</Size>
@@ -9753,7 +9777,8 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 		double powerFraction_fr = 0.0;
 		if( p_batteryOperationMode == OL_BatteryOperationMode.BALANCE){
 			//f_batteryManagementGridLoad(v_batterySOC_fr);
-			powerFraction_fr = f_batteryManagementBalanceGrid_L4L(v_batterySOC_fr);
+			//powerFraction_fr = f_batteryManagementBalanceGrid_L4L(v_batterySOC_fr);
+			powerFraction_fr = f_batteryManagementSelfconsumption_L4L(v_batterySOC_fr);
 		} else if (p_batteryOperationMode == OL_BatteryOperationMode.BALANCE_SUPPLY){ // Tries to minimize supply peaks
 			powerFraction_fr = f_batteryManagementBalanceSupply_L4L(v_batterySOC_fr);
 		//} else if (p_batteryOperationMode == OL_BatteryOperationMode.PRICE){
@@ -9767,6 +9792,74 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 		//v_batteryPowerElectric_kW = flowsMap.get(OL_EnergyCarriers.ELECTRICITY);
 		v_batterySOC_fr = p_batteryAsset.getCurrentStateOfCharge();
 	}
+}
+]]></Body>
+				</Function>
+				<Function AccessType="public" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1734369998956</Id>
+					<Name><![CDATA[f_batteryManagementSelfconsumption_L4L]]></Name>
+					<Description><![CDATA[Regeling voor balancering van Coop-load.
+
+@author: Gillis Hommen
+@since: 28-12-2022]]></Description>
+					<X>1390</X><Y>740</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[batterySOC]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
+					<Body><![CDATA[GridNode node = l_parentNodeElectric.getConnectedAgent();
+if (p_batteryAsset.getStorageCapacity_kWh() != 0){	
+	//traceln("Hello!");
+	double currentCoopElectricitySurplus_kW = 0;
+	//double CoopConnectionCapacity_kW = 0;
+	double v_previousPowerBattery_kW = v_previousPowerElectricity_kW;// Assumes battery is only asset on gridconnection!! p_batteryAsset.electricityConsumption_kW-p_batteryAsset.electricityProduction_kW;
+	//traceln("Previous battery power: " + v_previousPowerElectricity_kW);
+	GridNode GN = l_parentNodeElectric.getConnectedAgent();
+	if(l_ownerActor.getConnectedAgent() instanceof ConnectionOwner) {
+		/*if(((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent instanceof EnergyCoop ) { // get electricity balance from Coop 			
+			currentCoopElectricitySurplus_kW = ((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_electricitySurplus_kW + v_previousPowerBattery_kW;
+			CoopConnectionCapacity_kW = 0.9*((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_allowedCapacity_kW; // Use only 90% of capacity for robustness against delay			
+		} else { // Get gridload directly from node*/
+			currentCoopElectricitySurplus_kW = -GN.v_currentLoad_kW + v_previousPowerBattery_kW;			
+			//CoopConnectionCapacity_kW = 0.9*GN.p_capacity_kW; // Use only 90% of capacity for robustness against delay
+		//}
+	} else { // Get gridload directly from node
+		currentCoopElectricitySurplus_kW = -node.v_currentLoad_kW + v_previousPowerBattery_kW;			
+		//CoopConnectionCapacity_kW = 0.95*node.p_capacity_kW; // Use only 90% of capacity for robustness against delay
+	}
+	//traceln("Operating buurtbatterij, current local surplus is %s kW.", currentCoopElectricitySurplus_kW);	
+		
+	//double availableChargePower_kW = CoopConnectionCapacity_kW + currentCoopElectricitySurplus_kW; // Max battery charging power within grid capacity
+	//double availableDischargePower_kW = currentCoopElectricitySurplus_kW - CoopConnectionCapacity_kW; // Max discharging power within grid capacity
+	//double FeedbackGain_kWpSOC = 0 * p_batteryAsset.getCapacityElectric_kW(); // How strongly to aim for SOC setpoint
+	double FeedforwardGain_kWpKw = 1; // Feedforward based on current surpluss in Coop
+	//double chargeOffset_kW = 0; // Charging 'bias', basically increases SOC setpoint slightly during the whole day.
+	double chargeSetpoint_kW = 0;
+	
+	chargeSetpoint_kW = FeedforwardGain_kWpKw*currentCoopElectricitySurplus_kW;
+	return max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getCapacityElectric_kW()));
+	
+	/*
+	// ----------------------------------------------------
+	//FeedforwardGain_kWpKw = 0.3; // Feedforward based on current surpluss in Coop
+	//FeedbackGain_kWpSOC = 1.5 * 0.6 * p_batteryAsset.getElectricCapacity_kW();
+	double SOC_setp_fr = 0.8;
+	SOC_setp_fr = (0.5 + 0.4 * Math.sin(2*Math.PI*(energyModel.t_h-18)/24))-3*GN.v_electricityYieldForecast_fr; // Sinusoidal setpoint: aim for high SOC at 18:00h
+	
+	chargeSetpoint_kW = FeedforwardGain_kWpKw * (currentCoopElectricitySurplus_kW - chargeOffset_kW) + (SOC_setp_fr - batterySOC) * FeedbackGain_kWpSOC;
+	chargeSetpoint_kW = min(max(chargeSetpoint_kW, availableDischargePower_kW),availableChargePower_kW); // Don't allow too much (dis)charging!
+	p_batteryAsset.v_powerFraction_fr = max(-1,min(1, chargeSetpoint_kW / p_batteryAsset.getElectricCapacity_kW())); // Convert to powerFraction and limit power	
+	//traceln("Coop surpluss " + currentCoopElectricitySurplus_kW + "kW, Battery charging power " + p_batteryAsset.v_powerFraction_fr*p_batteryAsset.j_ea.getElectricCapacity_kW() + " kW at " + currentBatteryStateOfCharge*100 + " % SOC");
+	//traceln("hello?");
+	*/
+} else {
+	return 0.0;
 }
 ]]></Body>
 				</Function>
