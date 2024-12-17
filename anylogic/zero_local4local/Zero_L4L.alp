@@ -267,7 +267,6 @@ zero_Interface.settings = settings;
 					<Body><![CDATA[List<Double> argumentsList = selectFrom( profiles ).list( profiles.t_h );
 
 // Various demand profiles
-
 List<Double> houseEdemandList = selectFrom( profiles ).list( profiles.house_e_demand_other );
 List<Double> houseHDHWdemandList = selectFrom( profiles ).list( profiles.house_h_demand_hot_water );
 List<Double> buildingEdemandList = selectFrom( profiles ).list( profiles.building_e_demand_other );
@@ -280,11 +279,9 @@ List<Double> logisticsFleetEdemandList = selectFrom( profiles ).list( profiles.l
  
 // Weather data
 List<Double> windList = selectFrom( profiles ).list( profiles.wind_e_prod_normalized );
-List<Double> solarList = selectFrom( profiles ).list( profiles.solar_e_prod_normalized );
+List<Double> solarList = selectFrom( profiles ).list( profiles.solar_e_prod_south35deg_normalized );
 List<Double> tempList = selectFrom( profiles ).list( profiles.ambient_temperature_deg_c );
 List<Double> epexList = selectFrom( profiles ).list( profiles.day_ahead_price_eur_mwh ); 
-
-
 
 //Create Profiles_data object
 genericProfiles_data = Profiles_data.builder().
