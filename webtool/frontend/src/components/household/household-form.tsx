@@ -2,6 +2,7 @@ import {FormEvent, FunctionComponent} from "react"
 import {HouseholdGroup} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
+import {getWithDefault} from "../default.ts"
 
 export const HouseholdForm: FunctionComponent<{
     initialData?: HouseholdGroup | null;
@@ -39,15 +40,15 @@ export const HouseholdForm: FunctionComponent<{
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="hasPV_r">Aandeel met zonnepanelen [%]</label>
-                    <input className="form-input" type="number" id="hasPV_r" name="hasPV_r" defaultValue={(initialData?.hasPV_r || 0.2) * 100 } min={0} max={100} />
+                    <input className="form-input" type="number" id="hasPV_r" name="hasPV_r" defaultValue={ getWithDefault(initialData?.hasPV_r, 0.2) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="hasHeatPump_r">Aandeel met warmtepomp [%]</label>
-                    <input className="form-input" type="number" id="hasHeatPump_r" name="hasHeatPump_r" defaultValue={ (initialData?.hasHeatPump_r || 0.1) * 100 } min={0} max={100} />
+                    <input className="form-input" type="number" id="hasHeatPump_r" name="hasHeatPump_r" defaultValue={ getWithDefault(initialData?.hasHeatPump_r, 0.1) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="hasChargePoint_r">Aandeel met laadpaal [%]</label>
-                    <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={ (initialData?.hasChargePoint_r || 0.2) * 100 } min={0} max={100} />
+                    <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={ getWithDefault(initialData?.hasChargePoint_r, 0.2) * 100 } min={0} max={100} />
                 </div>
                 <div className="radix-grid" style={{display: "none"}}>
                     <label className="form-label" htmlFor="hasHomeBattery_r">Aandeel met thuisbatterij [%]</label>
