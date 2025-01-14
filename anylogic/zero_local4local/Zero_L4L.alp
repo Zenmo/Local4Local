@@ -92,6 +92,12 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localSession]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -1723,6 +1729,21 @@ import java.io.PrintStream;]]></Import>
 				<Parameter>
 					<Name><![CDATA[map_scale]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_current]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_2]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_3]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_custom]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -2878,7 +2899,7 @@ f_resetSettings();]]></Body>
 				<Oval>
 					<Id>1730900136677</Id>
 					<Name><![CDATA[ovl_gemiddeld_tarief]]></Name>
-					<X>-390</X><Y>1825</Y>
+					<X>-850</X><Y>1810</Y>
 					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4527,7 +4548,7 @@ Opwek en Levering]]></Text>
 				<Text>
 					<Id>1729690744518</Id>
 					<Name><![CDATA[txt_kostprijs_plus_highlight]]></Name>
-					<X>-845</X><Y>1900</Y>
+					<X>-2100</X><Y>2220</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4548,7 +4569,7 @@ Opwek en Levering]]></Text>
 				<Text>
 					<Id>1729690755597</Id>
 					<Name><![CDATA[txt_gemiddeld_tarief_highlight]]></Name>
-					<X>-390</X><Y>1900</Y>
+					<X>-850</X><Y>1885</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4558,7 +4579,7 @@ Opwek en Levering]]></Text>
 					<Z>0</Z>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
-					<Text><![CDATA[Gemiddeld leveringstarief voor klant
+					<Text><![CDATA[Local4Local tarief
 (excl. belastingen en vastrecht)]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
@@ -4569,8 +4590,8 @@ Opwek en Levering]]></Text>
 				</Text>
 				<Text>
 					<Id>1729690783826</Id>
-					<Name><![CDATA[txt_gemiddeld_tarief_value]]></Name>
-					<X>-390</X><Y>1805</Y>
+					<Name><![CDATA[txt_local4local_tarief_value]]></Name>
+					<X>-850</X><Y>1790</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4581,7 +4602,7 @@ Opwek en Levering]]></Text>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[Gemiddeld tarief]]></Text>
-					<TextCode><![CDATA[this.f_getCoopReport().totalDelivery().printPrice_ctpkWh()]]></TextCode>
+					<TextCode><![CDATA[this.f_getCoopReport().totalDelivery().printPrice_eurpMWh()]]></TextCode>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>30</Size>
@@ -5214,7 +5235,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Oval>
 					<Id>1730900093424</Id>
 					<Name><![CDATA[ovl_kostprijs_plus]]></Name>
-					<X>-845</X><Y>1825</Y>
+					<X>-2100</X><Y>2145</Y>
 					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5237,7 +5258,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Text>
 					<Id>1729690775737</Id>
 					<Name><![CDATA[txt_kostprijs_plus_value]]></Name>
-					<X>-845</X><Y>1805</Y>
+					<X>-2100</X><Y>2125</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5259,7 +5280,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Group>
 					<Id>1730998285479</Id>
 					<Name><![CDATA[grp_balanceWarning]]></Name>
-					<X>-1720</X><Y>1440</Y>
+					<X>-1700</X><Y>2220</Y>
 					<Label><X>7.559</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -7515,6 +7536,73 @@ SPOT markt]]></Text>
 			</Presentation>
 
 				</Group>
+				<Text>
+					<Id>1736851346533</Id>
+					<Name><![CDATA[txt_kostprijs_plus_highlight1]]></Name>
+					<X>-430</X><Y>1884</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Benchmarktarief
+100% marktgebaseerd]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>24</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+				<Oval>
+					<Id>1736851346535</Id>
+					<Name><![CDATA[ovl_kostprijs_plus1]]></Name>
+					<X>-430</X><Y>1809</Y>
+					<Label><X>0</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>3</LineWidth>
+					<LineColor>-2132351238</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Circle>false</Circle>
+					<RadiusX>120</RadiusX>
+					<RadiusY>60</RadiusY>
+					<Rotation>0.0</Rotation>
+					<FillColor>-4144960</FillColor>
+					<FillMaterial>null</FillMaterial>
+				</Oval>
+				<Text>
+					<Id>1736851346537</Id>
+					<Name><![CDATA[txt_benchmarkprijs_value]]></Name>
+					<X>-430</X><Y>1789</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Benchmarkprijs]]></Text>
+					<TextCode><![CDATA[this.f_getCoopReport().benchmark().printPrice_eurpMWh()]]></TextCode>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>30</Size>
+						<Style>0</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
 			</Presentation>
 
 				</Level>
@@ -8669,6 +8757,15 @@ public void f_calculateKPIs(){
 				<Parameter>
 					<Name><![CDATA[p_actorSubgroup]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -9121,7 +9218,11 @@ if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 	//traceln("Coop total income: %s €", leveranciersKosten_eur);
 	//traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
 	throw new RuntimeException("Coop finances not balanced!");
-}]]></Body>
+}
+
+double benchmarkPrijs_eurpMWh = f_getBenchmarkTariff();
+v_coopReport.benchmark(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, benchmarkPrijs_eurpMWh));
+v_coopReportIncludeFeedinInOwnConsumption.benchmark(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, benchmarkPrijs_eurpMWh));]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -9143,6 +9244,95 @@ yearlyCosts_eur+=assetCost.CAPEX_eur()/max(1,assetCost.depreciationPeriod_y());
 yearlyCosts_eur+=assetCost.CAPEX_eur()*assetCost.interestRate_r();
 traceln("Capex/opex based production costs for asset %s: %s eur/year", assetCost, yearlyCosts_eur);
 return yearlyCosts_eur;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1736849356576</Id>
+					<Name><![CDATA[f_getBenchmarkTariff]]></Name>
+					<Description><![CDATA[Executed on simulation end to export data.
+
+@author: JorritvandenHouten
+@since: Sprint 6]]></Description>
+					<X>1380</X><Y>810</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//var coopReport = new J_CoopReport();
+// Initialize totals
+//double SDEincome_eur = 0; // SDE++ subsidie meerekenen? Dwz. invoersubsidie wanneer marktprijs lager is dan ...ct/kWh. 
+double EPEXcosts_eur = 0;
+double EPEXincome_eur = 0;
+double EPEXbuy_MWh = 0;
+double EPEXsell_MWh = 0;
+double FeedInEPEXvalue_eur = 0;
+
+int arrayLength = am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries().length;
+for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant arrays.
+	// Loop through coop nett power to calculate yearly money to EPEX
+	double currentEPEXbalance_MWh = (acc_totalCustomerDelivery_kW.getTimeSeries()[i]-acc_totalCustomerFeedIn_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h;
+	
+	EPEXcosts_eur += max(0,currentEPEXbalance_MWh) * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	EPEXincome_eur += max(0,-currentEPEXbalance_MWh) * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	EPEXbuy_MWh += max(0,currentEPEXbalance_MWh);
+	EPEXsell_MWh += max(0,-currentEPEXbalance_MWh);
+	// Onbalanskosten: reken p_onbalansMarkup_r kosten op alle EPEX transacties:
+	//onbalansCosts_eur += p_onbalansMarkup_r * abs(acc_annualElectricityBalance_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	
+	//totalSDEincome_eur += acc_annualOwnElectricityProduction_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * max(0,assetAvgLCOE_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
+	// Need feedIn accumulator to calculate customer Feedin costs based on hourly EPEX price.
+	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+
+	
+}
+
+//double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
+double onbalansCosts_eur = min(p_onbalansMarkup_r,0.1) * ( EPEXcosts_eur + EPEXincome_eur );
+double totalDeliveredElec_MWh = v_totalCustomerDelivery_MWh;
+
+//double customerFeedIn_MWh = fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // This should include all the energy that is received from customers!
+double customerFeedIn_MWh = v_totalCustomerFeedIn_MWh;
+//double nettDeliveredElec_MWh = totalDeliveredElec_MWh - customerFeedIn_MWh; // 
+
+//double benchmarkTariff_eurpMWh;
+
+if (p_feedinCompensation_eurpMWh == 0.0) {
+	//traceln("p_feedinCompensation_eurpMWh is zero! Feedin from prosumers is now 'free electricity' for the coop!");
+	//p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;	
+}
+
+//double kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
+//double EPEXbalance_eur = EPEXincome_eur - EPEXcosts_eur; // positive balance means nett-income!
+
+double leveranciersKosten_eur = p_feedinCompensation_eurpMWh * customerFeedIn_MWh + EPEXcosts_eur + onbalansCosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
+double benchmarkTariff_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur)/(totalDeliveredElec_MWh); // Zorg dat EDV break-even draait
+
+double leveranciersInkomsten_eur = EPEXincome_eur + totalDeliveredElec_MWh * benchmarkTariff_eurpMWh;
+//totalDeliveredElec_MWh = nettDeliveredElec_MWh; // Assume that nettDelivered is what counts for finances, such that feed-in tarrif is accounted for!
+traceln("***BENCHMARK RESULTAAT***");
+
+traceln("Gelijktijdige feedin en verbruik van leden: %s MWh", v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh);
+//traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh, v_selfConsumptionCoopAssets_MWh * kostprijsPlus_eurpMWh);
+
+traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", EPEXbuy_MWh, EPEXcosts_eur/EPEXbuy_MWh, EPEXcosts_eur);
+traceln("Totale verkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", EPEXsell_MWh, EPEXincome_eur/EPEXsell_MWh, EPEXincome_eur);
+
+traceln("Totale levering aan klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", roundToDecimal(totalDeliveredElec_MWh,2), benchmarkTariff_eurpMWh, benchmarkTariff_eurpMWh*totalDeliveredElec_MWh);
+
+traceln("Benchmarkprijs stroom van EPEX: %s €/MWh", roundToInt(benchmarkTariff_eurpMWh) );
+traceln("Total onbalans costs: %s €", onbalansCosts_eur);
+traceln("EDV total income: %s €", roundToInt(leveranciersKosten_eur));
+traceln("EDV total costs: %s €", roundToInt(leveranciersInkomsten_eur));
+
+if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
+	traceln("Benchmark not running break-even!!");
+	throw new RuntimeException("Benchmark finances not balanced!");
+	//traceln("Coop total income: %s €", leveranciersKosten_eur);
+	//traceln("Coop total costs: %s €", leveranciersInkomsten_eur);
+}
+return benchmarkTariff_eurpMWh;
+]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -10307,6 +10497,8 @@ public class J_CoopReport implements Serializable {
 	J_AccountingLine reDeliveryFeedIn = J_AccountingLine.NaN();
 	
 	J_AccountingLine onbalans = J_AccountingLine.NaN();
+	
+	J_AccountingLine benchmark = J_AccountingLine.NaN();
 	
 	public String print() {
 		var result = "";
