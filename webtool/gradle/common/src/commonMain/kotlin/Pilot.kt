@@ -172,6 +172,7 @@ data class ConsumptionAsset(
 @Serializable
 data class SolarFarm(
     val nominalPower_kW: Double,
+    val orientatie: String,
     val cost: AssetCost,
 ): AssetType
 

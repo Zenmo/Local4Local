@@ -45,6 +45,7 @@ val startPilot = Pilot(
     solarFarms = listOf(
         SolarFarm(
             nominalPower_kW = 1000.0,
+            orientatie = "zuid",
             AssetCost(
                 LCOE_eurpkWH = 0.10,
             )

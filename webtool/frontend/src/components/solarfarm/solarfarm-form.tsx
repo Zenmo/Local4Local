@@ -1,5 +1,5 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card} from "@radix-ui/themes"
+import {Button, Card, RadioGroup} from "@radix-ui/themes"
 import {SolarFarm} from "local4local"
 import {CostSection} from "../cost-section.tsx"
 import {costFromFormData} from "../cost-from-form-data.ts"
@@ -17,6 +17,7 @@ export const SolarFarmForm: FunctionComponent<{
 
         const solarFarm = new SolarFarm(
             parseFloat(formData.get("nominalPower_kW") as string),
+            formData.get("orientatie") as string,
             costFromFormData(formData),
         )
         save(solarFarm)
@@ -30,6 +31,21 @@ export const SolarFarmForm: FunctionComponent<{
                 <div className="radix-grid">
                     <label className="form-label" htmlFor="nominalPower_kW">Vermogen (kW)</label>
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW || 1000}/>
+                </div>
+                <div className="radix-grid">
+                    <label className="form-label">Orientatie</label>
+                </div>
+                <div>
+                    <RadioGroup.Root name="orientatie" defaultValue={initialData?.orientatie}>
+                        <label>
+                            <input type="radio" name="orientatie" value="Zuid" defaultChecked={initialData?.orientatie === 'Zuid'} />
+                            Zuid-Opstelling
+                        </label>
+                        <label>
+                            <input type="radio" name="orientatie" value="Oost-West" defaultChecked={initialData?.orientatie === 'Oost-West'} />
+                            Oost-West-Opstelling
+                        </label>
+                    </RadioGroup.Root>
                 </div>
                 <CostSection initialData={ initialData?.cost } />
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
