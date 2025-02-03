@@ -30,7 +30,7 @@ export function App() {
             <MainContent
                 css={css`
                     flex-grow: 1;
-                    margin-top: 16px; /* Add some spacing between the header and main content */
+                    margin-top: 16px;
                 `}
             />
             <Footer />
