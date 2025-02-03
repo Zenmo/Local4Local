@@ -170,9 +170,9 @@ data class ConsumptionAsset(
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
-enum class PVOrientation {
-    SOUTH,
-    EAST_WEST,
+enum class PVOrientation(val displayName: String) {
+    SOUTH("Zuid"),
+    EAST_WEST("Oost-west"),
 }
 
 @OptIn(ExperimentalJsExport::class)

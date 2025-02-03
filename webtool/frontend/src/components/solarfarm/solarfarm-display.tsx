@@ -23,7 +23,7 @@ export const SolarFarmDisplay: FunctionComponent<{
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label>Opstelling</DataList.Label>
-                    <DataList.Value>{solarFarm.orientation.name}</DataList.Value>
+                    <DataList.Value>{solarFarm.orientation.displayName}</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
             <CostDisplay cost={solarFarm.cost} />

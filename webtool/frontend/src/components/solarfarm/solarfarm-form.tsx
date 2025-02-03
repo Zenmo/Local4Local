@@ -47,11 +47,11 @@ export const SolarFarmForm: FunctionComponent<{
                     <RadioGroup.Root name="orientation" defaultValue={initialData?.orientation.name.toString() || PVOrientation.SOUTH.toString()}>
                         <label>
                             <input type="radio" name="orientation" value={PVOrientation.SOUTH.name} defaultChecked={initialData?.orientation === PVOrientation.SOUTH} />
-                            {PVOrientation.SOUTH.name}
+                            {PVOrientation.SOUTH.displayName}
                         </label>
                         <label>
                             <input type="radio" name="orientation" value={PVOrientation.EAST_WEST.name} defaultChecked={initialData?.orientation === PVOrientation.EAST_WEST} />
-                            {PVOrientation.EAST_WEST.name}
+                            {PVOrientation.EAST_WEST.displayName}
                         </label>
                     </RadioGroup.Root>
                 </div>
