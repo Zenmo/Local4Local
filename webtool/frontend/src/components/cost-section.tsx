@@ -2,6 +2,7 @@ import { FunctionComponent } from "react"
 import { DataList, Heading, Link, Text, HoverCard } from "@radix-ui/themes"
 import { PiMoneyWavyLight, PiInfoLight } from "react-icons/pi"
 import { AssetCost } from "local4local"
+import LabelInfo from "./label-info"
 
 const titles = {
     "sdeAanvraagbedrag_eurpkWh": "SDE Aanvraagbedrag [€/kWh]",
@@ -90,21 +91,13 @@ export const CostSection: FunctionComponent<{
             { showCostPerKwh && (
                 <>
                     <div className="radix-grid">
-                        <Text className="form-label" htmlFor="LCOE_eurpkWh">{titles["LCOE_eurpkWh"]}{"* "}
-                            <HoverCard.Root>
-                                <HoverCard.Trigger>
-                                    <Link href="#" target="_blank">
-                                        <PiInfoLight />
-                                    </Link>
-                                </HoverCard.Trigger>
-                                <HoverCard.Content maxWidth="300px">
-                                    <Text>
-                                        LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
-                                        including CAPEX, OPEX and interest.
-                                    </Text>
-                                </HoverCard.Content>
-                            </HoverCard.Root>{" "}
-                        </Text>
+                        <LabelInfo 
+                            data={{
+                                name: "LCOE_eurpkWh",
+                                title: titles["LCOE_eurpkWh"],
+                                info: "LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced, including CAPEX, OPEX and interest."
+                            }}
+                        />
                         <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
                                min={0} step={0.001}
                                placeholder="€/kWh"
@@ -121,7 +114,7 @@ export const CostSection: FunctionComponent<{
                     }
                     <div className="radix-grid">
                         <label className="form-label"
-                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeAanvraagbedrag_eurpkWh"]}*</label>
+                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeAanvraagbedrag_eurpkWh"]}</label>
                         <input className="form-input" type="number" id="sdeAanvraagbedrag_eurpkWh"
                                name="sdeAanvraagbedrag_eurpkWh"
                                min={0} step={0.001}
@@ -131,7 +124,7 @@ export const CostSection: FunctionComponent<{
                     </div>
                     <div className="radix-grid">
                         <label className="form-label"
-                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeBasisenergieprijs_eurpkWh"]}*</label>
+                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeBasisenergieprijs_eurpkWh"]}</label>
                         <input className="form-input" type="number" id="sdeBasisenergieprijs_eurpkWh"
                                name="sdeBasisenergieprijs_eurpkWh"
                                min={0} step={0.001}
