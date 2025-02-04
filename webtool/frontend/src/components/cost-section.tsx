@@ -1,7 +1,7 @@
-import {FunctionComponent} from "react"
-import {DataList, Heading, Link, Text} from "@radix-ui/themes"
-import { PiMoneyWavyLight } from "react-icons/pi"
-import {AssetCost} from "local4local"
+import { FunctionComponent } from "react"
+import { DataList, Heading, Link, Text, HoverCard } from "@radix-ui/themes"
+import { PiMoneyWavyLight, PiInfoLight } from "react-icons/pi"
+import { AssetCost } from "local4local"
 
 const titles = {
     "sdeAanvraagbedrag_eurpkWh": "SDE Aanvraagbedrag [€/kWh]",
@@ -90,19 +90,31 @@ export const CostSection: FunctionComponent<{
             { showCostPerKwh && (
                 <>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="LCOE_eurpkWh">{titles["LCOE_eurpkWh"]}*</label>
+                        <Text className="form-label" htmlFor="LCOE_eurpkWh">{titles["LCOE_eurpkWh"]}{"* "}
+                            <HoverCard.Root>
+                                <HoverCard.Trigger>
+                                    <Link href="#" target="_blank">
+                                        <PiInfoLight />
+                                    </Link>
+                                </HoverCard.Trigger>
+                                <HoverCard.Content maxWidth="300px">
+                                    <Text>
+                                        LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
+                                        including CAPEX, OPEX and interest.
+                                    </Text>
+                                </HoverCard.Content>
+                            </HoverCard.Root>{" "}
+                        </Text>
                         <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
                                min={0} step={0.001}
                                placeholder="€/kWh"
                                defaultValue={initialData?.LCOE_eurpkWH || 0}
-                               title="LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced,
-                            including CAPEX, OPEX and interest"
                         />
                     </div>
                     {showTotalCostFactors &&
                         <div className="form-message">
                             <Text>
-                                *Dit veld gebruik je op basis van ervaring of expert judgement.<br />
+                                * Dit veld gebruik je op basis van ervaring of expert judgement.<br />
                                 De overige kostenvelden laat je dan leeg.
                             </Text>
                         </div>
