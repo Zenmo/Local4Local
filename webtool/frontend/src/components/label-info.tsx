@@ -6,7 +6,7 @@ interface LabelInfoProps {
     data: {
         name: string;
         title: string;
-        info: string;
+        infoText: string;
     };
 }
 
@@ -22,7 +22,7 @@ const LabelInfo: React.FC<LabelInfoProps> = ({ data }) => {
                     </HoverCard.Trigger>
                     <HoverCard.Content maxWidth='300px'>
                         <Text>
-                            {data.info}
+                            {data.infoText}
                         </Text>
                     </HoverCard.Content>
                 </HoverCard.Root>{" "}

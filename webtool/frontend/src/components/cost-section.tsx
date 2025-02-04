@@ -5,14 +5,42 @@ import { AssetCost } from "local4local"
 import LabelInfo from "./label-info"
 
 const titles = {
-    "sdeAanvraagbedrag_eurpkWh": "SDE Aanvraagbedrag [€/kWh]",
-    "sdeBasisenergieprijs_eurpkWh": "SDE Basisenergieprijs [€/kWh]",
-    "LCOE_eurpkWh": "Kosten per kWh [€/kWh] (LCOE)",
-    "CAPEX_eur": "Aanschaf [€] (CAPEX)",
-    "interest_r": "Rente [%]",
-    "depreciationPeriod_y": "Afschrijvingsperiode [jaar]",
-    "OPEX_eurpy": "Onderhoudskosten [€/jaar] (OPEX)",
-}
+    "sdeAanvraagbedrag_eurpkWh": {
+        name: "sdeAanvraagbedrag_eurpkWh",
+        title: "SDE Aanvraagbedrag [€/kWh]",
+        infoText: "Het bedrag dat je aanvraagt bij de SDE+ regeling per kWh opgewekte energie."
+    },
+    "sdeBasisenergieprijs_eurpkWh": {
+        name: "sdeBasisenergieprijs_eurpkWh",
+        title: "SDE Basisenergieprijs [€/kWh]",
+        infoText: "De basisenergieprijs die wordt gehanteerd in de SDE+ regeling."
+    },
+    "LCOE_eurpkWh": {
+        name: "LCOE_eurpkWh",
+        title: "Kosten per kWh [€/kWh] (LCOE)",
+        infoText: "LCOE: Levellized AssetCost of Energy; de 'totale' kosten per kWh geproduceerde energie, inclusief CAPEX, OPEX en rente."
+    },
+    "CAPEX_eur": {
+        name: "CAPEX_eur",
+        title: "Aanschaf [€] (CAPEX)",
+        infoText: "De kapitaalkosten (CAPEX) voor de aanschaf van de installatie."
+    },
+    "interest_r": {
+        name: "interest_r",
+        title: "Rente [%]",
+        infoText: "Het rentepercentage dat wordt gehanteerd voor de financiering."
+    },
+    "depreciationPeriod_y": {
+        name: "depreciationPeriod_y",
+        title: "Afschrijvingsperiode [jaar]",
+        infoText: "De periode waarover de installatie wordt afgeschreven."
+    },
+    "OPEX_eurpy": {
+        name: "OPEX_eurpy",
+        title: "Onderhoudskosten [€/jaar] (OPEX)",
+        infoText: "De operationele kosten (OPEX) voor onderhoud per jaar."
+    }
+};
 
 export const CostDisplay: FunctionComponent<{
     cost: AssetCost,
@@ -30,15 +58,15 @@ export const CostDisplay: FunctionComponent<{
                 {showCostPerKwh && (
                     <>
                         <DataList.Item>
-                            <DataList.Label>{titles["LCOE_eurpkWh"]}</DataList.Label>
+                            <DataList.Label>{titles["LCOE_eurpkWh"].title}</DataList.Label>
                             <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["sdeAanvraagbedrag_eurpkWh"]}</DataList.Label>
+                            <DataList.Label>{titles["sdeAanvraagbedrag_eurpkWh"].title}</DataList.Label>
                             <DataList.Value>{cost.sdeAanvraagbedrag_eurpkWh}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["sdeBasisenergieprijs_eurpkWh"]}</DataList.Label>
+                            <DataList.Label>{titles["sdeBasisenergieprijs_eurpkWh"].title}</DataList.Label>
                             <DataList.Value>{cost.sdeBasisenergieprijs_eurpkWh}</DataList.Value>
                         </DataList.Item>
                     </>
@@ -46,19 +74,19 @@ export const CostDisplay: FunctionComponent<{
                 {showTotalCostFactors &&
                     <>
                         <DataList.Item>
-                            <DataList.Label>{titles["CAPEX_eur"]}</DataList.Label>
+                            <DataList.Label>{titles["CAPEX_eur"].title}</DataList.Label>
                             <DataList.Value>{cost.CAPEX_eur}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["interest_r"]}</DataList.Label>
+                            <DataList.Label>{titles["interest_r"].title}</DataList.Label>
                             <DataList.Value>{(cost.interest_r || 0) * 100}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["depreciationPeriod_y"]}</DataList.Label>
+                            <DataList.Label>{titles["depreciationPeriod_y"].title}</DataList.Label>
                             <DataList.Value>{cost.depreciationPeriod_y}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["OPEX_eurpy"]}</DataList.Label>
+                            <DataList.Label>{titles["OPEX_eurpy"].title}</DataList.Label>
                             <DataList.Value>{cost.OPEX_eurpy}</DataList.Value>
                         </DataList.Item>
                     </>
@@ -91,13 +119,7 @@ export const CostSection: FunctionComponent<{
             { showCostPerKwh && (
                 <>
                     <div className="radix-grid">
-                        <LabelInfo 
-                            data={{
-                                name: "LCOE_eurpkWh",
-                                title: titles["LCOE_eurpkWh"],
-                                info: "LCOE: Levellized AssetCost of Energy; the 'total' cost per kWh of energy produced, including CAPEX, OPEX and interest."
-                            }}
-                        />
+                        <LabelInfo data={titles["LCOE_eurpkWh"]}/>
                         <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
                                min={0} step={0.001}
                                placeholder="€/kWh"
@@ -114,7 +136,7 @@ export const CostSection: FunctionComponent<{
                     }
                     <div className="radix-grid">
                         <label className="form-label"
-                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeAanvraagbedrag_eurpkWh"]}</label>
+                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeAanvraagbedrag_eurpkWh"].title}</label>
                         <input className="form-input" type="number" id="sdeAanvraagbedrag_eurpkWh"
                                name="sdeAanvraagbedrag_eurpkWh"
                                min={0} step={0.001}
@@ -124,7 +146,7 @@ export const CostSection: FunctionComponent<{
                     </div>
                     <div className="radix-grid">
                         <label className="form-label"
-                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeBasisenergieprijs_eurpkWh"]}</label>
+                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeBasisenergieprijs_eurpkWh"].title}</label>
                         <input className="form-input" type="number" id="sdeBasisenergieprijs_eurpkWh"
                                name="sdeBasisenergieprijs_eurpkWh"
                                min={0} step={0.001}
@@ -143,22 +165,22 @@ export const CostSection: FunctionComponent<{
             {showTotalCostFactors &&
                 <>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"]}</label>
+                        <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"].title}</label>
                         <input className="form-input" type="number" id="CAPEX_eur" name="CAPEX_eur" min={0} step={0.001}
                                placeholder="€" defaultValue={initialData?.CAPEX_eur || 0} />
                     </div>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="interest_r">{titles["interest_r"]}</label>
+                        <label className="form-label" htmlFor="interest_r">{titles["interest_r"].title}</label>
                         <input className="form-input" type="number" id="interest_r" name="interest_r" min={0} max={100} step={0.05}
                             placeholder="%" defaultValue={ (initialData?.interest_r || 0) * 100}/>
                     </div>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="depreciationPeriod_y">{titles["depreciationPeriod_y"]}</label>
+                        <label className="form-label" htmlFor="depreciationPeriod_y">{titles["depreciationPeriod_y"].title}</label>
                         <input className="form-input" type="number" id="depreciationPeriod_y" name="depreciationPeriod_y" min={0} step={0.001}
                             placeholder="jaar" defaultValue={ initialData?.depreciationPeriod_y || 0 }/>
                     </div>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="OPEX_eurpy">{titles["OPEX_eurpy"]}</label>
+                        <label className="form-label" htmlFor="OPEX_eurpy">{titles["OPEX_eurpy"].title}</label>
                         <input className="form-input" type="number" id="OPEX_eurpy" name="OPEX_eurpy" min={0} step={0.001}
                             placeholder="€/jaar" defaultValue={ initialData?.OPEX_eurpy || 0 }/>
                     </div>
