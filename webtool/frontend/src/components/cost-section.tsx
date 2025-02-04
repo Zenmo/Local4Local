@@ -68,7 +68,7 @@ export const CostDisplay: FunctionComponent<{
 }
 
 const CostHeading = () => (
-    <Heading as="h3" style={{paddingBottom: ".5rem"}}>
+    <Heading as="h3" style={{paddingBottom: ".5rem", paddingTop: ".5rem"}}>
         <PiMoneyWavyLight />
         &nbsp;
         Kosten

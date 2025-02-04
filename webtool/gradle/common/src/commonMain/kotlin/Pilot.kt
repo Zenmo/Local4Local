@@ -170,8 +170,17 @@ data class ConsumptionAsset(
 @OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
+enum class PVOrientation(val displayName: String) {
+    SOUTH("Zuid"),
+    EAST_WEST("Oost-west"),
+}
+
+@OptIn(ExperimentalJsExport::class)
+@JsExport
+@Serializable
 data class SolarFarm(
     val nominalPower_kW: Double,
+    val orientation: PVOrientation = PVOrientation.SOUTH,
     val cost: AssetCost,
 ): AssetType
 

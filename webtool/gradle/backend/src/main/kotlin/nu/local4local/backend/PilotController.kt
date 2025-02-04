@@ -6,6 +6,8 @@ import nu.local4local.common.Battery
 import nu.local4local.common.Pilot
 import nu.local4local.common.SolarFarm
 import nu.local4local.common.WindFarm
+import nu.local4local.common.PVOrientation
+
 import org.http4k.core.Method.PUT
 import org.http4k.core.Method.GET
 import org.http4k.core.Response
@@ -45,6 +47,7 @@ val startPilot = Pilot(
     solarFarms = listOf(
         SolarFarm(
             nominalPower_kW = 1000.0,
+            orientation = PVOrientation.SOUTH,
             AssetCost(
                 LCOE_eurpkWH = 0.10,
             )
