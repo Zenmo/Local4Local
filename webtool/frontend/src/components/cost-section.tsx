@@ -135,8 +135,7 @@ export const CostSection: FunctionComponent<{
                         </div>
                     }
                     <div className="radix-grid">
-                        <label className="form-label"
-                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeAanvraagbedrag_eurpkWh"].title}</label>
+                        <LabelInfo data={titles["sdeAanvraagbedrag_eurpkWh"]} />
                         <input className="form-input" type="number" id="sdeAanvraagbedrag_eurpkWh"
                                name="sdeAanvraagbedrag_eurpkWh"
                                min={0} step={0.001}
@@ -145,8 +144,7 @@ export const CostSection: FunctionComponent<{
                         />
                     </div>
                     <div className="radix-grid">
-                        <label className="form-label"
-                               htmlFor="sdeAanvraagbedrag_eurpkWh">{titles["sdeBasisenergieprijs_eurpkWh"].title}</label>
+                        <LabelInfo data={titles["sdeBasisenergieprijs_eurpkWh"]} />
                         <input className="form-input" type="number" id="sdeBasisenergieprijs_eurpkWh"
                                name="sdeBasisenergieprijs_eurpkWh"
                                min={0} step={0.001}
@@ -165,22 +163,22 @@ export const CostSection: FunctionComponent<{
             {showTotalCostFactors &&
                 <>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="CAPEX_eur">{titles["CAPEX_eur"].title}</label>
+                        <LabelInfo data={titles["CAPEX_eur"]} />
                         <input className="form-input" type="number" id="CAPEX_eur" name="CAPEX_eur" min={0} step={0.001}
                                placeholder="€" defaultValue={initialData?.CAPEX_eur || 0} />
                     </div>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="interest_r">{titles["interest_r"].title}</label>
+                        <LabelInfo data={titles["interest_r"]} />
                         <input className="form-input" type="number" id="interest_r" name="interest_r" min={0} max={100} step={0.05}
                             placeholder="%" defaultValue={ (initialData?.interest_r || 0) * 100}/>
                     </div>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="depreciationPeriod_y">{titles["depreciationPeriod_y"].title}</label>
+                        <LabelInfo data={titles["depreciationPeriod_y"]} />
                         <input className="form-input" type="number" id="depreciationPeriod_y" name="depreciationPeriod_y" min={0} step={0.001}
                             placeholder="jaar" defaultValue={ initialData?.depreciationPeriod_y || 0 }/>
                     </div>
                     <div className="radix-grid">
-                        <label className="form-label" htmlFor="OPEX_eurpy">{titles["OPEX_eurpy"].title}</label>
+                        <LabelInfo data={titles["OPEX_eurpy"]} />
                         <input className="form-input" type="number" id="OPEX_eurpy" name="OPEX_eurpy" min={0} step={0.001}
                             placeholder="€/jaar" defaultValue={ initialData?.OPEX_eurpy || 0 }/>
                     </div>
