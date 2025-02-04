@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Text, HoverCard } from "@radix-ui/themes"
+import { Text, HoverCard } from "@radix-ui/themes"
 import { PiInfoLight } from 'react-icons/pi';
 
 interface LabelInfoProps {
@@ -16,9 +16,9 @@ const LabelInfo: React.FC<LabelInfoProps> = ({ data }) => {
                 {data.title}{" "}
                 <HoverCard.Root>
                     <HoverCard.Trigger>
-                        <Link href="#" target="_blank">
+                        <span>
                             <PiInfoLight />
-                        </Link>
+                        </span>
                     </HoverCard.Trigger>
                     <HoverCard.Content maxWidth='300px'>
                         <Text>
