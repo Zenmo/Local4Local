@@ -40,24 +40,6 @@ export const Configure: FunctionComponent<{
         showEditSupplierCost
     )
 
-    const titles = {
-        "name": {
-            name: "name",
-            title: "Naam",
-            infoText: "Company name"
-        },
-        "annualElectricityConsumption_kWh": {
-            name: "annualElectricityConsumption_kWh",
-            title: "Bruto jaarverbruik [kWh]",
-            infoText: "Annual electricity consumption [kWh]"
-        },
-        "pvInstalled_kWp": {
-            name: "pvInstalled_kWp",
-            title: "Zonnepanelen [kWp]",
-            infoText: "Zonnepanelen PV installed [kWp]"
-        },
-    };
-
     return (
         <>
             <Grid gap="2" pt="4">

@@ -89,7 +89,61 @@ export const titles = {
         name: "OPEX_eurpy",
         title: "Onderhoudskosten [€/jaar] (OPEX)",
         infoText: "De operationele kosten (OPEX) voor onderhoud per jaar."
-    }
+    },
+
+    //SolarFarm
+    "nominalPower_kW": {
+        name: "nominalPower_kW",
+        title: "Vermogen [kW]",
+        infoText: "Nominal power in kilowatts"
+    },
+    "opstelling": {
+        name: "opstelling",
+        title: "Opstelling",
+        infoText: "Orientation of the solar panels"
+    },
+    
+    //BiogasGenerator
+    "power_kW": {
+        name: "power_kW",
+        title: "Vermogen [kW]",
+        infoText: "Vermogen in kilowatts"
+    },
+    
+    //Battery
+    "capacity_kWh": {
+        name: "capacity_kWh",
+        title: "Capaciteit",
+        infoText: "Battery capacity"
+    },
+    "peakPower_kW": {
+        name: "peakPower_kW",
+        title: "Vermogen [kW]",
+        infoText: "Battery peak power"
+    },
+
+    //HeatPump
+    "storageMedium": {
+        name: "storageMedium",
+        title: "Opslagmedium",
+        infoText: "Storage medium"
+    },
+    "storageVolume_m3": {
+        name: "storageVolume_m3",
+        title: "Volume (m3)",
+        infoText: "Volume in cubic meters"
+    },
+    "minTemp_degC": {
+        name: "minTemp_degC",
+        title: "Minimale temperatuur (°C)",
+        infoText: "Minimale temperatuur in graden Celsius"
+    },
+    "maxTemp_degC": {
+        name: "maxTemp_degC",
+        title: "Maximale temperatuur (°C)",
+        infoText: "Maximale temperatuur in graden Celsius"
+    },
+
 };
 
 
