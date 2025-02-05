@@ -2,12 +2,14 @@ import {FormEvent, FunctionComponent} from "react"
 import {Company} from "local4local"
 import {Button, Card, Text} from "@radix-ui/themes"
 import {CompanyHeading} from "./company-heading.tsx"
+import LabelInfo from "../label-info"
 
 export const CompanyForm: FunctionComponent<{
     initialData?: Company | null;
+    titles: {[key: string]: {name: string, title: string, infoText: string}}
     save: (company: Company) => void,
     hide: () => void,
-}> = ({initialData, save, hide}) => {
+}> = ({initialData, titles, save, hide}) => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement
@@ -27,12 +29,11 @@ export const CompanyForm: FunctionComponent<{
             <CompanyHeading />
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="name">Naam</label>
+                    <LabelInfo data={titles["name"]} />
                     <input className="form-input" type="text" id="name" name="name" defaultValue={initialData?.name} />
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="annualElectricityConsumption_kWh">Bruto jaarverbruik
-                        [kWh]</label>
+                    <LabelInfo data={titles["annualElectricityConsumption_kWh"]} />
                     <input
                         className="form-input"
                         type="number"
@@ -48,7 +49,7 @@ export const CompanyForm: FunctionComponent<{
                     </Text>
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="pvInstalled_kWp">Zonnepanelen [kWp]</label>
+                    <LabelInfo data={titles["pvInstalled_kWp"]} />
                     <input className="form-input" type="number" id="pvInstalled_kWp" name="pvInstalled_kWp"
                            defaultValue={initialData?.pvInstalled_kWp} min={0} />
                 </div>

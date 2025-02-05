@@ -3,14 +3,16 @@ import {Card, DataList, Flex} from "@radix-ui/themes"
 import {Company} from "local4local"
 import {CompanyHeading} from "./company-heading.tsx"
 import {CardMenu} from "./../card-menu.tsx"
+import LabelInfo from "../label-info"
 
 const numberFormatter = new Intl.NumberFormat()
 
 export const CompanyDisplay: FunctionComponent<{
     company: Company,
+    titles: {[key: string]: {name: string, title: string, infoText: string}}
     onEdit: () => void,
     toDelete: () => void,
-}> = ({company, onEdit, toDelete}) => {
+}> = ({company, titles, onEdit, toDelete}) => {
     return (
         <Card>
             <Flex className="head-title">
@@ -19,15 +21,21 @@ export const CompanyDisplay: FunctionComponent<{
             </Flex>
             <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label>Naam</DataList.Label>
+                    <DataList.Label>
+                        <LabelInfo data={titles["annualElectricityConsumption_kWh"]} />
+                    </DataList.Label>
                     <DataList.Value>{company.name}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label>Bruto jaarverbruik</DataList.Label>
+                    <DataList.Label>
+                        <LabelInfo data={titles["name"]} />
+                    </DataList.Label>
                     <DataList.Value>{numberFormatter.format(company.annualElectricityConsumption_kWh)} kWh</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label>Zonnepanelen</DataList.Label>
+                    <DataList.Label>
+                        <LabelInfo data={titles["pvInstalled_kWp"]} />
+                    </DataList.Label>
                     <DataList.Value>{numberFormatter.format(company.pvInstalled_kWp)} kWp</DataList.Value>
                 </DataList.Item>
                 {/*<DataList.Item>*/}
