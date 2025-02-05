@@ -58,15 +58,21 @@ export const CostDisplay: FunctionComponent<{
                 {showCostPerKwh && (
                     <>
                         <DataList.Item>
-                            <DataList.Label>{titles["LCOE_eurpkWh"].title}</DataList.Label>
+                            <DataList.Label>
+                                <LabelInfo data={titles["LCOE_eurpkWh"]} />
+                            </DataList.Label>
                             <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["sdeAanvraagbedrag_eurpkWh"].title}</DataList.Label>
+                            <DataList.Label>
+                                <LabelInfo data={titles["sdeAanvraagbedrag_eurpkWh"]} />
+                            </DataList.Label>
                             <DataList.Value>{cost.sdeAanvraagbedrag_eurpkWh}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["sdeBasisenergieprijs_eurpkWh"].title}</DataList.Label>
+                            <DataList.Label>
+                                <LabelInfo data={titles["sdeBasisenergieprijs_eurpkWh"]} />
+                            </DataList.Label>
                             <DataList.Value>{cost.sdeBasisenergieprijs_eurpkWh}</DataList.Value>
                         </DataList.Item>
                     </>
@@ -74,19 +80,27 @@ export const CostDisplay: FunctionComponent<{
                 {showTotalCostFactors &&
                     <>
                         <DataList.Item>
-                            <DataList.Label>{titles["CAPEX_eur"].title}</DataList.Label>
+                            <DataList.Label>
+                                <LabelInfo data={titles["CAPEX_eur"]} />
+                            </DataList.Label>
                             <DataList.Value>{cost.CAPEX_eur}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["interest_r"].title}</DataList.Label>
+                            <DataList.Label>
+                                <LabelInfo data={titles["interest_r"]} />
+                            </DataList.Label>
                             <DataList.Value>{(cost.interest_r || 0) * 100}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["depreciationPeriod_y"].title}</DataList.Label>
+                            <DataList.Label>
+                                <LabelInfo data={titles["depreciationPeriod_y"]} />
+                            </DataList.Label>
                             <DataList.Value>{cost.depreciationPeriod_y}</DataList.Value>
                         </DataList.Item>
                         <DataList.Item>
-                            <DataList.Label>{titles["OPEX_eurpy"].title}</DataList.Label>
+                            <DataList.Label>
+                                <LabelInfo data={titles["OPEX_eurpy"]} />
+                            </DataList.Label>
                             <DataList.Value>{cost.OPEX_eurpy}</DataList.Value>
                         </DataList.Item>
                     </>
