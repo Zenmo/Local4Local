@@ -65,10 +65,16 @@ public void f_startUpLoader_default(){
 	f_startUpLoader_L4L();
 }
 
-@Override
+@Override 
+public void f_setEngineProfiles() {
+	super.f_setEngineProfiles();
+	f_setEngineProfilePVEastWest();
+}
+
+/*@Override
 public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType asset_type, String asset_name, double installedPower_kW){
 	f_addEnergyProduction_L4L(parentGC, asset_type, asset_name, installedPower_kW);
-}]]></AdditionalClassCode>
+}*/]]></AdditionalClassCode>
 			<ExtendsReference>
 				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
 				<ClassName><![CDATA[Zero_Loader]]></ClassName>
@@ -91,12 +97,6 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[user]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -881,11 +881,12 @@ for (var windFarmData: windFarms) {
 		windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 	
 	//Asset
-	f_addEnergyProduction(
+	f_addEnergyProduction_L4L(
 		windFarm, 
 	    OL_EnergyAssetType.WINDMILL, 
 	    "Windmill onshore",
-	    windFarmData.getNominalPower_kW()
+	    windFarmData.getNominalPower_kW(),
+	    null
 	);
 	
 	/*	f_addEnergyProduction(
@@ -1147,11 +1148,12 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
 	
 	//Solar Asset
-	f_addEnergyProduction(
+	f_addEnergyProduction_L4L(
 		solarFarm,
 		OL_EnergyAssetType.PHOTOVOLTAIC,
 		solarFarm.p_gridConnectionID,
-		solarFarmData.getNominalPower_kW());
+		solarFarmData.getNominalPower_kW(),
+		solarFarmData.getOrientation());
 	
 	//Owner
 	ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
@@ -1283,6 +1285,10 @@ for (var batteryData: batteries) {
 						<Name><![CDATA[installedPower_kW]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
+					<Parameter>
+						<Name><![CDATA[pvOrientation]]></Name>
+						<Type><![CDATA[nu.local4local.common.PVOrientation]]></Type>
+					</Parameter>
 					<Body><![CDATA[//String asset_name					= "Production Asset";
 double capacityElectric_kW			= 0;
 double capacityHeat_kW				= 0;
@@ -1296,7 +1302,13 @@ switch (asset_type){
 
 case PHOTOVOLTAIC: 
 	//asset_name = "Solar Panels";
-	profilePointer = energyModel.pp_solarPVproduction;
+	if (pvOrientation == nu.local4local.common.PVOrientation.SOUTH) {
+		profilePointer = energyModel.pp_solarPVproduction;
+		//traceln("Override PV orientation east-west as test!");
+		//profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
+	} else { // east/west
+		profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
+	}
 	capacityElectric_kW = installedPower_kW;
 	//traceln("Installing PV for %s with power %s", parentGC.p_ownerID, capacityElectric_kW);
 	
@@ -1336,7 +1348,7 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[interface_L4L.uI_Results.v_area = interface_L4L.uI_Results.v_collective;]]></Body>
+					<Body><![CDATA[interface_L4L.uI_Results.v_area = interface_L4L.uI_Results.v_collective; ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1366,11 +1378,12 @@ for (var generatorData: biogasGenerators) {
 		biogasGeneratorSite.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 	
 	//Asset
-	f_addEnergyProduction(
+	f_addEnergyProduction_L4L(
 		biogasGeneratorSite, 
 	    OL_EnergyAssetType.GAS_BURNER , 
 	    "Biogas Generator",
-	    generatorData.getPower_kW()
+	    generatorData.getPower_kW(),
+	    null
 	);
 	
 	//Owner
@@ -1519,6 +1532,46 @@ if (companyData.getPvInstalled_kWp() > 0.0) {
 	this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(true);
 	this.interface_L4L.grp_prosumer_systemview.setVisible(true);
 };
+]]></Body>
+				</Function>
+				<Function AccessType="public" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1738673150845</Id>
+					<Name><![CDATA[f_setEngineProfilePVEastWest]]></Name>
+					<Description><![CDATA[Functie van gillis voor inladen weer data!]]></Description>
+					<X>120</X><Y>140</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<Double> argumentsList = genericProfiles_data.argumentsList();
+ 
+// Weather data
+List<Double> solarList = selectFrom( profiles ).list( profiles.solar_e_prod_eastwest15deg_normalized );
+
+double[] a_arguments = new double[argumentsList.size()];
+
+double[] a_solarValues = new double[argumentsList.size()];
+     
+for(int i = 0; i < argumentsList.size(); i++) {
+       a_arguments[i] = argumentsList.get(i);
+
+       a_solarValues[i] = solarList.get(i);
+
+}
+
+
+J_ProfilePointer profilePointer;
+
+TableFunction tf_solar_e_prod_eastwest15deg_normalized = new TableFunction(a_arguments, a_solarValues, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
+tf_solar_e_prod_eastwest15deg_normalized.setArgumentsAndValues(a_arguments, a_solarValues);
+profilePointer = new J_ProfilePointer("solar_e_prod_eastwest15deg_normalized", tf_solar_e_prod_eastwest15deg_normalized);
+energyModel.f_addProfile(profilePointer);
+
+
+
+
 ]]></Body>
 				</Function>
 			</Functions>
@@ -1728,21 +1781,6 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[map_scale]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -2317,7 +2355,7 @@ if ( b_includeFeedInInCoopProduction ) {
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1729692082502</Id>
 					<Name><![CDATA[f_updateUIresultsEnergyCoop_L4L]]></Name>
-					<X>-650</X><Y>690</Y>
+					<X>-620</X><Y>670</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -2396,7 +2434,7 @@ txt_windpark_systemview_totalProduction_price.setText(roundToInt(windFarmPrice_e
 if(!b_runningMainInterfaceScenarios){
 	b_changeToCustomScenario = true;
 }
-
+//PV_pct = 0;
 
 double nbHousesWithPV = count(c_housesInGroup, x -> x.v_hasPV == true);
 
@@ -9180,8 +9218,10 @@ coopReport = new J_CoopReport();
 // Add feedin as 'own production'
 totalOwnProduction_MWh += v_totalCustomerFeedIn_MWh;
 totalOwnProductionCost_eur += v_totalCustomerFeedIn_MWh*p_feedinCompensation_eurpMWh;
-assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_MWh;
-if ( totalOwnElectricityProduced_MWh == 0.0 || totalSDEincome_eur == 0.0) {
+if (totalOwnProduction_MWh>0) {
+	assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_MWh;
+}
+if ( totalOwnElectricityProduced_MWh == 0.0 || totalSDEincome_eur == 0.0 || totalOwnProduction_MWh == 0.0) {
 	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
 } else {
 	kostprijs_eurpMWh = assetAvgLCOE_eurpMWh - totalSDEincome_eur / totalOwnProduction_MWh; // Neem aan dat de cooperatie dit bedrag ook krijgt voor niet-gelijktijdig geleverde stroom!
