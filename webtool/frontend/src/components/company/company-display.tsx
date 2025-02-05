@@ -3,16 +3,16 @@ import {Card, DataList, Flex} from "@radix-ui/themes"
 import {Company} from "local4local"
 import {CompanyHeading} from "./company-heading.tsx"
 import {CardMenu} from "./../card-menu.tsx"
+import { titles } from '../titles';
 import LabelInfo from "../label-info"
 
 const numberFormatter = new Intl.NumberFormat()
 
 export const CompanyDisplay: FunctionComponent<{
     company: Company,
-    titles: {[key: string]: {name: string, title: string, infoText: string}}
     onEdit: () => void,
     toDelete: () => void,
-}> = ({company, titles, onEdit, toDelete}) => {
+}> = ({company, onEdit, toDelete}) => {
     return (
         <Card>
             <Flex className="head-title">

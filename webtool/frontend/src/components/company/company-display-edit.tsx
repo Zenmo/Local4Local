@@ -5,9 +5,8 @@ import {CompanyForm} from "./company-form.tsx"
 
 export const CompanyDisplayEdit: FunctionComponent<{
     pilot: Pilot,
-    titles: {[key: string]: {name: string, title: string, infoText: string}}
     onChange: (pilot: Pilot) => void,
-}> = ({pilot, titles, onChange}) => {
+}> = ({pilot, onChange}) => {
     const [selectedCompany, setSelectedCompany] = useState<Company | null>(null);
     return (
         <>
@@ -23,13 +22,11 @@ export const CompanyDisplayEdit: FunctionComponent<{
                         setSelectedCompany(null);
                     }}
                     initialData={selectedCompany}
-                    titles={titles}
                 />
             ) : (
                 <CompanyDisplay
                     key={i}
                     company={it}
-                    titles={titles}
                     onEdit={() => { setSelectedCompany(it)}}
                     toDelete={() => onChange(pilot.removeCompany(it))}
                 />

@@ -2,14 +2,14 @@ import {FormEvent, FunctionComponent} from "react"
 import {Company} from "local4local"
 import {Button, Card, Text} from "@radix-ui/themes"
 import {CompanyHeading} from "./company-heading.tsx"
+import { titles } from '../titles';
 import LabelInfo from "../label-info"
 
 export const CompanyForm: FunctionComponent<{
     initialData?: Company | null;
-    titles: {[key: string]: {name: string, title: string, infoText: string}}
     save: (company: Company) => void,
     hide: () => void,
-}> = ({initialData, titles, save, hide}) => {
+}> = ({initialData, save, hide}) => {
     const onSubmit = (event: FormEvent) => {
         event.preventDefault()
         const form = event.target as HTMLFormElement

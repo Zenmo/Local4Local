@@ -68,7 +68,7 @@ export const Configure: FunctionComponent<{
                 }
 
                 <HouseholdsDisplayEdit pilot={pilot} onChange={onChange}/>
-                <CompanyDisplayEdit pilot={pilot} titles={titles} onChange={onChange}/>
+                <CompanyDisplayEdit pilot={pilot} onChange={onChange}/>
                 <SolarFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <WindFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
                 <BiogasGeneratorsDisplayEdit pilot={pilot} onChange={onChange}/>
@@ -78,7 +78,7 @@ export const Configure: FunctionComponent<{
                 {showAddHouseholdGroup &&
                     <HouseholdForm save={(asset: HouseholdGroup) => onChange(pilot.create(asset))} hide={() => setShowAddHouseholdGroup(false)}/>}
                 {showAddCompany &&
-                    <CompanyForm titles={titles} save={(company: Company) => onChange(pilot.addCompany(company))} hide={() => setShowAddCompany(false)}/>}
+                    <CompanyForm save={(company: Company) => onChange(pilot.addCompany(company))} hide={() => setShowAddCompany(false)}/>}
                 {showAddSolarFarm &&
                     <SolarFarmForm save={(asset: SolarFarm) => onChange(pilot.create(asset))} hide={() => setShowAddSolarFarm(false)}/>}
                 {showAddWindFarm &&
