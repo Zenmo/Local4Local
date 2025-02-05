@@ -24,7 +24,7 @@ export const CompanyDisplay: FunctionComponent<{
                     <DataList.Label>
                         <LabelInfo data={titles["annualElectricityConsumption_kWh"]} />
                     </DataList.Label>
-                    <DataList.Value>{company.name}</DataList.Value>
+                    <DataList.Value>{company.name || "-"}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label>
