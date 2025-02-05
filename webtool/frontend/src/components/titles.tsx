@@ -16,6 +16,7 @@ export const titles = {
         title: "Zonnepanelen [kWp]",
         infoText: "Zonnepanelen PV installed [kWp]"
     },
+    
     //Household
     "type": {
         name: "type",
@@ -51,6 +52,43 @@ export const titles = {
         name: "annualBaseConsumptionAvg_kWh",
         title: "Annual Base Consumption",
         infoText: "Average annual base consumption [kWh]"
+    },
+
+    //Costs
+    "sdeAanvraagbedrag_eurpkWh": {
+        name: "sdeAanvraagbedrag_eurpkWh",
+        title: "SDE Aanvraagbedrag [€/kWh]",
+        infoText: "Het bedrag dat je aanvraagt bij de SDE+ regeling per kWh opgewekte energie."
+    },
+    "sdeBasisenergieprijs_eurpkWh": {
+        name: "sdeBasisenergieprijs_eurpkWh",
+        title: "SDE Basisenergieprijs [€/kWh]",
+        infoText: "De basisenergieprijs die wordt gehanteerd in de SDE+ regeling."
+    },
+    "LCOE_eurpkWh": {
+        name: "LCOE_eurpkWh",
+        title: "Kosten per kWh [€/kWh] (LCOE)",
+        infoText: "LCOE: Levellized AssetCost of Energy; de 'totale' kosten per kWh geproduceerde energie, inclusief CAPEX, OPEX en rente."
+    },
+    "CAPEX_eur": {
+        name: "CAPEX_eur",
+        title: "Aanschaf [€] (CAPEX)",
+        infoText: "De kapitaalkosten (CAPEX) voor de aanschaf van de installatie."
+    },
+    "interest_r": {
+        name: "interest_r",
+        title: "Rente [%]",
+        infoText: "Het rentepercentage dat wordt gehanteerd voor de financiering."
+    },
+    "depreciationPeriod_y": {
+        name: "depreciationPeriod_y",
+        title: "Afschrijvingsperiode [jaar]",
+        infoText: "De periode waarover de installatie wordt afgeschreven."
+    },
+    "OPEX_eurpy": {
+        name: "OPEX_eurpy",
+        title: "Onderhoudskosten [€/jaar] (OPEX)",
+        infoText: "De operationele kosten (OPEX) voor onderhoud per jaar."
     }
 };
 
