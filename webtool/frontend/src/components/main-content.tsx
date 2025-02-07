@@ -8,12 +8,13 @@ import {EmotionProps} from "../services/types"
 import {Intro} from "./intro.tsx";
 import {Button} from "@radix-ui/themes";
 import {intializePilotFromDeeplink} from "./deeplink.ts"
+import {ResourcefullyDialog} from "./resourcefully/dialog.tsx"
 
 export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) => {
     const [pilot, setPilot] = useState(intializePilotFromDeeplink)
     const [showConfigSimulate, setShowConfigSimulate] = useState(false);
     const [showSimulation, setShowSimulation] = useState(false);
-    const simulationRef = useRef<AnyLogicCloudClient.Animation>()
+    const simulationRef = useRef<AnyLogicCloudClient.Animation>(null)
 
     const stopAnyLogicSession = () => {
         if (simulationRef.current) {
@@ -34,6 +35,13 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
         simulationRef.current = await startSimulation(anylogicElementId, sessionId)
     }
 
+    const onClickExport = async () => {
+        const coopReport = await simulationRef.current.callFunction("experiment.root.f_getCoopReport", [])
+        console.log(coopReport)
+    }
+
+    const enableResourcefully = new URLSearchParams(window.location.search).has("resourcefully-preview");
+
     return (
         <>
             {showConfigSimulate ?
@@ -53,6 +61,7 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
                             showSimulation={showSimulation}
                             onClickStart={onClickStart}
                         />
+                        {enableResourcefully && <ResourcefullyDialog pilot={pilot} />}
                     </div>
                 </div>
                 :
