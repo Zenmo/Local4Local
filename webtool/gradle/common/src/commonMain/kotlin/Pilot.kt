@@ -6,7 +6,6 @@ import kotlinx.serialization.encodeToString
 import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class Pilot(
@@ -77,11 +76,9 @@ data class Pilot(
         Json.encodeToString(this)
 }
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 fun pilotFromJson(json: String) = Json.decodeFromString<Pilot>(json)
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 fun createDefaultStartPilot() = Pilot(
     name = "start",
@@ -98,7 +95,6 @@ fun createDefaultStartPilot() = Pilot(
     )
 )
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class SupplierCost (
@@ -107,12 +103,10 @@ data class SupplierCost (
     val feedInCompensation_eurpkWh: Double = 0.00,
 )
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 sealed interface AssetType
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class AssetCost(
@@ -125,7 +119,6 @@ data class AssetCost(
     val OPEX_eurpy: Double? = 0.0,
 )
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class HouseholdGroup(
@@ -139,7 +132,6 @@ data class HouseholdGroup(
     val annualBaseConsumptionAvg_kWh: Double,
 ): AssetType
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class Company(
@@ -151,14 +143,14 @@ data class Company(
 )
 
 /*
-@OptIn(ExperimentalJsExport::class)
+
 @JsExport
 data class Utility(
     val name: String,
     val type: String,
 )
 
-@OptIn(ExperimentalJsExport::class)
+
 @JsExport
 data class ConsumptionAsset(
     val consumptionType: String,
@@ -167,7 +159,6 @@ data class ConsumptionAsset(
 )
 */
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 enum class PVOrientation(val displayName: String) {
@@ -175,7 +166,6 @@ enum class PVOrientation(val displayName: String) {
     EAST_WEST("Oost-west"),
 }
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class SolarFarm(
@@ -184,7 +174,6 @@ data class SolarFarm(
     val cost: AssetCost,
 ): AssetType
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class BiogasGenerator(
@@ -192,7 +181,6 @@ data class BiogasGenerator(
     val cost: AssetCost,
 ): AssetType
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class WindFarm(
@@ -200,7 +188,6 @@ data class WindFarm(
     val cost: AssetCost,
 ): AssetType
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class Battery(
@@ -209,7 +196,6 @@ data class Battery(
     val cost: AssetCost,
 ): AssetType
 
-@OptIn(ExperimentalJsExport::class)
 @JsExport
 @Serializable
 data class HeatStorage(

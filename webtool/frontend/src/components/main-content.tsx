@@ -34,6 +34,11 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
         simulationRef.current = await startSimulation(anylogicElementId, sessionId)
     }
 
+    const onClickExport = async () => {
+        const coopReport = await simulationRef.current.callFunction("experiment.root.f_getCoopReport", [])
+        console.log(coopReport)
+    }
+
     return (
         <>
             {showConfigSimulate ?
@@ -53,6 +58,9 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
                             showSimulation={showSimulation}
                             onClickStart={onClickStart}
                         />
+                        <Button type="button" onClick={onClickExport}>
+                            export
+                        </Button>
                     </div>
                 </div>
                 :
