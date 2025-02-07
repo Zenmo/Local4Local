@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172101" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -7676,6 +7676,7 @@ SPOT markt]]></Text>
 		<ActiveObjectClass>
 			<Id>1726154250910</Id>
 			<Name><![CDATA[StartUp_L4L]]></Name>
+			<Description><![CDATA[Root object of the Simulation]]></Description>
 			<StartupCode><![CDATA[f_startModel();]]></StartupCode>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -8430,6 +8431,18 @@ resultsUIRadioButtonSetup(OL_RadioButtonSetup.OFF).
 
 build();]]></Body>
 				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[J_CoopReport]]></ReturnType>
+					<Id>1738931224652</Id>
+					<Name><![CDATA[f_getCoopReport]]></Name>
+					<X>560</X><Y>430</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[return this.loader_L4L.interface_L4L.f_getCoopReport();]]></Body>
+				</Function>
 			</Functions>
 			<AgentLinks>
 				<AgentLink>
@@ -8731,6 +8744,27 @@ build();]]></Body>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[Simulation Settings]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>14</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>LEFT</Alignment>
+				</Text>
+				<Text>
+					<Id>1738931110711</Id>
+					<Name><![CDATA[text5]]></Name>
+					<X>550</X><Y>400</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Externally exposed functions on root of simulation]]></Text>
 					<Font>
 						<Name>SansSerif</Name>
 						<Size>14</Size>
@@ -9695,6 +9729,9 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 				<Parameter>
 					<Name><![CDATA[p_address]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_quaternaryHeatingAsset]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -10495,9 +10532,15 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_local4localBackendUrl]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA["http://192.168.122.1:9000"]]></Code>
+					</ParameterValue>
 				</Parameter>
 				<Parameter>
 					<ParameterName><![CDATA[p_local4localSession]]></ParameterName>
+					<ParameterValue Class="CodeValue">
+						<Code><![CDATA["QnghNZBYAV"]]></Code>
+					</ParameterValue>
 				</Parameter>
 			</Parameters>			
 			<PresentationProperties>
@@ -10836,6 +10879,6 @@ public class J_CoopReport implements Serializable {
 		<Imported>true</Imported>
 		<Folder>false</Folder>
 	</ClassPathEntry>
-	<CloudModelUuid><![CDATA[b9f2137d-b8cc-462f-85a4-fb2379f0eb39]]></CloudModelUuid>
+	<CloudModelUuid><![CDATA[da14bf8e-5c9a-41d7-ac98-1d2f952a0807]]></CloudModelUuid>
 </Model>
 </AnyLogicWorkspace>
