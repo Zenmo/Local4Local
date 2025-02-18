@@ -41,13 +41,22 @@ data class ResourcefullyExport(
 ) {
     companion object {
         @JsStatic
-        fun create(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String) = ResourcefullyExport(
-            scenarioDescription = metadata.scenarioDescription,
-            personName = metadata.personName,
-            organizationName = metadata.organizationName,
-            email = metadata.email,
-            scenarioUrl = scenarioUrl,
-        )
+        fun create(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String) = with(pilot) {
+            ResourcefullyExport(
+                scenarioDescription = metadata.scenarioDescription,
+                personName = metadata.personName,
+                organizationName = metadata.organizationName,
+                email = metadata.email,
+                scenarioUrl = scenarioUrl,
+                supplierCost = supplierCost,
+                householdGroups = householdGroups.map { HouseholdGroup.create(it) },
+                companies = companies.map { Company.create(it) },
+                windFarms = windFarms.map { WindFarm.create(it) },
+                solarFarms = solarFarms.map { SolarFarm.create(it) },
+                biogasGenerators = biogasGenerators.map { BiogasGenerator.create(it) },
+                batteries = batteries.map { Battery.create(it) },
+            )
+        }
     }
 
     fun toJson(): String =
@@ -84,7 +93,20 @@ data class HouseholdGroup(
     //val annualElectricityProduction_kWh: Double,
     //val annualElectricityDelivery_kWh: Double,
     //val annualElectricityFeedIn_kWh: Double,
-)
+) {
+    companion object {
+        fun create(householdGroup: nu.local4local.common.HouseholdGroup) = with(householdGroup) {
+            HouseholdGroup(
+                description = type,
+                households_n = households_n,
+                hasPV_n = hasPV_n(),
+                hasHeatPump_n = hasHeatPump_n(),
+                hasChargePoint_n = hasChargePoint_n(),
+                annualBaseConsumptionAvg_kWh = annualBaseConsumptionAvg_kWh,
+            )
+        }
+    }
+}
 
 @JsExport
 @Serializable
@@ -92,7 +114,17 @@ data class Company(
     val name: String,
     val annualElectricityConsumption_kWh: Double,
     val pvInstalled_kWp: Double,
-)
+) {
+    companion object {
+        fun create(company: nu.local4local.common.Company) = with(company) {
+            Company(
+                name = name,
+                annualElectricityConsumption_kWh = annualElectricityConsumption_kWh,
+                pvInstalled_kWp = pvInstalled_kWp,
+            )
+        }
+    }
+}
 
 @JsExport
 @Serializable
@@ -103,8 +135,22 @@ data class WindFarm(
     val sdeBasisenergieprijs_eurpkWh: Double,
 
     /** Simulation result */
-    val annualElectricityProduction_kWh: Double,
-)
+    val annualElectricityProduction_kWh: Double?,
+) {
+    companion object {
+        fun create(windFarm: nu.local4local.common.WindFarm) = with(windFarm) {
+            with(cost) {
+                WindFarm(
+                    nominalPower_kW = nominalPower_kW,
+                    LCOE_eurpkWH = LCOE_eurpkWH!!,
+                    sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh!!,
+                    sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
+                    annualElectricityProduction_kWh = null,
+                )
+            }
+        }
+    }
+}
 
 @JsExport
 @Serializable
@@ -115,8 +161,23 @@ data class SolarFarm(
     val sdeAanvraagbedrag_eurpkWh: Double,
     val sdeBasisenergieprijs_eurpkWh: Double,
     /** Simulation result */
-    val annualElectricityProduction_kWh: Double,
-)
+    val annualElectricityProduction_kWh: Double?,
+) {
+    companion object {
+        fun create(solarFarm: nu.local4local.common.SolarFarm) = with(solarFarm) {
+            with(cost) {
+                SolarFarm(
+                    peakPower_kW = nominalPower_kW,
+                    orientation = orientation,
+                    LCOE_eurpkWH = LCOE_eurpkWH!!,
+                    sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh!!,
+                    sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
+                    annualElectricityProduction_kWh = null,
+                )
+            }
+        }
+    }
+}
 
 @JsExport
 @Serializable
@@ -126,8 +187,22 @@ data class BiogasGenerator(
     val sdeAanvraagbedrag_eurpkWh: Double,
     val sdeBasisenergieprijs_eurpkWh: Double,
     /** Simulation result */
-    val annualElectricityProduction_kWh: Double,
-)
+    val annualElectricityProduction_kWh: Double?,
+) {
+    companion object {
+        fun create(biogasGenerator: nu.local4local.common.BiogasGenerator) = with(biogasGenerator) {
+            with(biogasGenerator.cost) {
+                BiogasGenerator(
+                    power_kW = power_kW,
+                    LCOE_eurpkWH = LCOE_eurpkWH!!,
+                    sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh!!,
+                    sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
+                    annualElectricityProduction_kWh = null,
+                )
+            }
+        }
+    }
+}
 
 @JsExport
 @Serializable
@@ -138,7 +213,22 @@ data class Battery(
     val interest_r: Double,
     val depreciationPeriod_y: Double,
     val OPEX_eurpy: Double,
-)
+) {
+    companion object {
+        fun create(battery: nu.local4local.common.Battery) = with(battery) {
+            with (cost) {
+                Battery(
+                    capacity_kWh = capacity_kWh,
+                    peakPower_kW = peakPower_kW,
+                    CAPEX_eur = CAPEX_eur!!,
+                    interest_r = interest_r!!,
+                    depreciationPeriod_y = depreciationPeriod_y!!,
+                    OPEX_eurpy = OPEX_eurpy!!,
+                )
+            }
+        }
+    }
+}
 
 @JsExport
 @Serializable

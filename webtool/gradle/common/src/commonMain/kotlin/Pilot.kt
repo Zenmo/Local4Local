@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
+import kotlin.math.roundToInt
 
 @JsExport
 @Serializable
@@ -130,7 +131,12 @@ data class HouseholdGroup(
     val hasHomeBattery_r: Double,
      /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
     val annualBaseConsumptionAvg_kWh: Double,
-): AssetType
+): AssetType {
+    fun hasPV_n() = (hasPV_r * households_n).roundToInt()
+    fun hasHeatPump_n() = (hasHeatPump_r * households_n).roundToInt()
+    fun hasChargePoint_n() = (hasChargePoint_r * households_n).roundToInt()
+    fun hasHomeBattery_n() = (hasHomeBattery_r * households_n).roundToInt()
+}
 
 @JsExport
 @Serializable
