@@ -9,7 +9,7 @@
 
 .form-label {
   margin-bottom: 4px;
-  grid-column: span 8;
+  grid-column: span 9;
 }
 
 .form-message {
@@ -20,7 +20,7 @@
 }
 
 .form-input {
-  grid-column: span 3;
+  grid-column: span 2;
   margin-bottom: 4px;
   width: 100%;
   padding: 8px 12px;
