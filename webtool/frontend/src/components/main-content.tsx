@@ -35,10 +35,10 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
         simulationRef.current = await startSimulation(anylogicElementId, sessionId)
     }
 
-    const onClickExport = async () => {
-        const coopReport = await simulationRef.current.callFunction("experiment.root.f_getCoopReport", [])
-        console.log(coopReport)
-    }
+    // const onClickExport = async () => {
+    //     const coopReport = await simulationRef.current.callFunction("experiment.root.f_getCoopReport", [])
+    //     console.log(coopReport)
+    // }
 
     const enableResourcefully = new URLSearchParams(window.location.search).has("resourcefully-preview");
 

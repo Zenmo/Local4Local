@@ -8,7 +8,7 @@ import {createDeeplink} from "../deeplink.ts"
 export const ResourcefullyDialog: FunctionComponent<{
     anyLogicAnimation?: Animation,
     pilot: Pilot,
-}> = ({anyLogicAnimation, pilot}) => {
+}> = ({pilot}) => {
     const onSubmit: FormEventHandler<HTMLFormElement> = (submitEvent) => {
         submitEvent.preventDefault()
         const form = new FormData(submitEvent.target as HTMLFormElement)
@@ -21,7 +21,7 @@ export const ResourcefullyDialog: FunctionComponent<{
 
         const resourceFullyExport = ResourcefullyExport.create(pilot, exportMetadata, createDeeplink(pilot))
 
-        const action = form.get("action") as string
+        // const action = form.get("action") as string
         
         const x = window.open() as Window
         x.document.open();
