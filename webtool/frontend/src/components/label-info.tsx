@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, Popover } from "@radix-ui/themes"
-import { PiInfoLight } from 'react-icons/pi';
+import { Text, Popover, IconButton } from "@radix-ui/themes"
+import {InfoCircledIcon} from "@radix-ui/react-icons"
 
 interface LabelInfoProps {
     data: {
@@ -12,21 +12,26 @@ interface LabelInfoProps {
 
 const LabelInfo: React.FC<LabelInfoProps> = ({ data }) => {
     return (
-            <Text className="form-label" htmlFor={data.name}>
-                {data.title}{" "}
+            <div className="form-label" htmlFor={data.name} css={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".5rem",
+                color: "black",
+            }}>
+                <Text>{data.title}</Text>
                 <Popover.Root>
                     <Popover.Trigger>
-                        <span>
-                            <PiInfoLight />
-                        </span>
+                        <IconButton variant="ghost" size="1" color="gray">
+                            <InfoCircledIcon />
+                        </IconButton>
                     </Popover.Trigger>
                     <Popover.Content maxWidth='300px'>
                         <Text>
                             {data.infoText}
                         </Text>
                     </Popover.Content>
-                </Popover.Root>{" "}
-            </Text>
+                </Popover.Root>
+            </div>
     );
 };
 
