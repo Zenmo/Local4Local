@@ -39,6 +39,7 @@ export const Configure: FunctionComponent<{
         showAddHeatStorage ||
         showEditSupplierCost
     )
+
     return (
         <>
             <Grid gap="2" pt="4">

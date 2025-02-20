@@ -5,6 +5,8 @@ import {HeatStorageHeading} from "./heat-storage-heading.tsx"
 import './../styles.css';
 import {CostSection} from "../cost-section.tsx"
 import {costFromFormData} from "../cost-from-form-data.ts"
+import {LabelWithInfo} from "../info/label-with-info.tsx"
+import { titles } from '../info/titles.tsx';
 
 export const HeatStorageForm: FunctionComponent<{
     initialData?: HeatStorage | null;
@@ -33,19 +35,19 @@ export const HeatStorageForm: FunctionComponent<{
             <HeatStorageHeading />
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="storageMedium">Opslagmedium</label>
+                    <LabelWithInfo data={titles["storageMedium"]} />
                     <input className="form-input" type="text" id="storageMedium" name="storageMedium" defaultValue="Water"/>
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="storageVolume_m3">Volume (m3)</label>
+                    <LabelWithInfo data={titles["storageVolume_m3"]} />
                     <input className="form-input" type="number" id="storageVolume_m3" name="storageVolume_m3" defaultValue={ initialData?.storageVolume_m3 || 50} min={0} />
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="minTemp_degC">Minimale temperatuur (&deg;C)</label>
+                    <LabelWithInfo data={titles["minTemp_degC"]} />
                     <input className="form-input" type="number" id="minTemp_degC" name="minTemp_degC" defaultValue={ initialData?.minTemp_degC || 50} />
                 </div>
                 <div className="radix-grid">
-                    <label className="form-label" htmlFor="maxTemp_degC">Maximale temperatuur (&deg;C)</label>
+                    <LabelWithInfo data={titles["maxTemp_degC"]} />
                     <input className="form-input" type="number" id="maxTemp_degC" name="maxTemp_degC" defaultValue={ initialData?.maxTemp_degC || 95} />
                 </div>
 

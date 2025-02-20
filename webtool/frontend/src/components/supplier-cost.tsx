@@ -3,6 +3,8 @@ import {Button, Card, DataList, Flex, Heading} from "@radix-ui/themes"
 import {CardMenu} from "./card-menu.tsx"
 import {SupplierCost} from "local4local"
 import {PiMoneyWavyLight} from "react-icons/pi"
+import {DivWithInfo} from "./info/label-with-info.tsx"
+import {titles} from "./info/titles.tsx"
 
 export const SupplierCostDisplay: FunctionComponent<{
     supplierCost: SupplierCost,
@@ -16,15 +18,21 @@ export const SupplierCostDisplay: FunctionComponent<{
             </Flex>
             <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label>Leveranciersopslag [€/kWh]</DataList.Label>
+                    <DataList.Label>
+                        <DivWithInfo data={titles["bufferPrice_eurpkWh"]} />
+                    </DataList.Label>
                     <DataList.Value>{supplierCost.bufferPrice_eurpkWh.toString()}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label>Opslag onbalans</DataList.Label>
+                    <DataList.Label>
+                        <DivWithInfo data={titles["onbalansMarkup_r"]} />
+                    </DataList.Label>
                     <DataList.Value>{supplierCost.onbalansMarkup_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label>Terugleververgoeding [€/kWh]</DataList.Label>
+                    <DataList.Label>
+                        <DivWithInfo data={titles["feedInCompensation_eurpkWh"]} />
+                    </DataList.Label>
                     <DataList.Value>{supplierCost.feedInCompensation_eurpkWh.toString()}</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
