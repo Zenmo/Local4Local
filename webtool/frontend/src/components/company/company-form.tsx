@@ -1,9 +1,9 @@
 import {FormEvent, FunctionComponent} from "react"
 import {Company} from "local4local"
-import {Button, Card, Text} from "@radix-ui/themes"
+import {Button, Card} from "@radix-ui/themes"
 import {CompanyHeading} from "./company-heading.tsx"
-import { titles } from '../titles';
-import LabelInfo from "../label-info"
+import { titles } from '../info/titles.tsx';
+import {LabelWithInfo} from "../info/label-with-info.tsx"
 
 export const CompanyForm: FunctionComponent<{
     initialData?: Company | null;
@@ -29,11 +29,11 @@ export const CompanyForm: FunctionComponent<{
             <CompanyHeading />
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["name"]} />
+                    <LabelWithInfo data={titles["name"]} />
                     <input className="form-input" type="text" id="name" name="name" defaultValue={initialData?.name} />
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["annualElectricityConsumption_kWh"]} />
+                    <LabelWithInfo data={titles["annualElectricityConsumption_kWh"]} />
                     <input
                         className="form-input"
                         type="number"
@@ -42,14 +42,8 @@ export const CompanyForm: FunctionComponent<{
                         defaultValue={initialData?.annualElectricityConsumption_kWh}
                         min={0} />
                 </div>
-                <div className="form-message">
-                    <Text>
-                        Verbruik achter de meter. Inclusief verbruik van eigen opwek.
-                        {/*Exclusief verbruik van laadpalen.*/}
-                    </Text>
-                </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["pvInstalled_kWp"]} />
+                    <LabelWithInfo data={titles["pvInstalled_kWp"]} />
                     <input className="form-input" type="number" id="pvInstalled_kWp" name="pvInstalled_kWp"
                            defaultValue={initialData?.pvInstalled_kWp} min={0} />
                 </div>

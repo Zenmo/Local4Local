@@ -4,8 +4,8 @@ import {SolarFarm, PVOrientation } from "local4local"
 import {CostSection} from "../cost-section.tsx"
 import {costFromFormData} from "../cost-from-form-data.ts"
 import {SolarFarmHeading} from "./solarfarm-heading.tsx"
-import LabelInfo from "../label-info"
-import { titles } from '../titles';
+import {LabelWithInfo} from "../info/label-with-info.tsx"
+import {solarFarmTitles, titles} from "../info/titles.tsx"
 
 export const SolarFarmForm: FunctionComponent<{
     initialData?: SolarFarm | null;
@@ -39,11 +39,11 @@ export const SolarFarmForm: FunctionComponent<{
             <SolarFarmHeading/>
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["nominalPower_kW"]} />
+                    <LabelWithInfo data={solarFarmTitles["nominalPower_kW"]} />
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW || 1000}/>
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["opstelling"]} />
+                    <LabelWithInfo data={titles.orientation} />
                 </div>
                 <div>
                     <RadioGroup.Root name="orientation" defaultValue={initialData?.orientation.name.toString() || PVOrientation.SOUTH.toString()}>

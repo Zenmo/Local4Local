@@ -5,8 +5,8 @@ import {PiCarBatteryLight} from "react-icons/pi"
 import {CostSection, CostDisplay} from "../cost-section.tsx"
 import {CardMenu} from "../card-menu.tsx"
 import {costFromFormData} from "../cost-from-form-data.ts"
-import LabelInfo from "../label-info"
-import { titles } from '../titles';
+import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
+import { titles } from '../info/titles.tsx';
 
 export const BatteryDisplay: FunctionComponent<{
     battery: Battery,
@@ -21,11 +21,11 @@ export const BatteryDisplay: FunctionComponent<{
             </Flex>
             <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label><LabelInfo data={titles["capacity_kWh"]} /></DataList.Label>
+                    <DataList.Label><DivWithInfo data={titles["capacity_kWh"]} /></DataList.Label>
                     <DataList.Value>{battery.capacity_kWh} kWh</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label><LabelInfo data={titles["peakPower_kW"]} /></DataList.Label>
+                    <DataList.Label><DivWithInfo data={titles["peakPower_kW"]} /></DataList.Label>
                     <DataList.Value>{battery.peakPower_kW} kW</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
@@ -67,11 +67,11 @@ export const BatteryForm: FunctionComponent<{
             <BatteryHeading/>
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["capacity_kWh"]} />
+                    <LabelWithInfo data={titles["capacity_kWh"]} />
                     <input className="form-input" type="number" id="capacity_kWh" name="capacity_kWh" defaultValue={ initialData?.capacity_kWh || 100} />
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["peakPower_kW"]} />
+                    <LabelWithInfo data={titles["peakPower_kW"]} />
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW || 100} />
                 </div>
                 <CostSection showCostPerKwh={false} showTotalCostFactors={true} initialData={initialData?.cost}/>

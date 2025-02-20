@@ -3,8 +3,8 @@ import {Card, DataList, Flex} from "@radix-ui/themes"
 import {HouseholdGroup} from "local4local"
 import {HouseholdHeading} from "./household-heading.tsx"
 import {CardMenu} from "./../card-menu.tsx"
-import LabelInfo from "../label-info"
-import { titles } from '../titles';
+import {DivWithInfo} from "../info/label-with-info.tsx"
+import { titles } from '../info/titles.tsx';
 
 export const HouseholdDisplay: FunctionComponent<{ 
     householdGroup: HouseholdGroup,
@@ -20,31 +20,31 @@ export const HouseholdDisplay: FunctionComponent<{
             <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
                     <DataList.Label>
-                        <LabelInfo data={titles["type"]} />
+                        <DivWithInfo data={titles["type"]} />
                     </DataList.Label>
                     <DataList.Value>{householdGroup.type}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label>
-                        <LabelInfo data={titles["households_n"]} />
+                        <DivWithInfo data={titles["households_n"]} />
                     </DataList.Label>
                     <DataList.Value>{householdGroup.households_n}</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label>
-                        <LabelInfo data={titles["hasPV_r"]} />
+                        <DivWithInfo data={titles["hasPV_r"]} />
                     </DataList.Label>
                     <DataList.Value>{householdGroup.hasPV_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label>
-                        <LabelInfo data={titles["hasHeatPump_r"]} />
+                        <DivWithInfo data={titles["hasHeatPump_r"]} />
                     </DataList.Label>
                     <DataList.Value>{householdGroup.hasHeatPump_r * 100} %</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
                     <DataList.Label>
-                        <LabelInfo data={titles["hasChargePoint_r"]} />
+                        <DivWithInfo data={titles["hasChargePoint_r"]} />
                     </DataList.Label>
                     <DataList.Value>{householdGroup.hasChargePoint_r * 100} %</DataList.Value>
                 </DataList.Item>
@@ -54,7 +54,7 @@ export const HouseholdDisplay: FunctionComponent<{
                 {/*</DataList.Item>*/}
                 <DataList.Item>
                     <DataList.Label>
-                        <LabelInfo data={titles["annualBaseConsumptionAvg_kWh"]} />
+                        <DivWithInfo data={titles["annualBaseConsumptionAvg_kWh"]} />
                     </DataList.Label>
                     <DataList.Value>{householdGroup.annualBaseConsumptionAvg_kWh} kWh</DataList.Value>
                 </DataList.Item>

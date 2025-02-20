@@ -3,8 +3,8 @@ import {HouseholdGroup} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
 import {getWithDefault} from "../default.ts"
-import LabelInfo from "../label-info"
-import { titles } from '../titles';
+import {LabelWithInfo} from "../info/label-with-info.tsx"
+import { titles } from '../info/titles.tsx';
 
 export const HouseholdForm: FunctionComponent<{
     initialData?: HouseholdGroup | null;
@@ -33,31 +33,31 @@ export const HouseholdForm: FunctionComponent<{
             <HouseholdHeading />
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["type"]} />
+                    <LabelWithInfo data={titles["type"]} />
                     <input className="form-input" type="text" id="type" name="type" defaultValue={initialData?.type || "Huishoudens"} />
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["households_n"]} />
+                    <LabelWithInfo data={titles["households_n"]} />
                     <input className="form-input" type="number" id="households_n" name="households_n" defaultValue={initialData?.households_n || 200} min={0} />
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["hasPV_r"]} />
+                    <LabelWithInfo data={titles["hasPV_r"]} />
                     <input className="form-input" type="number" id="hasPV_r" name="hasPV_r" defaultValue={getWithDefault(initialData?.hasPV_r, 0.2) * 100} min={0} max={100} />
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["hasHeatPump_r"]} />
+                    <LabelWithInfo data={titles["hasHeatPump_r"]} />
                     <input className="form-input" type="number" id="hasHeatPump_r" name="hasHeatPump_r" defaultValue={getWithDefault(initialData?.hasHeatPump_r, 0.1) * 100} min={0} max={100} />
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["hasChargePoint_r"]} />
+                    <LabelWithInfo data={titles["hasChargePoint_r"]} />
                     <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={getWithDefault(initialData?.hasChargePoint_r, 0.2) * 100} min={0} max={100} />
                 </div>
                 <div className="radix-grid" style={{ display: "none" }}>
-                    <LabelInfo data={titles["hasHomeBattery_r"]} />
+                    <LabelWithInfo data={titles["hasHomeBattery_r"]} />
                     <input className="form-input" type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={(initialData?.hasHomeBattery_r || 0.0) * 100} min={0} max={100} />
                 </div>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["annualBaseConsumptionAvg_kWh"]} />
+                    <LabelWithInfo data={titles["annualBaseConsumptionAvg_kWh"]} />
                     <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={initialData?.annualBaseConsumptionAvg_kWh || 3000} min={0} />
                 </div>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>

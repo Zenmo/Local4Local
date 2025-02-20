@@ -5,8 +5,8 @@ import { GiWindTurbine } from "react-icons/gi";
 import {CostSection, CostDisplay} from "../cost-section.tsx"
 import {CardMenu} from "../card-menu.tsx"
 import {costFromFormData} from "../cost-from-form-data.ts"
-import LabelInfo from "../label-info"
-import { titles } from '../titles';
+import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
+import {windFarmTitles} from "../info/titles.tsx"
 
 export const WindFarmDisplay: FunctionComponent<{
     windFarm: WindFarm,
@@ -21,7 +21,7 @@ export const WindFarmDisplay: FunctionComponent<{
             </Flex>
             <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label><LabelInfo data={titles["nominalPower_kW"]} /></DataList.Label>
+                    <DataList.Label><DivWithInfo data={windFarmTitles.nominalPower_kW} /></DataList.Label>
                     <DataList.Value>{windFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
@@ -62,7 +62,7 @@ export const WindFarmForm: FunctionComponent<{
             <WindFarmHeading/>
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["nominalPower_kW"]} />
+                    <LabelWithInfo data={windFarmTitles.nominalPower_kW} />
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW || 2000}/>
                 </div>
                 <CostSection initialData={initialData?.cost}/>

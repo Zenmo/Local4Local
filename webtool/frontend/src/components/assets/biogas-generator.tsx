@@ -5,8 +5,8 @@ import {CardMenu} from "../card-menu.tsx"
 import {CostSection, CostDisplay} from "../cost-section.tsx"
 import {ImFire} from "react-icons/im"
 import {costFromFormData} from "../cost-from-form-data.ts"
-import LabelInfo from "../label-info"
-import { titles } from '../titles';
+import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
+import { titles } from '../info/titles.tsx';
 
 export const BiogasGeneratorDisplay: FunctionComponent<{
     biogasGenerator: BiogasGenerator,
@@ -21,7 +21,7 @@ export const BiogasGeneratorDisplay: FunctionComponent<{
             </Flex>
             <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label><LabelInfo data={titles["power_kW"]} /></DataList.Label>
+                    <DataList.Label><DivWithInfo data={titles["power_kW"]} /></DataList.Label>
                     <DataList.Value>{biogasGenerator.power_kW} kW</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
@@ -61,7 +61,7 @@ export const BiogasGeneratorForm: FunctionComponent<{
             <BiogasGeneratorHeading/>
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
-                    <LabelInfo data={titles["power_kW"]} />
+                    <LabelWithInfo data={titles["power_kW"]} />
                     <input className="form-input" type="number" id="power_kW" name="power_kW" defaultValue={ initialData?.power_kW || 200}/>
                 </div>
                 <CostSection initialData={initialData?.cost}/>

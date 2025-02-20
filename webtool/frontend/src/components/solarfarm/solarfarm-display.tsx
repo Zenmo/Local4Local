@@ -4,8 +4,8 @@ import {SolarFarm} from "local4local"
 import {CardMenu} from "../card-menu.tsx"
 import {CostDisplay} from "../cost-section.tsx"
 import {SolarFarmHeading} from "./solarfarm-heading.tsx"
-import LabelInfo from "../label-info"
-import { titles } from '../titles';
+import {DivWithInfo} from "../info/label-with-info.tsx"
+import {solarFarmTitles, titles} from "../info/titles.tsx"
 
 export const SolarFarmDisplay: FunctionComponent<{
     solarFarm: SolarFarm,
@@ -20,11 +20,11 @@ export const SolarFarmDisplay: FunctionComponent<{
             </Flex>
             <DataList.Root style={{gridTemplateColumns: "3fr 1fr"}}>
                 <DataList.Item>
-                    <DataList.Label><LabelInfo data={titles["nominalPower_kW"]} /></DataList.Label>
+                    <DataList.Label><DivWithInfo data={solarFarmTitles.nominalPower_kW} /></DataList.Label>
                     <DataList.Value>{solarFarm.nominalPower_kW} kW</DataList.Value>
                 </DataList.Item>
                 <DataList.Item>
-                    <DataList.Label><LabelInfo data={titles["opstelling"]} /></DataList.Label>
+                    <DataList.Label><DivWithInfo data={titles.orientation} /></DataList.Label>
                     <DataList.Value>{solarFarm.orientation.displayName}</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
