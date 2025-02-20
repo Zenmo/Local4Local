@@ -16,7 +16,7 @@ export const SolarFarmsDisplayEdit: FunctionComponent<{
                     <SolarFarmForm
                         key={"SolarFarm_" + i}
                         save={(asset: SolarFarm) => {
-                            onChange(pilot.replaceAsset(asset, i))
+                            onChange(pilot.replaceSolarFarm(asset, i))
                             setSelected(null);
                         }}
                         hide={() => {
@@ -29,7 +29,7 @@ export const SolarFarmsDisplayEdit: FunctionComponent<{
                         key={"SolarFarm_" + i}
                         solarFarm={it}
                         onEdit={() => { setSelected(it)}}
-                        toDelete={() => onChange(pilot.remove(it))}
+                        toDelete={() => onChange(pilot.removeSolarFarm(it))}
                     />
                 )
             )}

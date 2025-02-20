@@ -3,7 +3,6 @@ package nu.local4local.common
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
-import kotlin.js.ExperimentalJsExport
 import kotlin.js.JsExport
 import kotlin.math.roundToInt
 
@@ -24,38 +23,29 @@ data class Pilot(
     val bufferPrice_eurpkWh
         get() = supplierCost.bufferPrice_eurpkWh
 
-    // Create
-    fun create(asset: AssetType): Pilot = when (asset) {
-        is HouseholdGroup -> copy(householdGroups = this.householdGroups + asset)
-        is SolarFarm -> copy(solarFarms = this.solarFarms + asset)
-        is WindFarm -> copy(windFarms = this.windFarms + asset)
-        is Battery -> copy(batteries = this.batteries + asset)
-        is HeatStorage -> copy(heatStorages = this.heatStorages + asset)
-        is BiogasGenerator -> copy(biogasGenerators = this.biogasGenerators + asset)
-        else -> throw Exception("Unknown type")
-    }
+    fun addHouseHoldGroup(householdGroup: HouseholdGroup) = copy(householdGroups = householdGroups + householdGroup)
+    fun addCompany(company: Company) = copy(companies = companies + company)
+    fun addSolarFarm(solarFarm: SolarFarm) = copy(solarFarms = solarFarms + solarFarm)
+    fun addWindFarm(windFarm: WindFarm) = copy(windFarms = windFarms + windFarm)
+    fun addBattery(battery: Battery) = copy(batteries = batteries + battery)
+    fun addHeatStorage(heatStorage: HeatStorage) = copy(heatStorages = heatStorages + heatStorage)
+    fun addBiogasGenerator(biogasGenerator: BiogasGenerator) = copy(biogasGenerators = biogasGenerators + biogasGenerator)
 
-    // Delete
-    fun remove(asset: AssetType): Pilot = when (asset) {
-        is HouseholdGroup -> copy(householdGroups = this.householdGroups - asset)
-        is SolarFarm -> copy(solarFarms = this.solarFarms - asset)
-        is WindFarm -> copy(windFarms = this.windFarms - asset)
-        is Battery -> copy(batteries = this.batteries - asset)
-        is HeatStorage -> copy(heatStorages = this.heatStorages - asset)
-        is BiogasGenerator -> copy(biogasGenerators = this.biogasGenerators - asset)
-        else -> throw Exception("Unknown type")
-    }
+    fun removeHouseholdGroup(householdGroup: HouseholdGroup) = copy(householdGroups = this.householdGroups - householdGroup)
+    fun removeCompany(company: Company) = copy(companies = companies - company)
+    fun removeSolarFarm(solarFarm: SolarFarm) = copy(solarFarms = this.solarFarms - solarFarm)
+    fun removeWindFarm(windFarm: WindFarm) = copy(windFarms = this.windFarms - windFarm)
+    fun removeBattery(battery: Battery) = copy(batteries = this.batteries - battery)
+    fun removeHeatStorage(heatStorage: HeatStorage) = copy(heatStorages = this.heatStorages - heatStorage)
+    fun removeBiogasGenerator(biogasGenerator: BiogasGenerator) = copy(biogasGenerators = this.biogasGenerators - biogasGenerator)
 
-    // Generalized replace function
-    fun replaceAsset(newAsset: AssetType, index: Int,): Pilot = when (newAsset) {
-        is HouseholdGroup -> copy(householdGroups = householdGroups.replaceAt(index, newAsset))
-        is SolarFarm -> copy(solarFarms = solarFarms.replaceAt(index, newAsset))
-        is WindFarm -> copy(windFarms = windFarms.replaceAt(index, newAsset))
-        is Battery -> copy(batteries = batteries.replaceAt(index, newAsset))
-        is HeatStorage -> copy(heatStorages = heatStorages.replaceAt(index, newAsset))
-        is BiogasGenerator -> copy(biogasGenerators = biogasGenerators.replaceAt(index, newAsset))
-        else -> throw Exception("Unknown type")
-    }
+    fun replaceHouseholdGroup(householdGroup: HouseholdGroup, index: Int) = copy(householdGroups = householdGroups.replaceAt(index, householdGroup))
+    fun replaceSolarFarm(solarFarm: SolarFarm, index: Int) = copy(solarFarms = solarFarms.replaceAt(index, solarFarm))
+    fun replaceWindFarm(windFarm: WindFarm, index: Int) = copy(windFarms = windFarms.replaceAt(index, windFarm))
+    fun replaceBattery(battery: Battery, index: Int) = copy(batteries = batteries.replaceAt(index, battery))
+    fun replaceHeatStorage(heatStorage: HeatStorage, index: Int) = copy(heatStorages = heatStorages.replaceAt(index, heatStorage))
+    fun replaceBiogasGenerator(biogasGenerator: BiogasGenerator, index: Int) = copy(biogasGenerators = biogasGenerators.replaceAt(index, biogasGenerator))
+    fun replaceCompany(old: Company, new: Company) = copy(companies = companies.replace(old, new))
 
     // Extension function for List replacement
     private fun <T> List<T>.replaceAt(index: Int, newValue: T): List<T> {
@@ -66,12 +56,6 @@ data class Pilot(
         map { if (it == oldValue) newValue else it }
 
     fun withSupplierCost(supplierCost: SupplierCost) = copy(supplierCost = supplierCost)
-
-    fun addCompany(company: Company) = copy(companies = companies + company)
-
-    fun removeCompany(company: Company) = copy(companies = companies - company)
-
-    fun replaceCompany(old: Company, new: Company) = copy(companies = companies.replace(old, new))
 
     fun toJson(): String =
         Json.encodeToString(this)
@@ -106,10 +90,6 @@ data class SupplierCost (
 
 @JsExport
 @Serializable
-sealed interface AssetType
-
-@JsExport
-@Serializable
 data class AssetCost(
     val sdeAanvraagbedrag_eurpkWh: Double? = 0.0,
     val sdeBasisenergieprijs_eurpkWh: Double? = 0.0,
@@ -131,7 +111,7 @@ data class HouseholdGroup(
     val hasHomeBattery_r: Double,
      /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
     val annualBaseConsumptionAvg_kWh: Double,
-): AssetType {
+) {
     fun hasPV_n() = (hasPV_r * households_n).roundToInt()
     fun hasHeatPump_n() = (hasHeatPump_r * households_n).roundToInt()
     fun hasChargePoint_n() = (hasChargePoint_r * households_n).roundToInt()
@@ -178,21 +158,21 @@ data class SolarFarm(
     val nominalPower_kW: Double,
     val orientation: PVOrientation = PVOrientation.SOUTH,
     val cost: AssetCost,
-): AssetType
+)
 
 @JsExport
 @Serializable
 data class BiogasGenerator(
     val power_kW: Double,
     val cost: AssetCost,
-): AssetType
+)
 
 @JsExport
 @Serializable
 data class WindFarm(
     val nominalPower_kW: Double,
     val cost: AssetCost,
-): AssetType
+)
 
 @JsExport
 @Serializable
@@ -200,7 +180,7 @@ data class Battery(
     val capacity_kWh: Double,
     val peakPower_kW: Double,
     val cost: AssetCost,
-): AssetType
+)
 
 @JsExport
 @Serializable
@@ -210,7 +190,7 @@ data class HeatStorage(
     val minTemp_degC: Double,
     val maxTemp_degC: Double,
     val cost: AssetCost,
-): AssetType {
+) {
     fun getCapacity_kWh(): Double {
         val specificHeatCapacity = 4.18 // kJ/kg/K
 
