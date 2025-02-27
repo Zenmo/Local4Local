@@ -20,12 +20,6 @@ services:
         ports:
             - "127.0.0.1:5173:5173"
 
-    postgres:
-        image: postgres:16
-        environment:
-            POSTGRES_USER: webtool
-            POSTGRES_PASSWORD: webtool
-
     # base services and for one-off commands
     gradle-base:
         image: gradle:8.9

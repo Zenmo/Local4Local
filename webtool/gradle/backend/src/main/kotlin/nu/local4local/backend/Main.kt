@@ -23,8 +23,7 @@ val ping = routes(
 )
 
 fun main() {
-    val pilotController = PilotController()
-    val app = routes(pilotController.routes, ping)
+    val app = routes(PilotController().routes, ResourcefullyController().routes, ping)
     val corsPolicy = CorsPolicy(
         OriginPolicy.AllowAll(),
         listOf("content-type"),
