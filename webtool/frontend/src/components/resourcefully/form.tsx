@@ -13,19 +13,19 @@ export const ResourcefullyForm: FunctionComponent<{onSubmit: SubmitEventHandeler
                 <Text as="div" size="2" mb="1" weight="bold">
                     Omschrijving scenario
                 </Text>
-                <TextField.Root name="scenarioDescription" placeholder="Omschrijving scenario" />
+                <TextField.Root name="scenarioDescription" placeholder="Omschrijving scenario" required />
             </label>
             <label>
                 <Text as="div" size="2" mb="1" weight="bold">
                     Uw e-mailadres
                 </Text>
-                <TextField.Root name="email" type="email" placeholder="E-mailadres" />
+                <TextField.Root name="email" type="email" placeholder="E-mailadres" required />
             </label>
             <label>
                 <Text as="div" size="2" mb="1" weight="bold">
                     Uw naam
                 </Text>
-                <TextField.Root name="personName" placeholder="Uw naam" />
+                <TextField.Root name="personName" placeholder="Uw naam" required />
             </label>
             <label>
                 <Text as="div" size="2" mb="1" weight="bold">
