@@ -16,12 +16,12 @@ export const titles = {
     "onbalansMarkup_r": {
         name: "onbalansMarkup_r",
         title: "Opslag onbalans",
-        infoText: "De kosten die worden gemaakt op de onbalansmarkt voor het verschil tussen voorspelde en daadwerkelijke energieverbruik.",
+        infoText: "De kosten die worden gemaakt op de onbalansmarkt voor het verschil tussen voorspelde en daadwerkelijke energiebalans. Deze kosten zijn typisch hoog voor energie uit zon en wind, omdat het weer niet precies te voorspellen is.",
     },
     "feedInCompensation_eurpkWh": {
         name: "feedInCompensation_eurpkWh",
         title: "Terugleververgoeding [€/kWh]",
-        infoText: "Prijs die de klant ontvangt bij het terugleveren aan het net"
+        infoText: "Prijs die de klant ontvangt bij het terugleveren van zelf opgewekte stroom."
     },
 
     //Company
@@ -37,6 +37,7 @@ export const titles = {
     "pvInstalled_kWp": {
         name: "pvInstalled_kWp",
         title: "Zonnepanelen [kWp]",
+        infoText: "Het geïnstalleerde vermogen aan zonnepanelen, in kiloWatt."
     },
     
     //Household
@@ -53,14 +54,17 @@ export const titles = {
     "hasPV_r": {
         name: "hasPV_r",
         title: "Aandeel met zonnepanelen",
+        infoText: "Het percentage van deze huishoudgroep dat zonnepanelen heeft. Er wordt een gemiddelde van 4kWp per huishouden met zonnepanelen aangenomen."
     },
     "hasHeatPump_r": {
         name: "hasHeatPump_r",
         title: "Aandeel met warmtepomp",
+        infoText: "Het percentage van deze huishoudgroep dat een warmtepomp heeft. Er wordt rekening gehouden met een gemiddelde warmtevraag per huis. Het elektriciteitsverbruik van de warmtepomp komt bovenop het jaarlijks huishoudelijk verbruik."
     },
     "hasChargePoint_r": {
         name: "hasChargePoint_r",
         title: "Aandeel met laadpaal",
+        infoText: "Het percentage van deze huishoudgroep dat een elektrische auto heeft die thuis wordt opgeladen. Er wordt aangenomen dat een auto 15000km per jaar rijdt, met een gemiddeld verbruik van 0.2kWh/km. Het elektriciteitsverbruik van de elektrische auto komt bovenop het jaarlijks huishoudelijk verbruik."
     },
     "hasHomeBattery_r": {
         name: "hasHomeBattery_r",
@@ -69,7 +73,7 @@ export const titles = {
     "annualBaseConsumptionAvg_kWh": {
         name: "annualBaseConsumptionAvg_kWh",
         title: "Jaarlijks huishoudelijk verbruik",
-        infoText: "Verbruik exclusief laden en zonnepanelen"
+        infoText: "Het huishoudelijk elektriciteitsverbruik exclusief de bijdrages van EV, warmtepomp en zonnepanelen."
     },
 
     //Costs
@@ -95,7 +99,7 @@ export const titles = {
         infoText: <>
             <Text as="p">
                 COE: Levellized Cost of Energy. De totale kosten per kWh geproduceerde energie.
-                Dit is opgebouwd uit afschrijving, rente en operationele kosten.
+                Dit is opgebouwd uit afschrijving, rente, reserveringen en operationele kosten.
             </Text>
             <br />
             <Text as="p">
@@ -110,40 +114,43 @@ export const titles = {
     "interest_r": {
         name: "interest_r",
         title: "Rente [%]",
-        infoText: "Het rentepercentage dat wordt gehanteerd voor de financiering van de aanschaf."
+        infoText: "Het rentepercentage dat wordt gehanteerd voor de financiering van de aanschaf.",
     },
     "depreciationPeriod_y": {
         name: "depreciationPeriod_y",
         title: "Afschrijvingsperiode [jaar]",
-        infoText: "De periode waarover de installatie wordt afgeschreven."
+        infoText: "De periode waarover de installatie wordt afgeschreven.",
     },
     "OPEX_eurpy": {
         name: "OPEX_eurpy",
         title: "Onderhoudskosten [€/jaar] (OPEX)",
-        infoText: "De operationele kosten Wvoor onderhoud per jaar."
+        infoText: "De operationele kosten voor onderhoud per jaar.",
     },
 
     //SolarFarm
     "orientation": {
         name: "orientation",
         title: "Opstelling",
+        infoText: "De opstelling van de zonnepanelen heeft invloed op de vorm van het opwekprofiel. Zuid-geörienteerde panelen hebben een hogere piek midden op de dag, en jaarlijkse een iets hogere opbrengst. Oost-west opstellingen hebben een breder opwekprofiel dat iets beter aansluit op de behoefte van klanten, maar een iets lagere jaarlijkse opwek.",
     },
     
     //BiogasGenerator
     "power_kW": {
         name: "power_kW",
         title: "Vermogen [kW]",
-        infoText: "Continu vermogen"
+        infoText: "Continu elektrisch vermogen van de biogasmotor.",
     },
     
     //Battery
     "capacity_kWh": {
         name: "capacity_kWh",
-        title: "Capaciteit",
+        title: "Capaciteit [kWh]",
+        infoText: "De hoeveelheid energie [kWh] die in de batterij kan worden opgeslagen.",
     },
     "peakPower_kW": {
         name: "peakPower_kW",
         title: "Vermogen [kW]",
+        infoText: "Het maximale vermogen [kW] waarmee de batterij kan op- en ontladen.",
     },
 
     // Heat storage
