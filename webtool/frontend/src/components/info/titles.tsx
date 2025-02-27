@@ -16,7 +16,7 @@ export const titles = {
     "onbalansMarkup_r": {
         name: "onbalansMarkup_r",
         title: "Opslag onbalans",
-        infoText: "De kosten die worden gemaakt op de onbalansmarkt voor het verschil tussen voorspelde en daadwerkelijke energiebalans. Deze kosten zijn typisch hoog voor energie uit zon en wind, omdat het weer niet precies te voorspellen is.",
+        infoText: "De kosten die worden gemaakt op de onbalansmarkt voor het verschil tussen voorspelde en daadwerkelijke energiebalans. Deze kosten zijn typisch hoog (20+ %) voor energie uit zon en wind, omdat het weer niet precies te voorspellen is.",
     },
     "feedInCompensation_eurpkWh": {
         name: "feedInCompensation_eurpkWh",
@@ -32,12 +32,12 @@ export const titles = {
     "annualElectricityConsumption_kWh": {
         name: "annualElectricityConsumption_kWh",
         title: "Bruto jaarverbruik [kWh]",
-        infoText: "Verbruik achter de meter, dus inclusief verbruik van eigen opwek van zonnepanelen"
+        infoText: "Verbruik in kWh per jaar achter de meter, dus inclusief verbruik van eigen opwek van zonnepanelen."
     },
     "pvInstalled_kWp": {
         name: "pvInstalled_kWp",
         title: "Zonnepanelen [kWp]",
-        infoText: "Het geïnstalleerde vermogen aan zonnepanelen, in kiloWatt."
+        infoText: "Het geïnstalleerde vermogen aan zonnepanelen, in kiloWattPiek."
     },
     
     //Household
@@ -50,6 +50,7 @@ export const titles = {
     "households_n": {
         name: "households_n",
         title: "Aantal huishoudens",
+        infoText: "Het aantal huishoudens in deze groep. Je kunt meerdere groepen aanmaken."
     },
     "hasPV_r": {
         name: "hasPV_r",
@@ -178,7 +179,7 @@ export const solarFarmTitles = {
     nominalPower_kW: {
         name: "nominalPower_kW",
         title: "Vermogen [kW]",
-        infoText: "Piekvermogen"
+        infoText: "Het vermogen van het zonnepark dat toegekend wordt aan deze energiegemeeenschap. Dit kan ook de fractie van het vermogen van alle zonnepanelen zijn.",
     },
 }
 
@@ -186,6 +187,6 @@ export const windFarmTitles = {
     nominalPower_kW: {
         name: "nominalPower_kW",
         title: "Vermogen [kW]",
-        infoText: "Nominaal vermogen",
+        infoText: "Het vermogen van de windmolen(s) dat toegekend wordt aan deze energiegemeeenschap. Dit kan ook de fractie van het vermogen van de windmolen(s) zijn.",
     },
 }
