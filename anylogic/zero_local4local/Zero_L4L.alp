@@ -834,6 +834,7 @@ var energyCoop = f_createLocal4LocalEnergyCoop();
 energyCoop.p_bufferPrice_eurpMWh = pilot.getBufferPrice_eurpkWh()*1000;// == null ? 10 : pilot.getBufferPrice_eurpkWh()*1000;
 energyCoop.p_feedinCompensation_eurpMWh = 1000*pilot.getSupplierCost().getFeedInCompensation_eurpkWh();
 //energyCoop.p_feedinCompensation_eurpMWh = 20;
+
 energyCoop.p_onbalansMarkup_r = pilot.getSupplierCost().getOnbalansMarkup_r();
 
 f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
@@ -841,7 +842,6 @@ f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
 f_createLocal4LocalBiogasGenerator(pilot.getBiogasGenerators(), energyCoop);
 
 f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
-
 
 this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
 this.interface_L4L.grp_prosumer_systemview.setVisible(false);
@@ -1167,6 +1167,7 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 		solarFarm,
 		OL_EnergyAssetType.PHOTOVOLTAIC,
 		solarFarm.p_gridConnectionID,
+		// ### HACK ###
 		solarFarmData.getNominalPower_kW(),
 		solarFarmData.getOrientation());
 	
@@ -2177,7 +2178,7 @@ for (var g : c_householdGroups) {
 		}
 	}
 	traceln("Houses in group %s: %s", g, c_housesInGroup.size());
-
+	
 	f_setPVSystemHousesPerGroup(g.getHasPV_r() * 100, c_housesInGroup);
 	   
 	f_setHeatingSystemsHouseholds(g.getHasHeatPump_r() * 100, c_housesInGroup);  
@@ -8906,6 +8907,9 @@ public void f_calculateKPIs(){
 				<Parameter>
 					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[b_fixedAssetTariff]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -9111,6 +9115,30 @@ public void f_calculateKPIs(){
 						</ParameterEditor>
 					</Properties>                 
 				</Variable>
+				<Variable Class="Parameter">
+					<Id>1741258840495</Id>
+					<Name><![CDATA[b_fixedAssetTariff]]></Name>
+					<X>1190</X><Y>770</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
+						<Type><![CDATA[boolean]]></Type>
+						<UnitType><![CDATA[NONE]]></UnitType>
+						<SdArray>false</SdArray>
+						<DefaultValue Class="CodeValue">
+							<Code><![CDATA[true]]></Code>
+						</DefaultValue>
+						<ParameterEditor>
+							<Id>1741258840493</Id>
+							<EditorContolType>CHECK_BOX</EditorContolType>
+							<MinSliderValue><![CDATA[0]]></MinSliderValue>
+							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
+							<DelimeterType>NO_DELIMETER</DelimeterType>
+						</ParameterEditor>
+					</Properties>                 
+				</Variable>
 				<Variable Class="CollectionVariable">
 					<Id>1729007310573</Id>
 					<Name><![CDATA[c_AssetCosts]]></Name>
@@ -9149,6 +9177,8 @@ var coopReport = new J_CoopReport();
 int arrayLength = am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries().length;
 double totalSDEincome_eur = 0;
 
+
+
 for (var ci : c_AssetCosts) {
 
 	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
@@ -9156,13 +9186,8 @@ for (var ci : c_AssetCosts) {
 	traceln("AssetType: %s", assetType);
 	if (assetType != OL_EnergyAssetType.STORAGE_ELECTRIC) {		
 		totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
-		if (ci.LCOE_eurpkWh() == null) {
-			totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
-		} else {
-			totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
-		}
-		
-		// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
+
+				// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
 		
 		double SDE_tariff_eurpMWh = 1000*ci.SDE_aanvraagbedrag_eurpkWh();
 		double SDE_lowerLimit_eurpMWh = 1000*ci.SDE_basisenergieprijs_eurpkWh();
@@ -9175,13 +9200,26 @@ for (var ci : c_AssetCosts) {
 			productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
 			SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(SDE_lowerLimit_eurpMWh, energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
 		}
+		
 		//traceln("SDE income: %s eur", SDEincome_eur);
 		ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
 		ci.setTotalProduction_MWh( -ci.energyAsset().getEnergyUsed_kWh() / 1000 );
 		ci.setSDEincome_eur(SDEincome_eur);
+		
 		traceln("Asset production average EPEX value: %s eurpMWh", ci.getAvgProductionValue_eurpMWh());
 		traceln("SDEincome_eur: %s", ci.getSDEincome_eur());
-		totalSDEincome_eur += SDEincome_eur;	
+				
+		if (b_fixedAssetTariff) {
+			if (ci.LCOE_eurpkWh() == null) {
+				totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
+			} else {
+				totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
+			}
+			totalSDEincome_eur += SDEincome_eur;	
+		} else {
+			totalOwnProductionCost_eur += productionEPEXvalue_eur;
+		}
+				
 	} else { // for battery asset only add costs!
 		totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
 	}
@@ -9434,8 +9472,9 @@ for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant 
 	
 }
 
-//double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
-double onbalansCosts_eur = min(p_onbalansMarkup_r,0.1) * ( EPEXcosts_eur + EPEXincome_eur );
+double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
+//double onbalansCosts_eur = min(p_onbalansMarkup_r,0.1) * ( EPEXcosts_eur + EPEXincome_eur );
+
 double totalDeliveredElec_MWh = v_totalCustomerDelivery_MWh;
 
 //double customerFeedIn_MWh = fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // This should include all the energy that is received from customers!
