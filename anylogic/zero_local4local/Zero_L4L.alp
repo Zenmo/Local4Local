@@ -1167,7 +1167,6 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 		solarFarm,
 		OL_EnergyAssetType.PHOTOVOLTAIC,
 		solarFarm.p_gridConnectionID,
-		// ### HACK ###
 		solarFarmData.getNominalPower_kW(),
 		solarFarmData.getOrientation());
 	
@@ -9186,13 +9185,10 @@ for (var ci : c_AssetCosts) {
 	traceln("AssetType: %s", assetType);
 	if (assetType != OL_EnergyAssetType.STORAGE_ELECTRIC) {		
 		totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
-
-				// SDE income per asset, requires time series of production per asset! That could be gathered from corresponding gridConnections!
-		
 		double SDE_tariff_eurpMWh = 1000*ci.SDE_aanvraagbedrag_eurpkWh();
 		double SDE_lowerLimit_eurpMWh = 1000*ci.SDE_basisenergieprijs_eurpkWh();
 		double SDEincome_eur = 0;
-		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries();
+		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries(); // Relies on every asset having its own GridConnection.
 		double productionEPEXvalue_eur = 0;
 		
 		for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
@@ -9232,12 +9228,10 @@ if (totalOwnProduction_MWh>0){
 }
 
 // Initialize totals
-//double SDEincome_eur = 0; // SDE++ subsidie meerekenen? Dwz. invoersubsidie wanneer marktprijs lager is dan ...ct/kWh. 
 double EPEXcosts_eur = 0;
 double EPEXincome_eur = 0;
 double FeedInEPEXvalue_eur = 0;
 
-//double selfConsumptionCoopAssets_MWh = 0; // The part of the 'owned' production that is delivered to customers (as opposed to sold on market)
 v_selfConsumptionCoopAssets_MWh = 0;
 
 for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant arrays.
@@ -9245,10 +9239,6 @@ for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant 
 	EPEXcosts_eur += max(0,am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	EPEXincome_eur += max(0,-am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	
-	// Onbalanskosten: reken p_onbalansMarkup_r kosten op alle EPEX transacties:
-	//onbalansCosts_eur += p_onbalansMarkup_r * abs(acc_annualElectricityBalance_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
-	
-	//totalSDEincome_eur += acc_annualOwnElectricityProduction_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * max(0,assetAvgLCOE_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
 	// Need feedIn accumulator to calculate customer Feedin costs based on hourly EPEX price.
 	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
 
@@ -9444,9 +9434,7 @@ return yearlyCosts_eur;]]></Body>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[//var coopReport = new J_CoopReport();
-// Initialize totals
-//double SDEincome_eur = 0; // SDE++ subsidie meerekenen? Dwz. invoersubsidie wanneer marktprijs lager is dan ...ct/kWh. 
+					<Body><![CDATA[// Initialize totals
 double EPEXcosts_eur = 0;
 double EPEXincome_eur = 0;
 double EPEXbuy_MWh = 0;
@@ -9462,34 +9450,15 @@ for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant 
 	EPEXincome_eur += max(0,-currentEPEXbalance_MWh) * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	EPEXbuy_MWh += max(0,currentEPEXbalance_MWh);
 	EPEXsell_MWh += max(0,-currentEPEXbalance_MWh);
-	// Onbalanskosten: reken p_onbalansMarkup_r kosten op alle EPEX transacties:
-	//onbalansCosts_eur += p_onbalansMarkup_r * abs(acc_annualElectricityBalance_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	
-	//totalSDEincome_eur += acc_annualOwnElectricityProduction_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * max(0,assetAvgLCOE_eurpMWh-energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i));
-	// Need feedIn accumulator to calculate customer Feedin costs based on hourly EPEX price.
-	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
-
-	
+	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 }
 
 double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
 //double onbalansCosts_eur = min(p_onbalansMarkup_r,0.1) * ( EPEXcosts_eur + EPEXincome_eur );
 
 double totalDeliveredElec_MWh = v_totalCustomerDelivery_MWh;
-
-//double customerFeedIn_MWh = fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // This should include all the energy that is received from customers!
 double customerFeedIn_MWh = v_totalCustomerFeedIn_MWh;
-//double nettDeliveredElec_MWh = totalDeliveredElec_MWh - customerFeedIn_MWh; // 
-
-//double benchmarkTariff_eurpMWh;
-
-if (p_feedinCompensation_eurpMWh == 0.0) {
-	//traceln("p_feedinCompensation_eurpMWh is zero! Feedin from prosumers is now 'free electricity' for the coop!");
-	//p_feedinCompensation_eurpMWh = kostprijs_eurpMWh;	
-}
-
-//double kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
-//double EPEXbalance_eur = EPEXincome_eur - EPEXcosts_eur; // positive balance means nett-income!
 
 double leveranciersKosten_eur = p_feedinCompensation_eurpMWh * customerFeedIn_MWh + EPEXcosts_eur + onbalansCosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
 double benchmarkTariff_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur)/(totalDeliveredElec_MWh); // Zorg dat EDV break-even draait
