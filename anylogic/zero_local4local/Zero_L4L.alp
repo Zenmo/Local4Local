@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -97,12 +97,6 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[customProfiles_data]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -843,7 +837,7 @@ f_createLocal4LocalBiogasGenerator(pilot.getBiogasGenerators(), energyCoop);
 
 f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
-this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
+//this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
 this.interface_L4L.grp_prosumer_systemview.setVisible(false);
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 f_createLocal4LocalCompanies(pilot.getCompanies(), energyCoop);]]></Body>
@@ -1014,7 +1008,7 @@ if (windFarms.size() == 0) {
 	this.interface_L4L.txt_housholds_expnd_annualBaseConsumption_value.setText(String.format("%s"+" kWh", roundToInt(householdGroup.getAnnualBaseConsumptionAvg_kWh())));
 	
 	if (householdGroup.getHasPV_r() > 0) {
-		this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(true);
+		//this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(true);
 		this.interface_L4L.grp_prosumer_systemview.setVisible(true);
 	}
 }
@@ -1363,8 +1357,9 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[interface_L4L.uI_Results.v_area = interface_L4L.uI_Results.v_energyCoop; 
-interface_L4L.f_updateUIresultsEnergyCoop_L4L(interface_L4L.uI_Results.v_area, energyModel.pop_energyCoops.get(0) );]]></Body>
+					<Body><![CDATA[//interface_L4L.uI_Results.v_area = interface_L4L.uI_Results.v_energyCoop; 
+interface_L4L.uI_Results.f_updateResultsUI(energyModel.pop_energyCoops.get(0) );
+interface_L4L.f_updateUIresultsEnergyCoop_L4L(energyModel.pop_energyCoops.get(0) );]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1545,7 +1540,7 @@ if (companyData.getPvInstalled_kWp() > 0.0) {
 		OL_EnergyAssetType.PHOTOVOLTAIC,
 		"Solar Panel",
 		companyData.getPvInstalled_kWp());	
-	this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(true);
+	//this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(true);
 	this.interface_L4L.grp_prosumer_systemview.setVisible(true);
 };
 ]]></Body>
@@ -1798,21 +1793,6 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[map_scale]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -2393,23 +2373,22 @@ if ( b_includeFeedInInCoopProduction ) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Parameter>
-						<Name><![CDATA[area]]></Name>
-						<Type><![CDATA[AreaCollection]]></Type>
-					</Parameter>
-					<Parameter>
 						<Name><![CDATA[EC]]></Name>
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
-					<Body><![CDATA[if (b_includeFeedInInCoopProduction) {
-	area.v_totalElectricitySelfConsumed_MWh = ((EnergyCoopL4L)EC).v_totalElectricitySelfConsumed_MWh;
-	area.fm_totalImports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY));
-	area.fm_totalExports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY));
+					<Body><![CDATA[// Explain what is happening here. Is there a 'nicer' way to do it?
+if (b_includeFeedInInCoopProduction) {
+	//area.v_totalElectricitySelfConsumed_MWh = ((EnergyCoopL4L)EC).v_rapidRunData.getTotalElectricitySelfConsumed_MWh();
+	
+	//area.fm_totalImports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.v_rapidRunData.getTotalImports_MWh(OL_EnergyCarriers.ELECTRICITY));
+	//area.fm_totalExports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.v_rapidRunData.getTotalExports_MWh(OL_EnergyCarriers.ELECTRICITY));
 } else {
-	area.v_totalElectricitySelfConsumed_MWh = ((EnergyCoopL4L)EC).v_selfConsumptionCoopAssets_MWh;
-	area.fm_totalImports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + EC.v_totalElectricitySelfConsumed_MWh  - area.v_totalElectricitySelfConsumed_MWh);
-	area.fm_totalExports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + EC.v_totalElectricitySelfConsumed_MWh  - area.v_totalElectricitySelfConsumed_MWh);
+	//area.v_totalElectricitySelfConsumed_MWh = ((EnergyCoopL4L)EC).v_selfConsumptionCoopAssets_MWh;
+	
+	//area.fm_totalImports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + EC.v_rapidRunData.getTotalElectricitySelfConsumed_MWh()  - area.v_totalElectricitySelfConsumed_MWh);
+	//area.fm_totalExports_MWh.put(OL_EnergyCarriers.ELECTRICITY, EC.fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + EC.v_rapidRunData.getTotalElectricitySelfConsumed_MWh()  - area.v_totalElectricitySelfConsumed_MWh);
 }
-double ratioGenerationDelivery = (area.v_totalElectricitySelfConsumed_MWh + area.fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY)) / ( area.v_totalElectricitySelfConsumed_MWh + area.fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY));
+double ratioGenerationDelivery = (EC.v_rapidRunData.getTotalElectricitySelfConsumed_MWh() + EC.v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY)) / ( EC.v_rapidRunData.getTotalElectricitySelfConsumed_MWh() + EC.v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY));
 if ( ratioGenerationDelivery > 1.5 ) {
 	grp_balanceWarning.setVisible(true);
 }
@@ -4684,7 +4663,8 @@ Opwek en Levering]]></Text>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1730119914285</Id>
 					<Name><![CDATA[cb_includeFeedinInCoopProduction]]></Name>
-					<X>-1250</X><Y>1345</Y>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
+					<X>-2200</X><Y>580</Y>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>false</ShowLabel>
@@ -4695,7 +4675,7 @@ Opwek en Levering]]></Text>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[b_includeFeedInInCoopProduction = cb_includeFeedinInCoopProduction.isSelected(); 
 f_getCoopReport(); 
-f_updateUIresultsEnergyCoop_L4L(uI_Results.v_energyCoop, this.energyModel.pop_energyCoops.get(0)); 
+f_updateUIresultsEnergyCoop_L4L(this.energyModel.pop_energyCoops.get(0)); 
 //uI_Results.f_setSelectedChartType(1); //Diagram
 //uI_Results.f_showCorrectChart();
 
@@ -8898,6 +8878,12 @@ public void f_calculateKPIs(){
 					<Name><![CDATA[p_actorSubgroup]]></Name>
 				</Parameter>
 				<Parameter>
+					<Name><![CDATA[p_contractedFeedinCapacity_kW]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_contractedDeliveryCapacity_kW]]></Name>
+				</Parameter>
+				<Parameter>
 					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
 				</Parameter>
 				<Parameter>
@@ -9173,10 +9159,8 @@ public void f_calculateKPIs(){
 double totalOwnProductionCost_eur = 0;
 var coopReport = new J_CoopReport();
 
-int arrayLength = am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries().length;
+int arrayLength = v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW().length;
 double totalSDEincome_eur = 0;
-
-
 
 for (var ci : c_AssetCosts) {
 
@@ -9188,7 +9172,7 @@ for (var ci : c_AssetCosts) {
 		double SDE_tariff_eurpMWh = 1000*ci.SDE_aanvraagbedrag_eurpkWh();
 		double SDE_lowerLimit_eurpMWh = 1000*ci.SDE_basisenergieprijs_eurpkWh();
 		double SDEincome_eur = 0;
-		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries(); // Relies on every asset having its own GridConnection.
+		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW(); // Relies on every asset having its own GridConnection.
 		double productionEPEXvalue_eur = 0;
 		
 		for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
@@ -9236,14 +9220,14 @@ v_selfConsumptionCoopAssets_MWh = 0;
 
 for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant arrays.
 	// Loop through coop nett power to calculate yearly money to EPEX
-	EPEXcosts_eur += max(0,am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
-	EPEXincome_eur += max(0,-am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	EPEXcosts_eur += max(0,v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	EPEXincome_eur += max(0,-v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	
 	// Need feedIn accumulator to calculate customer Feedin costs based on hourly EPEX price.
-	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
 
 	// Opwek van eigen productie assets die geleverd wordt aan klanten:
-	v_selfConsumptionCoopAssets_MWh += max(0,acc_totalOwnElectricityProduction_kW.getTimeSeries()[i] - max(0,-am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries()[i]))*energyModel.p_timeStep_h/1000;
+	v_selfConsumptionCoopAssets_MWh += max(0,acc_totalOwnElectricityProduction_kW.getTimeSeries_kW()[i] - max(0,-v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i]))*energyModel.p_timeStep_h/1000;
 	// !!There is an implicit merrit order assumption in this line, related to self consumption of own asset production vs self consumption of customer feedin!!
 }
 double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
@@ -9252,7 +9236,7 @@ traceln("Average LCOE of own assets: %s eur/MWh", assetAvgLCOE_eurpMWh);
 traceln("Average LCOE of own assets with SDE subsidies: %s eur/MWh", (totalOwnProductionCost_eur-totalSDEincome_eur)/ totalOwnProduction_MWh);
 
 
-double totalOwnElectricityProduced_MWh = acc_totalOwnElectricityProduction_kW.getIntegral() / 1000;
+double totalOwnElectricityProduced_MWh = acc_totalOwnElectricityProduction_kW.getIntegral_MWh();
 
 traceln("Average FeedInEpexValue_eurpMWh: %s", FeedInEPEXvalue_eur/v_totalCustomerFeedIn_MWh);
 
@@ -9266,7 +9250,7 @@ double totalDeliveredElec_MWh = v_totalCustomerDelivery_MWh;
 	throw new RuntimeException("Delivery calcs don't match!");
 }*/
 
-double customerFeedIn_MWh = fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // This should include all the energy that is received from customers!
+double customerFeedIn_MWh;// = fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY) + totalDeliveredElec_MWh - totalOwnElectricityProduced_MWh - fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY); // This should include all the energy that is received from customers!
 customerFeedIn_MWh = v_totalCustomerFeedIn_MWh;
 /*if (abs(customerFeedIn_MWh - v_customerFeedIn_MWh) > 0.100001) {
 	traceln("Feedin error: %s MWh", customerFeedIn_MWh - v_customerFeedIn_MWh);
@@ -9301,23 +9285,23 @@ double leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * gelijktijdigeLevering
 
 coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
 coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(gelijktijdigeLevering_MWh, kostprijsPlus_eurpMWh));
-coopReport.feedinSelfConsumption(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, p_feedinCompensation_eurpMWh));
-coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
+coopReport.feedinSelfConsumption(J_AccountingLine.fromPricePerMWh(v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh, p_feedinCompensation_eurpMWh));
+coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
 coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-gelijktijdigeLevering_MWh, leveranciersprijs_eurpMWh));
-coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXcosts_eur));
-coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXincome_eur));
+coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getIntegralPos_MWh(), EPEXcosts_eur));
+coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getIntegralNeg_MWh(), EPEXincome_eur));
 coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
-coopReport.onbalans(J_AccountingLine.fromTotalPrice((fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY)+fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY))*1000, onbalansCosts_eur));
-coopReport.feedinExport(J_AccountingLine.fromPricePerMWh(v_totalCustomerFeedIn_MWh-(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh), coopReport.EPEXsell.price_eurpMWh()));
+coopReport.onbalans(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY)+v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY), onbalansCosts_eur));
+coopReport.feedinExport(J_AccountingLine.fromPricePerMWh(v_totalCustomerFeedIn_MWh-(v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh), coopReport.EPEXsell.price_eurpMWh()));
 
 traceln("Totale opwek Coöperatie Assets: %s MWh, tarief: %s €/MWh, waarde: %s €", totalOwnElectricityProduced_MWh, kostprijs_eurpMWh, totalOwnElectricityProduced_MWh*kostprijs_eurpMWh); // Also need production from own assets only!
-traceln("Gelijktijdige opwek en verbruik (incl zelfverbruik teruglevering van leden): %s MWh", v_totalElectricitySelfConsumed_MWh);
+traceln("Gelijktijdige opwek en verbruik (incl zelfverbruik teruglevering van leden): %s MWh", v_rapidRunData.getTotalElectricitySelfConsumed_MWh());
 traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh, v_selfConsumptionCoopAssets_MWh * kostprijsPlus_eurpMWh);
 traceln("Ongelijktijdige levering, incl zelfverbruik teruglevering van leden: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_selfConsumptionCoopAssets_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_selfConsumptionCoopAssets_MWh));
-traceln("Ongelijktijdige levering, excl zelfverbruik teruglevering van leden: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh, leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_totalElectricitySelfConsumed_MWh));
+traceln("Ongelijktijdige levering, excl zelfverbruik teruglevering van leden: %s MWh, tarief: %s €/MWh, waarde: %s €", totalDeliveredElec_MWh-v_rapidRunData.getTotalElectricitySelfConsumed_MWh(), leveranciersprijs_eurpMWh, leveranciersprijs_eurpMWh*(totalDeliveredElec_MWh-v_rapidRunData.getTotalElectricitySelfConsumed_MWh()));
 
-traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXcosts_eur/(fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY)), EPEXcosts_eur);
-traceln("Totale verkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXincome_eur/(fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY)), EPEXincome_eur);
+traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getIntegralPos_MWh(), EPEXcosts_eur/v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getIntegralPos_MWh(), EPEXcosts_eur);
+traceln("Totale verkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getIntegralNeg_MWh(), EPEXincome_eur/v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getIntegralNeg_MWh(), EPEXincome_eur);
 
 traceln("Totale levering aan klanten: %s MWh, tarief: %s €/MWh, waarde: %s €", roundToDecimal(totalDeliveredElec_MWh,2), gemiddeldeLeveringsprijs_eurpMWh, gemiddeldeLeveringsprijs_eurpMWh*totalDeliveredElec_MWh);
 
@@ -9325,7 +9309,7 @@ traceln("Totale teruglevering van klanten: %s MWh, tarief: %s €/MWh, waarde: %
 
 traceln("Coop gelijktijdigheid: fractie van eigen opwek geleverd aan leden: %s", v_selfConsumptionCoopAssets_MWh/totalOwnElectricityProduced_MWh);
 //traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-energyModel.v_totalElectricityExport_MWh/totalOwnElectricityProduced_MWh); // Kan negatief worden!
-traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY)/totalOwnElectricityProduced_MWh); // Kan negatief worden!
+traceln("Coop gelijktijdigheid: eigen opwek minus export, gedeeld door eigen opwek: %s", 1-v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY)/totalOwnElectricityProduced_MWh); // Kan negatief worden!
 
 traceln("Kostprijs+ met SDE verrekend: %s €/MWh", roundToInt(kostprijsPlus_eurpMWh));
 traceln("Gemiddelde leveringsprijs: %s €/MWh", roundToInt( gemiddeldeLeveringsprijs_eurpMWh ));
@@ -9362,7 +9346,7 @@ if ( totalOwnElectricityProduced_MWh == 0.0 || totalSDEincome_eur == 0.0 || tota
 kostprijsPlus_eurpMWh = kostprijs_eurpMWh*(1+p_onbalansMarkup_r) + p_bufferPrice_eurpMWh;
 traceln("kostprijs+ met meetellen teruglevering als eigen opwek: %s eur/MWh", kostprijsPlus_eurpMWh);
 
-gelijktijdigeLevering_MWh=v_totalElectricitySelfConsumed_MWh;
+gelijktijdigeLevering_MWh=v_rapidRunData.getTotalElectricitySelfConsumed_MWh();
 leveranciersKosten_eur = kostprijs_eurpMWh * totalOwnProduction_MWh + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh + EPEXcosts_eur + onbalansCosts_eur; 
 //leveranciersKosten_eur = totalOwnProductionCost_eur - totalSDEincome_eur + EPEXcosts_eur + totalDeliveredElec_MWh * p_bufferPrice_eurpMWh; 
 leveranciersprijs_eurpMWh = (leveranciersKosten_eur - EPEXincome_eur - kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh )/(totalDeliveredElec_MWh - gelijktijdigeLevering_MWh); // Zorg dat EDV break-even draait
@@ -9374,12 +9358,12 @@ leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh + 
 coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
 coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(gelijktijdigeLevering_MWh, kostprijsPlus_eurpMWh));
 //coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
-coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
+coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
 coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-gelijktijdigeLevering_MWh, leveranciersprijs_eurpMWh));
-coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXcosts_eur));
-coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY), EPEXincome_eur));
+coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY), EPEXcosts_eur));
+coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY), EPEXincome_eur));
 coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
-coopReport.onbalans(J_AccountingLine.fromTotalPrice((fm_totalImports_MWh.get(OL_EnergyCarriers.ELECTRICITY)+fm_totalExports_MWh.get(OL_EnergyCarriers.ELECTRICITY))*1000, onbalansCosts_eur));
+coopReport.onbalans(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY)+v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY), onbalansCosts_eur));
 v_coopReportIncludeFeedinInOwnConsumption = coopReport;
 for (var ci : c_AssetCosts) {
 	v_coopReportIncludeFeedinInOwnConsumption.addAssetCost(ci);
@@ -9441,17 +9425,17 @@ double EPEXbuy_MWh = 0;
 double EPEXsell_MWh = 0;
 double FeedInEPEXvalue_eur = 0;
 
-int arrayLength = am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries().length;
+int arrayLength = v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW().length;
 for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant arrays.
 	// Loop through coop nett power to calculate yearly money to EPEX
-	double currentEPEXbalance_MWh = (acc_totalCustomerDelivery_kW.getTimeSeries()[i]-acc_totalCustomerFeedIn_kW.getTimeSeries()[i])/1000 * energyModel.p_timeStep_h;
+	double currentEPEXbalance_MWh = (acc_totalCustomerDelivery_kW.getTimeSeries_kW()[i]-acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h;
 	
 	EPEXcosts_eur += max(0,currentEPEXbalance_MWh) * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	EPEXincome_eur += max(0,-currentEPEXbalance_MWh) * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 	EPEXbuy_MWh += max(0,currentEPEXbalance_MWh);
 	EPEXsell_MWh += max(0,-currentEPEXbalance_MWh);
 	
-	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
 }
 
 double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
@@ -9467,7 +9451,7 @@ double leveranciersInkomsten_eur = EPEXincome_eur + totalDeliveredElec_MWh * ben
 //totalDeliveredElec_MWh = nettDeliveredElec_MWh; // Assume that nettDelivered is what counts for finances, such that feed-in tarrif is accounted for!
 traceln("***BENCHMARK RESULTAAT***");
 
-traceln("Gelijktijdige feedin en verbruik van leden: %s MWh", v_totalElectricitySelfConsumed_MWh-v_selfConsumptionCoopAssets_MWh);
+traceln("Gelijktijdige feedin en verbruik van leden: %s MWh", v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh);
 //traceln("Gelijktijdige opwek en verbruik (excl zelfverbruik teruglevering van leden): %s MWh, tarief: %s €/MWh, waarde: %s €", v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh, v_selfConsumptionCoopAssets_MWh * kostprijsPlus_eurpMWh);
 
 traceln("Totale inkoop op EPEX: %s MWh, tarief: %s €/MWh, value: %s €", EPEXbuy_MWh, EPEXcosts_eur/EPEXbuy_MWh, EPEXcosts_eur);
@@ -10265,9 +10249,6 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 			<Parameters>
 				<Parameter>
 					<Name><![CDATA[energyModel]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_previousTotals_Region]]></Name>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_cutOff_MWh]]></Name>
