@@ -41,7 +41,7 @@ data class ResourcefullyExport(
 ) {
     companion object {
         @JsStatic
-        fun create(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String) = with(pilot) {
+        fun create(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String, coopReport: dynamic) = with(pilot) {
             ResourcefullyExport(
                 scenarioDescription = metadata.scenarioDescription,
                 personName = metadata.personName,
@@ -55,6 +55,7 @@ data class ResourcefullyExport(
                 solarFarms = solarFarms.map { SolarFarm.create(it) },
                 biogasGenerators = biogasGenerators.map { BiogasGenerator.create(it) },
                 batteries = batteries.map { Battery.create(it) },
+                coopReport = AnnualCoopReport.fromJs(coopReport),
             )
         }
     }
@@ -236,7 +237,19 @@ data class AccountingLine(
     val quantity_MWh: Double,
     val price_eurpMWh: Double,
     val totalPrice_eur: Double,
-)
+) {
+    companion object {
+        /**
+         * Create from a JS object created in AnyLogic using Jackson.
+         */
+        @JsStatic
+        fun fromJs(accountingLine: dynamic) = AccountingLine(
+            quantity_MWh = accountingLine.quantity_MWh,
+            price_eurpMWh = accountingLine.price_eurpMWh,
+            totalPrice_eur = accountingLine.totalPrice_eur
+        )
+    }
+}
 
 @JsExport
 @Serializable
@@ -251,4 +264,23 @@ data class AnnualCoopReport (
     val totalDelivery: AccountingLine,
     val reDeliveryFeedIn: AccountingLine,
     val onbalans: AccountingLine,
-)
+) {
+    companion object {
+        /**
+         * Create from a JS object created in AnyLogic using Jackson.
+         */
+        @JsStatic
+        fun fromJs(coopReport: dynamic) = AnnualCoopReport(
+            ownProduction = AccountingLine.fromJs(coopReport.ownProduction),
+            selfConsumption = AccountingLine.fromJs(coopReport.selfConsumption),
+            feedInSelfConsumption = AccountingLine.fromJs(coopReport.feedinSelfConsumption),
+            feedInExport = AccountingLine.fromJs(coopReport.feedinExport),
+            EPEXbuy = AccountingLine.fromJs(coopReport.EPEXbuy),
+            EPEXsell = AccountingLine.fromJs(coopReport.EPEXsell),
+            nonsimultaneousDelivery = AccountingLine.fromJs(coopReport.nonsimultaneousDelivery),
+            totalDelivery = AccountingLine.fromJs(coopReport.totalDelivery),
+            reDeliveryFeedIn = AccountingLine.fromJs(coopReport.reDeliveryFeedIn),
+            onbalans = AccountingLine.fromJs(coopReport.onbalans),
+        )
+    }
+}

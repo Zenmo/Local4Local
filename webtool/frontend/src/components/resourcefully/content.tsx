@@ -5,8 +5,9 @@ import {ResourcefullyExport, ExportMetadata} from "local4local"
 import {Pilot} from "local4local"
 import {createDeeplink} from "../deeplink.ts"
 import Animation = AnyLogicCloudClient.Animation
+import {getCoopReport} from "./preview.ts"
 
-function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot): ResourcefullyExport {
+async function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot, anyLogicAnimation: Animation): Promise<ResourcefullyExport> {
     const form = new FormData(submitEvent.currentTarget)
     const exportMetadata = new ExportMetadata(
         form.get("scenarioDescription") as string,
@@ -15,19 +16,21 @@ function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot): Resour
         form.get("email")  as string,
     );
 
-    return ResourcefullyExport.create(pilot, exportMetadata, createDeeplink(pilot))
+    const coopReport = await getCoopReport(anyLogicAnimation)
+
+    return ResourcefullyExport.create(pilot, exportMetadata, createDeeplink(pilot), coopReport)
 }
 
 export const ResourcefullyDialogContent: FunctionComponent<{
-    anyLogicAnimation?: Animation,
+    anyLogicAnimation: Animation,
     pilot: Pilot,
-}> = ({pilot}) => {
+}> = ({pilot, anyLogicAnimation}) => {
     const [error, setError] = useState("")
     const [submitted, setSubmitted] = useState(false)
 
     const onSubmit: SubmitEventHandeler = async (submitEvent) => {
         submitEvent.preventDefault()
-        const resourceFullyExport = createExportObject(submitEvent, pilot)
+        const resourceFullyExport = await createExportObject(submitEvent, pilot, anyLogicAnimation)
 
         const action = (submitEvent.nativeEvent.submitter as HTMLButtonElement).value
         if (action === "preview") {
