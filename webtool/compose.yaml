@@ -16,7 +16,7 @@ services:
             # This is an input parameter for the AnyLogic model.
             # The model will use this URL to connect to the webtool backend.
             # To use a locally running webtool with AnyLogic Cloud this needs to be a publicly routable address.
-            VITE_ANYLOGIC_CALLBACK_URL: https://5a95-178-239-17-38.ngrok-free.app
+            VITE_ANYLOGIC_CALLBACK_URL: https://${NGROK_DOMAIN:-piranha-equipped-molly.ngrok-free.app}
         ports:
             - "127.0.0.1:5173:5173"
 
@@ -60,7 +60,9 @@ services:
         image: ngrok/ngrok
         command:
             -   http
+            -   --domain=${NGROK_DOMAIN:-piranha-equipped-molly.ngrok-free.app}
             -   backend:9000
+
         env_file:
             -   ngrok.env
         ports:

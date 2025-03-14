@@ -39,26 +39,6 @@ data class ResourcefullyExport(
     /** Simulation output */
     var coopReport: AnnualCoopReport? = null,
 ) {
-    companion object {
-        @JsStatic
-        fun create(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String) = with(pilot) {
-            ResourcefullyExport(
-                scenarioDescription = metadata.scenarioDescription,
-                personName = metadata.personName,
-                organizationName = metadata.organizationName,
-                email = metadata.email,
-                scenarioUrl = scenarioUrl,
-                supplierCost = supplierCost,
-                householdGroups = householdGroups.map { HouseholdGroup.create(it) },
-                companies = companies.map { Company.create(it) },
-                windFarms = windFarms.map { WindFarm.create(it) },
-                solarFarms = solarFarms.map { SolarFarm.create(it) },
-                biogasGenerators = biogasGenerators.map { BiogasGenerator.create(it) },
-                batteries = batteries.map { Battery.create(it) },
-            )
-        }
-    }
-
     fun toJson(): String =
         Json {
             encodeDefaults = true

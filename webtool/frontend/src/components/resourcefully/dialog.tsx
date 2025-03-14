@@ -6,13 +6,19 @@ import Animation = AnyLogicCloudClient.Animation
 import {ResourcefullyDialogContent} from "./content.tsx"
 
 export const ResourcefullyDialog: FunctionComponent<{
-    anyLogicAnimation?: Animation,
+    anyLogicAnimation: Animation,
     pilot: Pilot,
 }> = ({pilot, anyLogicAnimation}) => {
     return (
         <Dialog.Root>
             <Dialog.Trigger>
-                <Button>Extra analyse</Button>
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row-reverse",
+                    margin: ".5rem",
+                }}>
+                    <Button>Extra analyse</Button>
+                </div>
             </Dialog.Trigger>
 
             <Dialog.Content maxWidth="35rem" aria-describedby={undefined}>

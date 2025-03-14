@@ -15,11 +15,7 @@ export const startSimulation = async (divId: string, sessionId: string): Promise
     inputs.setInput("p_local4localBackendUrl", import.meta.env.VITE_ANYLOGIC_CALLBACK_URL)
     inputs.setInput("p_local4localSession", sessionId)
     const animation = await cloudClient.startAnimation(inputs, divId)
-    animation.setSpeed(1)
-
-    // Example how to call into AnyLogic
-    // see https://anylogic.help/cloud/api/js.html#animation-class
-    // animation.callFunction("experiment.root.API_function_setPVslider", [6])
+    await animation.setSpeed(1)
 
     return animation
 }

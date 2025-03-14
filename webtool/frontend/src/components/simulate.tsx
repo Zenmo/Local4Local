@@ -20,7 +20,7 @@ export const Simulate: FunctionComponent<{
                 :
                 <Center>
                     <Button type="button" onClick={() => onClickStart(anylogicElementId)}>
-                        (her)start simulatie
+                        Start simulatie
                     </Button>
                 </Center>
             }
