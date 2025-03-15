@@ -172,7 +172,16 @@ data class BiogasGenerator(
 data class WindFarm(
     val nominalPower_kW: Double,
     val cost: AssetCost,
+    val location: WindFarmLocation = WindFarmLocation.BETUWE,
 )
+
+@JsExport
+@Serializable
+enum class WindFarmLocation(val displayName: String) {
+    ZUID_HOLLAND("Zuid-Holland"),
+    MIDDEN_LIMBURG("Midden-Limburg"),
+    BETUWE("Betuwe"),
+}
 
 @JsExport
 @Serializable
