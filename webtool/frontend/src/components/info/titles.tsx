@@ -189,4 +189,9 @@ export const windFarmTitles = {
         title: "Vermogen [kW]",
         infoText: "Het vermogen van de windmolen(s) dat toegekend wordt aan deze energiegemeeenschap. Dit kan ook de fractie van het vermogen van de windmolen(s) zijn.",
     },
+    location: {
+        name: "location",
+        title: "Locatie",
+        infoText: "Het effectieve vermogen van een windmolen hangt af van de locatie.",
+    },
 }

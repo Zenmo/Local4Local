@@ -1,12 +1,13 @@
 import {FormEvent, FunctionComponent, useState} from "react"
 import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
-import {Pilot, WindFarm} from "local4local"
+import {Pilot, WindFarm, WindFarmLocation} from "local4local"
 import { GiWindTurbine } from "react-icons/gi";
 import {CostSection, CostDisplay} from "../cost-section.tsx"
 import {CardMenu} from "../card-menu.tsx"
 import {costFromFormData} from "../cost-from-form-data.ts"
 import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
 import {windFarmTitles} from "../info/titles.tsx"
+import {LocationRadioButtons} from "./location-radio-buttons.tsx"
 
 export const WindFarmDisplay: FunctionComponent<{
     windFarm: WindFarm,
@@ -23,6 +24,10 @@ export const WindFarmDisplay: FunctionComponent<{
                 <DataList.Item>
                     <DataList.Label><DivWithInfo data={windFarmTitles.nominalPower_kW} /></DataList.Label>
                     <DataList.Value>{windFarm.nominalPower_kW} kW</DataList.Value>
+                </DataList.Item>
+                <DataList.Item>
+                    <DataList.Label><DivWithInfo data={windFarmTitles.location} /></DataList.Label>
+                    <DataList.Value>{windFarm.location.displayName}</DataList.Value>
                 </DataList.Item>
             </DataList.Root>
             <CostDisplay cost={windFarm.cost} />
@@ -51,6 +56,7 @@ export const WindFarmForm: FunctionComponent<{
         const windFarm = new WindFarm(
             parseFloat(formData.get("nominalPower_kW") as string),
             costFromFormData(formData),
+            WindFarmLocation.valueOf(formData.get("location") as string),
         );
 
         save(windFarm)
@@ -64,6 +70,14 @@ export const WindFarmForm: FunctionComponent<{
                 <div className="radix-grid">
                     <LabelWithInfo data={windFarmTitles.nominalPower_kW} />
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW || 2000}/>
+                </div>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    paddingTop: ".5rem",
+                }}>
+                    <LabelWithInfo data={windFarmTitles.location} />
+                    <LocationRadioButtons initialValue={initialData?.location} />
                 </div>
                 <CostSection initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>

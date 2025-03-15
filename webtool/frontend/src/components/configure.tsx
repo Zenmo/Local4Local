@@ -6,7 +6,7 @@ import {Flex, Grid} from "@radix-ui/themes"
 import {SolarFarmForm} from "./solarfarm/solarfarm-form.tsx"
 import {BatteriesDisplayEdit, BatteryForm} from "./assets/battery.tsx"
 import {BiogasGeneratorForm, BiogasGeneratorsDisplayEdit} from "./assets/biogas-generator.tsx"
-import {WindFarmsDisplayEdit, WindFarmForm} from "./assets/wind-farm.tsx"
+import {WindFarmsDisplayEdit, WindFarmForm} from "./wind-farm/wind-farm.tsx"
 import {HeatStorageForm} from "./heat-storage/heat-storage-form.tsx"
 import {SupplierCostDisplay, SupplierCostForm} from "./supplier-cost.tsx"
 import {HouseholdsDisplayEdit} from "./household/households-display-edit.tsx";
