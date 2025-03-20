@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -8478,6 +8478,20 @@ traceln("coopReportJson: %s", coopReportJson);
 
 return coopReport;]]></Body>
 				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[String]]></ReturnType>
+					<Id>1742390719382</Id>
+					<Name><![CDATA[f_getChartGroupSVGId]]></Name>
+					<X>560</X><Y>460</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[String svgId = Long.toString(loader_L4L.interface_L4L.uI_Results.chartGelijktijdigheid.f_getChartGroupSVGId());
+//traceln("Production chart SVG id: %s", pl_consumptionChartYear.getSVGId());
+return svgId;]]></Body>
+				</Function>
 			</Functions>
 			<AgentLinks>
 				<AgentLink>
@@ -10931,6 +10945,6 @@ public class J_CoopReport implements Serializable {
 		<Imported>true</Imported>
 		<Folder>false</Folder>
 	</ClassPathEntry>
-	<CloudModelUuid><![CDATA[b9f2137d-b8cc-462f-85a4-fb2379f0eb39]]></CloudModelUuid>
+	<CloudModelUuid><![CDATA[1408b285-5a64-46ca-9fca-b617be9e73d5]]></CloudModelUuid>
 </Model>
 </AnyLogicWorkspace>
