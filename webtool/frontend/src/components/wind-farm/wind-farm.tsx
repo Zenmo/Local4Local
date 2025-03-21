@@ -29,6 +29,10 @@ export const WindFarmDisplay: FunctionComponent<{
                     <DataList.Label><DivWithInfo data={windFarmTitles.location} /></DataList.Label>
                     <DataList.Value>{windFarm.location.displayName}</DataList.Value>
                 </DataList.Item>
+                <DataList.Item>
+                    <DataList.Label><DivWithInfo data={windFarmTitles.curtailment} /></DataList.Label>
+                    <DataList.Value>{windFarm.curtailment ? "Ja" : "Nee"}</DataList.Value>
+                </DataList.Item>
             </DataList.Root>
             <CostDisplay cost={windFarm.cost} />
         </Card>
@@ -52,11 +56,13 @@ export const WindFarmForm: FunctionComponent<{
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
+        console.log(formData)
 
         const windFarm = new WindFarm(
             parseFloat(formData.get("nominalPower_kW") as string),
             costFromFormData(formData),
             WindFarmLocation.valueOf(formData.get("location") as string),
+            formData.get("curtailment") === "on",
         );
 
         save(windFarm)
@@ -78,6 +84,10 @@ export const WindFarmForm: FunctionComponent<{
                 }}>
                     <LabelWithInfo data={windFarmTitles.location} />
                     <LocationRadioButtons initialValue={initialData?.location} />
+                </div>
+                <div className="radix-grid">
+                    <LabelWithInfo data={windFarmTitles.curtailment} />
+                    <input type="checkbox" id="curtailment" name="curtailment" defaultChecked={initialData?.curtailment} />
                 </div>
                 <CostSection initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>

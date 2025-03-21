@@ -27,6 +27,10 @@ export const SolarFarmDisplay: FunctionComponent<{
                     <DataList.Label><DivWithInfo data={titles.orientation} /></DataList.Label>
                     <DataList.Value>{solarFarm.orientation.displayName}</DataList.Value>
                 </DataList.Item>
+                <DataList.Item>
+                    <DataList.Label><DivWithInfo data={solarFarmTitles.curtailment} /></DataList.Label>
+                    <DataList.Value>{solarFarm.curtailment ? "Ja" : "Nee"}</DataList.Value>
+                </DataList.Item>
             </DataList.Root>
             <CostDisplay cost={solarFarm.cost} />
         </Card>

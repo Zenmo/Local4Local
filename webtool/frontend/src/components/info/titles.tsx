@@ -172,7 +172,6 @@ export const titles = {
         name: "maxTemp_degC",
         title: "Maximale temperatuur (°C)",
     },
-
 };
 
 export const solarFarmTitles = {
@@ -180,6 +179,11 @@ export const solarFarmTitles = {
         name: "nominalPower_kW",
         title: "Vermogen [kW]",
         infoText: "Het vermogen van het zonnepark dat toegekend wordt aan deze energiegemeeenschap. Dit kan ook de fractie van het vermogen van alle zonnepanelen zijn.",
+    },
+    curtailment: {
+        name: "curtailment",
+        title: "Curtailment",
+        infoText: "Zonnepark afschakelen wanneer de marktprijs negatief is."
     },
 }
 
@@ -193,5 +197,18 @@ export const windFarmTitles = {
         name: "location",
         title: "Locatie",
         infoText: "Het effectieve vermogen van een windmolen hangt af van de locatie.",
+    },
+    curtailment: {
+        name: "curtailment",
+        title: "Curtailment",
+        infoText: "Windpark afschakelen wanneer de marktprijs negatief is."
+    },
+}
+
+export const biogasGeneratorTitles = {
+    curtailment: {
+        name: "curtailment",
+        title: "Curtailment",
+        infoText: "Windpark afschakelen wanneer de marktprijs negatief is."
     },
 }

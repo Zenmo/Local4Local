@@ -29,6 +29,7 @@ export const SolarFarmForm: FunctionComponent<{
             parseFloat(formData.get("nominalPower_kW") as string),
             pvOrientation,
             costFromFormData(formData),
+            formData.get("curtailment") === "on",
         )
         save(solarFarm)
         hide()
@@ -41,6 +42,10 @@ export const SolarFarmForm: FunctionComponent<{
                 <div className="radix-grid">
                     <LabelWithInfo data={solarFarmTitles["nominalPower_kW"]} />
                     <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW || 1000}/>
+                </div>
+                <div className="radix-grid">
+                    <LabelWithInfo data={solarFarmTitles.curtailment} />
+                    <input type="checkbox" id="curtailment" name="curtailment" defaultChecked={initialData?.curtailment} />
                 </div>
                 <div className="radix-grid">
                     <LabelWithInfo data={titles.orientation} />
