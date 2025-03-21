@@ -52,7 +52,7 @@ cd webtool
 docker compose run --rm gradle-client-shadowjar
 ```
 
-Alternatively:
+Alternatively with local java installation v17 or older:
 
 ```
 cd webtool

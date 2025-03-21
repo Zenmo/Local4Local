@@ -158,6 +158,7 @@ data class SolarFarm(
     val nominalPower_kW: Double,
     val orientation: PVOrientation = PVOrientation.SOUTH,
     val cost: AssetCost,
+    val curtailment: Boolean = false,
 )
 
 @JsExport
@@ -165,6 +166,7 @@ data class SolarFarm(
 data class BiogasGenerator(
     val power_kW: Double,
     val cost: AssetCost,
+    val curtailment: Boolean = false,
 )
 
 @JsExport
@@ -173,6 +175,7 @@ data class WindFarm(
     val nominalPower_kW: Double,
     val cost: AssetCost,
     val location: WindFarmLocation = WindFarmLocation.BETUWE,
+    val curtailment: Boolean = false,
 )
 
 @JsExport
