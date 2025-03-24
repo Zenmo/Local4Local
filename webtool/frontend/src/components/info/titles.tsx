@@ -98,8 +98,8 @@ export const titles = {
         name: "ppaType",
         title: "PPA variant",
         infoText: `
-            Kies de Power Purchage Agreement die je wil toepassen voor deze asset: 
-            Fixed Price (een vaste vergoeding voor elke kWh opgewekt door deze asset), of het 'floor-cap' model. 
+            Kies de Power Purchase Agreement die je wil toepassen voor deze asset: 
+            Fixed-price (een vaste vergoeding voor elke kWh opgewekt door deze asset), of het 'floor-cap' model. 
             Het floor-cap model is bedoeld voor assets die SDE subsidie ontvangen. 
             Hierbij ontvangt de asset asset eigenaar elk uur de dan geldende marktprijs voor de opgewekte stroom, 
             met als boven- en ondergrens de SDE aanvraagbedragen. 
