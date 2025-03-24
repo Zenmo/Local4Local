@@ -68,13 +68,14 @@ public void f_startUpLoader_default(){
 @Override 
 public void f_setEngineProfiles() {
 	super.f_setEngineProfiles();
-	f_setEngineProfilePVEastWest();
+	f_setEngineProfilesL4L();
 }
 
 /*@Override
 public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType asset_type, String asset_name, double installedPower_kW){
 	f_addEnergyProduction_L4L(parentGC, asset_type, asset_name, installedPower_kW);
 }*/]]></AdditionalClassCode>
+			<Import><![CDATA[import nu.local4local.common.WindFarmLocation;]]></Import>
 			<ExtendsReference>
 				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
 				<ClassName><![CDATA[Zero_Loader]]></ClassName>
@@ -906,12 +907,22 @@ for (var windFarmData: windFarms) {
 		windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 		windFarm.p_curtailmentMode = OL_CurtailmentMode.MARKETPRICE;
 		windFarm.v_enableCurtailment = windFarmData.getCurtailment();
-	
+		
+	String locationString;
+	if (windFarmData.getLocation() == WindFarmLocation.BETUWE) {
+		locationString = "wind_e_prod_normalized_herwijnen";
+	} else if (windFarmData.getLocation() == WindFarmLocation.MIDDEN_LIMBURG) {
+		locationString = "wind_e_prod_normalized_ell";
+	} else if (windFarmData.getLocation() == WindFarmLocation.ZUID_HOLLAND) {
+		locationString = "wind_e_prod_normalized_hvh";
+	} else {
+		throw new RuntimeException("Incorrect windfarm location!");
+	}
 	//Asset
 	f_addEnergyProduction_L4L(
 		windFarm, 
 	    OL_EnergyAssetType.WINDMILL, 
-	    "Windmill onshore",
+	    locationString,
 	    windFarmData.getNominalPower_kW(),
 	    null
 	);
@@ -1378,7 +1389,9 @@ case WINDMILL:
 		profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
 	}
 	*/
-	profilePointer=energyModel.pp_windOnshoreProduction;
+	//profilePointer=energyModel.pp_windOnshoreProduction;
+	profilePointer = energyModel.f_findProfile(asset_name);
+	traceln("Found profilePointer: %s", profilePointer.name);
 	capacityElectric_kW = installedPower_kW;
 break;
 
@@ -1607,7 +1620,7 @@ if (companyData.getPvInstalled_kWp() > 0.0) {
 					<ReturnModificator>VOID</ReturnModificator>
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1738673150845</Id>
-					<Name><![CDATA[f_setEngineProfilePVEastWest]]></Name>
+					<Name><![CDATA[f_setEngineProfilesL4L]]></Name>
 					<Description><![CDATA[Functie van gillis voor inladen weer data!]]></Description>
 					<X>120</X><Y>140</Y>
 					<Label><X>10</X><Y>0</Y></Label>
@@ -1615,21 +1628,29 @@ if (companyData.getPvInstalled_kWp() > 0.0) {
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[List<Double> argumentsList = genericProfiles_data.argumentsList();
+double[] a_arguments = new double[argumentsList.size()];
  
 // Weather data
 List<Double> solarList = selectFrom( profiles ).list( profiles.solar_e_prod_eastwest15deg_normalized );
 
-double[] a_arguments = new double[argumentsList.size()];
+List<Double> wind_hvh_list = selectFrom( profiles ).list( profiles.wind_e_prod_normalized_hvh );
+List<Double> wind_herwijnen_list = selectFrom( profiles ).list( profiles.wind_e_prod_normalized_herwijnen );
+List<Double> wind_ell_list = selectFrom( profiles ).list( profiles.wind_e_prod_normalized_ell );
 
 double[] a_solarValues = new double[argumentsList.size()];
+
+double[] a_wind_hvh_values = new double[argumentsList.size()];
+double[] a_wind_herwijnen_values = new double[argumentsList.size()];
+double[] a_wind_ell_values = new double[argumentsList.size()];
      
 for(int i = 0; i < argumentsList.size(); i++) {
        a_arguments[i] = argumentsList.get(i);
 
        a_solarValues[i] = solarList.get(i);
-
+       a_wind_hvh_values[i] = wind_hvh_list.get(i);
+       a_wind_herwijnen_values[i] = wind_herwijnen_list.get(i);
+       a_wind_ell_values[i] = wind_ell_list.get(i);
 }
-
 
 J_ProfilePointer profilePointer;
 
@@ -1637,6 +1658,20 @@ TableFunction tf_solar_e_prod_eastwest15deg_normalized = new TableFunction(a_arg
 tf_solar_e_prod_eastwest15deg_normalized.setArgumentsAndValues(a_arguments, a_solarValues);
 profilePointer = new J_ProfilePointer("solar_e_prod_eastwest15deg_normalized", tf_solar_e_prod_eastwest15deg_normalized);
 energyModel.f_addProfile(profilePointer);
+
+TableFunction tf_p_wind_hvh_normalized = new TableFunction(a_arguments, a_wind_hvh_values, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
+//tf_p_wind_hvh_normalized.setArgumentsAndValues(a_arguments, a_solarValues);
+profilePointer = new J_ProfilePointer("wind_e_prod_normalized_hvh", tf_p_wind_hvh_normalized);
+energyModel.f_addProfile(profilePointer);
+
+TableFunction tf_p_wind_herwijnen_normalized = new TableFunction(a_arguments, a_wind_herwijnen_values, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
+profilePointer = new J_ProfilePointer("wind_e_prod_normalized_herwijnen", tf_p_wind_herwijnen_normalized);
+energyModel.f_addProfile(profilePointer);
+
+TableFunction tf_p_wind_ell_normalized = new TableFunction(a_arguments, a_wind_ell_values, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
+profilePointer = new J_ProfilePointer("wind_e_prod_normalized_ell", tf_p_wind_ell_normalized);
+energyModel.f_addProfile(profilePointer);
+
 
 
 
@@ -10492,7 +10527,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 				</TableReference>
 				<ConnectionIndex>0</ConnectionIndex>
 				<ExternalTableName><![CDATA["profiles_2023"]]></ExternalTableName>
-				<AutoImport>true</AutoImport>
+				<AutoImport>false</AutoImport>
 			</TableImportSettings>
 		</ImportSettings>
 		<ExportSettings>
