@@ -101,7 +101,7 @@ export const titles = {
             Kies de Power Purchase Agreement die je wil toepassen voor deze asset: 
             Fixed-price (een vaste vergoeding voor elke kWh opgewekt door deze asset), of het 'floor-cap' model. 
             Het floor-cap model is bedoeld voor assets die SDE subsidie ontvangen. 
-            Hierbij ontvangt de asset asset eigenaar elk uur de dan geldende marktprijs voor de opgewekte stroom, 
+            Hierbij ontvangt de asseteigenaar elk uur de dan geldende marktprijs voor de opgewekte stroom, 
             met als boven- en ondergrens de SDE aanvraagbedragen. 
             Samen met de inkomsten uit de SDE subsidie garandeert dit 
             een kostendekkende vergoeding van de opgewekte stroom.
@@ -112,7 +112,7 @@ export const titles = {
         title: "Kosten per kWh [€/kWh] (LCOE)",
         infoText: <>
             <Text as="p">
-                COE: Levellized Cost of Energy. De totale kosten per kWh geproduceerde energie.
+                LCOE: Levellized Cost of Energy. De totale kosten per kWh geproduceerde energie.
                 Dit is opgebouwd uit afschrijving, rente, reserveringen en operationele kosten.
             </Text>
             <br />
