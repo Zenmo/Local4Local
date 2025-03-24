@@ -90,7 +90,15 @@ data class SupplierCost (
 
 @JsExport
 @Serializable
+enum class PPAType(val displayName: String) {
+    FIXED_PRICE_PPA("Fixed price PPA"),
+    FLOOR_CAP_PPA("Floor-cap PPA"),
+}
+
+@JsExport
+@Serializable
 data class AssetCost(
+    val ppaType: PPAType = PPAType.FIXED_PRICE_PPA,
     val sdeAanvraagbedrag_eurpkWh: Double? = 0.0,
     val sdeBasisenergieprijs_eurpkWh: Double? = 0.0,
     val LCOE_eurpkWH: Double? = 0.0,
