@@ -3,8 +3,8 @@ import {HeatStorage} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
 import './../styles.css';
-import {CostSection} from "../cost-section.tsx"
-import {costFromFormData} from "../cost-from-form-data.ts"
+import {CostSection} from "../cost/cost-section.tsx"
+import {costFromFormData} from "../cost/cost-from-form-data.ts"
 import {LabelWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';
 

@@ -94,6 +94,19 @@ export const titles = {
             Voor uitleg zie de website van <Link href="https://www.rvo.nl/subsidies-financiering/sde/orienteren#basis--en-aanvraagbedrag">RVO</Link>
         </>
     },
+    "ppaType": {
+        name: "ppaType",
+        title: "PPA variant",
+        infoText: `
+            Kies de Power Purchage Agreement die je wil toepassen voor deze asset: 
+            Fixed Price (een vaste vergoeding voor elke kWh opgewekt door deze asset), of het 'floor-cap' model. 
+            Het floor-cap model is bedoeld voor assets die SDE subsidie ontvangen. 
+            Hierbij ontvangt de asset asset eigenaar elk uur de dan geldende marktprijs voor de opgewekte stroom, 
+            met als boven- en ondergrens de SDE aanvraagbedragen. 
+            Samen met de inkomsten uit de SDE subsidie garandeert dit 
+            een kostendekkende vergoeding van de opgewekte stroom.
+        `,
+    },
     "LCOE_eurpkWh": {
         name: "LCOE_eurpkWh",
         title: "Kosten per kWh [€/kWh] (LCOE)",

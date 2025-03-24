@@ -2,7 +2,7 @@ import {FunctionComponent} from "react"
 import {Flex, Card, DataList} from "@radix-ui/themes"
 import {HeatStorage} from "local4local"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
-import {CostDisplay} from "../cost-section.tsx"
+import {CostDisplay} from "../cost/cost-section.tsx"
 import {CardMenu} from "./../card-menu.tsx"
 import {DivWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';

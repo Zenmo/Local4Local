@@ -1,9 +1,10 @@
-import { FunctionComponent } from "react"
+import {FunctionComponent, useState} from "react"
 import { DataList, Heading } from "@radix-ui/themes"
 import { PiMoneyWavyLight } from "react-icons/pi"
-import { AssetCost } from "local4local"
-import { titles } from './info/titles.tsx';
-import {DivWithInfo, LabelWithInfo} from "./info/label-with-info.tsx"
+import { AssetCost, PPAType } from "local4local"
+import {titles} from "../info/titles.tsx"
+import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
+import {PPARadios} from "./p-p-a-radios.tsx"
 
 export const CostDisplay: FunctionComponent<{
     cost: AssetCost,
@@ -22,22 +23,34 @@ export const CostDisplay: FunctionComponent<{
                     <>
                         <DataList.Item>
                             <DataList.Label>
-                                <DivWithInfo data={titles["LCOE_eurpkWh"]} />
+                                <DivWithInfo data={titles.ppaType} />
                             </DataList.Label>
-                            <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
+                            <DataList.Value>{cost.ppaType.displayName}</DataList.Value>
                         </DataList.Item>
-                        <DataList.Item>
-                            <DataList.Label>
-                                <DivWithInfo data={titles["sdeAanvraagbedrag_eurpkWh"]} />
-                            </DataList.Label>
-                            <DataList.Value>{cost.sdeAanvraagbedrag_eurpkWh}</DataList.Value>
-                        </DataList.Item>
-                        <DataList.Item>
-                            <DataList.Label>
-                                <DivWithInfo data={titles["sdeBasisenergieprijs_eurpkWh"]} />
-                            </DataList.Label>
-                            <DataList.Value>{cost.sdeBasisenergieprijs_eurpkWh}</DataList.Value>
-                        </DataList.Item>
+                        {cost.ppaType === PPAType.FIXED_PRICE_PPA ?
+                            <DataList.Item>
+                                <DataList.Label>
+                                    <DivWithInfo data={titles["LCOE_eurpkWh"]} />
+                                </DataList.Label>
+                                <DataList.Value>{cost.LCOE_eurpkWH}</DataList.Value>
+                            </DataList.Item>
+                            : null}
+                        {cost.ppaType === PPAType.FLOOR_CAP_PPA ?
+                            <>
+                                <DataList.Item>
+                                    <DataList.Label>
+                                        <DivWithInfo data={titles["sdeAanvraagbedrag_eurpkWh"]} />
+                                    </DataList.Label>
+                                    <DataList.Value>{cost.sdeAanvraagbedrag_eurpkWh}</DataList.Value>
+                                </DataList.Item>
+                                <DataList.Item>
+                                    <DataList.Label>
+                                        <DivWithInfo data={titles["sdeBasisenergieprijs_eurpkWh"]} />
+                                    </DataList.Label>
+                                    <DataList.Value>{cost.sdeBasisenergieprijs_eurpkWh}</DataList.Value>
+                                </DataList.Item>
+                            </>
+                        : null}
                     </>
                 )}
                 {showTotalCostFactors &&
@@ -90,37 +103,52 @@ export const CostSection: FunctionComponent<{
     showTotalCostFactors = false,
     initialData
 }) => {
+    const [ppaType, setPpaType] = useState(initialData?.ppaType)
     return (
         <>
-            <CostHeading/>
-            { showCostPerKwh && (
+            <CostHeading />
+            {showCostPerKwh && (
                 <>
-                    <div className="radix-grid">
-                        <LabelWithInfo data={titles["LCOE_eurpkWh"]}/>
-                        <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
-                               min={0} step={0.001}
-                               placeholder="€/kWh"
-                               defaultValue={initialData?.LCOE_eurpkWH || 0}
-                        />
+                    <div style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        paddingTop: ".5rem",
+                    }}>
+                        <LabelWithInfo data={titles.ppaType} />
+                        <PPARadios initialValue={initialData?.ppaType} onChange={setPpaType} />
                     </div>
-                    <div className="radix-grid">
-                        <LabelWithInfo data={titles["sdeAanvraagbedrag_eurpkWh"]} />
-                        <input className="form-input" type="number" id="sdeAanvraagbedrag_eurpkWh"
-                               name="sdeAanvraagbedrag_eurpkWh"
-                               min={0} step={0.001}
-                               placeholder="€/kWh"
-                               defaultValue={initialData?.sdeAanvraagbedrag_eurpkWh || 0}
-                        />
-                    </div>
-                    <div className="radix-grid">
-                        <LabelWithInfo data={titles["sdeBasisenergieprijs_eurpkWh"]} />
-                        <input className="form-input" type="number" id="sdeBasisenergieprijs_eurpkWh"
-                               name="sdeBasisenergieprijs_eurpkWh"
-                               min={0} step={0.001}
-                               placeholder="€/kWh"
-                               defaultValue={initialData?.sdeBasisenergieprijs_eurpkWh || 0}
-                        />
-                    </div>
+                    {ppaType === PPAType.FIXED_PRICE_PPA ?
+                        <div className="radix-grid">
+                            <LabelWithInfo data={titles["LCOE_eurpkWh"]} />
+                            <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
+                                   min={0} step={0.001}
+                                   placeholder="€/kWh"
+                                   defaultValue={initialData?.LCOE_eurpkWH || 0}
+                            />
+                        </div>
+                        : null}
+                    {ppaType === PPAType.FLOOR_CAP_PPA ?
+                        <>
+                            <div className="radix-grid">
+                                <LabelWithInfo data={titles["sdeAanvraagbedrag_eurpkWh"]} />
+                                <input className="form-input" type="number" id="sdeAanvraagbedrag_eurpkWh"
+                                       name="sdeAanvraagbedrag_eurpkWh"
+                                       min={0} step={0.001}
+                                       placeholder="€/kWh"
+                                       defaultValue={initialData?.sdeAanvraagbedrag_eurpkWh || 0}
+                                />
+                            </div>
+                            <div className="radix-grid">
+                                <LabelWithInfo data={titles["sdeBasisenergieprijs_eurpkWh"]} />
+                                <input className="form-input" type="number" id="sdeBasisenergieprijs_eurpkWh"
+                                       name="sdeBasisenergieprijs_eurpkWh"
+                                       min={0} step={0.001}
+                                       placeholder="€/kWh"
+                                       defaultValue={initialData?.sdeBasisenergieprijs_eurpkWh || 0}
+                                />
+                            </div>
+                        </>
+                        : null}
                 </>
             )}
 
