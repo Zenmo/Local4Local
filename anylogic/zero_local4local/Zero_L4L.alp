@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -904,6 +904,8 @@ for (var windFarmData: windFarms) {
 		windFarm.set_p_gridConnectionID( "windFarm0" );
 		windFarm.v_liveConnectionMetaData.physicalCapacity_kW = windFarmData.getNominalPower_kW();
 		windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
+		windFarm.p_curtailmentMode = OL_CurtailmentMode.MARKETPRICE;
+		windFarm.v_enableCurtailment = windFarmData.getCurtailment();
 	
 	//Asset
 	f_addEnergyProduction_L4L(
@@ -944,14 +946,28 @@ for (var windFarmData: windFarms) {
 	}
 	double interestRate_r = windFarmData.getCost().getInterest_r() == null ? 0.06 : windFarmData.getCost().getInterest_r();
 	double depreciationPeriod_y = windFarmData.getCost().getDepreciationPeriod_y() == null ? 15 : windFarmData.getCost().getDepreciationPeriod_y();
+	Boolean fixedPPAtariff_b = windFarmData.getCost().getPpaType() == nu.local4local.common.PPAType.FIXED_PRICE_PPA ? true : false;
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b);
 	energyCoop.c_AssetCosts.add(costItem);
 	interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 	interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
-	interface_L4L.txt_windpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
-	interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+	//interface_L4L.txt_windpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
+	//interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+	
+	if (fixedPPAtariff_b) {
+		interface_L4L.txt_windpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
+		//interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+		interface_L4L.txt_windpark_expnd_SDESubsidy_value.setVisible(false);
+		interface_L4L.txt_windpark_expnd_SDESubsidy.setVisible(false);
+	} else {
+		interface_L4L.txt_windpark_expnd_LCOE.setText("SDE Aanvraagbedrag:");
+		interface_L4L.txt_windpark_expnd_LCOE_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+		interface_L4L.txt_windpark_expnd_SDESubsidy.setText("SDE Basisenergieprijs:");
+		interface_L4L.txt_windpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDE_basisenergieprijs_eurpkWh));
+	}
+	
 	//this.interface_L4L.txt_windpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 }
 if (windFarms.size() == 0) {
@@ -1172,6 +1188,8 @@ for (var solarFarmData: solarFarms) {
 		solarFarm.set_p_gridConnectionID( "solarFarm_" + solarFarm.getId());
 		solarFarm.v_liveConnectionMetaData.physicalCapacity_kW = solarFarmData.getNominalPower_kW();
 		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
+		solarFarm.p_curtailmentMode = OL_CurtailmentMode.MARKETPRICE;
+		solarFarm.v_enableCurtailment = solarFarmData.getCurtailment();
 	
 	//Solar Asset
 	f_addEnergyProduction_L4L(
@@ -1204,13 +1222,23 @@ for (var solarFarmData: solarFarms) {
 	}
 	Double interestRate_r = solarFarmData.getCost().getInterest_r();
 	Double depreciationPeriod_y = solarFarmData.getCost().getDepreciationPeriod_y();
+	Boolean fixedPPAtariff_b = solarFarmData.getCost().getPpaType() == nu.local4local.common.PPAType.FIXED_PRICE_PPA ? true : false;
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b);
 	energyCoop.c_AssetCosts.add(costItem);
 	interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 	interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
-	interface_L4L.txt_solarpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
-	interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+	if (fixedPPAtariff_b) {
+		interface_L4L.txt_solarpark_expnd_LCOE_value.setText(String.format("%s €/kWh", LCOE_eurpkWh));
+		//interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+		interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setVisible(false);
+		interface_L4L.txt_solarpark_expnd_SDESubsidy.setVisible(false);
+	} else {
+		interface_L4L.txt_solarpark_expnd_LCOE.setText("SDE Aanvraagbedrag:");
+		interface_L4L.txt_solarpark_expnd_LCOE_value.setText(String.format("%s €/kWh", SDEtariff_eurpKwh));
+		interface_L4L.txt_solarpark_expnd_SDESubsidy.setText("SDE Basisenergieprijs:");
+		interface_L4L.txt_solarpark_expnd_SDESubsidy_value.setText(String.format("%s €/kWh", SDE_basisenergieprijs_eurpkWh));
+	}
 	//this.interface_L4L.txt_solarpark_expnd_totalProduction_value.setText(String.format("%s MWh/jaar", ___));
 	
 }
@@ -1273,7 +1301,7 @@ for (var batteryData: batteries) {
 	double depreciationPeriod_y = batteryData.getCost().getDepreciationPeriod_y() == null ? 15 : batteryData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, 0.0, 0.0, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, 0.0, 0.0, interestRate_r, depreciationPeriod_y, false);
 	energyCoop.c_AssetCosts.add(costItem);
     
     
@@ -1341,7 +1369,15 @@ case PHOTOVOLTAIC:
 break;
 
 case WINDMILL:
-	//asset_name = "Windmill onshore";'
+	/*
+	if (pvOrientation == nu.local4local.common.PVOrientation.SOUTH) {
+		profilePointer = energyModel.pp_windOnshoreProduction;
+		//traceln("Override PV orientation east-west as test!");
+		//profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
+	} else { // east/west
+		profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
+	}
+	*/
 	profilePointer=energyModel.pp_windOnshoreProduction;
 	capacityElectric_kW = installedPower_kW;
 break;
@@ -1406,6 +1442,8 @@ for (var generatorData: biogasGenerators) {
 		biogasGeneratorSite.set_p_gridConnectionID( "biogasGenerator0" );
 		biogasGeneratorSite.v_liveConnectionMetaData.physicalCapacity_kW = generatorData.getPower_kW();
 		biogasGeneratorSite.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
+		biogasGeneratorSite.p_curtailmentMode = OL_CurtailmentMode.MARKETPRICE;
+		biogasGeneratorSite.v_enableCurtailment = generatorData.getCurtailment();
 	
 	//Asset
 	f_addEnergyProduction_L4L(
@@ -1439,9 +1477,10 @@ for (var generatorData: biogasGenerators) {
 	}
 	Double interestRate_r = generatorData.getCost().getInterest_r();
 	Double depreciationPeriod_y = generatorData.getCost().getDepreciationPeriod_y();
+	Boolean fixedPPAtariff_b = generatorData.getCost().getPpaType() == nu.local4local.common.PPAType.FIXED_PRICE_PPA ? true : false;
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y);
+	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b);
 	energyCoop.c_AssetCosts.add(costItem);
 	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
@@ -2418,23 +2457,28 @@ double solarFarmProduction_MWh=0;
 double windFarmProduction_MWh=0;
 double solarFarmPrice_eurpMWh=0;
 double windFarmPrice_eurpMWh=0;
+boolean solarFarmFixedPricePPA = true;
+boolean windFarmFixedPricePPA = true;
 
 //EC= (EnergyCoopL4L)energyModel.pop_energyCoops.get(0);
 for (J_AssetCost ci : ((EnergyCoopL4L)EC).c_AssetCosts ) {
 	if (ci.energyAsset().energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC ) {
 		solarFarmProduction_MWh += ci.getTotalProduction_MWh();
 		solarFarmPrice_eurpMWh = roundToInt(ci.LCOE_eurpkWh * 1000);
+		solarFarmFixedPricePPA = ci.getFixedTariffPPA();
 	}
 	
 	if (ci.energyAsset().energyAssetType == OL_EnergyAssetType.WINDMILL ) {
 		windFarmProduction_MWh += ci.getTotalProduction_MWh();
 		windFarmPrice_eurpMWh = roundToInt(ci.LCOE_eurpkWh * 1000);
+		windFarmFixedPricePPA = ci.getFixedTariffPPA();
 	}
 }
 
 txt_solarpark_expnd_totalProduction_value.setText(roundToInt(solarFarmProduction_MWh) + " MWh/jaar");
 txt_solarpark_systemview_totalProduction_value.setText(roundToInt(solarFarmProduction_MWh) + " MWh");
 txt_solarpark_systemview_totalProduction_price.setText(roundToInt(solarFarmPrice_eurpMWh) + " €/MWh");
+
 txt_windpark_expnd_totalProduction_value.setText(roundToInt(windFarmProduction_MWh) + " MWh/jaar");
 txt_windpark_systemview_totalProduction_value.setText(roundToInt(windFarmProduction_MWh) + " MWh");
 txt_windpark_systemview_totalProduction_price.setText(roundToInt(windFarmPrice_eurpMWh) + " €/MWh");
@@ -4423,7 +4467,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1730729828768</Id>
 					<Name><![CDATA[txt_windpark_expnd_SDESubsidy_value]]></Name>
-					<X>-20</X><Y>80</Y>
+					<X>30</X><Y>80</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4938,7 +4982,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Text>
 					<Id>1730730091303</Id>
 					<Name><![CDATA[txt_solarpark_expnd_SDESubsidy_value]]></Name>
-					<X>-10</X><Y>80</Y>
+					<X>40</X><Y>80</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -7130,7 +7174,7 @@ SPOT markt]]></Text>
 					<Rotation>0.0</Rotation>
 					<Color>-16777216</Color>
 					<Text><![CDATA[EPEXsellEnergy]]></Text>
-					<TextCode><![CDATA[((EnergyCoopL4L)this.energyModel.pop_energyCoops.get(0)).v_coopReport.EPEXsell().printQuantity_MWh()]]></TextCode>
+					<TextCode><![CDATA[f_getCoopReport().EPEXsell().printQuantity_MWh()]]></TextCode>
 					<Font>
 						<Name>Calibri</Name>
 						<Size>24</Size>
@@ -8483,6 +8527,7 @@ return coopReport;]]></Body>
 					<ReturnType><![CDATA[String]]></ReturnType>
 					<Id>1742390719382</Id>
 					<Name><![CDATA[f_getChartGroupSVGId]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>560</X><Y>460</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -9118,6 +9163,7 @@ public void f_calculateKPIs(){
 				<Variable Class="Parameter">
 					<Id>1741258840495</Id>
 					<Name><![CDATA[b_fixedAssetTariff]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>1190</X><Y>770</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -9178,42 +9224,52 @@ int arrayLength = v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCar
 double totalSDEincome_eur = 0;
 
 for (var ci : c_AssetCosts) {
-
-	// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
 	OL_EnergyAssetType assetType = ci.energyAsset().energyAssetType;
 	traceln("AssetType: %s", assetType);
 	if (assetType != OL_EnergyAssetType.STORAGE_ELECTRIC) {		
 		totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
-		double SDE_tariff_eurpMWh = 1000*ci.SDE_aanvraagbedrag_eurpkWh();
-		double SDE_lowerLimit_eurpMWh = 1000*ci.SDE_basisenergieprijs_eurpkWh();
-		double SDEincome_eur = 0;
 		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW(); // Relies on every asset having its own GridConnection.
 		double productionEPEXvalue_eur = 0;
 		
+	
+		double SDE_tariff_eurpMWh = 1000*ci.SDE_aanvraagbedrag_eurpkWh();
+		double SDE_lowerLimit_eurpMWh = 1000*ci.SDE_basisenergieprijs_eurpkWh();
+		traceln("SDE_tariff_eurpMWh %s", SDE_tariff_eurpMWh);
+		traceln("SDE_lowerLimit_eurpMWh %s", SDE_lowerLimit_eurpMWh);
+		double productionCost_eur = 0;
+
+		// assetAvgLCOE_eurpMWh += 1000*ci.getLCOE_eurpkWh() / (double) nbCostItems;	
 		for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
 			// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
-			productionEPEXvalue_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
-			SDEincome_eur += -gcBalanceTimeSeries_kW[i]/1000 * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(SDE_lowerLimit_eurpMWh, energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
+			double currentProduction_MWh = -gcBalanceTimeSeries_kW[i] / 1000 * energyModel.p_timeStep_h;
+			productionEPEXvalue_eur += currentProduction_MWh  * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+			
+			if (ci.getFixedTariffPPA()) { // Old style LCOE only, no SDE-subsidies either	
+				productionCost_eur += currentProduction_MWh * 1000 * ci.LCOE_eurpkWh();
+			} else {
+				//SDEincome += currentProduction_kW * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(SDE_lowerLimit_eurpMWh, energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
+				productionCost_eur += currentProduction_MWh * max(SDE_lowerLimit_eurpMWh,min(SDE_tariff_eurpMWh, energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
+			}
 		}
-		
+		totalOwnProductionCost_eur += productionCost_eur;
 		//traceln("SDE income: %s eur", SDEincome_eur);
 		ci.setProductionEPEXvalue_eur( productionEPEXvalue_eur );
 		ci.setTotalProduction_MWh( -ci.energyAsset().getEnergyUsed_kWh() / 1000 );
-		ci.setSDEincome_eur(SDEincome_eur);
+		//ci.setSDEincome_eur(SDEincome_eur);
 		
-		traceln("Asset production average EPEX value: %s eurpMWh", ci.getAvgProductionValue_eurpMWh());
-		traceln("SDEincome_eur: %s", ci.getSDEincome_eur());
+		traceln("Asset production average EPEX value: %s eurpMWh", ci.getAvgProductionEPEXvalue_eurpMWh());
+		//traceln("SDEincome_eur: %s", ci.getSDEincome_eur());
 				
-		if (b_fixedAssetTariff) {
+		/*if (b_fixedAssetTariff) {
 			if (ci.LCOE_eurpkWh() == null) {
 				totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
 			} else {
 				totalOwnProductionCost_eur += ci.LCOE_eurpkWh() * -ci.energyAsset().getEnergyUsed_kWh();
 			}
-			totalSDEincome_eur += SDEincome_eur;	
+			//totalSDEincome_eur += SDEincome_eur;	
 		} else {
 			totalOwnProductionCost_eur += productionEPEXvalue_eur;
-		}
+		}*/
 				
 	} else { // for battery asset only add costs!
 		totalOwnProductionCost_eur += f_getYearlyCosts_eur(ci);
@@ -9222,6 +9278,7 @@ for (var ci : c_AssetCosts) {
 	
 }
 double assetAvgLCOE_eurpMWh=0;
+traceln("totalOwnProduction_MWh: %s", totalOwnProduction_MWh);
 if (totalOwnProduction_MWh>0){
 	assetAvgLCOE_eurpMWh = totalOwnProductionCost_eur / totalOwnProduction_MWh;
 }
@@ -9249,7 +9306,6 @@ double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur
 
 traceln("Average LCOE of own assets: %s eur/MWh", assetAvgLCOE_eurpMWh);
 traceln("Average LCOE of own assets with SDE subsidies: %s eur/MWh", (totalOwnProductionCost_eur-totalSDEincome_eur)/ totalOwnProduction_MWh);
-
 
 double totalOwnElectricityProduced_MWh = acc_totalOwnElectricityProduction_kW.getIntegral_MWh();
 
@@ -9396,7 +9452,8 @@ if (abs(leveranciersKosten_eur-leveranciersInkomsten_eur) > 1) {
 
 double benchmarkPrijs_eurpMWh = f_getBenchmarkTariff();
 v_coopReport.benchmark(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, benchmarkPrijs_eurpMWh));
-v_coopReportIncludeFeedinInOwnConsumption.benchmark(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, benchmarkPrijs_eurpMWh));]]></Body>
+v_coopReportIncludeFeedinInOwnConsumption.benchmark(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, benchmarkPrijs_eurpMWh));
+]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -10627,8 +10684,9 @@ public class J_AssetCost implements Serializable {
 	protected double SDE_basisenergieprijs_eurpkWh;
 	protected double depreciationPeriod_y;
 	protected double interestRate_r;
+	protected boolean fixedTariffPPA = true;
 	
-	protected double SDEincome_eur = 0;
+	//protected double SDEincome_eur = 0;
 	protected double productionEPEXvalue_eur = 0;
 	
 	@JsonSerialize
@@ -10636,7 +10694,7 @@ public class J_AssetCost implements Serializable {
 	@JsonSerialize
 	private String ID;
 	
-	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, Double LCOE_eurpkWh, double SDE_aanvraagbedrag_eurpkWh, double SDE_basisenergieprijs_eurpkWh, double interestRate_r, double depreciationPeriod_y) {
+	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, Double LCOE_eurpkWh, double SDE_aanvraagbedrag_eurpkWh, double SDE_basisenergieprijs_eurpkWh, double interestRate_r, double depreciationPeriod_y, boolean fixedTariffPPA) {
 		this.energyAsset = j_ea;
 		this.CAPEX_eur = CAPEX_eur;
 		this.OPEX_eurpa = OPEX_eurpa;
@@ -10645,10 +10703,12 @@ public class J_AssetCost implements Serializable {
 		this.SDE_basisenergieprijs_eurpkWh = SDE_basisenergieprijs_eurpkWh;
 		this.interestRate_r = interestRate_r;
 		this.depreciationPeriod_y = depreciationPeriod_y;
+		this.fixedTariffPPA = fixedTariffPPA;
 		java.util.Random random = new java.util.Random();
 		ID = "" + random.nextInt();
 	}
 	
+	/*
 	public void setSDEincome_eur(double SDEincome_eur) {
 		this.SDEincome_eur = SDEincome_eur;
 	}
@@ -10656,6 +10716,7 @@ public class J_AssetCost implements Serializable {
 	public double getSDEincome_eur() {
 		return this.SDEincome_eur;
 	}
+	*/
 	
 	public void setProductionEPEXvalue_eur(double productionEPEXvalue_eur) {
 		this.productionEPEXvalue_eur = productionEPEXvalue_eur;
@@ -10668,12 +10729,16 @@ public class J_AssetCost implements Serializable {
 	public void setTotalProduction_MWh(double totalProduction_MWh) {
 		this.totalProduction_MWh = totalProduction_MWh;
 	}
+	
+	public boolean getFixedTariffPPA() {
+		return fixedTariffPPA;
+	}
 
 	public double getTotalProduction_MWh() {
 		return this.totalProduction_MWh;
 	}
 	
-	public double getAvgProductionValue_eurpMWh() {
+	public double getAvgProductionEPEXvalue_eurpMWh() {
 		return this.productionEPEXvalue_eur / this.totalProduction_MWh;
 	}
 	
@@ -10945,6 +11010,6 @@ public class J_CoopReport implements Serializable {
 		<Imported>true</Imported>
 		<Folder>false</Folder>
 	</ClassPathEntry>
-	<CloudModelUuid><![CDATA[1408b285-5a64-46ca-9fca-b617be9e73d5]]></CloudModelUuid>
+	<CloudModelUuid><![CDATA[b9f2137d-b8cc-462f-85a4-fb2379f0eb39]]></CloudModelUuid>
 </Model>
 </AnyLogicWorkspace>
