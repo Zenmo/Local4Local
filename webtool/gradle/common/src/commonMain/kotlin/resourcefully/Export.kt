@@ -3,10 +3,8 @@ package nu.local4local.common.resourcefully
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import nu.local4local.common.PVOrientation
-import nu.local4local.common.Pilot
+import nu.local4local.common.*
 import kotlin.js.JsExport
-import nu.local4local.common.SupplierCost
 import kotlin.js.ExperimentalJsStatic
 import kotlin.js.JsStatic
 
@@ -113,6 +111,9 @@ data class WindFarm(
     val LCOE_eurpkWH: Double,
     val sdeAanvraagbedrag_eurpkWh: Double,
     val sdeBasisenergieprijs_eurpkWh: Double,
+    val curtailment: Boolean,
+    val ppaType: PPAType,
+    val location: WindFarmLocation,
 
     /** Simulation result */
     val annualElectricityProduction_kWh: Double?,
@@ -125,6 +126,9 @@ data class WindFarm(
                     LCOE_eurpkWH = LCOE_eurpkWH!!,
                     sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh!!,
                     sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
+                    curtailment = curtailment,
+                    ppaType = ppaType,
+                    location = location,
                     annualElectricityProduction_kWh = null,
                 )
             }
@@ -140,6 +144,9 @@ data class SolarFarm(
     val LCOE_eurpkWH: Double,
     val sdeAanvraagbedrag_eurpkWh: Double,
     val sdeBasisenergieprijs_eurpkWh: Double,
+    val curtailment: Boolean,
+    val ppaType: PPAType,
+
     /** Simulation result */
     val annualElectricityProduction_kWh: Double?,
 ) {
@@ -152,6 +159,8 @@ data class SolarFarm(
                     LCOE_eurpkWH = LCOE_eurpkWH!!,
                     sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh!!,
                     sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
+                    curtailment = curtailment,
+                    ppaType = ppaType,
                     annualElectricityProduction_kWh = null,
                 )
             }
@@ -166,6 +175,9 @@ data class BiogasGenerator(
     val LCOE_eurpkWH: Double,
     val sdeAanvraagbedrag_eurpkWh: Double,
     val sdeBasisenergieprijs_eurpkWh: Double,
+    val curtailment: Boolean,
+    val ppaType: PPAType,
+
     /** Simulation result */
     val annualElectricityProduction_kWh: Double?,
 ) {
@@ -177,6 +189,8 @@ data class BiogasGenerator(
                     LCOE_eurpkWH = LCOE_eurpkWH!!,
                     sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh!!,
                     sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
+                    curtailment = curtailment,
+                    ppaType = ppaType,
                     annualElectricityProduction_kWh = null,
                 )
             }
