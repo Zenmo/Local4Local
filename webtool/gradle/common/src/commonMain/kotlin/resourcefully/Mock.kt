@@ -1,7 +1,9 @@
 package nu.local4local.common.resourcefully
 
+import nu.local4local.common.PPAType
 import nu.local4local.common.PVOrientation
 import nu.local4local.common.SupplierCost
+import nu.local4local.common.WindFarmLocation
 
 val mockAccountingLine = AccountingLine(
     quantity_MWh = 10.0,
@@ -44,6 +46,9 @@ val mockExport = ResourcefullyExport(
             sdeAanvraagbedrag_eurpkWh = 0.10,
             sdeBasisenergieprijs_eurpkWh = 0.08,
             annualElectricityProduction_kWh = 2_000_000.0,
+            curtailment = true,
+            ppaType = PPAType.FIXED_PRICE_PPA,
+            location = WindFarmLocation.MIDDEN_LIMBURG,
         )
     ),
     solarFarms = listOf(
@@ -54,6 +59,8 @@ val mockExport = ResourcefullyExport(
             sdeAanvraagbedrag_eurpkWh = 0.08,
             sdeBasisenergieprijs_eurpkWh = 0.07,
             annualElectricityProduction_kWh = 1_000_000.0,
+            curtailment = true,
+            ppaType = PPAType.FIXED_PRICE_PPA,
         )
     ),
     biogasGenerators = listOf(
@@ -63,6 +70,8 @@ val mockExport = ResourcefullyExport(
             sdeAanvraagbedrag_eurpkWh = 0.05,
             sdeBasisenergieprijs_eurpkWh = 0.05,
             annualElectricityProduction_kWh = 2_000_000.0,
+            curtailment = true,
+            ppaType = PPAType.FIXED_PRICE_PPA,
         )
     ),
     batteries = listOf(
