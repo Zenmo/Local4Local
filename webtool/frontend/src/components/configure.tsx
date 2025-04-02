@@ -83,6 +83,7 @@ export const Configure: FunctionComponent<{
                             addBattery={() => setShowAddBattery(true)}
                             addHeatStorage={() => setShowAddHeatStorage(true)}
                             addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
+                            disableAddBattery={pilot.batteries.asJsReadonlyArrayView().length > 0}
                         />
                     </Flex>
                 }
