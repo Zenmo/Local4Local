@@ -49,15 +49,21 @@ export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) =
                 <div style={{
                     display: "flex",
                     justifyContent: "start",
+                    alignItems: "start",
                     width: "100%",
                 }} css={css} className={className}>
-                    <div style={{maxWidth: "25rem", padding: "1rem", borderRight: "1px solid #ccc"}}>
+                    <div style={{
+                        width: "30%",
+                        maxWidth: "25rem",
+                        padding: "1rem",
+                        borderRight: "1px solid #ccc",
+                    }}>
                         <Configure
                             pilot={pilot}
                             onChange={onChange}
                         />
                     </div>
-                    <div style={{padding: "0", flexGrow: "1"}}>
+                    <div style={{padding: 0, flexGrow: 1, position: "sticky", top: 0}}>
                         <Simulate
                             showSimulation={showSimulation}
                             onClickStart={onClickStart}
