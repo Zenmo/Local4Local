@@ -428,7 +428,7 @@ contracted_capacity_kw(row.get( buildings.contracted_capacity_kw )).
 electricity_consumption_kwhpa(row.get( buildings.electricity_consumption_kwhpa )).
 gas_consumption_kwhpa(row.get( buildings.gas_consumption_kwhpa )).
 energy_label(row.get( buildings.energy_label )).
-trafo_id(row.get( buildings.trafo_id )).
+gridnode_id(row.get( buildings.trafo_id )).
 latitude(row.get( buildings.latitude )).
 longitude(row.get( buildings.longitude )).
 polygon(row.get( buildings.polygon )).build();
@@ -450,7 +450,7 @@ return building_data_record;]]></Body>
 for(Tuple row: rows){
 	c_GridNode_data.add(GridNode_data.builder().
 	
-	trafo_id(row.get( gridnodes.gridnode_id )).
+	gridnode_id(row.get( gridnodes.gridnode_id )).
 	fid(row.get( gridnodes.fid )).
 	status(row.get( gridnodes.status )).
 	type(row.get( gridnodes.type )).
@@ -913,7 +913,7 @@ for (var windFarmData: windFarms) {
 		locationString = "wind_e_prod_normalized_herwijnen";
 	} else if (windFarmData.getLocation() == WindFarmLocation.MIDDEN_LIMBURG) {
 		locationString = "wind_e_prod_normalized_ell";
-	} else if (windFarmData.getLocation() == WindFarmLocation.ZUID_HOLLAND) {
+	} else if (windFarmData.getLocation() == WindFarmLocation.HOEK_VAN_HOLLAND) {
 		locationString = "wind_e_prod_normalized_hvh";
 	} else {
 		throw new RuntimeException("Incorrect windfarm location!");
@@ -1424,10 +1424,11 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[//interface_L4L.uI_Results.v_area = interface_L4L.uI_Results.v_energyCoop; 
-traceln("f_startUpLoader_L4L");
+//traceln("f_startUpLoader_L4L");
 Interface_L4L interface_L4L = (Interface_L4L)zero_Interface;
 interface_L4L.uI_Results.f_updateResultsUI( energyCoop );
-interface_L4L.f_initializeL4LuI(energyCoop );]]></Body>
+interface_L4L.f_initializeL4LuI(energyCoop );
+//traceln(energyCoop.v_coopReportIncludeFeedinInOwnConsumption);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -9463,11 +9464,13 @@ leveranciersInkomsten_eur = kostprijsPlus_eurpMWh * gelijktijdigeLevering_MWh + 
 
 coopReport.ownProduction(J_AccountingLine.fromTotalPrice(totalOwnProduction_MWh, totalOwnProductionCost_eur-totalSDEincome_eur));
 coopReport.selfConsumption(J_AccountingLine.fromPricePerMWh(gelijktijdigeLevering_MWh, kostprijsPlus_eurpMWh));
+coopReport.feedinSelfConsumption(J_AccountingLine.fromPricePerMWh(v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh, p_feedinCompensation_eurpMWh));
 //coopReport.selfConsumptionIncFeedin(J_AccountingLine.fromPricePerMWh(v_totalElectricitySelfConsumed_MWh, kostprijs_eurpMWh+bufferCost_eurpMWh));
 coopReport.reDeliveryFeedIn(J_AccountingLine.fromPricePerMWh(v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh, kostprijsPlus_eurpMWh));
 coopReport.nonsimultaneousDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh-gelijktijdigeLevering_MWh, leveranciersprijs_eurpMWh));
 coopReport.EPEXbuy(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY), EPEXcosts_eur));
 coopReport.EPEXsell(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY), EPEXincome_eur));
+coopReport.feedinExport(J_AccountingLine.fromPricePerMWh(v_totalCustomerFeedIn_MWh-(v_rapidRunData.getTotalElectricitySelfConsumed_MWh()-v_selfConsumptionCoopAssets_MWh), coopReport.EPEXsell.price_eurpMWh()));
 coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(totalDeliveredElec_MWh, gemiddeldeLeveringsprijs_eurpMWh));
 coopReport.onbalans(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY)+v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY), onbalansCosts_eur));
 v_coopReportIncludeFeedinInOwnConsumption = coopReport;
