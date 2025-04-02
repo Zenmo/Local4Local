@@ -73,7 +73,7 @@ export const titles = {
     },
     "annualBaseConsumptionAvg_kWh": {
         name: "annualBaseConsumptionAvg_kWh",
-        title: "Jaarlijks huishoudelijk verbruik",
+        title: "Overig jaarlijks verbruik",
         infoText: "Het huishoudelijk elektriciteitsverbruik exclusief de bijdrages van EV, warmtepomp en zonnepanelen."
     },
 
