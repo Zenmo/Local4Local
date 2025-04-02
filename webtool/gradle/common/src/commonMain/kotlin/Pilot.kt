@@ -189,7 +189,7 @@ data class WindFarm(
 @JsExport
 @Serializable
 enum class WindFarmLocation(val displayName: String) {
-    ZUID_HOLLAND("Zuid-Holland"),
+    ZUID_HOLLAND("Hoek van Holland"),
     MIDDEN_LIMBURG("Midden-Limburg"),
     BETUWE("Betuwe"),
 }
