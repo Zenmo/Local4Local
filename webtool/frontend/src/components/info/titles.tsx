@@ -196,7 +196,7 @@ export const solarFarmTitles = {
     curtailment: {
         name: "curtailment",
         title: "Curtailment",
-        infoText: "Zonnepark afschakelen wanneer de marktprijs negatief is."
+        infoText: "Als curtailment is ingeschakeld wordt dit zonnepark afgeschakeld wanneer de marktprijs negatief is. Dit vermindert de energieopwek, maar bespaart kosten."
     },
 }
 
@@ -209,12 +209,12 @@ export const windFarmTitles = {
     location: {
         name: "location",
         title: "Locatie",
-        infoText: "Het effectieve vermogen van een windmolen hangt af van de locatie.",
+        infoText: "De energieopwek van een windmolen verschilt per locatie. Een windmolen aan de kust wekt aanzienlijk meer stroom op dan een windmolen in Limburg. Daarom kun je hier uit drie locaties kiezen die kwa windsnelheden de spreiding binnen Nederland vertegenwoordigen. Kies een lokatie die kwa windsnelheden lijkt op jouw opweklocatie.",
     },
     curtailment: {
         name: "curtailment",
         title: "Curtailment",
-        infoText: "Windpark afschakelen wanneer de marktprijs negatief is."
+        infoText: "Als curtailment is ingeschakeld wordt dit windpark afgeschakeld wanneer de marktprijs negatief is."
     },
 }
 
@@ -222,6 +222,6 @@ export const biogasGeneratorTitles = {
     curtailment: {
         name: "curtailment",
         title: "Curtailment",
-        infoText: "Windpark afschakelen wanneer de marktprijs negatief is."
+        infoText: "Windpark afschakelen wanneer de marktprijs negatief is. Dit vermindert de energieopwek, maar bespaart kosten."
     },
 }
