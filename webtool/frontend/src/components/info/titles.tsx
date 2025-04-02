@@ -209,7 +209,7 @@ export const windFarmTitles = {
     location: {
         name: "location",
         title: "Locatie",
-        infoText: "De energieopwek van een windmolen verschilt per locatie. Een windmolen aan de kust wekt aanzienlijk meer stroom op dan een windmolen in Limburg. Daarom kun je hier uit drie locaties kiezen die kwa windsnelheden de spreiding binnen Nederland vertegenwoordigen. Kies een lokatie die kwa windsnelheden lijkt op jouw opweklocatie.",
+        infoText: "De energieopwek van een windmolen verschilt per locatie. Een windmolen aan de kust wekt aanzienlijk meer stroom op dan een windmolen in Limburg. Daarom kun je hier uit drie locaties kiezen die kwa windsnelheden de spreiding binnen Nederland vertegenwoordigen. Kies een locatie die kwa windsnelheden lijkt op jouw opweklocatie.",
     },
     curtailment: {
         name: "curtailment",
