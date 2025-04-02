@@ -117,7 +117,7 @@ export const titles = {
             </Text>
             <br />
             <Text as="p">
-                Dit vul je vaak in op basis van ervaring of expert judgement.
+                Dit vul je vaak in op basis van ervaring of expert judgement. Mocht je ook SDE subsidie ontvangen voor dit project, houd hier dan zelf rekening mee in de bepaling van de LCOE.
             </Text>
         </>
     },
