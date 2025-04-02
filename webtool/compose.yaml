@@ -22,7 +22,7 @@ services:
 
     # base services and for one-off commands
     gradle-base:
-        image: gradle:8.9
+        image: gradle:8.13
         working_dir: /home/gradle/project
         user: gradle
         volumes:
@@ -39,7 +39,7 @@ services:
     gradle-client-shadowjar:
         extends:
             service: gradle-base
-        image: gradle:8.9-jdk17
+        image: gradle:8.13-jdk17
         command: [ "gradle", "--project-cache-dir=/tmp/gradle", "--no-daemon", "client:shadowJar" ]
         volumes:
             - gradle-client-shadowjar-home:/home/gradle/.gradle
