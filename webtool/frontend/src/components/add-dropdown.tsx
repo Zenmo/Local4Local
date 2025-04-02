@@ -9,6 +9,7 @@ export const AddDropdown: FunctionComponent<{
     addHeatStorage: () => void
     addCompany?: () => void
     addBiogasGenerator?: () => void
+    disableAddBattery?: boolean
     style?: CSSProperties
 }> = ({
     addHouseholdGroup,
@@ -18,6 +19,7 @@ export const AddDropdown: FunctionComponent<{
     addHeatStorage,
     addCompany,
     addBiogasGenerator,
+    disableAddBattery = false,
     style,
 }) => (
     <DropdownMenu.Root>
@@ -32,8 +34,8 @@ export const AddDropdown: FunctionComponent<{
             <DropdownMenu.Item onSelect={addCompany}>Bedrijf</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addWindFarm}>Windpark</DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addSolarFarm}>Zonnepark</DropdownMenu.Item>
-            <DropdownMenu.Item onSelect={addBattery}>
-                Batterij
+            <DropdownMenu.Item onSelect={addBattery} disabled={disableAddBattery}>
+                Batterij {disableAddBattery && "(al toegevoegd)"}
             </DropdownMenu.Item>
             <DropdownMenu.Item onSelect={addHeatStorage} style={{display: "none"}}>
                 Warmte-opslag
