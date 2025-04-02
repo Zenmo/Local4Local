@@ -1,6 +1,6 @@
 import {CSSProperties, FunctionComponent} from "react"
 
-export const Intro: FunctionComponent<{style?: CSSProperties}> = ({style = {}}) => {
+export const IntroText: FunctionComponent<{style?: CSSProperties}> = ({style = {}}) => {
     return (
         <div style={{padding: "1rem", textAlign: "justify", border: "1px solid #ccc", borderRadius: "7px", ...style}}>
             <p>
@@ -33,7 +33,7 @@ export const Intro: FunctionComponent<{style?: CSSProperties}> = ({style = {}}) 
                 het <strong>kostprijs+ tarief</strong>.
             </p>
             <p>
-                Bij de bepaling van de tarieven voor gelijktijdige en ongelijktijdige levering wordt gezorgd dat de cooperatie en de leverancier <strong>precies break-even </strong> draaien. 
+                Bij de bepaling van de tarieven voor gelijktijdige en ongelijktijdige levering wordt gezorgd dat de cooperatie en de leverancier <strong>precies break-even </strong> draaien.
                 Zonder winstoogmerk, maar ook zonder verlies te draaien dus.
             </p>
             <p>

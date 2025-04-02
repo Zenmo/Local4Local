@@ -15,6 +15,7 @@ export function App() {
                 align-items: center; 
                 justify-content: center;
 
+                /* set variables for Radix UI */
                 --cursor-button: pointer;
                 --cursor-checkbox: pointer;
                 --cursor-disabled: default;
