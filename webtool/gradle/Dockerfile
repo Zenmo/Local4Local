@@ -1,6 +1,6 @@
 # Dockerfile for production environment
 
-FROM gradle:8.9-jdk21 AS builder
+FROM gradle:8.13-jdk21 AS builder
 
 COPY . /home/gradle
 RUN gradle backend:shadowJar
