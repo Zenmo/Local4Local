@@ -3,6 +3,7 @@ package nu.local4local.client
 import nu.local4local.common.AssetCost
 import nu.local4local.common.Pilot
 import nu.local4local.common.WindFarm
+import nu.local4local.common.idCounter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -33,6 +34,7 @@ class ClientTest {
 
     @Test
     fun testAddPilot() {
+        idCounter = 80
         val client = Client()
         client.savePilot(
             "addedSession",
@@ -45,5 +47,6 @@ class ClientTest {
         val pilot = client.getPilot("addedSession")
 
         assertEquals(42.0, pilot.windFarms.first().nominalPower_kW)
+        assertEquals("WindFarm_80", pilot.windFarms.first().id)
     }
 }

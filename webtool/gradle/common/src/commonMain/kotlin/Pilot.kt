@@ -2,9 +2,10 @@ package nu.local4local.common
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
 import kotlin.js.JsExport
 import kotlin.math.roundToInt
+
+var idCounter = 1
 
 @JsExport
 @Serializable
@@ -119,6 +120,7 @@ data class HouseholdGroup(
     val hasHomeBattery_r: Double,
      /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
     val annualBaseConsumptionAvg_kWh: Double,
+    val id: String = "HouseholdGroup_${idCounter++}"
 ) {
     fun hasPV_n() = (hasPV_r * households_n).roundToInt()
     fun hasHeatPump_n() = (hasHeatPump_r * households_n).roundToInt()
@@ -132,6 +134,7 @@ data class Company(
     val name: String,
     val annualElectricityConsumption_kWh: Double,
     val pvInstalled_kWp: Double,
+    val id: String = "Company_${idCounter++}"
     // disabled for now
 //    val chargePoints_n: Int,
 )
@@ -167,6 +170,7 @@ data class SolarFarm(
     val orientation: PVOrientation = PVOrientation.SOUTH,
     val cost: AssetCost,
     val curtailment: Boolean = false,
+    val id: String = "SolarFarm_${idCounter++}"
 )
 
 @JsExport
@@ -175,6 +179,7 @@ data class BiogasGenerator(
     val power_kW: Double,
     val cost: AssetCost,
     val curtailment: Boolean = false,
+    val id: String = "BiogasGenerator_${idCounter++}"
 )
 
 @JsExport
@@ -184,6 +189,7 @@ data class WindFarm(
     val cost: AssetCost,
     val location: WindFarmLocation = WindFarmLocation.BETUWE,
     val curtailment: Boolean = false,
+    val id: String = "WindFarm_${idCounter++}"
 )
 
 @JsExport
@@ -200,6 +206,7 @@ data class Battery(
     val capacity_kWh: Double,
     val peakPower_kW: Double,
     val cost: AssetCost,
+    val id: String = "Battery_${idCounter++}"
 )
 
 @JsExport
@@ -210,6 +217,7 @@ data class HeatStorage(
     val minTemp_degC: Double,
     val maxTemp_degC: Double,
     val cost: AssetCost,
+    val id: String = "HeatStorage_${idCounter++}"
 ) {
     fun getCapacity_kWh(): Double {
         val specificHeatCapacity = 4.18 // kJ/kg/K
