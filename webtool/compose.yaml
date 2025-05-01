@@ -71,6 +71,7 @@ services:
     client-test:
         extends:
             service: gradle-base
+        image: gradle:8.13-jdk17
         command: ["gradle", "--project-cache-dir=/tmp/gradle", "--no-daemon", "client:test"]
         depends_on:
             -   backend
