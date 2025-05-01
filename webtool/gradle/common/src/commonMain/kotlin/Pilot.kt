@@ -85,7 +85,7 @@ fun createDefaultStartPilot() = Pilot(
 @Serializable
 data class SupplierCost (
     val bufferPrice_eurpkWh: Double = 0.01,
-    val onbalansMarkup_r: Double = 0.08,
+    val onbalansMarkup_r: Double = 0.2,
     val feedInCompensation_eurpkWh: Double = 0.00,
 )
 
