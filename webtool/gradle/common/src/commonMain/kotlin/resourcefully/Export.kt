@@ -1,12 +1,20 @@
 package nu.local4local.common.resourcefully
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import nu.local4local.common.*
 import kotlin.js.JsExport
-import kotlin.js.ExperimentalJsStatic
-import kotlin.js.JsStatic
+
+external interface AssetCostReport {
+    val fixedTariffPPA: Boolean
+    val productionEPEXvalue_eur: Double
+    val totalProduction_MWh: Double
+    val ID: String
+    val avgProductionEPEXvalue_eurpMWh: Double
+}
+
+typealias AssetList = List<AssetCostReport>
+
 
 @JsExport
 @Serializable
@@ -119,7 +127,9 @@ data class WindFarm(
     val annualElectricityProduction_kWh: Double?,
 ) {
     companion object {
-        fun create(windFarm: nu.local4local.common.WindFarm) = with(windFarm) {
+        fun create(windFarm: nu.local4local.common.WindFarm, assetList: AssetList) = with(windFarm) {
+            val windFarmCostReport = assetList.single { it.ID == windFarm.id }
+
             with(cost) {
                 WindFarm(
                     nominalPower_kW = nominalPower_kW,
@@ -129,7 +139,7 @@ data class WindFarm(
                     curtailment = curtailment,
                     ppaType = ppaType,
                     location = location,
-                    annualElectricityProduction_kWh = null,
+                    annualElectricityProduction_kWh = windFarmCostReport.totalProduction_MWh,
                 )
             }
         }
@@ -151,7 +161,9 @@ data class SolarFarm(
     val annualElectricityProduction_kWh: Double?,
 ) {
     companion object {
-        fun create(solarFarm: nu.local4local.common.SolarFarm) = with(solarFarm) {
+        fun create(solarFarm: nu.local4local.common.SolarFarm, assetList: AssetList) = with(solarFarm) {
+            val solarFarmCostReport = assetList.single { it.ID == solarFarm.id }
+
             with(cost) {
                 SolarFarm(
                     peakPower_kW = nominalPower_kW,
@@ -161,7 +173,7 @@ data class SolarFarm(
                     sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
                     curtailment = curtailment,
                     ppaType = ppaType,
-                    annualElectricityProduction_kWh = null,
+                    annualElectricityProduction_kWh = solarFarmCostReport.totalProduction_MWh,
                 )
             }
         }
@@ -182,7 +194,9 @@ data class BiogasGenerator(
     val annualElectricityProduction_kWh: Double?,
 ) {
     companion object {
-        fun create(biogasGenerator: nu.local4local.common.BiogasGenerator) = with(biogasGenerator) {
+        fun create(biogasGenerator: nu.local4local.common.BiogasGenerator, assetList: AssetList) = with(biogasGenerator) {
+            val biogasGeneratorCostReport = assetList.single { it.ID == biogasGenerator.id }
+
             with(biogasGenerator.cost) {
                 BiogasGenerator(
                     power_kW = power_kW,
@@ -191,7 +205,7 @@ data class BiogasGenerator(
                     sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
                     curtailment = curtailment,
                     ppaType = ppaType,
-                    annualElectricityProduction_kWh = null,
+                    annualElectricityProduction_kWh = biogasGeneratorCostReport.totalProduction_MWh,
                 )
             }
         }

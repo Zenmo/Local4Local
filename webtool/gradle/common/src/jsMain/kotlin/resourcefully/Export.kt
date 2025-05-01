@@ -1,9 +1,14 @@
 package nu.local4local.common.resourcefully
 
 import nu.local4local.common.Pilot
+import kotlin.js.collections.JsArray
+import kotlin.js.collections.toList
 
+@OptIn(ExperimentalJsCollectionsApi::class)
 @JsExport
 fun createExport(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String, coopReport: dynamic) = with(pilot) {
+    val assetList = (coopReport.assetList as JsArray<AssetCostReport>).toList()
+
     ResourcefullyExport(
         scenarioDescription = metadata.scenarioDescription,
         personName = metadata.personName,
@@ -13,9 +18,9 @@ fun createExport(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String, co
         supplierCost = supplierCost,
         householdGroups = householdGroups.map { HouseholdGroup.create(it) },
         companies = companies.map { Company.create(it) },
-        windFarms = windFarms.map { WindFarm.create(it) },
-        solarFarms = solarFarms.map { SolarFarm.create(it) },
-        biogasGenerators = biogasGenerators.map { BiogasGenerator.create(it) },
+        windFarms = windFarms.map { WindFarm.create(it, assetList) },
+        solarFarms = solarFarms.map { SolarFarm.create(it, assetList) },
+        biogasGenerators = biogasGenerators.map { BiogasGenerator.create(it, assetList) },
         batteries = batteries.map { Battery.create(it) },
         coopReport = createCoopReport(coopReport),
     )
