@@ -5,16 +5,19 @@ import kotlinx.serialization.json.Json
 import nu.local4local.common.*
 import kotlin.js.JsExport
 
-external interface AssetCostReport {
-    val fixedTariffPPA: Boolean
-    val productionEPEXvalue_eur: Double
-    val totalProduction_MWh: Double
-    val ID: String
-    val avgProductionEPEXvalue_eurpMWh: Double
-}
+/**
+ * Output of AnyLogic.
+ * We only send totalProduction_MWh to Resourcefully
+ */
+data class AssetCostReport(
+    val fixedTariffPPA: Boolean,
+    val productionEPEXvalue_eur: Double,
+    val totalProduction_MWh: Double,
+    val ID: String,
+    val avgProductionEPEXvalue_eurpMWh: Double,
+)
 
 typealias AssetList = List<AssetCostReport>
-
 
 @JsExport
 @Serializable

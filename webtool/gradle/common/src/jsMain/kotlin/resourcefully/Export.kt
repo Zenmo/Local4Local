@@ -4,10 +4,30 @@ import nu.local4local.common.Pilot
 import kotlin.js.collections.JsArray
 import kotlin.js.collections.toList
 
+external interface AnyLogicAssetCostReport {
+    val fixedTariffPPA: Boolean
+    val productionEPEXvalue_eur: Double
+    val totalProduction_MWh: Double
+    val ID: String
+    val avgProductionEPEXvalue_eurpMWh: Double
+}
+
+fun createAssetCostReport(anyLogicAssetCostReport: AnyLogicAssetCostReport): AssetCostReport {
+    return AssetCostReport(
+        anyLogicAssetCostReport.fixedTariffPPA,
+        anyLogicAssetCostReport.productionEPEXvalue_eur,
+        anyLogicAssetCostReport.totalProduction_MWh,
+        anyLogicAssetCostReport.ID,
+        anyLogicAssetCostReport.avgProductionEPEXvalue_eurpMWh,
+    )
+}
+
 @OptIn(ExperimentalJsCollectionsApi::class)
 @JsExport
 fun createExport(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String, coopReport: dynamic) = with(pilot) {
-    val assetList = (coopReport.assetList as JsArray<AssetCostReport>).toList()
+    val assetList: AssetList = (coopReport.assetList as JsArray<AnyLogicAssetCostReport>)
+        .toList()
+        .map { createAssetCostReport(it) }
 
     ResourcefullyExport(
         scenarioDescription = metadata.scenarioDescription,
