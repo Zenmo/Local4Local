@@ -70,10 +70,6 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
 }
 
 async function shouldShowResourcefully(simulation: AnyLogicCloudClient.Animation | undefined): Promise<boolean> {
-    if (!new URLSearchParams(window.location.search).has("resourcefully-preview")) {
-        return false
-    }
-
     try {
         return await simulation?.getState() === "PAUSED"
     } catch {
