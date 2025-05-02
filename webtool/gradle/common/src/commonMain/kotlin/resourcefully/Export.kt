@@ -15,7 +15,9 @@ data class AssetCostReport(
     val totalProduction_MWh: Double,
     val ID: String,
     val avgProductionEPEXvalue_eurpMWh: Double,
-)
+) {
+    val totalProduction_kWh = totalProduction_MWh * 1000.0
+}
 
 typealias AssetList = List<AssetCostReport>
 
@@ -142,7 +144,7 @@ data class WindFarm(
                     curtailment = curtailment,
                     ppaType = ppaType,
                     location = location,
-                    annualElectricityProduction_kWh = windFarmCostReport.totalProduction_MWh,
+                    annualElectricityProduction_kWh = windFarmCostReport.totalProduction_kWh,
                 )
             }
         }
@@ -176,7 +178,7 @@ data class SolarFarm(
                     sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
                     curtailment = curtailment,
                     ppaType = ppaType,
-                    annualElectricityProduction_kWh = solarFarmCostReport.totalProduction_MWh,
+                    annualElectricityProduction_kWh = solarFarmCostReport.totalProduction_kWh,
                 )
             }
         }
@@ -208,7 +210,7 @@ data class BiogasGenerator(
                     sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh!!,
                     curtailment = curtailment,
                     ppaType = ppaType,
-                    annualElectricityProduction_kWh = biogasGeneratorCostReport.totalProduction_MWh,
+                    annualElectricityProduction_kWh = biogasGeneratorCostReport.totalProduction_kWh,
                 )
             }
         }
