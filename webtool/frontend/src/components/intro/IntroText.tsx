@@ -1,11 +1,15 @@
-import {CSSProperties, FunctionComponent} from "react"
+import {FunctionComponent} from "react"
 
-export const IntroText: FunctionComponent<{style?: CSSProperties}> = ({style = {}}) => {
+export const IntroText: FunctionComponent = () => {
     return (
-        <div style={{padding: "1rem", textAlign: "justify", border: "1px solid #ccc", borderRadius: "7px", ...style}}>
-            <p>
-                <strong>Let op, de tool is nog in ontwikkeling! Loop je tegen problemen aan of heb je feedback, laat het ons weten!</strong>
-            </p>
+        <div style={{
+            padding: "1rem",
+            margin: "2rem 1rem",
+            textAlign: "justify",
+            border: "1px solid #ccc",
+            borderRadius: "7px",
+            maxWidth: "70rem",
+        }}>
             <p>
                 Welkom bij de <strong>Local 4 Local Cooperatie Configurator</strong>. De Cooperatie Configurator is een tool
                 waarmee je je
