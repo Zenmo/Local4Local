@@ -8,11 +8,16 @@ import {intializePilotFromDeeplink} from "./deeplink.ts"
 import {ResourcefullyDialog} from "./resourcefully/dialog.tsx"
 import {useForceUpdate} from "../services/use-force-update.ts"
 import {usePromiseValue} from "../services/use-promise-value.ts"
+import {useOpenFormTracker} from "../services/open-form-tracker.ts"
 
 export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (props) => {
     const [pilot, setPilot] = useState(intializePilotFromDeeplink)
     const [showSimulation, setShowSimulation] = useState(false)
     const [simulation, setSimulation] = useState<AnyLogicCloudClient.Animation>()
+
+    // track which form is open
+    const openFormTracker = useOpenFormTracker()
+
     // allows to sync the GUI after simulation changes
     const forceUpdate = useForceUpdate()
 
@@ -29,6 +34,10 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
     }
 
     const onClickStart = async (anylogicElementId: string) => {
+        if (openFormTracker.isOpen) {
+            alert("Sla eerst de wijzigingen op en start dan de simulatie")
+        }
+
         stopAnyLogicSession()
         const sessionId = await savePilot(pilot)
         setShowSimulation(true)
