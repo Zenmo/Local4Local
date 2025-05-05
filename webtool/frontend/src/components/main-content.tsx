@@ -1,18 +1,24 @@
-import {FunctionComponent, useState} from "react"
-import {EmotionProps} from "../services/types"
+import {FunctionComponent} from "react"
 import {IntroPage} from "./intro/IntroPage.tsx"
 import {ConfigureAndSimulate} from "./ConfigureAndSimulate.tsx"
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from "react-router";
 
-export const MainContent: FunctionComponent<EmotionProps> = ({css, className}) => {
-    const [showConfigSimulate, setShowConfigSimulate] = useState(false)
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <IntroPage />,
+    },
+    {
+        path: "/rekentool",
+        element: <ConfigureAndSimulate />
+    }
+]);
 
+export const MainContent: FunctionComponent = () => {
     return (
-        <>
-            {showConfigSimulate ?
-                <ConfigureAndSimulate css={css} className={className} />
-                :
-                <IntroPage onClickStart={() => setShowConfigSimulate(true)} css={css} className={className} />
-            }
-        </>
+        <RouterProvider router={router} />
     )
 }

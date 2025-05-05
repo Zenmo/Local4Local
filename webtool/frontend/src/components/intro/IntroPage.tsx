@@ -1,10 +1,9 @@
-import {Button} from "@radix-ui/themes"
 import {FunctionComponent, ComponentProps} from "react"
 import {IntroText} from "./IntroText.tsx"
+import {NavLink} from "react-router"
+import {Button} from "@radix-ui/themes"
 
-export const IntroPage: FunctionComponent<{
-    onClickStart: () => void
-} & ComponentProps<"div">> = ({onClickStart, ...props}) => (
+export const IntroPage: FunctionComponent<ComponentProps<"div">> = ({...props}) => (
     <div style={{
         display: "flex",
         flexDirection: "column",
@@ -13,8 +12,10 @@ export const IntroPage: FunctionComponent<{
         maxWidth: "50rem"
     }} {...props}>
         <IntroText style={{marginBottom: "1rem"}}/>
-        <Button type="button" onClick={onClickStart}>
-            Start
+        <Button asChild>
+            <NavLink to="/rekentool">
+                Start
+            </NavLink>
         </Button>
     </div>
 )

@@ -42,10 +42,14 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
 
     return (
         <div style={{
+            // styles for self
+            flexGrow: 1,
+            marginTop: "1rem",
+            width: "100%",
+            // styles for children
             display: "flex",
             justifyContent: "start",
             alignItems: "start",
-            width: "100%",
         }} {...props}>
             <div style={{
                 width: "30%",
