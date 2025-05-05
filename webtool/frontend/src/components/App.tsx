@@ -28,12 +28,7 @@ export function App() {
             `}
         >
             <Header />
-            <MainContent
-                css={css`
-                    flex-grow: 1;
-                    margin-top: 16px;
-                `}
-            />
+            <MainContent />
             <Footer />
         </Theme>
     );
