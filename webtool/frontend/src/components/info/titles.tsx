@@ -1,4 +1,4 @@
-import {Link, Text} from "@radix-ui/themes"
+import {Text} from "@radix-ui/themes"
 import {ExternalLink} from "../ExternalLink.tsx"
 
 /**
