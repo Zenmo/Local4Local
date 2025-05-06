@@ -1,8 +1,8 @@
-import {FunctionComponent, useState} from "react"
+import {ComponentProps, FunctionComponent, useState} from "react"
 import {Pilot, HouseholdGroup, Company, SolarFarm, WindFarm, Battery, HeatStorage, SupplierCost} from "local4local"
 import {HouseholdForm} from "./household/household-form.tsx"
 import {AddDropdown} from "./add-dropdown.tsx"
-import {Flex, Grid} from "@radix-ui/themes"
+import {Button, Flex, Grid} from "@radix-ui/themes"
 import {SolarFarmForm} from "./solarfarm/solarfarm-form.tsx"
 import {BatteriesDisplayEdit, BatteryForm} from "./assets/battery.tsx"
 import {BiogasGeneratorForm, BiogasGeneratorsDisplayEdit} from "./assets/biogas-generator.tsx"
@@ -15,11 +15,19 @@ import {HeatStoragesDisplayEdit} from "./heat-storage/heat-storage-display-edit.
 import {CompanyDisplayEdit} from "./company/company-display-edit.tsx"
 import {CompanyForm} from "./company/company-form.tsx"
 import {SaveButton} from "./save.tsx"
+import {PlayIcon} from "@radix-ui/react-icons"
+
+export const PlayButton: FunctionComponent<ComponentProps<typeof Button>> = (props) => (
+    <Button variant="outline" {...props}>
+        <PlayIcon /> Simuleren
+    </Button>
+)
 
 export const Configure: FunctionComponent<{
     pilot: Pilot,
     onChange: (pilot: Pilot) => void,
-}> = ({pilot, onChange, }) => {
+    onClickStart: () => void,
+}> = ({pilot, onChange, onClickStart, ...props}) => {
     const [showAddHouseholdGroup, setShowAddHouseholdGroup] = useState(false)
     const [showAddCompany, setShowAddCompany] = useState(false)
     const [showAddSolarFarm, setShowAddSolarFarm] = useState(false)
@@ -29,7 +37,7 @@ export const Configure: FunctionComponent<{
     const [showAddHeatStorage, setShowAddHeatStorage] = useState(false)
     const [showEditSupplierCost, setShowEditSupplierCost] = useState(false)
 
-    const showAddDropdown = !(
+    const showButtons = !(
         showAddHouseholdGroup ||
         showAddCompany ||
         showAddSolarFarm ||
@@ -41,53 +49,52 @@ export const Configure: FunctionComponent<{
     )
 
     return (
-        <>
-            <Grid gap="2" pt="4">
-                {showEditSupplierCost ?
-                    <SupplierCostForm initialData={pilot.supplierCost} save={(supplierCost: SupplierCost) => onChange(pilot.withSupplierCost(supplierCost))} hide={() => setShowEditSupplierCost(false)}/>
-                    :
-                    <SupplierCostDisplay supplierCost={pilot.supplierCost} onEdit={() => setShowEditSupplierCost(true)}/>
-                }
+        <Grid gap="2" pt="4" {...props}>
+            {showEditSupplierCost ?
+                <SupplierCostForm initialData={pilot.supplierCost} save={(supplierCost: SupplierCost) => onChange(pilot.withSupplierCost(supplierCost))} hide={() => setShowEditSupplierCost(false)}/>
+                :
+                <SupplierCostDisplay supplierCost={pilot.supplierCost} onEdit={() => setShowEditSupplierCost(true)}/>
+            }
 
-                <HouseholdsDisplayEdit pilot={pilot} onChange={onChange}/>
-                <CompanyDisplayEdit pilot={pilot} onChange={onChange}/>
-                <SolarFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
-                <WindFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
-                <BiogasGeneratorsDisplayEdit pilot={pilot} onChange={onChange}/>
-                <BatteriesDisplayEdit pilot={pilot} onChange={onChange}/>
-                <HeatStoragesDisplayEdit pilot={pilot} onChange={onChange}/>
+            <HouseholdsDisplayEdit pilot={pilot} onChange={onChange}/>
+            <CompanyDisplayEdit pilot={pilot} onChange={onChange}/>
+            <SolarFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
+            <WindFarmsDisplayEdit pilot={pilot} onChange={onChange}/>
+            <BiogasGeneratorsDisplayEdit pilot={pilot} onChange={onChange}/>
+            <BatteriesDisplayEdit pilot={pilot} onChange={onChange}/>
+            <HeatStoragesDisplayEdit pilot={pilot} onChange={onChange}/>
 
-                {showAddHouseholdGroup &&
-                    <HouseholdForm save={(asset: HouseholdGroup) => onChange(pilot.addHouseHoldGroup(asset))} hide={() => setShowAddHouseholdGroup(false)}/>}
-                {showAddCompany &&
-                    <CompanyForm save={(company: Company) => onChange(pilot.addCompany(company))} hide={() => setShowAddCompany(false)}/>}
-                {showAddSolarFarm &&
-                    <SolarFarmForm save={(asset: SolarFarm) => onChange(pilot.addSolarFarm(asset))} hide={() => setShowAddSolarFarm(false)}/>}
-                {showAddWindFarm &&
-                    <WindFarmForm save={(asset: WindFarm) => onChange(pilot.addWindFarm(asset))} hide={() => setShowAddWindFarm(false)}/>}
-                {showAddBiogasGenerator &&
-                    <BiogasGeneratorForm save={(asset) => onChange(pilot.addBiogasGenerator(asset))} hide={() => setShowAddBiogasGenerator(false)}/>}
-                {showAddBattery &&
-                    <BatteryForm save={(asset: Battery) => onChange(pilot.addBattery(asset))} hide={() => setShowAddBattery(false)}/>}
-                {showAddHeatStorage &&
-                    <HeatStorageForm save={(asset: HeatStorage) => onChange(pilot.addHeatStorage(asset))} hide={() => setShowAddHeatStorage(false)}/>}
+            {showAddHouseholdGroup &&
+                <HouseholdForm save={(asset: HouseholdGroup) => onChange(pilot.addHouseHoldGroup(asset))} hide={() => setShowAddHouseholdGroup(false)}/>}
+            {showAddCompany &&
+                <CompanyForm save={(company: Company) => onChange(pilot.addCompany(company))} hide={() => setShowAddCompany(false)}/>}
+            {showAddSolarFarm &&
+                <SolarFarmForm save={(asset: SolarFarm) => onChange(pilot.addSolarFarm(asset))} hide={() => setShowAddSolarFarm(false)}/>}
+            {showAddWindFarm &&
+                <WindFarmForm save={(asset: WindFarm) => onChange(pilot.addWindFarm(asset))} hide={() => setShowAddWindFarm(false)}/>}
+            {showAddBiogasGenerator &&
+                <BiogasGeneratorForm save={(asset) => onChange(pilot.addBiogasGenerator(asset))} hide={() => setShowAddBiogasGenerator(false)}/>}
+            {showAddBattery &&
+                <BatteryForm save={(asset: Battery) => onChange(pilot.addBattery(asset))} hide={() => setShowAddBattery(false)}/>}
+            {showAddHeatStorage &&
+                <HeatStorageForm save={(asset: HeatStorage) => onChange(pilot.addHeatStorage(asset))} hide={() => setShowAddHeatStorage(false)}/>}
 
-                {showAddDropdown &&
-                    <Flex gap=".5rem" justify="end">
-                        <SaveButton pilot={pilot} />
-                        <AddDropdown
-                            addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
-                            addCompany={() => setShowAddCompany(true)}
-                            addSolarFarm={() => setShowAddSolarFarm(true)}
-                            addWindFarm={() => setShowAddWindFarm(true)}
-                            addBattery={() => setShowAddBattery(true)}
-                            addHeatStorage={() => setShowAddHeatStorage(true)}
-                            addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
-                            disableAddBattery={pilot.batteries.asJsReadonlyArrayView().length > 0}
-                        />
-                    </Flex>
-                }
-            </Grid>
-        </>
+            {showButtons &&
+                <Flex gap=".5rem" justify="center">
+                    <SaveButton pilot={pilot} />
+                    <AddDropdown
+                        addHouseholdGroup={() => setShowAddHouseholdGroup(true)}
+                        addCompany={() => setShowAddCompany(true)}
+                        addSolarFarm={() => setShowAddSolarFarm(true)}
+                        addWindFarm={() => setShowAddWindFarm(true)}
+                        addBattery={() => setShowAddBattery(true)}
+                        addHeatStorage={() => setShowAddHeatStorage(true)}
+                        addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
+                        disableAddBattery={pilot.batteries.asJsReadonlyArrayView().length > 0}
+                    />
+                    <PlayButton onClick={onClickStart} />
+                </Flex>
+            }
+        </Grid>
     )
 }

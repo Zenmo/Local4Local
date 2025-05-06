@@ -9,6 +9,8 @@ import {ResourcefullyDialog} from "./resourcefully/dialog.tsx"
 import {useForceUpdate} from "../services/use-force-update.ts"
 import {usePromiseValue} from "../services/use-promise-value.ts"
 
+export const anylogicElementId = "anylogic"
+
 export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (props) => {
     const [pilot, setPilot] = useState(intializePilotFromDeeplink)
     const [showSimulation, setShowSimulation] = useState(false)
@@ -28,7 +30,7 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
         setShowSimulation(false)
     }
 
-    const onClickStart = async (anylogicElementId: string) => {
+    const onClickStart = async () => {
         stopAnyLogicSession()
         const sessionId = await savePilot(pilot)
         setShowSimulation(true)
@@ -48,27 +50,25 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
             width: "100%",
             // styles for children
             display: "flex",
-            justifyContent: "start",
+            justifyContent: "center",
             alignItems: "start",
         }} {...props}>
             <div style={{
                 width: "30%",
                 maxWidth: "25rem",
                 padding: "1rem",
-                borderRight: "1px solid #ccc",
+                borderRight: (showSimulation || undefined) && "1px solid #ccc",
             }}>
                 <Configure
                     pilot={pilot}
                     onChange={onChange}
-                />
-            </div>
-            <div style={{padding: 0, flexGrow: 1, position: "sticky", top: 0}}>
-                <Simulate
-                    showSimulation={showSimulation}
                     onClickStart={onClickStart}
                 />
-                {simulation && showResourceFully && <ResourcefullyDialog pilot={pilot} anyLogicAnimation={simulation} />}
             </div>
+            {showSimulation && <div style={{padding: 0, flexGrow: 1, position: "sticky", top: 0}}>
+                <Simulate />
+                {simulation && showResourceFully && <ResourcefullyDialog pilot={pilot} anyLogicAnimation={simulation} />}
+            </div>}
         </div>
     )
 }
