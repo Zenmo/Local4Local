@@ -1,4 +1,7 @@
 import {FunctionComponent} from "react"
+import {ExternalLink} from "../ExternalLink.tsx"
+
+const wikiLink = "https://local4local.notion.site/Hoe-maak-ik-een-grove-berekening-van-de-gelijktijdigheid-van-mijn-energiegemeenschap-17a0306d63c2805ba3c8d60695d662b5";
 
 export const IntroText: FunctionComponent = () => {
     return (
@@ -46,6 +49,7 @@ export const IntroText: FunctionComponent = () => {
                 aantrekkelijk <strong>energietarief</strong> voor je leden. Probeer het zelf
                 uit, het is makkelijker dan je denkt!
             </p>
+            <p>Meer informatie is te vinden in de <ExternalLink href={wikiLink}>local4local kennisbank</ExternalLink></p>
         </div>
     )
 };
