@@ -1,5 +1,6 @@
 import {css} from "@emotion/react"
 import {ComponentProps, FunctionComponent} from "react"
+import {Link} from "@radix-ui/themes"
 
 export const Footer: FunctionComponent<ComponentProps<"div">> = (props) => (
     <div css={css`
@@ -14,9 +15,7 @@ export const Footer: FunctionComponent<ComponentProps<"div">> = (props) => (
             <img style={{height: "1rem"}} src="/Git-Logo-2Color.svg" alt="Broncode" />
         </a>
         <span>
-            Gemaakt door
-            &nbsp;
-            <a href="https://zenmo.com">Zenmo</a>
+            Gemaakt door <Link href="https://zenmo.com">Zenmo</Link>
         </span>
     </div>
 )

@@ -1,4 +1,4 @@
-import { Callout } from "@radix-ui/themes"
+import {Callout, Link} from "@radix-ui/themes"
 import {FunctionComponent} from "react"
 import {InfoCircledIcon} from "@radix-ui/react-icons"
 
@@ -9,7 +9,7 @@ export const UnderDevelopmentNotice: FunctionComponent = () => (
         </Callout.Icon>
         <Callout.Text>
             Deze tool is nog in ontwikkeling. Loop je tegen problemen aan of heb je feedback,
-            laat het ons weten op <a href="mailto:info@zenmo.com">info@zenmo.com</a>
+            laat het ons weten op <Link href="mailto:info@zenmo.com">info@zenmo.com</Link>
         </Callout.Text>
     </Callout.Root>
 )
