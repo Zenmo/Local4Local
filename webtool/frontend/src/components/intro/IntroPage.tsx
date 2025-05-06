@@ -6,10 +6,12 @@ import {UnderDevelopmentNotice} from "./UnderDevelopmentNotice.tsx"
 
 export const IntroPage: FunctionComponent<ComponentProps<"div">> = ({...props}) => (
     <div style={{
+        // properties as child
+        margin: "1rem",
+        // properties as parent
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        margin: "1rem",
     }} {...props}>
         <UnderDevelopmentNotice />
         <IntroText />

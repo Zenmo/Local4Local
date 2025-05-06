@@ -27,9 +27,9 @@ export function App() {
                 --cursor-switch: pointer;
             `}
         >
-            <Header />
+            <Header style={{marginTop: "auto"}}/>
             <MainContent />
-            <Footer />
+            <Footer style={{marginTop: "auto"}}/>
         </Theme>
     );
 }
