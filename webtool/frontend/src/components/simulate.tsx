@@ -1,39 +1,14 @@
-import {FunctionComponent, PropsWithChildren} from "react"
-import {Button} from "@radix-ui/themes";
+import {FunctionComponent} from "react"
+import {anylogicElementId} from "./ConfigureAndSimulate.tsx"
 
-export const Simulate: FunctionComponent<{
-    showSimulation: boolean,
-    onClickStart: (elementId: string) => void
-}> = ({showSimulation, onClickStart}) => {
-    const anylogicElementId = "anylogic"
-
+export const Simulate: FunctionComponent = () => {
     return (
-        <>
-            {showSimulation ?
-                <div id={anylogicElementId} style={{
-                    width: "100%",
-                    aspectRatio: "8/5",
-                    // anylogic uses absolute positioning.
-                    // this makes it relative to this parent element
-                    position: "relative",
-                }}/>
-                :
-                <Center>
-                    <Button type="button" onClick={() => onClickStart(anylogicElementId)}>
-                        Start simulatie
-                    </Button>
-                </Center>
-            }
-        </>
+        <div id={anylogicElementId} style={{
+            width: "100%",
+            aspectRatio: "8/5",
+            // anylogic uses absolute positioning.
+            // this makes it relative to this parent element
+            position: "relative",
+        }}/>
     )
 }
-
-const Center: FunctionComponent<PropsWithChildren> = ({children}) => (
-    <div css={{
-        display: "flex",
-        justifyContent: "center",
-        padding: ".7rem",
-    }}>
-        {children}
-    </div>
-)
