@@ -1,9 +1,27 @@
-import {Button, Dialog} from "@radix-ui/themes"
+import { Dialog} from "@radix-ui/themes"
 import {FunctionComponent} from "react"
 import {Pilot} from "local4local"
 import Animation = AnyLogicCloudClient.Animation
 
 import {ResourcefullyDialogContent} from "./content.tsx"
+import {Local4LocalButton} from "../Local4LocalButton.tsx"
+import {local4localLightGreen} from "../../colors.ts"
+
+const Button: FunctionComponent = () => (
+    <Local4LocalButton
+        style={{
+            height: "unset",
+            fontSize: "1.3rem",
+            padding: "1.7rem 3rem",
+            margin: "0 4rem",
+            backgroundColor: local4localLightGreen,
+            alignSelf: "center",
+            color: "black",
+        }}
+    >
+        Ga naar gevoeligheidsanalyse ➔
+    </Local4LocalButton>
+)
 
 export const ResourcefullyDialog: FunctionComponent<{
     anyLogicAnimation: Animation,
@@ -14,10 +32,10 @@ export const ResourcefullyDialog: FunctionComponent<{
             <Dialog.Trigger>
                 <div style={{
                     display: "flex",
-                    flexDirection: "row-reverse",
+                    justifyItems: "center",
                     margin: ".5rem",
                 }}>
-                    <Button>Extra analyse</Button>
+                    <Button />
                 </div>
             </Dialog.Trigger>
 
