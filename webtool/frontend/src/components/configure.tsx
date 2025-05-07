@@ -16,11 +16,14 @@ import {CompanyDisplayEdit} from "./company/company-display-edit.tsx"
 import {CompanyForm} from "./company/company-form.tsx"
 import {SaveButton} from "./save.tsx"
 import {PlayIcon} from "@radix-ui/react-icons"
+import {local4localDarkOrange} from "../colors.ts"
+import {Local4LocalButton} from "./Local4LocalButton.tsx"
 
 export const PlayButton: FunctionComponent<ComponentProps<typeof Button>> = (props) => (
-    <Button variant="outline" {...props}>
-        <PlayIcon /> Simuleren
-    </Button>
+    <Local4LocalButton {...props} style={{backgroundColor: local4localDarkOrange}}>
+        <PlayIcon style={{ width: "1.2rem", height: "1.2rem" }} />
+        Simuleren
+    </Local4LocalButton>
 )
 
 export const Configure: FunctionComponent<{

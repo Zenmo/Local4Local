@@ -1,5 +1,8 @@
-import {Button, DropdownMenu} from "@radix-ui/themes"
+import {DropdownMenu} from "@radix-ui/themes"
 import {CSSProperties, FunctionComponent} from "react"
+import {PlusIcon} from "@radix-ui/react-icons"
+import {local4localLightGreen} from "../colors.ts"
+import {Local4LocalButton} from "./Local4LocalButton.tsx"
 
 export const AddDropdown: FunctionComponent<{
     addHouseholdGroup: () => void
@@ -24,10 +27,14 @@ export const AddDropdown: FunctionComponent<{
 }) => (
     <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-            <Button style={style}>
+            <Local4LocalButton style={{
+                backgroundColor: local4localLightGreen,
+                ...style,
+            }}>
+                <PlusIcon style={{ width: "1.2rem", height: "1.2rem" }}  />
                 Toevoegen
                 <DropdownMenu.TriggerIcon />
-            </Button>
+            </Local4LocalButton>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
             <DropdownMenu.Item onSelect={addHouseholdGroup}>Huishoudens</DropdownMenu.Item>
