@@ -4,6 +4,6 @@
         "Access-Control-Allow-Methods": "GET, OPTIONS"
     },
     "navigationFallback": {
-        "rewrite": "index.html",
+        "rewrite": "index.html"
     }
 }

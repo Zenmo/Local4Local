@@ -34,6 +34,8 @@ jobs:
           env:
               VITE_BACKEND_URL: https://local4local-backend.zenmo.com
               VITE_ANYLOGIC_CALLBACK_URL: https://local4local-backend.zenmo.com
+      -   name: Copy Azure settings
+          run: cp webtool/frontend/staticwebapp.config.json webtool/frontend/dist/.
       -   name: Build And Deploy
           id: builddeploy
           uses: Azure/static-web-apps-deploy@v1
