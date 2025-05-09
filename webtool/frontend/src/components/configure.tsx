@@ -29,8 +29,9 @@ export const PlayButton: FunctionComponent<ComponentProps<typeof Button>> = (pro
 export const Configure: FunctionComponent<{
     pilot: Pilot,
     onChange: (pilot: Pilot) => void,
+    showStartButton: boolean,
     onClickStart: () => void,
-}> = ({pilot, onChange, onClickStart, ...props}) => {
+}> = ({pilot, onChange, onClickStart, showStartButton, ...props}) => {
     const [showAddHouseholdGroup, setShowAddHouseholdGroup] = useState(false)
     const [showAddCompany, setShowAddCompany] = useState(false)
     const [showAddSolarFarm, setShowAddSolarFarm] = useState(false)
@@ -95,7 +96,7 @@ export const Configure: FunctionComponent<{
                         addBiogasGenerator={() => setShowAddBiogasGenerator(true)}
                         disableAddBattery={pilot.batteries.asJsReadonlyArrayView().length > 0}
                     />
-                    <PlayButton onClick={onClickStart} />
+                    {showStartButton && <PlayButton onClick={onClickStart} />}
                 </Flex>
             }
         </Grid>
