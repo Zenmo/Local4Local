@@ -46,7 +46,7 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
         <div style={{
             // styles for self
             flexGrow: 1,
-            marginTop: "1rem",
+            marginTop: "-1rem",
             width: "100%",
             // styles for children
             display: "flex",
@@ -56,7 +56,7 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
             <div style={{
                 width: "30%",
                 maxWidth: "25rem",
-                padding: "1rem",
+                padding: "0rem 1rem 1rem 1rem",
                 borderRight: (showSimulation || undefined) && "1px solid #ccc",
             }}>
                 <Configure
@@ -65,10 +65,12 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
                     onClickStart={onClickStart}
                 />
             </div>
-            {showSimulation && <div style={{padding: 0, flexGrow: 1, position: "sticky", top: 0}}>
-                <Simulate />
-                {simulation && showResourceFully && <ResourcefullyDialog pilot={pilot} anyLogicAnimation={simulation} />}
-            </div>}
+            {showSimulation && (
+                <div style={{padding: 0, flexGrow: 1, position: "sticky", top: 0}}>
+                    <Simulate />
+                    {simulation && showResourceFully && <ResourcefullyDialog pilot={pilot} anyLogicAnimation={simulation} />}
+                </div>
+            )}
         </div>
     )
 }

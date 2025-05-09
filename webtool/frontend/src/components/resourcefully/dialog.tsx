@@ -32,7 +32,7 @@ export const ResourcefullyDialog: FunctionComponent<{
             <Dialog.Trigger>
                 <div style={{
                     display: "flex",
-                    justifyItems: "center",
+                    justifyContent: "center",
                     margin: ".5rem",
                 }}>
                     <Button />

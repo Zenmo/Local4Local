@@ -52,7 +52,7 @@ export const Configure: FunctionComponent<{
     )
 
     return (
-        <Grid gap="2" pt="4" {...props}>
+        <Grid gap="2" {...props}>
             {showEditSupplierCost ?
                 <SupplierCostForm initialData={pilot.supplierCost} save={(supplierCost: SupplierCost) => onChange(pilot.withSupplierCost(supplierCost))} hide={() => setShowEditSupplierCost(false)}/>
                 :

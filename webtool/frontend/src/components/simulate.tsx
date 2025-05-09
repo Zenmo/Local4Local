@@ -5,7 +5,7 @@ export const Simulate: FunctionComponent = () => {
     return (
         <div id={anylogicElementId} style={{
             width: "100%",
-            aspectRatio: "8/5",
+            aspectRatio: "16/9",
             // anylogic uses absolute positioning.
             // this makes it relative to this parent element
             position: "relative",
