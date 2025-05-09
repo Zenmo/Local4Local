@@ -1,11 +1,13 @@
 import {FunctionComponent, useState} from "react"
 import {ReactSubmitEvent, ResourcefullyForm, SubmitEventHandeler} from "./form.tsx"
-import {Button, Dialog} from "@radix-ui/themes"
+import {Dialog} from "@radix-ui/themes"
 import {ResourcefullyExport, createExport, ExportMetadata} from "local4local"
 import {Pilot} from "local4local"
 import {createDeeplink} from "../deeplink.ts"
 import Animation = AnyLogicCloudClient.Animation
 import {getCoopReport} from "./preview.ts"
+import {Local4LocalButton} from "../Local4LocalButton.tsx"
+import {local4localLightGreen} from "../../colors.ts"
 
 async function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot, anyLogicAnimation: Animation): Promise<ResourcefullyExport> {
     const form = new FormData(submitEvent.currentTarget)
@@ -61,7 +63,9 @@ export const ResourcefullyDialogContent: FunctionComponent<{
             <>
                 <p>Opgestuurd naar Resourcefully</p>
                 <Dialog.Close>
-                    <Button>Sluiten</Button>
+                    <Local4LocalButton style={{backgroundColor: local4localLightGreen}}>
+                        Sluiten
+                    </Local4LocalButton>
                 </Dialog.Close>
             </>
         )
@@ -72,7 +76,9 @@ export const ResourcefullyDialogContent: FunctionComponent<{
             <>
                 <p>Fout bij het opsturen: {error}</p>
                 <Dialog.Close>
-                    <Button>Sluiten</Button>
+                    <Local4LocalButton style={{backgroundColor: local4localLightGreen}}>
+                        Sluiten
+                    </Local4LocalButton>
                 </Dialog.Close>
             </>
         )

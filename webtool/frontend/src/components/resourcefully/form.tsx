@@ -1,5 +1,7 @@
 import {EventHandler, FunctionComponent, SyntheticEvent} from "react"
-import {Button, Dialog, Flex, Text, TextField} from "@radix-ui/themes"
+import {Dialog, Flex, Text, TextField} from "@radix-ui/themes"
+import {Local4LocalButton} from "../Local4LocalButton.tsx"
+import {local4localDarkOrange, local4localLightBlue, local4localLightOrange} from "../../colors.ts"
 
 export type ReactSubmitEvent = SyntheticEvent<HTMLFormElement, SubmitEvent>
 export type SubmitEventHandeler = EventHandler<ReactSubmitEvent>
@@ -37,12 +39,12 @@ export const ResourcefullyForm: FunctionComponent<{onSubmit: SubmitEventHandeler
 
         <Flex gap="3" mt="4" justify="end">
             <Dialog.Close>
-                <Button variant="soft" color="gray">
+                <Local4LocalButton style={{backgroundColor: local4localLightOrange}}>
                     Annuleren
-                </Button>
+                </Local4LocalButton>
             </Dialog.Close>
-            <Button name="action" value="send">Opsturen</Button>
-            <Button name="action" value="preview">Bericht bekijken</Button>
+            <Local4LocalButton name="action" value="preview" style={{backgroundColor: local4localLightBlue}}>Bericht bekijken</Local4LocalButton>
+            <Local4LocalButton name="action" value="send" style={{backgroundColor: local4localDarkOrange}}>Opsturen</Local4LocalButton>
         </Flex>
     </form>
 )
