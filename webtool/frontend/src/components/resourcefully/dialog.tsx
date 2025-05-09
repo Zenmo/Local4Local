@@ -40,7 +40,7 @@ export const ResourcefullyDialog: FunctionComponent<{
             </Dialog.Trigger>
 
             <Dialog.Content maxWidth="35rem" aria-describedby={undefined}>
-                <Dialog.Title>Analyse door resourcefully</Dialog.Title>
+                <Dialog.Title>Analyse door Resourcefully</Dialog.Title>
 
                 <ResourcefullyDialogContent pilot={pilot} anyLogicAnimation={anyLogicAnimation} />
             </Dialog.Content>

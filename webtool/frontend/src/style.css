@@ -1,0 +1,46 @@
+/* Need to set this outside of the react root, or else it won't work for modals */
+
+/* set variables for Radix UI */
+.radix-themes {
+    --cursor-button: pointer;
+    --cursor-checkbox: pointer;
+    --cursor-disabled: default;
+    --cursor-link: pointer;
+    --cursor-menu-item: pointer;
+    --cursor-radio: pointer;
+    --cursor-slider-thumb: grab;
+    --cursor-slider-thumb-active: grabbing;
+    --cursor-switch: pointer;
+    --default-font-family: 'rubik-light';
+    --heading-font-family: 'rubik-regular';
+    --strong-font-family: 'rubik-regular';
+}
+
+/* fonts copied from local4local.nu */
+@font-face {
+    font-family: 'rubik-regular';
+    src: url('/rubik-regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'rubik-light';
+    src: url('/rubik-light.woff2') format('woff2');
+    font-weight: light;
+    font-style: normal;
+    font-display: swap;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font-family), sans-serif;
+}
+
+strong, b {
+    font-family: var(--strong-font-family), sans-serif;
+}
+
+button {
+    font-family: var(--strong-font-family), sans-serif;
+}
