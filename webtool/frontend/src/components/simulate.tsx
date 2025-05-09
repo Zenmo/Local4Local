@@ -9,6 +9,12 @@ export const Simulate: FunctionComponent = () => {
             // anylogic uses absolute positioning.
             // this makes it relative to this parent element
             position: "relative",
+            marginBottom: "-3rem",
+        }} css={{
+            // hide generic AnyLogic Buttons
+            "#control-panel, #control-panel-progress": {
+                display: "none",
+            }
         }}/>
     )
 }
