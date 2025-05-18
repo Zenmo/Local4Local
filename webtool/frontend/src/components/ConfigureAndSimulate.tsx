@@ -16,7 +16,7 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
     const [pilot, setPilot] = pilotState
     const [showSimulation, setShowSimulation] = useState(false)
     const [simulation, setSimulation] = useState<AnyLogicCloudClient.Animation>()
-    const [simulationOutOfSync, setSimulationOutOfSync] =  useState(false)
+    const [simulationOutOfSync, setSimulationOutOfSync] = useState(false)
     // allows to sync the GUI after simulation changes
     const forceUpdate = useForceUpdate()
 
@@ -60,10 +60,10 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
             alignItems: "start",
         }} {...props}>
             <div style={{
-                width: "30%",
-                maxWidth: "25rem",
+                // width: "30%",
+                maxWidth: showSimulation ? "25rem" : "80rem",
                 padding: "0rem 1rem 1rem 1rem",
-                borderRight: (showSimulation || undefined) && "1px solid #ccc",
+                // borderRight: (showSimulation || undefined) && "1px solid #ccc",
             }}>
                 <Configure
                     pilot={pilot}
@@ -93,7 +93,7 @@ async function shouldShowResourcefully(simulation: AnyLogicCloudClient.Animation
     }
 }
 
-export const Overlay: FunctionComponent<{onClickStart: () => void}> = ({onClickStart}) => (
+export const Overlay: FunctionComponent<{ onClickStart: () => void }> = ({onClickStart}) => (
     <div style={{
         position: "absolute",
         top: 0,
