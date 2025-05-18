@@ -1,8 +1,7 @@
-import {FunctionComponent, ComponentProps} from "react"
+import {ComponentProps, FunctionComponent} from "react"
 import {IntroText} from "./IntroText.tsx"
 import {UnderDevelopmentNotice} from "./UnderDevelopmentNotice.tsx"
 import {StartButton} from "./StartButton.tsx"
-import {Flex} from "@radix-ui/themes"
 
 export const IntroPage: FunctionComponent<ComponentProps<"div">> = (props) => {
     // Deeplinks used to refer to the main page.
@@ -20,12 +19,11 @@ export const IntroPage: FunctionComponent<ComponentProps<"div">> = (props) => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            gap: "1rem",
         }} {...props}>
-            <UnderDevelopmentNotice />
-            <Flex direction={{initial: "column", md: "row"}}>
-                <IntroText />
-                <StartButton />
-            </Flex>
+            <IntroText/>
+            <UnderDevelopmentNotice/>
+            <StartButton/>
         </div>
     )
 }
