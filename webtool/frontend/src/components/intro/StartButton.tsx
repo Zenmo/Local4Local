@@ -10,11 +10,12 @@ export const StartButton: FunctionComponent<ComponentProps<typeof Button>> = ({s
         style={{
             height: "unset",
             fontSize: "1.5rem",
-            padding: "1.7rem 3rem",
+            padding: "1.7rem 6rem",
             margin: "0 4rem",
             backgroundColor: local4localLightGreen,
             alignSelf: "center",
             color: "black",
+            fontWeight: "bold",
             ...style,
         }}
         {...props}
