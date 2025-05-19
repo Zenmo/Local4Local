@@ -12,9 +12,9 @@ export const SolarFarmForm: FunctionComponent<{
     save: (solarFarm: SolarFarm) => void
     hide: () => void
 }> = ({initialData, save, hide}) => {
-    const onSubmit = (event: FormEvent) => {
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const form = event.target as HTMLFormElement
+        const form = event.currentTarget
         const formData = new FormData(form)
         
         const dataOrientation: { [key: string]: PVOrientation } = {

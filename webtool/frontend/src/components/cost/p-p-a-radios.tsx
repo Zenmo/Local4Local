@@ -15,7 +15,7 @@ export const PPARadios: FunctionComponent<{
                 <label style={{display: "block"}} key={ppaType.name}>
                     <input type="radio" name="ppaType" value={ppaType.name} defaultChecked={initialValue === ppaType} onChange={
                         event => {
-                            if (event.target.checked) {
+                            if (event.currentTarget.checked) {
                                 onChange(ppaType)
                             }
                         }

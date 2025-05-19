@@ -30,7 +30,7 @@ export const SdeSupplementForm: FunctionComponent<{
                         value={windFarm.cost.sdeAanvraagbedrag_eurpkWh || 0}
                         onInput={event => setPilot(
                             pilot.replaceWindFarmByRef(windFarm, windFarm.withSdeAanvraagbedrag_eurpkWh(
-                                parseFloat(event.target.value) || 0
+                                parseFloat(event.currentTarget.value) || 0
                             ))
                         )}
                     />
@@ -38,7 +38,7 @@ export const SdeSupplementForm: FunctionComponent<{
                         value={windFarm.cost.sdeBasisenergieprijs_eurpkWh || 0}
                         onInput={event => setPilot(
                             pilot.replaceWindFarmByRef(windFarm, windFarm.withSdeBasisenergieprijs_eurpkWh(
-                                parseFloat(event.target.value) || 0
+                                parseFloat(event.currentTarget.value) || 0
                             ))
                         )} />
                 </Fragment>
@@ -50,7 +50,7 @@ export const SdeSupplementForm: FunctionComponent<{
                         value={solarFarm.cost.sdeAanvraagbedrag_eurpkWh || 0}
                         onInput={event => setPilot(
                             pilot.replaceSolarFarmByRef(solarFarm, solarFarm.withSdeAanvraagbedrag_eurpkWh(
-                                parseFloat(event.target.value) || 0
+                                parseFloat(event.currentTarget.value) || 0
                             ))
                         )}
                     />
@@ -58,7 +58,7 @@ export const SdeSupplementForm: FunctionComponent<{
                         value={solarFarm.cost.sdeBasisenergieprijs_eurpkWh || 0}
                         onInput={event => setPilot(
                             pilot.replaceSolarFarmByRef(solarFarm, solarFarm.withSdeBasisenergieprijs_eurpkWh(
-                                parseFloat(event.target.value) || 0
+                                parseFloat(event.currentTarget.value) || 0
                             ))
                         )} />
                 </Fragment>
@@ -70,7 +70,7 @@ export const SdeSupplementForm: FunctionComponent<{
                         value={biogasGenerator.cost.sdeAanvraagbedrag_eurpkWh || 0}
                         onInput={event => setPilot(
                             pilot.replaceBiogasGeneratorByRef(biogasGenerator, biogasGenerator.withSdeAanvraagbedrag_eurpkWh(
-                                parseFloat(event.target.value) || 0
+                                parseFloat(event.currentTarget.value) || 0
                             ))
                         )}
                     />
@@ -78,7 +78,7 @@ export const SdeSupplementForm: FunctionComponent<{
                         value={biogasGenerator.cost.sdeBasisenergieprijs_eurpkWh || 0}
                         onInput={event => setPilot(
                             pilot.replaceBiogasGeneratorByRef(biogasGenerator, biogasGenerator.withSdeBasisenergieprijs_eurpkWh(
-                                parseFloat(event.target.value) || 0
+                                parseFloat(event.currentTarget.value) || 0
                             ))
                         )} />
                 </Fragment>

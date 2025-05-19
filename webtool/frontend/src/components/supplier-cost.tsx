@@ -53,9 +53,9 @@ export const SupplierCostForm: FunctionComponent<{
     save: (supplierCost: SupplierCost) => void
     hide: () => void
 }> = ({initialData, save, hide}) => {
-    const onSubmit = (event: FormEvent) => {
+    const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
-        const form = event.target as HTMLFormElement
+        const form = event.currentTarget
         const formData = new FormData(form)
         const supplierCost = new SupplierCost(
             parseFloat(formData.get("bufferPrice_eurpkWh") as string) || 0,
