@@ -8,6 +8,7 @@ import Animation = AnyLogicCloudClient.Animation
 import {getCoopReport} from "./preview.ts"
 import {Local4LocalButton} from "../Local4LocalButton.tsx"
 import {local4localLightGreen} from "../../colors.ts"
+import {PilotState} from "../../services/use-pilot.ts"
 
 async function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot, anyLogicAnimation: Animation): Promise<ResourcefullyExport> {
     const form = new FormData(submitEvent.currentTarget)
@@ -25,8 +26,9 @@ async function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot, a
 
 export const ResourcefullyDialogContent: FunctionComponent<{
     anyLogicAnimation: Animation,
-    pilot: Pilot,
-}> = ({pilot, anyLogicAnimation}) => {
+    pilotState: PilotState,
+}> = ({pilotState, anyLogicAnimation}) => {
+    const [pilot] = pilotState
     const [error, setError] = useState("")
     const [submitted, setSubmitted] = useState(false)
 
@@ -56,7 +58,9 @@ export const ResourcefullyDialogContent: FunctionComponent<{
         }
     }
 
-    let content = <ResourcefullyForm onSubmit={onSubmit} />
+    let content = <ResourcefullyForm
+        onSubmit={onSubmit}
+        pilotState={pilotState} />
 
     if (submitted) {
         content = (

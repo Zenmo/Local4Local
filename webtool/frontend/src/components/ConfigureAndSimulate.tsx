@@ -4,15 +4,16 @@ import {savePilot} from "../services/save.ts"
 import {startSimulation} from "../services/anylogic.ts"
 import {Pilot} from "local4local"
 import {Simulate} from "./simulate.tsx"
-import {intializePilotFromDeeplink} from "./deeplink.ts"
 import {ResourcefullyDialog} from "./resourcefully/dialog.tsx"
 import {useForceUpdate} from "../services/use-force-update.ts"
 import {usePromiseValue} from "../services/use-promise-value.ts"
+import {usePilot} from "../services/use-pilot.ts"
 
 export const anylogicElementId = "anylogic"
 
 export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (props) => {
-    const [pilot, setPilot] = useState(intializePilotFromDeeplink)
+    const pilotState = usePilot()
+    const [pilot, setPilot] = pilotState
     const [showSimulation, setShowSimulation] = useState(false)
     const [simulation, setSimulation] = useState<AnyLogicCloudClient.Animation>()
     const [simulationOutOfSync, setSimulationOutOfSync] =  useState(false)
@@ -74,7 +75,8 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
             {showSimulation && (
                 <div style={{padding: 0, flexGrow: 1, position: "sticky", top: 0}}>
                     <Simulate />
-                    {simulation && showResourceFully && <ResourcefullyDialog pilot={pilot} anyLogicAnimation={simulation} />}
+                    {simulation && showResourceFully &&
+                        <ResourcefullyDialog pilotState={pilotState} anyLogicAnimation={simulation} />}
                     {simulationOutOfSync && <Overlay onClickStart={onClickStart} />}
                 </div>
             )}
