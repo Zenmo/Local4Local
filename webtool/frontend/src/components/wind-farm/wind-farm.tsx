@@ -39,7 +39,7 @@ export const WindFarmDisplay: FunctionComponent<{
     )
 }
 
-const WindFarmHeading = () => (
+export const WindFarmHeading = () => (
     <Heading as="h3" style={{paddingBottom: ".5rem"}}>
         <GiWindTurbine />
         &nbsp;
@@ -56,7 +56,6 @@ export const WindFarmForm: FunctionComponent<{
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const formData = new FormData(form);
-        console.log(formData)
 
         const windFarm = new WindFarm(
             parseFloat(formData.get("nominalPower_kW") as string),

@@ -5,6 +5,7 @@ import { AssetCost, PPAType } from "local4local"
 import {titles} from "../info/titles.tsx"
 import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
 import {PPARadios} from "./p-p-a-radios.tsx"
+import {SdeAanvraagBedragFormRow, SdeBasisenergiePrijsFormRow} from "./SdeForm.tsx"
 
 export const CostDisplay: FunctionComponent<{
     cost: AssetCost,
@@ -129,24 +130,10 @@ export const CostSection: FunctionComponent<{
                         : null}
                     {ppaType === PPAType.FLOOR_CAP_PPA ?
                         <>
-                            <div className="radix-grid">
-                                <LabelWithInfo data={titles["sdeAanvraagbedrag_eurpkWh"]} />
-                                <input className="form-input" type="number" id="sdeAanvraagbedrag_eurpkWh"
-                                       name="sdeAanvraagbedrag_eurpkWh"
-                                       min={0} step={0.001}
-                                       placeholder="€/kWh"
-                                       defaultValue={initialData?.sdeAanvraagbedrag_eurpkWh || 0}
-                                />
-                            </div>
-                            <div className="radix-grid">
-                                <LabelWithInfo data={titles["sdeBasisenergieprijs_eurpkWh"]} />
-                                <input className="form-input" type="number" id="sdeBasisenergieprijs_eurpkWh"
-                                       name="sdeBasisenergieprijs_eurpkWh"
-                                       min={0} step={0.001}
-                                       placeholder="€/kWh"
-                                       defaultValue={initialData?.sdeBasisenergieprijs_eurpkWh || 0}
-                                />
-                            </div>
+                            <SdeAanvraagBedragFormRow
+                                defaultValue={initialData?.sdeAanvraagbedrag_eurpkWh || 0} />
+                            <SdeBasisenergiePrijsFormRow
+                                defaultValue={initialData?.sdeBasisenergieprijs_eurpkWh || 0} />
                         </>
                         : null}
                 </>

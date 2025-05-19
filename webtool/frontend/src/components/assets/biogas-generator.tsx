@@ -34,7 +34,7 @@ export const BiogasGeneratorDisplay: FunctionComponent<{
     )
 }
 
-const BiogasGeneratorHeading = () => (
+export const BiogasGeneratorHeading = () => (
     <Heading as="h3" style={{paddingBottom: ".5rem"}}>
         <ImFire />
         &nbsp;

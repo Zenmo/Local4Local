@@ -2,11 +2,16 @@ import {EventHandler, FunctionComponent, SyntheticEvent} from "react"
 import {Dialog, Flex, Text, TextField} from "@radix-ui/themes"
 import {Local4LocalButton} from "../Local4LocalButton.tsx"
 import {local4localDarkOrange, local4localLightBlue, local4localLightOrange} from "../../colors.ts"
+import {PilotState} from "../../services/use-pilot.ts"
+import {SdeSupplementForm} from "./SdeSupplementForm.tsx"
 
 export type ReactSubmitEvent = SyntheticEvent<HTMLFormElement, SubmitEvent>
 export type SubmitEventHandeler = EventHandler<ReactSubmitEvent>
 
-export const ResourcefullyForm: FunctionComponent<{onSubmit: SubmitEventHandeler}> = ({onSubmit}) => (
+export const ResourcefullyForm: FunctionComponent<{
+    onSubmit: SubmitEventHandeler,
+    pilotState: PilotState
+}> = ({onSubmit, pilotState}) => (
     <form onSubmit={onSubmit}>
         <p>Resourcefully voert onder andere een sensitivity analyse uit.</p>
         <p>U ontvangt direct een ontvangstbevestiging per e-mail.</p>
@@ -36,6 +41,8 @@ export const ResourcefullyForm: FunctionComponent<{onSubmit: SubmitEventHandeler
                 <TextField.Root name="organizationName" placeholder="Organisatie" />
             </label>
         </Flex>
+
+        <SdeSupplementForm pilotState={pilotState} />
 
         <Flex gap="3" mt="4" justify="end">
             <Dialog.Close>

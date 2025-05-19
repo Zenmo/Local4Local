@@ -3,6 +3,7 @@ package nu.local4local.common
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlin.js.JsExport
+import kotlin.js.JsName
 import kotlin.math.roundToInt
 
 var idCounter = 1
@@ -46,7 +47,12 @@ data class Pilot(
     fun replaceBattery(battery: Battery, index: Int) = copy(batteries = batteries.replaceAt(index, battery))
     fun replaceHeatStorage(heatStorage: HeatStorage, index: Int) = copy(heatStorages = heatStorages.replaceAt(index, heatStorage))
     fun replaceBiogasGenerator(biogasGenerator: BiogasGenerator, index: Int) = copy(biogasGenerators = biogasGenerators.replaceAt(index, biogasGenerator))
+
     fun replaceCompany(old: Company, new: Company) = copy(companies = companies.replace(old, new))
+
+    fun replaceSolarFarmByRef(old: SolarFarm, new: SolarFarm) = copy(solarFarms = solarFarms.replace(old, new))
+    fun replaceWindFarmByRef(old: WindFarm, new: WindFarm) = copy(windFarms = windFarms.replace(old, new))
+    fun replaceBiogasGeneratorByRef(old: BiogasGenerator, new: BiogasGenerator) = copy(biogasGenerators = biogasGenerators.replace(old, new))
 
     // Extension function for List replacement
     private fun <T> List<T>.replaceAt(index: Int, newValue: T): List<T> {
@@ -60,6 +66,22 @@ data class Pilot(
 
     fun toJson(): String =
         Json.encodeToString(this)
+
+    fun hasFixedPriceAssets() = this.getFixedPriceWindFarms().isNotEmpty()
+            || this.getFixedPriceSolarFarms().isNotEmpty()
+            || this.getFixedPriceBiogasGenerators().isNotEmpty()
+
+    fun getFixedPriceWindFarms() = windFarms.filter {
+        it.cost.ppaType == PPAType.FIXED_PRICE_PPA
+    }
+
+    fun getFixedPriceSolarFarms() = solarFarms.filter {
+        it.cost.ppaType == PPAType.FIXED_PRICE_PPA
+    }
+
+    fun getFixedPriceBiogasGenerators() = biogasGenerators.filter {
+        it.cost.ppaType == PPAType.FIXED_PRICE_PPA
+    }
 }
 
 @JsExport
@@ -171,7 +193,19 @@ data class SolarFarm(
     val cost: AssetCost,
     val curtailment: Boolean = false,
     val id: String = "SolarFarm_${idCounter++}"
-)
+) {
+    fun withSdeAanvraagbedrag_eurpkWh(sdeAanvraagbedrag_eurpkWh: Double) = copy(
+        cost = cost.copy(
+            sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh
+        )
+    )
+
+    fun withSdeBasisenergieprijs_eurpkWh(sdeBasisenergieprijs_eurpkWh: Double) = copy(
+        cost = cost.copy(
+            sdeBasisenergieprijs_eurpkWh = sdeBasisenergieprijs_eurpkWh
+        )
+    )
+}
 
 @JsExport
 @Serializable
@@ -180,7 +214,19 @@ data class BiogasGenerator(
     val cost: AssetCost,
     val curtailment: Boolean = false,
     val id: String = "BiogasGenerator_${idCounter++}"
-)
+) {
+    fun withSdeAanvraagbedrag_eurpkWh(sdeAanvraagbedrag_eurpkWh: Double) = copy(
+        cost = cost.copy(
+            sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh
+        )
+    )
+
+    fun withSdeBasisenergieprijs_eurpkWh(withSdeBasisenergieprijs_eurpkWh: Double) = copy(
+        cost = cost.copy(
+            sdeBasisenergieprijs_eurpkWh = withSdeBasisenergieprijs_eurpkWh
+        )
+    )
+}
 
 @JsExport
 @Serializable
@@ -190,7 +236,19 @@ data class WindFarm(
     val location: WindFarmLocation = WindFarmLocation.BETUWE,
     val curtailment: Boolean = false,
     val id: String = "WindFarm_${idCounter++}"
-)
+) {
+    fun withSdeAanvraagbedrag_eurpkWh(sdeAanvraagbedrag_eurpkWh: Double) = copy(
+        cost = cost.copy(
+            sdeAanvraagbedrag_eurpkWh = sdeAanvraagbedrag_eurpkWh
+        )
+    )
+
+    fun withSdeBasisenergieprijs_eurpkWh(withSdeBasisenergieprijs_eurpkWh: Double) = copy(
+        cost = cost.copy(
+            sdeBasisenergieprijs_eurpkWh = withSdeBasisenergieprijs_eurpkWh
+        )
+    )
+}
 
 @JsExport
 @Serializable
