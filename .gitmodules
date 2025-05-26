@@ -10,6 +10,3 @@
 	path = anylogic/interface_loader
 	url = ../zero_Interface-Loader.git
 	branch = main
-[submodule "anylogic/zero_local4local/GenericData"]
-	path = anylogic/zero_local4local/GenericData
-	url = https://github.com/Zenmo/GenericData.git
