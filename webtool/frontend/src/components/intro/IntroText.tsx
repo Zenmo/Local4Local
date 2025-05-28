@@ -1,6 +1,6 @@
-import {ComponentProps, FunctionComponent} from "react"
+import {FunctionComponent} from "react"
 import {ExternalLink} from "../ExternalLink.tsx"
-import {Grid, Heading} from "@radix-ui/themes"
+import {Grid} from "@radix-ui/themes"
 import {css} from "@emotion/react"
 import {
     local4localDarkOrange,
@@ -11,24 +11,34 @@ import {
 
 const wikiLink = "https://local4local.notion.site/Hoe-maak-ik-een-grove-berekening-van-de-gelijktijdigheid-van-mijn-energiegemeenschap-17a0306d63c2805ba3c8d60695d662b5"
 
-const H2: FunctionComponent<ComponentProps<typeof Heading>> = ({children, style}) => (
-    <h2 style={{paddingTop: "1.5rem", ...style}}>{children}</h2>
-)
-
 const introTextStyle = css({
-    padding: "1rem 2rem",
+    padding: "1.5rem 2rem",
     textAlign: "justify",
     textAlignLast: "center",
     // border: "1px solid #ccc",
     borderRadius: "28px",
+    "& h2, & h1": {
+        padding: 0,
+        margin: 0,
+        textAlign: "center"
+    },
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
 })
 
 export const IntroText: FunctionComponent = () => {
     return (
         <Grid
-            columns={"2"}
-            rows={"2"}
-            gap={"4"}
+            columns={{
+                initial: "1",
+                md: "2",
+            }}
+            rows={{
+                initial: "repeat(4, auto) 8rem",
+                md: "1fr 1fr 8rem",
+            }}
+            gap="4"
             style={{
                 margin: "0rem 1rem",
                 maxWidth: "80rem",
@@ -47,7 +57,7 @@ export const IntroText: FunctionComponent = () => {
                 </p>
             </div>
             <div css={introTextStyle} style={{background: local4localDarkOrange + "4A"}}>
-                <H2 style={{color: local4localDarkOrange}}>Gelijktijdigheid optimaliseren</H2>
+                <h2 style={{color: local4localDarkOrange}}>Gelijktijdigheid optimaliseren</h2>
                 <p>
                     De Coöperatie Configurator geeft je vervolgens inzicht in de
                     totale <strong>opwek</strong> en <strong>verbruik</strong> van elektriciteit
@@ -58,7 +68,7 @@ export const IntroText: FunctionComponent = () => {
                 </p>
             </div>
             <div css={introTextStyle} style={{background: local4localLightOrange + "4A"}}>
-                <H2 style={{color: local4localLightOrange}}>Zorgvuldige prijsberekening</H2>
+                <h2 style={{color: local4localLightOrange}}>Zorgvuldige prijsberekening</h2>
                 <p>
                     Op basis van de kostprijs van opgewekte elektriciteit,
                     de inkoop en verkoop, en de weersdata en marktprijzen van elektriciteit uit 2023 wordt
@@ -73,7 +83,7 @@ export const IntroText: FunctionComponent = () => {
                 </p>
             </div>
             <div css={introTextStyle} style={{background: local4localLightBlue + "4A"}}>
-                <H2 style={{color: local4localLightBlue}}>Lokaal samenwerken</H2>
+                <h2 style={{color: local4localLightBlue}}>Lokaal samenwerken</h2>
                 <p>
                     Dit geeft je de mogelijkheid om jouw optimale <strong>energiegemeenschap</strong> te vormen,
                     zowel
@@ -82,8 +92,14 @@ export const IntroText: FunctionComponent = () => {
                     aantrekkelijk <strong>energietarief</strong> voor je leden. Probeer het zelf
                     uit, het is makkelijker dan je denkt!
                 </p>
-                <p style={{paddingTop: "1.5rem"}}>Meer informatie is te vinden in de <ExternalLink href={wikiLink}>local4local
-                    kennisbank</ExternalLink></p>
+            </div>
+            <div css={introTextStyle} style={{background: local4localDarkOrange + "4A",}}>
+                <p  style={{
+                    textAlign: "center",
+                }}>
+                    Meer informatie over deze tool en over local4local is te vinden in de&nbsp;
+                    <ExternalLink href={wikiLink}>local4local kennisbank</ExternalLink>
+                </p>
             </div>
         </Grid>
     )
