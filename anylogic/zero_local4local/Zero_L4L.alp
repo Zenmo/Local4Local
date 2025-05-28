@@ -310,7 +310,8 @@ List<Double> logisticsFleetEdemandList = selectFrom( profiles ).list( profiles.l
  
 // Weather data
 List<Double> windList = selectFrom( profiles ).list( profiles.wind_e_prod_normalized );
-List<Double> solarList = selectFrom( profiles ).list( profiles.solar_e_prod_south35deg_normalized );
+List<Double> solarList35DegSouth = selectFrom( profiles ).list( profiles.solar_e_prod_south35deg_normalized );
+List<Double> solarList15DegEastWest = selectFrom( profiles ).list( profiles.solar_e_prod_eastwest15deg_normalized );
 List<Double> tempList = selectFrom( profiles ).list( profiles.ambient_temperature_deg_c );
 List<Double> epexList = selectFrom( profiles ).list( profiles.day_ahead_price_eur_mwh ); 
 
@@ -327,7 +328,8 @@ industryOtherEdemandList(industryOtherEdemandList).
 industryOtherHdemandList(industryOtherHdemandList).
 logisticsFleetEdemandList(logisticsFleetEdemandList).
 windList(windList).
-solarList(solarList).
+solarList35DegSouth(solarList35DegSouth).
+solarList15DegEastWest(solarList15DegEastWest).
 tempList(tempList).
 epexList(epexList).build();]]></Body>
 				</Function>
@@ -386,7 +388,7 @@ for(Tuple row: rowsGenericCompanyBuildings){
 List<Tuple> rowsHouseBuildings = selectFrom(buildings).where(buildings.purpose.contains("woonfunctie")).list();		
 
 for(Tuple row: rowsHouseBuildings){
-	c_HouseBuilding_data.add(f_buildingRecordBuilder(row));
+	c_houseBuilding_data.add(f_buildingRecordBuilder(row));
 }]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -448,7 +450,7 @@ return building_data_record;]]></Body>
 					<Body><![CDATA[List<Tuple> rows = selectFrom(gridnodes).where(gridnodes.status).list();
 		
 for(Tuple row: rows){
-	c_GridNode_data.add(GridNode_data.builder().
+	c_gridNode_data.add(GridNode_data.builder().
 	
 	gridnode_id(row.get( gridnodes.gridnode_id )).
 	fid(row.get( gridnodes.fid )).
@@ -690,7 +692,7 @@ for(Tuple row : rows){
 					<Body><![CDATA[List<Tuple> rows = selectFrom(neighbourhoods).list();
 		
 for(Tuple row: rows){
-	c_Neighbourhood_data.add(Neighbourhood_data.builder().
+	c_neighbourhood_data.add(Neighbourhood_data.builder().
 	
 	districtcode(row.get( neighbourhoods.districtcode )).
 	districtname(row.get( neighbourhoods.districtname )).
@@ -850,7 +852,6 @@ energyCoop.p_onbalansMarkup_r = pilot.getSupplierCost().getOnbalansMarkup_r();
 f_createLocal4LocalWindFarms(pilot.getWindFarms(), energyCoop);
 f_createLocal4LocalSolarFarms(pilot.getSolarFarms(), energyCoop);
 f_createLocal4LocalBiogasGenerator(pilot.getBiogasGenerators(), energyCoop);
-
 f_createLocal4LocalBatteries(pilot.getBatteries(), energyCoop);
 
 //this.interface_L4L.cb_includeFeedinInCoopProduction.setVisible(false);
@@ -901,8 +902,9 @@ return coop_L4L;]]></Body>
 for (var windFarmData: windFarms) {
     
     //Grid
+    String windFarmID = windFarmData.getId();
 	GCEnergyProduction windFarm = energyModel.add_EnergyProductionSites();
-		windFarm.set_p_gridConnectionID( "windFarm0" );
+		windFarm.set_p_gridConnectionID( windFarmID );
 		windFarm.v_liveConnectionMetaData.physicalCapacity_kW = windFarmData.getNominalPower_kW();
 		windFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 		windFarm.p_curtailmentMode = OL_CurtailmentMode.MARKETPRICE;
@@ -960,7 +962,7 @@ for (var windFarmData: windFarms) {
 	Boolean fixedPPAtariff_b = windFarmData.getCost().getPpaType() == nu.local4local.common.PPAType.FIXED_PRICE_PPA ? true : false;
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b);
+	var costItem = new J_AssetCost(windFarm.c_productionAssets.get(windFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b, windFarmID);
 	energyCoop.c_AssetCosts.add(costItem);
 	interface_L4L.txt_windpark_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 	interface_L4L.txt_windpark_expnd_power_value.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
@@ -1195,8 +1197,9 @@ if (random.nextDouble() <= householdGroupData.getHasHomeBattery_r()) {
 					<Body><![CDATA[Interface_L4L interface_L4L = (Interface_L4L)zero_Interface;
 for (var solarFarmData: solarFarms) {
     //Grid
+    String solarFarmId = solarFarmData.getId();
 	GCEnergyProduction solarFarm = energyModel.add_EnergyProductionSites();
-		solarFarm.set_p_gridConnectionID( "solarFarm_" + solarFarm.getId());
+		solarFarm.set_p_gridConnectionID( solarFarmId );
 		solarFarm.v_liveConnectionMetaData.physicalCapacity_kW = solarFarmData.getNominalPower_kW();
 		solarFarm.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
 		solarFarm.p_curtailmentMode = OL_CurtailmentMode.MARKETPRICE;
@@ -1235,7 +1238,7 @@ for (var solarFarmData: solarFarms) {
 	Double depreciationPeriod_y = solarFarmData.getCost().getDepreciationPeriod_y();
 	Boolean fixedPPAtariff_b = solarFarmData.getCost().getPpaType() == nu.local4local.common.PPAType.FIXED_PRICE_PPA ? true : false;
 	
-	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b);
+	var costItem = new J_AssetCost(solarFarm.c_productionAssets.get(solarFarm.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b, solarFarmId);
 	energyCoop.c_AssetCosts.add(costItem);
 	interface_L4L.txt_solarpark_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
 	interface_L4L.txt_solarpark_expnd_power_value.setText(String.format("%s MW", solarFarmData.getNominalPower_kW()/1000));
@@ -1312,7 +1315,7 @@ for (var batteryData: batteries) {
 	double depreciationPeriod_y = batteryData.getCost().getDepreciationPeriod_y() == null ? 15 : batteryData.getCost().getDepreciationPeriod_y();
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, 0.0, 0.0, interestRate_r, depreciationPeriod_y, false);
+	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, 0.0, 0.0, interestRate_r, depreciationPeriod_y, false, batteryData.getId());
 	energyCoop.c_AssetCosts.add(costItem);
     
     
@@ -1452,8 +1455,9 @@ interface_L4L.f_initializeL4LuI(energyCoop );
 for (var generatorData: biogasGenerators) {
     
     //Grid
+    String biogasGeneratorID = generatorData.getId();
 	GCEnergyProduction biogasGeneratorSite = energyModel.add_EnergyProductionSites();
-		biogasGeneratorSite.set_p_gridConnectionID( "biogasGenerator0" );
+		biogasGeneratorSite.set_p_gridConnectionID( biogasGeneratorID );
 		biogasGeneratorSite.v_liveConnectionMetaData.physicalCapacity_kW = generatorData.getPower_kW();
 		biogasGeneratorSite.set_p_heatingType( OL_GridConnectionHeatingType.NONE );	
 		biogasGeneratorSite.p_curtailmentMode = OL_CurtailmentMode.MARKETPRICE;
@@ -1494,7 +1498,7 @@ for (var generatorData: biogasGenerators) {
 	Boolean fixedPPAtariff_b = generatorData.getCost().getPpaType() == nu.local4local.common.PPAType.FIXED_PRICE_PPA ? true : false;
 	
 	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b);
+	var costItem = new J_AssetCost(biogasGeneratorSite.c_productionAssets.get(biogasGeneratorSite.c_productionAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, SDEtariff_eurpKwh, SDE_basisenergieprijs_eurpkWh, interestRate_r, depreciationPeriod_y, fixedPPAtariff_b, biogasGeneratorID);
 	energyCoop.c_AssetCosts.add(costItem);
 	//this.interface_L4L.txt_assetPrefix_value1.setText(String.format("%s MW", windFarmData.getNominalPower_kW()/1000));
 }
@@ -1655,10 +1659,12 @@ for(int i = 0; i < argumentsList.size(); i++) {
 
 J_ProfilePointer profilePointer;
 
+/*
 TableFunction tf_solar_e_prod_eastwest15deg_normalized = new TableFunction(a_arguments, a_solarValues, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
 tf_solar_e_prod_eastwest15deg_normalized.setArgumentsAndValues(a_arguments, a_solarValues);
 profilePointer = new J_ProfilePointer("solar_e_prod_eastwest15deg_normalized", tf_solar_e_prod_eastwest15deg_normalized);
 energyModel.f_addProfile(profilePointer);
+*/
 
 TableFunction tf_p_wind_hvh_normalized = new TableFunction(a_arguments, a_wind_hvh_values, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
 //tf_p_wind_hvh_normalized.setArgumentsAndValues(a_arguments, a_solarValues);
@@ -1770,6 +1776,15 @@ energyModel.f_addProfile(profilePointer);
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[map_scale]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_currentActiveInfoBubble]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_maxNrSelectedGCForExport]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -1887,6 +1902,15 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[map_scale]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_maxNrSelectedGCForExport]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_currentActiveInfoBubble]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -8947,9 +8971,6 @@ public void f_calculateKPIs(){
 					<Name><![CDATA[p_actorContractList]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[p_connectionCapacity_kW]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[p_gridNodeUnderResponsibility]]></Name>
 				</Parameter>
 				<Parameter>
@@ -8990,6 +9011,9 @@ public void f_calculateKPIs(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_actorSubgroup]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_connectionCapacity_kW]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -9629,6 +9653,7 @@ return benchmarkTariff_eurpMWh;
 		<ActiveObjectClass>
 			<Id>1729516384990</Id>
 			<Name><![CDATA[CoopReportTable]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
 			<Extends><![CDATA[ChartArea]]></Extends>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -9789,9 +9814,6 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 			</ExtendsReference>
 			<Parameters>
 				<Parameter>
-					<Name><![CDATA[p_isSliderGC]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[p_gridConnectionCategory]]></Name>
 				</Parameter>
 				<Parameter>
@@ -9883,6 +9905,15 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_address]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_isSliderGC]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_parentNodeHeat]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_parentNodeElectric]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -9994,7 +10025,7 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
 					<Body><![CDATA[if (p_batteryAsset.getStorageCapacity_kWh() != 0){	
-	GridNode GN = l_parentNodeElectric.getConnectedAgent();
+	GridNode GN = p_parentNodeElectric;
 	double currentCoopElectricitySurplus_kW = 0;
 	double CoopConnectionCapacity_kW = 0;
 	double v_previousPowerBattery_kW = v_previousPowerElectricity_kW;// Assumes battery is only asset on gridconnection!! p_batteryAsset.electricityConsumption_kW-p_batteryAsset.electricityProduction_kW;
@@ -10074,7 +10105,7 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 	
 	double chargeSetpoint_kW = 0;	
 	double currentElectricityPriceCharge_eurpkWh;
-	GridNode GN = l_parentNodeElectric.getConnectedAgent();
+	GridNode GN = p_parentNodeElectric;
 	//double currentElectricityPriceDischarge_eurpkWh;
 	/*if(l_ownerActor.getConnectedAgent() instanceof ConnectionOwner) {
 		ConnectionOwner ownerActor = (ConnectionOwner)l_ownerActor.getConnectedAgent();
@@ -10152,17 +10183,17 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 	double CoopConnectionCapacity_kW = 0;
 	double v_previousPowerBattery_kW = v_previousPowerElectricity_kW;// Assumes battery is only asset on gridconnection!! p_batteryAsset.electricityConsumption_kW-p_batteryAsset.electricityProduction_kW;
 	//traceln("Previous battery power: " + v_previousPowerElectricity_kW);
-	if(l_ownerActor.getConnectedAgent() instanceof ConnectionOwner) {
-		if(((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent instanceof EnergyCoop ) { // get electricity balance from Coop 			
-			currentCoopElectricitySurplus_kW = ((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_electricitySurplus_kW + v_previousPowerBattery_kW;
-			CoopConnectionCapacity_kW = 0.9*((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_allowedCapacity_kW; // Use only 90% of capacity for robustness against delay			
+	if(p_owner instanceof ConnectionOwner) {
+		if(p_owner.p_coopParent instanceof EnergyCoop ) { // get electricity balance from Coop 			
+			currentCoopElectricitySurplus_kW = p_owner.p_coopParent.v_electricitySurplus_kW + v_previousPowerBattery_kW;
+			CoopConnectionCapacity_kW = 0.9*p_owner.p_coopParent.v_allowedCapacity_kW; // Use only 90% of capacity for robustness against delay			
 		} else { // Get gridload directly from node
-			GridNode node = l_parentNodeElectric.getConnectedAgent();
+			GridNode node = p_parentNodeElectric;
 			currentCoopElectricitySurplus_kW = -node.v_currentLoad_kW + v_previousPowerBattery_kW;			
 			CoopConnectionCapacity_kW = 0.95*node.p_capacity_kW; // Use only 90% of capacity for robustness against delay
 		}
 	} else { // Get gridload directly from node
-		GridNode node = l_parentNodeElectric.getConnectedAgent();
+		GridNode node = p_parentNodeElectric;
 		currentCoopElectricitySurplus_kW = -node.v_currentLoad_kW + v_previousPowerBattery_kW;			
 		CoopConnectionCapacity_kW = 0.95*node.p_capacity_kW; // Use only 90% of capacity for robustness against delay
 	}
@@ -10240,15 +10271,15 @@ if (p_batteryAsset.getStorageCapacity_kWh() != 0){
 						<Name><![CDATA[batterySOC]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[GridNode node = l_parentNodeElectric.getConnectedAgent();
+					<Body><![CDATA[GridNode node = p_parentNodeElectric;
 if (p_batteryAsset.getStorageCapacity_kWh() != 0){	
 	//traceln("Hello!");
 	double currentCoopElectricitySurplus_kW = 0;
 	//double CoopConnectionCapacity_kW = 0;
 	double v_previousPowerBattery_kW = v_previousPowerElectricity_kW;// Assumes battery is only asset on gridconnection!! p_batteryAsset.electricityConsumption_kW-p_batteryAsset.electricityProduction_kW;
 	//traceln("Previous battery power: " + v_previousPowerElectricity_kW);
-	GridNode GN = l_parentNodeElectric.getConnectedAgent();
-	if(l_ownerActor.getConnectedAgent() instanceof ConnectionOwner) {
+	GridNode GN = p_parentNodeElectric;
+	if(p_owner instanceof ConnectionOwner) {
 		/*if(((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent instanceof EnergyCoop ) { // get electricity balance from Coop 			
 			currentCoopElectricitySurplus_kW = ((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_electricitySurplus_kW + v_previousPowerBattery_kW;
 			CoopConnectionCapacity_kW = 0.9*((ConnectionOwner)l_ownerActor.getConnectedAgent()).p_coopParent.v_allowedCapacity_kW; // Use only 90% of capacity for robustness against delay			
@@ -10353,6 +10384,21 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_cutOff_MWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[gr_infoText]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[gr_closeInfoText]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_infoTextDescription]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[rect_infoText]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_currentActiveInfoBubble]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -10732,7 +10778,7 @@ public class J_AssetCost implements Serializable {
 	@JsonSerialize
 	private String ID;
 	
-	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, Double LCOE_eurpkWh, double SDE_aanvraagbedrag_eurpkWh, double SDE_basisenergieprijs_eurpkWh, double interestRate_r, double depreciationPeriod_y, boolean fixedTariffPPA) {
+	public J_AssetCost(J_EA j_ea, double CAPEX_eur, double OPEX_eurpa, Double LCOE_eurpkWh, double SDE_aanvraagbedrag_eurpkWh, double SDE_basisenergieprijs_eurpkWh, double interestRate_r, double depreciationPeriod_y, boolean fixedTariffPPA, String IdString) {
 		this.energyAsset = j_ea;
 		this.CAPEX_eur = CAPEX_eur;
 		this.OPEX_eurpa = OPEX_eurpa;
@@ -10743,7 +10789,7 @@ public class J_AssetCost implements Serializable {
 		this.depreciationPeriod_y = depreciationPeriod_y;
 		this.fixedTariffPPA = fixedTariffPPA;
 		java.util.Random random = new java.util.Random();
-		ID = "" + random.nextInt();
+		ID = IdString;
 	}
 	
 	/*
@@ -10914,6 +10960,7 @@ public class J_CoopReport implements Serializable {
 	J_AccountingLine benchmark = J_AccountingLine.NaN();
 	@JsonSerialize
 	List<J_AssetCost> assetList = new ArrayList<J_AssetCost>();
+	
 	@JsonSerialize
 	public void addAssetCost(J_AssetCost asset) {
 		assetList.add(asset);
@@ -11005,6 +11052,11 @@ public class J_CoopReport implements Serializable {
 		<Resource>
 			<Path><![CDATA[noun-house-prosumer.png]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Path><![CDATA[Export_ModelData.xlsx]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 	</ModelResources>
