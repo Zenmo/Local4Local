@@ -99,12 +99,6 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				<Parameter>
 					<Name><![CDATA[customProfiles_data]]></Name>
 				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
-				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -316,7 +310,8 @@ List<Double> logisticsFleetEdemandList = selectFrom( profiles ).list( profiles.l
  
 // Weather data
 List<Double> windList = selectFrom( profiles ).list( profiles.wind_e_prod_normalized );
-List<Double> solarList = selectFrom( profiles ).list( profiles.solar_e_prod_south35deg_normalized );
+List<Double> solarList35DegSouth = selectFrom( profiles ).list( profiles.solar_e_prod_south35deg_normalized );
+List<Double> solarList15DegEastWest = selectFrom( profiles ).list( profiles.solar_e_prod_eastwest15deg_normalized );
 List<Double> tempList = selectFrom( profiles ).list( profiles.ambient_temperature_deg_c );
 List<Double> epexList = selectFrom( profiles ).list( profiles.day_ahead_price_eur_mwh ); 
 
@@ -333,7 +328,8 @@ industryOtherEdemandList(industryOtherEdemandList).
 industryOtherHdemandList(industryOtherHdemandList).
 logisticsFleetEdemandList(logisticsFleetEdemandList).
 windList(windList).
-solarList(solarList).
+solarList35DegSouth(solarList35DegSouth).
+solarList15DegEastWest(solarList15DegEastWest).
 tempList(tempList).
 epexList(epexList).build();]]></Body>
 				</Function>
@@ -1663,10 +1659,12 @@ for(int i = 0; i < argumentsList.size(); i++) {
 
 J_ProfilePointer profilePointer;
 
+/*
 TableFunction tf_solar_e_prod_eastwest15deg_normalized = new TableFunction(a_arguments, a_solarValues, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
 tf_solar_e_prod_eastwest15deg_normalized.setArgumentsAndValues(a_arguments, a_solarValues);
 profilePointer = new J_ProfilePointer("solar_e_prod_eastwest15deg_normalized", tf_solar_e_prod_eastwest15deg_normalized);
 energyModel.f_addProfile(profilePointer);
+*/
 
 TableFunction tf_p_wind_hvh_normalized = new TableFunction(a_arguments, a_wind_hvh_values, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
 //tf_p_wind_hvh_normalized.setArgumentsAndValues(a_arguments, a_solarValues);
@@ -1913,21 +1911,6 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -9031,18 +9014,6 @@ public void f_calculateKPIs(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_connectionCapacity_kW]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[b_fixedAssetTariff]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
