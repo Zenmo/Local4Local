@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -85,9 +85,6 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 					<Name><![CDATA[zero_Interface]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[genericProfiles_data]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[project_data]]></Name>
 				</Parameter>
 				<Parameter>
@@ -97,7 +94,13 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 					<Name><![CDATA[user]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[customProfiles_data]]></Name>
+					<Name><![CDATA[defaultProfiles_data]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localSession]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -295,7 +298,8 @@ zero_Interface.settings = settings;
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[List<Double> argumentsList = selectFrom( profiles ).list( profiles.t_h );
+					<Body><![CDATA[/*
+List<Double> argumentsList = selectFrom( profiles ).list( profiles.t_h );
 
 // Various demand profiles
 List<Double> houseEdemandList = selectFrom( profiles ).list( profiles.house_e_demand_other );
@@ -316,22 +320,50 @@ List<Double> tempList = selectFrom( profiles ).list( profiles.ambient_temperatur
 List<Double> epexList = selectFrom( profiles ).list( profiles.day_ahead_price_eur_mwh ); 
 
 //Create Profiles_data object
-genericProfiles_data = Profiles_data.builder().
-argumentsList(argumentsList).
-houseEdemandList(houseEdemandList).
-houseHDHWdemandList(houseHDHWdemandList).
-buildingEdemandList(buildingEdemandList).
-buildingHeatDemandList(buildingHeatDemandList).
-industrySteelEdemandList(industrySteelEdemandList).
-industrySteelHdemandList(industrySteelHdemandList).
-industryOtherEdemandList(industryOtherEdemandList).
-industryOtherHdemandList(industryOtherHdemandList).
-logisticsFleetEdemandList(logisticsFleetEdemandList).
-windList(windList).
-solarList35DegSouth(solarList35DegSouth).
-solarList15DegEastWest(solarList15DegEastWest).
-tempList(tempList).
-epexList(epexList).build();]]></Body>
+defaultProfiles_data = defaultProfiles_data.builder().
+arguments_hr(argumentsList).
+defaultHouseElectricityDemandProfile_fr(houseEdemandList).
+defaultHouseHotWaterDemandProfile_fr(houseHDHWdemandList).
+defaultOfficeElectricityDemandProfile_fr(buildingEdemandList).
+defaultBuildingHeatDemandProfile_fr(buildingHeatDemandList).
+
+build();
+*/
+
+//Profile Arguments
+List<Double> arguments_hr = selectFrom( profiles ).list( profiles.t_h );
+ 
+//Weather data
+List<Double> ambientTemperatureProfile_degC = selectFrom( profiles ).list( profiles.ambient_temperature_deg_c );
+List<Double> PVProductionProfile35DegSouth_fr = selectFrom( profiles ).list( profiles.solar_e_prod_south35deg_normalized);
+List<Double> PVProductionProfile15DegEastWest_fr = selectFrom( profiles ).list( profiles.solar_e_prod_eastwest15deg_normalized);
+List<Double> windProductionProfile_fr = selectFrom( profiles ).list( profiles.wind_e_prod_normalized );
+ 
+//Epex data
+List<Double> epexProfile_eurpMWh = selectFrom( profiles ).list( profiles.day_ahead_price_eur_mwh );
+ 
+//Various demand profile data
+List<Double> defaultHouseElectricityDemandProfile_fr = selectFrom( profiles ).list( profiles.house_e_demand_other );
+List<Double> defaultHouseHotWaterDemandProfile_fr = selectFrom( profiles ).list( profiles.house_h_demand_hot_water );
+//List<Double> defaultHouseCookingDemandProfile_fr = selectFrom( profiles ).list( profiles.house_cooking_demand );
+ 
+List<Double> defaultOfficeElectricityDemandProfile_fr = selectFrom( profiles ).list( profiles.building_e_demand_other );
+List<Double> defaultBuildingHeatDemandProfile_fr = selectFrom( profiles ).list( profiles.building_h_demand );
+ 
+//Create Profiles_data object
+defaultProfiles_data = DefaultProfiles_data.builder().
+arguments_hr(arguments_hr).
+ambientTemperatureProfile_degC(ambientTemperatureProfile_degC).
+PVProductionProfile35DegSouth_fr(PVProductionProfile35DegSouth_fr).
+PVProductionProfile15DegEastWest_fr(PVProductionProfile15DegEastWest_fr).
+windProductionProfile_fr(windProductionProfile_fr).
+epexProfile_eurpMWh(epexProfile_eurpMWh).
+defaultHouseElectricityDemandProfile_fr(defaultHouseElectricityDemandProfile_fr).
+defaultHouseHotWaterDemandProfile_fr(defaultHouseHotWaterDemandProfile_fr).
+//defaultHouseCookingDemandProfile_fr(defaultHouseCookingDemandProfile_fr).
+defaultOfficeElectricityDemandProfile_fr(defaultOfficeElectricityDemandProfile_fr).
+defaultBuildingHeatDemandProfile_fr(defaultBuildingHeatDemandProfile_fr).
+build();]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1096,7 +1128,7 @@ double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumption
 var newAsset = new J_EAConsumption(
 	gcHouse,
 	OL_EnergyAssetType.ELECTRICITY_DEMAND,
-	"house_other_electricity_demand",
+	"default_house_electricity_demand_fr",
 	yearlyDemandElectricity_kWh,
 	OL_EnergyCarriers.ELECTRICITY,
 	energyModel.p_timeStep_h,
@@ -1371,7 +1403,7 @@ switch (asset_type){
 case PHOTOVOLTAIC: 
 	//asset_name = "Solar Panels";
 	if (pvOrientation == nu.local4local.common.PVOrientation.SOUTH) {
-		profilePointer = energyModel.pp_solarPVproduction;
+		profilePointer = energyModel.pp_PVProduction35DegSouth_fr;
 		//traceln("Override PV orientation east-west as test!");
 		//profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
 	} else { // east/west
@@ -1632,7 +1664,8 @@ if (companyData.getPvInstalled_kWp() > 0.0) {
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[List<Double> argumentsList = genericProfiles_data.argumentsList();
+					<Body><![CDATA[//List<Double> argumentsList = defaultProfiles_data.argumentsList();
+List<Double> argumentsList = selectFrom( profiles ).list( profiles.t_h );
 double[] a_arguments = new double[argumentsList.size()];
  
 // Weather data
@@ -1911,6 +1944,21 @@ import java.io.PrintStream;]]></Import>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_current]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_2]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_3]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -2509,6 +2557,7 @@ if (b_includeFeedInInCoopProduction) {
 double ratioGenerationDelivery = (EC.v_rapidRunData.getTotalElectricitySelfConsumed_MWh() + EC.v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY)) / ( EC.v_rapidRunData.getTotalElectricitySelfConsumed_MWh() + EC.v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY));
 if ( ratioGenerationDelivery > 1.5 ) {
 	grp_balanceWarning.setVisible(true);
+	grp_balanceWarning.setY(1350);
 }
 //area.v_annualElectricityExport_MWh = EC.v_electricityExported_kWh/1000;
 //area.v_annualSelfConsumedElectricity_MWh = EC.v_totalElectricitySelfConsumed_MWh;
@@ -2603,7 +2652,7 @@ else {
 			double outputTemperature_degC = 0.0;
 			double installedPVCapacity_kW = uniform(3,6);
 
-			J_EAProduction productionAsset = new J_EAProduction ( house, OL_EnergyAssetType.PHOTOVOLTAIC, assetName, installedPVCapacity_kW, capacityHeat_kW, yearlyProductionMethane_kWh, yearlyProductionHydrogen_kWh, energyModel.p_timeStep_h, outputTemperature_degC, energyModel.pp_solarPVproduction );
+			J_EAProduction productionAsset = new J_EAProduction ( house, OL_EnergyAssetType.PHOTOVOLTAIC, assetName, installedPVCapacity_kW, capacityHeat_kW, yearlyProductionMethane_kWh, yearlyProductionHydrogen_kWh, energyModel.p_timeStep_h, outputTemperature_degC, energyModel.pp_PVProduction35DegSouth_fr );
 			c_orderedPVSystems.remove(house);
 			c_orderedPVSystems.add(0, house);
 			energyModel.v_liveAssetsMetaData.totalInstalledPVPower_kW += installedPVCapacity_kW;
@@ -2942,6 +2991,28 @@ f_resetSettings();]]></Body>
 					<LevelVisibility>DIM_NON_CURRENT</LevelVisibility>
 
 			<Presentation>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1733846842865</Id>
+					<Name><![CDATA[btn_toSystemView]]></Name>
+					<X>-1460</X><Y>1110</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="120" Height="50">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor/>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[viewAreaL4L.setX(-3950);
+viewAreaL4L.navigateTo();]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LabelText><![CDATA[Systeem view]]></LabelText>
+					</ExtendedProperties>
+				</Control>
 				<Rectangle>
 					<Id>1734422478490</Id>
 					<Name><![CDATA[rect_kostprijs_plus3]]></Name>
@@ -5451,76 +5522,6 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 					<Alignment>CENTER</Alignment>
 				</Text>
 				<Group>
-					<Id>1730998285479</Id>
-					<Name><![CDATA[grp_balanceWarning]]></Name>
-					<X>-1700</X><Y>2220</Y>
-					<Label><X>7.559</X><Y>0</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>false</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<OnClickCode><![CDATA[grp_balanceWarning.setVisible(false);]]></OnClickCode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-
-			<Presentation>
-				<RoundedRectangle>
-					<Id>1730998285481</Id>
-					<Name><![CDATA[rrect_households_expnd1]]></Name>
-					<X>-143.631</X><Y>-140</Y>
-					<Label><X>10</X><Y>10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<ZHeight>10</ZHeight>
-					<LineWidth>1</LineWidth>
-					<LineColor>-16777216</LineColor>
-					<LineMaterial>null</LineMaterial>
-					<LineStyle>SOLID</LineStyle>
-					<Width>1806.732</Width>
-					<Height>660</Height>
-					<Rotation>0.0</Rotation>
-					<FillColor>-1</FillColor>
-					<FillMaterial>null</FillMaterial>
-					<ArcRadius>10</ArcRadius>
-				</RoundedRectangle>
-				<Text>
-					<Id>1730998285485</Id>
-					<Name><![CDATA[txt_households_expnd_title1]]></Name>
-					<X>755.955</X><Y>-49.872</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Let op!
-
-Je energiegemeenschap heeft een groot overschot aan opwek.
-Breng je gemeenschap in balans door meer klanten toe te voegen 
-of door minder opwekvermogen toe te kennen aan je energiegemeenschap
-
-Het kostenoverzicht is nu waarschijnlijk niet representatief.
-
-Klik op dit vlak om verder te gaan.]]></Text>
-					<Font>
-						<Name>SansSerif</Name>
-						<Size>48</Size>
-						<Style>1</Style>
-					</Font>
-					<Alignment>CENTER</Alignment>
-				</Text>
-			</Presentation>
-
-				</Group>
-				<Group>
 					<Id>1733827501249</Id>
 					<Name><![CDATA[grp_header]]></Name>
 					<X>-960</X><Y>1020</Y>
@@ -5800,28 +5801,6 @@ Klik op dit vlak om verder te gaan.]]></Text>
 					<Dy>830</Dy>
 					<Dz>0</Dz>
 				</Line>
-				<Control Type="Button">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1733846842865</Id>
-					<Name><![CDATA[btn_toSystemView]]></Name>
-					<X>-1460</X><Y>1110</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="120" Height="50">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[viewAreaL4L.setX(-3950);
-viewAreaL4L.navigateTo();]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="11" Style="0"/>
-						<LabelText><![CDATA[Systeem view]]></LabelText>
-					</ExtendedProperties>
-				</Control>
 				<Control Type="Button">
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1733846973423</Id>
@@ -7776,6 +7755,76 @@ SPOT markt]]></Text>
 					</Font>
 					<Alignment>CENTER</Alignment>
 				</Text>
+				<Group>
+					<Id>1730998285479</Id>
+					<Name><![CDATA[grp_balanceWarning]]></Name>
+					<X>-1700</X><Y>2220</Y>
+					<Label><X>7.559</X><Y>0</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>false</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[grp_balanceWarning.setVisible(false);]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+
+			<Presentation>
+				<RoundedRectangle>
+					<Id>1730998285481</Id>
+					<Name><![CDATA[rrect_households_expnd1]]></Name>
+					<X>-143.631</X><Y>-140</Y>
+					<Label><X>10</X><Y>10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<ZHeight>10</ZHeight>
+					<LineWidth>1</LineWidth>
+					<LineColor>-16777216</LineColor>
+					<LineMaterial>null</LineMaterial>
+					<LineStyle>SOLID</LineStyle>
+					<Width>1806.732</Width>
+					<Height>780</Height>
+					<Rotation>0.0</Rotation>
+					<FillColor>-1</FillColor>
+					<FillMaterial>null</FillMaterial>
+					<ArcRadius>10</ArcRadius>
+				</RoundedRectangle>
+				<Text>
+					<Id>1730998285485</Id>
+					<Name><![CDATA[txt_households_expnd_title1]]></Name>
+					<X>755.955</X><Y>-49.872</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Let op!
+
+Je energiegemeenschap heeft een groot overschot aan opwek.
+Breng je gemeenschap in balans door meer klanten toe te voegen 
+of door minder opwekvermogen toe te kennen aan je energiegemeenschap
+
+Het kostenoverzicht is nu waarschijnlijk niet representatief.
+
+Klik op dit vlak om verder te gaan.]]></Text>
+					<Font>
+						<Name>SansSerif</Name>
+						<Size>48</Size>
+						<Style>1</Style>
+					</Font>
+					<Alignment>CENTER</Alignment>
+				</Text>
+			</Presentation>
+
+				</Group>
 			</Presentation>
 
 				</Level>
@@ -8651,7 +8700,7 @@ return svgId;]]></Body>
 							<Name><![CDATA[zero_Interface]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[genericProfiles_data]]></Name>
+							<Name><![CDATA[defaultProfiles_data]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[project_data]]></Name>
@@ -8661,9 +8710,6 @@ return svgId;]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[user]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[customProfiles_data]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -9015,6 +9061,18 @@ public void f_calculateKPIs(){
 				<Parameter>
 					<Name><![CDATA[p_connectionCapacity_kW]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[b_fixedAssetTariff]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -9302,13 +9360,13 @@ for (var ci : c_AssetCosts) {
 		for (int i=0; i<gcBalanceTimeSeries_kW.length; i++) {
 			// SDE subsidie voor alle stroom van eigen opwekassets: (exclusief opwek bij klanten)
 			double currentProduction_MWh = -gcBalanceTimeSeries_kW[i] / 1000 * energyModel.p_timeStep_h;
-			productionEPEXvalue_eur += currentProduction_MWh  * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+			productionEPEXvalue_eur += currentProduction_MWh  * energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i);
 			
 			if (ci.getFixedTariffPPA()) { // Old style LCOE only, no SDE-subsidies either	
 				productionCost_eur += currentProduction_MWh * 1000 * ci.LCOE_eurpkWh();
 			} else {
 				//SDEincome += currentProduction_kW * energyModel.p_timeStep_h * max(0,SDE_tariff_eurpMWh-max(SDE_lowerLimit_eurpMWh, energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
-				productionCost_eur += currentProduction_MWh * max(SDE_lowerLimit_eurpMWh,min(SDE_tariff_eurpMWh, energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i)));
+				productionCost_eur += currentProduction_MWh * max(SDE_lowerLimit_eurpMWh,min(SDE_tariff_eurpMWh, energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i)));
 			}
 		}
 		totalOwnProductionCost_eur += productionCost_eur;
@@ -9352,11 +9410,11 @@ v_selfConsumptionCoopAssets_MWh = 0;
 
 for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant arrays.
 	// Loop through coop nett power to calculate yearly money to EPEX
-	EPEXcosts_eur += max(0,v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
-	EPEXincome_eur += max(0,-v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	EPEXcosts_eur += max(0,v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h * energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i);	
+	EPEXincome_eur += max(0,-v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h * energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i);	
 	
 	// Need feedIn accumulator to calculate customer Feedin costs based on hourly EPEX price.
-	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);
+	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i]/1000 * energyModel.p_timeStep_h * energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i);
 
 	// Opwek van eigen productie assets die geleverd wordt aan klanten:
 	v_selfConsumptionCoopAssets_MWh += max(0,acc_totalOwnElectricityProduction_kW.getTimeSeries_kW()[i] - max(0,-v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW()[i]))*energyModel.p_timeStep_h/1000;
@@ -9564,12 +9622,12 @@ for (int i=0; i<arrayLength; i++) { // Loop over all timesteps for the relevant 
 	// Loop through coop nett power to calculate yearly money to EPEX
 	double currentEPEXbalance_MWh = (acc_totalCustomerDelivery_kW.getTimeSeries_kW()[i]-acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i])/1000 * energyModel.p_timeStep_h;
 	
-	EPEXcosts_eur += max(0,currentEPEXbalance_MWh) * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
-	EPEXincome_eur += max(0,-currentEPEXbalance_MWh) * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	EPEXcosts_eur += max(0,currentEPEXbalance_MWh) * energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i);	
+	EPEXincome_eur += max(0,-currentEPEXbalance_MWh) * energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i);	
 	EPEXbuy_MWh += max(0,currentEPEXbalance_MWh);
 	EPEXsell_MWh += max(0,-currentEPEXbalance_MWh);
 	
-	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i]/1000 * energyModel.p_timeStep_h * energyModel.tf_dayAheadElectricityPricing_eurpMWh(energyModel.p_timeStep_h*i);	
+	FeedInEPEXvalue_eur += acc_totalCustomerFeedIn_kW.getTimeSeries_kW()[i]/1000 * energyModel.p_timeStep_h * energyModel.pp_dayAheadElectricityPricing_eurpMWh.getValue(energyModel.p_timeStep_h*i);	
 }
 
 double onbalansCosts_eur = p_onbalansMarkup_r * ( EPEXcosts_eur + EPEXincome_eur );
