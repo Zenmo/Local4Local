@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172110" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -95,12 +95,6 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[defaultProfiles_data]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -345,7 +339,7 @@ List<Double> epexProfile_eurpMWh = selectFrom( profiles ).list( profiles.day_ahe
 //Various demand profile data
 List<Double> defaultHouseElectricityDemandProfile_fr = selectFrom( profiles ).list( profiles.house_e_demand_other );
 List<Double> defaultHouseHotWaterDemandProfile_fr = selectFrom( profiles ).list( profiles.house_h_demand_hot_water );
-//List<Double> defaultHouseCookingDemandProfile_fr = selectFrom( profiles ).list( profiles.house_cooking_demand );
+List<Double> defaultHouseCookingDemandProfile_fr = selectFrom( profiles ).list( profiles.house_cooking_demand );
  
 List<Double> defaultOfficeElectricityDemandProfile_fr = selectFrom( profiles ).list( profiles.building_e_demand_other );
 List<Double> defaultBuildingHeatDemandProfile_fr = selectFrom( profiles ).list( profiles.building_h_demand );
@@ -360,7 +354,7 @@ windProductionProfile_fr(windProductionProfile_fr).
 epexProfile_eurpMWh(epexProfile_eurpMWh).
 defaultHouseElectricityDemandProfile_fr(defaultHouseElectricityDemandProfile_fr).
 defaultHouseHotWaterDemandProfile_fr(defaultHouseHotWaterDemandProfile_fr).
-//defaultHouseCookingDemandProfile_fr(defaultHouseCookingDemandProfile_fr).
+defaultHouseCookingDemandProfile_fr(defaultHouseCookingDemandProfile_fr).
 defaultOfficeElectricityDemandProfile_fr(defaultOfficeElectricityDemandProfile_fr).
 defaultBuildingHeatDemandProfile_fr(defaultBuildingHeatDemandProfile_fr).
 build();]]></Body>
@@ -1945,21 +1939,6 @@ import java.io.PrintStream;]]></Import>
 				<Parameter>
 					<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
 				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_custom]]></Name>
-				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -2619,16 +2598,16 @@ if(!b_runningMainInterfaceScenarios){
 }
 //PV_pct = 0;
 
-double nbHousesWithPV = count(c_housesInGroup, x -> x.v_hasPV == true);
+double nbHousesWithPV = count(c_housesInGroup, x -> x.v_liveAssetsMetaData.hasPV == true);
 
 if( PV_pct /100.0 < nbHousesWithPV / c_housesInGroup.size() ){
 	while ( PV_pct / 100.0 * energyModel.Houses.size() < nbHousesWithPV ) { // remove excess PV systems
-		GridConnection house = findFirst(c_orderedPVSystems, x -> x.v_hasPV == true && c_housesInGroup.contains(x));		
+		GCHouse house = findFirst(c_orderedPVSystemsHouses, x -> x.v_liveAssetsMetaData.hasPV == true && c_housesInGroup.contains(x));		
 		J_EA pvAsset = findFirst(house.c_productionAssets, p -> p.energyAssetType == OL_EnergyAssetType.PHOTOVOLTAIC );
 		if (pvAsset != null) {
 			pvAsset.removeEnergyAsset();
-			c_orderedPVSystems.remove( house) ;
-			c_orderedPVSystems.add(0, house) ;
+			c_orderedPVSystemsHouses.remove( house) ;
+			c_orderedPVSystemsHouses.add(0, house) ;
 			nbHousesWithPV --; 
 		}
 		else {
@@ -2639,7 +2618,7 @@ if( PV_pct /100.0 < nbHousesWithPV / c_housesInGroup.size() ){
 }
 else {
 	while ( PV_pct / 100.0 > nbHousesWithPV / c_housesInGroup.size()) {
-		GridConnection house = findFirst(c_orderedPVSystems, x -> x.v_hasPV == false && c_housesInGroup.contains(x));
+		GCHouse house = findFirst(c_orderedPVSystemsHouses, x -> x.v_liveAssetsMetaData.hasPV == false && c_housesInGroup.contains(x));
 		if (house == null){
 			traceln("No gridconnection without PV panels found! Current PVsystems count: %s", nbHousesWithPV);
 			break;
@@ -2653,8 +2632,8 @@ else {
 			double installedPVCapacity_kW = uniform(3,6);
 
 			J_EAProduction productionAsset = new J_EAProduction ( house, OL_EnergyAssetType.PHOTOVOLTAIC, assetName, installedPVCapacity_kW, capacityHeat_kW, yearlyProductionMethane_kWh, yearlyProductionHydrogen_kWh, energyModel.p_timeStep_h, outputTemperature_degC, energyModel.pp_PVProduction35DegSouth_fr );
-			c_orderedPVSystems.remove(house);
-			c_orderedPVSystems.add(0, house);
+			c_orderedPVSystemsHouses.remove(house);
+			c_orderedPVSystemsHouses.add(0, house);
 			energyModel.v_liveAssetsMetaData.totalInstalledPVPower_kW += installedPVCapacity_kW;
 			nbHousesWithPV ++;	
 		}
@@ -2698,7 +2677,7 @@ if( targetHeatPumpAmount < nbHeatPumps){
 			heatPump.removeEnergyAsset();
 			nbHeatPumps --;
 			c_orderedHeatingSystemsHouses.remove(gc);
-			c_orderedHeatingSystemsHouses.add(0, gc);
+			c_orderedHeatingSystemsHouses.add(0, (GCHouse)gc);
 			 
 			// In loader: f_addEnergyAssetsToHouses staat jaarlijks gasverbruik in else???
 			J_EAConsumption heatDemandAsset = findFirst(gc.c_consumptionAssets, j_ea->j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
@@ -2739,7 +2718,7 @@ else {
 			}
 			nbHeatPumps ++;
 			c_orderedHeatingSystemsHouses.remove(gc);
-			c_orderedHeatingSystemsHouses.add(0, gc);
+			c_orderedHeatingSystemsHouses.add(0, (GCHouse)gc);
 			gc.p_heatingType = OL_GridConnectionHeatingType.HEATPUMP_AIR;
 		} 
 		else {
@@ -9061,18 +9040,6 @@ public void f_calculateKPIs(){
 				<Parameter>
 					<Name><![CDATA[p_connectionCapacity_kW]]></Name>
 				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[b_fixedAssetTariff]]></Name>
-				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -10634,7 +10601,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 				</TableReference>
 				<ConnectionIndex>0</ConnectionIndex>
 				<ExternalTableName><![CDATA["profiles_2023"]]></ExternalTableName>
-				<AutoImport>false</AutoImport>
+				<AutoImport>true</AutoImport>
 			</TableImportSettings>
 		</ImportSettings>
 		<ExportSettings>
