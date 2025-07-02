@@ -1409,7 +1409,7 @@ case PHOTOVOLTAIC:
 		//traceln("Override PV orientation east-west as test!");
 		//profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
 	} else { // east/west
-		profilePointer = energyModel.f_findProfile("solar_e_prod_eastwest15deg_normalized");
+		profilePointer = energyModel.f_findProfile("normalized_PV_production_eastwest");
 	}
 	capacityElectric_kW = installedPower_kW;
 	//traceln("Installing PV for %s with power %s", parentGC.p_ownerID, capacityElectric_kW);
