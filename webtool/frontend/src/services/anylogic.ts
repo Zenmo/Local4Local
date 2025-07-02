@@ -10,7 +10,7 @@ export const startSimulation = async (divId: string, sessionId: string): Promise
 
     const cloudClient = CloudClient.create(apiKey, "https://anylogic.zenmo.com")
     const model = await cloudClient.getModelById(modelId)
-    const latestVersion = await cloudClient.getModelVersionByNumber(model, model.modelVersions.length)
+    const latestVersion = await cloudClient.getLatestModelVersion(model)
     const inputs = cloudClient.createDefaultInputs(latestVersion)
     inputs.setInput("p_local4localBackendUrl", import.meta.env.VITE_ANYLOGIC_CALLBACK_URL)
     inputs.setInput("p_local4localSession", sessionId)
