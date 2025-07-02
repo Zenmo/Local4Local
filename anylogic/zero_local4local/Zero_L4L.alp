@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.2.202410172112" AlpVersion="8.9.2">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.5.202506190548" AlpVersion="8.9.5">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -37,9 +37,7 @@
 			</Option>
 		</OptionList>
 	</OptionLists>
-	
 	<Folders>
-		
 	</Folders>
 	<ActiveObjectClasses>
 		<!--   =========   Active Object Class   ========  -->
@@ -96,6 +94,12 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				<Parameter>
 					<Name><![CDATA[defaultProfiles_data]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localSession]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -112,7 +116,7 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
-			<SceneBackgroundColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
 			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -157,6 +161,7 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 			</EnvironmentProperties>
 			<DatasetsCreationProperties>
 				<AutoCreate>true</AutoCreate>
+					<Id>1658477089983</Id>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1709107200000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
@@ -1309,18 +1314,19 @@ if (solarFarms.size() == 0) {
 					<Body><![CDATA[    
 for (var batteryData: batteries) {
 	traceln("creating L4L battery!");
-    //Owner
-    ConnectionOwner connectionOwner = energyModel.add_pop_connectionOwners();
+ 
+    if ( batteryData.getPeakPower_kW()>0 ){
+    	//Owner
+    	ConnectionOwner connectionOwner = energyModel.add_pop_connectionOwners();
         connectionOwner.set_p_actorID( "battery_" + connectionOwner.getId());
         connectionOwner.set_p_actorType( OL_ActorType.CONNECTIONOWNER );
         connectionOwner.set_p_connectionOwnerType( OL_ConnectionOwnerType.BATTERY_OP );
         connectionOwner.set_p_actorGroup("production");
         connectionOwner.p_energyCoopID = energyCoop.p_actorID;
-    
-    //GridConnection
+        //GridConnection
     	GridBatteryL4L gridBattery = new GridBatteryL4L();
     	gridBattery.goToPopulation(energyModel.GridBatteries);
-    //GCGridBattery gridBattery = energyModel.add_GridBatteries();
+    	//GCGridBattery gridBattery = energyModel.add_GridBatteries();
         gridBattery.set_p_gridConnectionID( "battery_" + gridBattery.getId() );
         gridBattery.set_p_ownerID( connectionOwner.p_actorID );
         gridBattery.set_p_owner( connectionOwner );
@@ -1329,22 +1335,24 @@ for (var batteryData: batteries) {
         gridBattery.v_liveConnectionMetaData.contractedFeedinCapacity_kW = batteryData.getPeakPower_kW();
         gridBattery.v_liveConnectionMetaData.contractedDeliveryCapacity_kW = batteryData.getPeakPower_kW();
         gridBattery.set_p_batteryOperationMode(OL_BatteryOperationMode.BALANCE);
- 
-    //Battery Asset
-    f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
-    //f_addStorage(gridBattery, 100, 100, OL_EnergyAssetType.STORAGE_ELECTRIC );
+        //Battery Asset   	
+    	f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
+    	//f_addStorage(gridBattery, 100, 100, OL_EnergyAssetType.STORAGE_ELECTRIC );
      
-    Double CAPEX_eur = batteryData.getCost().getCAPEX_eur();
-	Double OPEX_eurpa = batteryData.getCost().getOPEX_eurpy();
-	Double LCOE_eurpkWh = batteryData.getCost().getLCOE_eurpkWH();
-	double interestRate_r = batteryData.getCost().getInterest_r() == null ? 0.06 : batteryData.getCost().getInterest_r();
-	double depreciationPeriod_y = batteryData.getCost().getDepreciationPeriod_y() == null ? 15 : batteryData.getCost().getDepreciationPeriod_y();
-	
-	//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
-	var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, 0.0, 0.0, interestRate_r, depreciationPeriod_y, false, batteryData.getId());
-	energyCoop.c_AssetCosts.add(costItem);
-    
-    
+	    Double CAPEX_eur = batteryData.getCost().getCAPEX_eur();
+		Double OPEX_eurpa = batteryData.getCost().getOPEX_eurpy();
+		Double LCOE_eurpkWh = batteryData.getCost().getLCOE_eurpkWH();
+		double interestRate_r = batteryData.getCost().getInterest_r() == null ? 0.06 : batteryData.getCost().getInterest_r();
+		double depreciationPeriod_y = batteryData.getCost().getDepreciationPeriod_y() == null ? 15 : batteryData.getCost().getDepreciationPeriod_y();
+		
+		//traceln("WINDFARM LCOE: %s", LCOE_eurpkWh);
+		var costItem = new J_AssetCost(gridBattery.c_storageAssets.get(gridBattery.c_storageAssets.size()-1), CAPEX_eur, OPEX_eurpa, LCOE_eurpkWh, 0.0, 0.0, interestRate_r, depreciationPeriod_y, false, batteryData.getId());
+		energyCoop.c_AssetCosts.add(costItem);
+	    
+
+    } else {
+    	traceln("Battery with non-positive PeakPower_kW, no asset created!");
+    }    
     //Cost item for kostprijs+
     /*Double CAPEX_eurpa = null; //solarFarmData.getCAPEX_eurpa();
 	Double OPEX_eurpa = null; //solarFarmData.getOPEX_eurpa();
@@ -1430,15 +1438,15 @@ case GAS_BURNER:
 	traceln("Creating biogasGenerator asset!");
 break;
 
-case PHOTOTHERMAL: //NOT USED YET
+/*case PHOTOTHERMAL: //NOT USED YET
 	//asset_name = "PVT";
 	capacityElectric_kW = installedPower_kW*0.5;//??????
 	capacityHeat_kW	= installedPower_kW*0.5; // ????????
 	outputTemperature_degC = 60; // ??????
-break;
+break;*/
 }
 
-J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset_name, capacityElectric_kW , capacityHeat_kW, yearlyProductionMethane_kWh, yearlyProductionHydrogen_kWh, timestep_h, outputTemperature_degC, profilePointer);
+J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset_name, OL_EnergyCarriers.ELECTRICITY, capacityElectric_kW, timestep_h, profilePointer);
 //return production_asset;
 ]]></Body>
 				</Function>
@@ -1819,7 +1827,7 @@ energyModel.f_addProfile(profilePointer);
 						<Code><![CDATA[100]]></Code>
 					</Replication>
 					<CollectionType>ARRAY_LIST_BASED</CollectionType>
-					<InEnvironment>true</InEnvironment>	
+					<InEnvironment>true</InEnvironment>
 					<InitialLocationType>XYZ</InitialLocationType>
 					<XCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
@@ -1841,6 +1849,7 @@ energyModel.f_addProfile(profilePointer);
 					</LocationNameCode>
 					<InitializationType>SPECIFIED_NUMBER</InitializationType>
 					<InitializationDatabaseTableQuery>
+						<Id>1658477089982</Id>
 						<TableReference>
 						</TableReference>
 					</InitializationDatabaseTableQuery>
@@ -1939,6 +1948,21 @@ import java.io.PrintStream;]]></Import>
 				<Parameter>
 					<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_current]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_2]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_3]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_custom]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -1955,7 +1979,7 @@ import java.io.PrintStream;]]></Import>
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
-			<SceneBackgroundColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
 			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -2000,6 +2024,7 @@ import java.io.PrintStream;]]></Import>
 			</EnvironmentProperties>
 			<DatasetsCreationProperties>
 				<AutoCreate>true</AutoCreate>
+					<Id>1658477089981</Id>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1722412800000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
@@ -2631,7 +2656,7 @@ else {
 			double outputTemperature_degC = 0.0;
 			double installedPVCapacity_kW = uniform(3,6);
 
-			J_EAProduction productionAsset = new J_EAProduction ( house, OL_EnergyAssetType.PHOTOVOLTAIC, assetName, installedPVCapacity_kW, capacityHeat_kW, yearlyProductionMethane_kWh, yearlyProductionHydrogen_kWh, energyModel.p_timeStep_h, outputTemperature_degC, energyModel.pp_PVProduction35DegSouth_fr );
+			J_EAProduction productionAsset = new J_EAProduction ( house, OL_EnergyAssetType.PHOTOVOLTAIC, assetName, OL_EnergyCarriers.ELECTRICITY, installedPVCapacity_kW, energyModel.p_timeStep_h, energyModel.pp_PVProduction35DegSouth_fr );
 			c_orderedPVSystemsHouses.remove(house);
 			c_orderedPVSystemsHouses.add(0, house);
 			energyModel.v_liveAssetsMetaData.totalInstalledPVPower_kW += installedPVCapacity_kW;
@@ -2982,7 +3007,7 @@ f_resetSettings();]]></Body>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<BasicProperties Width="120" Height="50">
                         <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
+						<TextColor>-16777216</TextColor>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[viewAreaL4L.setX(-3950);
 viewAreaL4L.navigateTo();]]></ActionCode>
@@ -3153,7 +3178,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<BasicProperties Width="380" Height="135">
                         <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
+						<TextColor>-16777216</TextColor>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[//Set selected scenario string
 String selected_scenario = "";
@@ -4844,7 +4869,7 @@ Opwek en Levering]]></Text>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<BasicProperties Width="440" Height="40">
                         <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
+						<TextColor>-16777216</TextColor>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[b_includeFeedInInCoopProduction = cb_includeFeedinInCoopProduction.isSelected(); 
 f_getCoopReport(); 
@@ -5792,7 +5817,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<BasicProperties Width="120" Height="50">
                         <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
+						<TextColor>-16777216</TextColor>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[viewAreaL4L.setX(-1930);
 viewAreaL4L.navigateTo();]]></ActionCode>
@@ -7848,7 +7873,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
-			<SceneBackgroundColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
 			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -7893,6 +7918,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 			</EnvironmentProperties>
 			<DatasetsCreationProperties>
 				<AutoCreate>true</AutoCreate>
+					<Id>1658477089980</Id>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1726214400000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
@@ -8522,6 +8548,10 @@ total_cars_houses(total_cars_houses).
 total_vans_companies(total_vans_companies).
 total_trucks_companies(total_trucks_companies).
 build();
+
+//Data files
+//String fileName = "data_Generic\\AlbatrossProcessedVehicleTrips.csv";
+//loader_L4L.inputCSVhouseholdTrips.setFile(fileName, TextFile.READ);
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -8696,7 +8726,7 @@ return svgId;]]></Body>
 						<Code><![CDATA[100]]></Code>
 					</Replication>
 					<CollectionType>ARRAY_LIST_BASED</CollectionType>
-					<InEnvironment>true</InEnvironment>	
+					<InEnvironment>true</InEnvironment>
 					<InitialLocationType>XYZ</InitialLocationType>
 					<XCode Class="CodeValue">
 						<Code><![CDATA[0]]></Code>
@@ -8718,6 +8748,7 @@ return svgId;]]></Body>
 					</LocationNameCode>
 					<InitializationType>SPECIFIED_NUMBER</InitializationType>
 					<InitializationDatabaseTableQuery>
+						<Id>1658477089979</Id>
 						<TableReference>
 						</TableReference>
 					</InitializationDatabaseTableQuery>
@@ -8963,7 +8994,7 @@ return svgId;]]></Body>
 					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
 					<BasicProperties Width="100" Height="30">
                         <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor/>
+						<TextColor>-16777216</TextColor>
 						<Enabled>true</Enabled>
 						<ActionCode><![CDATA[f_getCoopReport();]]></ActionCode>
 					</BasicProperties>
@@ -9040,6 +9071,18 @@ public void f_calculateKPIs(){
 				<Parameter>
 					<Name><![CDATA[p_connectionCapacity_kW]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[b_fixedAssetTariff]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -9056,7 +9099,7 @@ public void f_calculateKPIs(){
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
-			<SceneBackgroundColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
 			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -9101,6 +9144,7 @@ public void f_calculateKPIs(){
 			</EnvironmentProperties>
 			<DatasetsCreationProperties>
 				<AutoCreate>true</AutoCreate>
+					<Id>1658477089978</Id>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1729065600000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
@@ -9695,7 +9739,7 @@ return benchmarkTariff_eurpMWh;
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
-			<SceneBackgroundColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
 			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -9740,6 +9784,7 @@ return benchmarkTariff_eurpMWh;
 			</EnvironmentProperties>
 			<DatasetsCreationProperties>
 				<AutoCreate>true</AutoCreate>
+					<Id>1658477089977</Id>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1729584000000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
@@ -9869,9 +9914,6 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 					<Name><![CDATA[p_heatingType]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[p_energyAssetList]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[p_chargingAttitudeVehicles]]></Name>
 				</Parameter>
 				<Parameter>
@@ -9956,7 +9998,7 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
-			<SceneBackgroundColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
 			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -10001,6 +10043,7 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 			</EnvironmentProperties>
 			<DatasetsCreationProperties>
 				<AutoCreate>true</AutoCreate>
+					<Id>1658477089976</Id>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1732262400000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
@@ -10441,7 +10484,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 			<ElementsLimitValue>100</ElementsLimitValue>
 			<MakeDefaultViewArea>true</MakeDefaultViewArea>
 			<SceneGridColor/>
-			<SceneBackgroundColor/>
+			<SceneBackgroundColor>-4144960</SceneBackgroundColor>
 			<SceneSkybox>null</SceneSkybox>
 			<AgentProperties>
 				<EnvironmentDefinesInitialLocation>true</EnvironmentDefinesInitialLocation>
@@ -10486,6 +10529,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 			</EnvironmentProperties>
 			<DatasetsCreationProperties>
 				<AutoCreate>true</AutoCreate>
+					<Id>1658477089975</Id>
 					<OccurrenceAtTime>true</OccurrenceAtTime>
 					<OccurrenceDate>1739865600000</OccurrenceDate>
 					<OccurrenceTime Class="CodeUnitValue">
@@ -10565,10 +10609,12 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 	<RelativeAccuracy>1.0</RelativeAccuracy>
 	<TimeAccuracy>0.1</TimeAccuracy>
 	<Frame>
+		<Id>1658477089984</Id>
 		<Width>1920</Width>
 		<Height>980</Height>
 	</Frame>
 	<Database>
+		<Id>1658477089974</Id>
 		<Logging>false</Logging>
 		<AutoExport>false</AutoExport>
 		<ShutdownCompact>false</ShutdownCompact>
@@ -10595,6 +10641,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 				<Password><![CDATA[]]></Password>
 			</ExternalConnection>
 			<TableImportSettings>
+				<Id>1658477089973</Id>
 				<TableReference>
 					<PackageName><![CDATA[zerol4l]]></PackageName>
 					<ClassName><![CDATA[profiles]]></ClassName>
@@ -10650,7 +10697,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 		<Outputs>
 		</Outputs>
 	</RunConfiguration>
-	<Experiments>	
+	<Experiments>
 		<!--   =========   Simulation Experiment   ========  -->
 		<SimulationExperiment ActiveObjectClassId="1726154250910">
 			<Id>1726135194587</Id>
@@ -10689,7 +10736,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 				</Image>
 			</Presentation>
 
-			<Parameters>			
+			<Parameters>
 				<Parameter>
 					<ParameterName><![CDATA[project_name]]></ParameterName>
 				</Parameter>
@@ -10756,21 +10803,21 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 				<Parameter>
 					<ParameterName><![CDATA[p_local4localSession]]></ParameterName>
 				</Parameter>
-			</Parameters>			
+			</Parameters>
 			<PresentationProperties>
 				<EnableZoomAndPanning>true</EnableZoomAndPanning>
 				<ExecutionMode><![CDATA[realTimeScaled]]></ExecutionMode>
-				<Title><![CDATA[Zero_L4L : Simulation]]></Title>	
+				<Title><![CDATA[Zero_L4L : Simulation]]></Title>
 				<EnableDeveloperPanel>true</EnableDeveloperPanel>
 				<ShowDeveloperPanelOnStart>false</ShowDeveloperPanelOnStart>
 				<RealTimeScale>5.0</RealTimeScale>
 			</PresentationProperties>
 			<ModelTimeProperties>
 				<StopOption><![CDATA[Stop at specified time]]></StopOption>
-				<InitialDate><![CDATA[1672531200000]]></InitialDate>	
-				<InitialTime><![CDATA[0.0]]></InitialTime>	
-				<FinalDate><![CDATA[1704066300000]]></FinalDate>	
-				<FinalTime><![CDATA[8759.75]]></FinalTime>	
+				<InitialDate><![CDATA[1672531200000]]></InitialDate>
+				<InitialTime><![CDATA[0.0]]></InitialTime>
+				<FinalDate><![CDATA[1704066300000]]></FinalDate>
+				<FinalTime><![CDATA[8759.75]]></FinalTime>
 			</ModelTimeProperties>
 			<BypassInitialScreen>true</BypassInitialScreen>
 		</SimulationExperiment>	
@@ -11010,77 +11057,92 @@ public class J_CoopReport implements Serializable {
 	</JavaClasses>
 	<ModelResources>
 		<Resource>
+			<Id>1658477089999</Id>
 			<Path><![CDATA[data_Generic/db_profiles.xlsx]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089998</Id>
 			<Path><![CDATA[logo_zenmo.png]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089997</Id>
 			<Path><![CDATA[../interface_loader/lombok.jar]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089996</Id>
 			<Path><![CDATA[noun-solarfarm.png]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089995</Id>
 			<Path><![CDATA[noun-windmill.png]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089994</Id>
 			<Path><![CDATA[noun-house.png]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
-			<Path><![CDATA[data_Generic/AlbatrossProcessedVehicleTrips.xlsx]]></Path>
-			<ReferencedFromUserCode>true</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[data_Generic/inputECookerPatterns.xlsx]]></Path>
-			<ReferencedFromUserCode>true</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
-			<Path><![CDATA[data_Generic/inputTruckTripPatterns.xlsx]]></Path>
-			<ReferencedFromUserCode>true</ReferencedFromUserCode>
-			<Location>FILE_SYSTEM</Location>
-		</Resource>
-		<Resource>
+			<Id>1658477089990</Id>
 			<Path><![CDATA[data_Generic/Laadprofielen_standaard.xlsx]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089989</Id>
 			<Path><![CDATA[local4local-client.jar]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089988</Id>
 			<Path><![CDATA[L4L_LOGO.png]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089987</Id>
 			<Path><![CDATA[noun-electricity-3408805.png]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089986</Id>
 			<Path><![CDATA[noun-house-prosumer.png]]></Path>
 			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 		<Resource>
+			<Id>1658477089985</Id>
 			<Path><![CDATA[Export_ModelData.xlsx]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1751285937547</Id>
+			<Path><![CDATA[data_Generic/AlbatrossProcessedVehicleTrips.csv]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1751285937561</Id>
+			<Path><![CDATA[data_Generic/inputECookerPatterns.csv]]></Path>
+			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1751285937562</Id>
+			<Path><![CDATA[data_Generic/inputTruckTripPatterns.csv]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
@@ -11127,4 +11189,62 @@ public class J_CoopReport implements Serializable {
 	</ClassPathEntry>
 	<CloudModelUuid><![CDATA[b9f2137d-b8cc-462f-85a4-fb2379f0eb39]]></CloudModelUuid>
 </Model>
+<ConvertersApplied>
+	<Uuid>9f7858c9-b2c8-4ead-9244-fd08833f642b</Uuid>
+	<Uuid>404652e6-561a-404c-aab2-ab7415f40ef5</Uuid>
+	<Uuid>6fd6cd57-6dfe-4fc6-be0b-c74065351957</Uuid>
+	<Uuid>3325dc48-3ad4-41e3-836f-dfd0e98fe1ed</Uuid>
+	<Uuid>3f69ef3d-706e-41a6-8af0-11658c5eef68</Uuid>
+	<Uuid>3f6fe405-e047-4304-91d6-6eee206d1106</Uuid>
+	<Uuid>820d2b51-5b4a-48e7-b0b6-e46418e3c0f2</Uuid>
+	<Uuid>630818fa-8975-4b70-976f-03180dce01db</Uuid>
+	<Uuid>7c7e471c-004e-495e-a4ad-d840620ab38e</Uuid>
+	<Uuid>3e38ff63-1f70-4ec0-b42c-e879b146785d</Uuid>
+	<Uuid>b1eb86e4-14b3-405c-8257-56b80f1b485d</Uuid>
+	<Uuid>d55f9fb6-86bb-45ea-9db1-79cecfa0ce91</Uuid>
+	<Uuid>ab77aafd-8f02-4354-b789-928d45b1f73c</Uuid>
+	<Uuid>e4f14fd7-1c4a-42e9-b91d-db2415f475db</Uuid>
+	<Uuid>6d208120-6c7a-45a6-b411-402f18890d9b</Uuid>
+	<Uuid>1816cdd0-177c-4973-9e88-dd8b95318556</Uuid>
+	<Uuid>5c23f62f-06dc-46ad-8ead-688ec434e3e5</Uuid>
+	<Uuid>5c7d7990-3f35-41eb-ae16-d0c16098acc6</Uuid>
+	<Uuid>02a16c52-a834-4f30-b6af-a6aee51a294e</Uuid>
+	<Uuid>f0988929-2718-4984-a1b6-c1f2ce152f1f</Uuid>
+	<Uuid>1c9d9cfe-ea2b-43f9-8f62-dc31d8ed3ae1</Uuid>
+	<Uuid>34cb742a-8ba4-47a7-87e6-f2685fe69e97</Uuid>
+	<Uuid>4fe10751-c399-4752-94b7-30113ad45070</Uuid>
+	<Uuid>c13fe5ac-6466-446e-886a-12df1431b1eb</Uuid>
+	<Uuid>714f9ca2-426e-4bff-8569-2d18f58fdcf8</Uuid>
+	<Uuid>045aeb5f-1087-4ac7-9702-a49404e7f7e8</Uuid>
+	<Uuid>840e9a0a-de98-4b7d-a172-f9bbda2d6b98</Uuid>
+	<Uuid>e342358b-75ed-4812-9376-6043fb6cb473</Uuid>
+	<Uuid>f3d5ccdc-1bb3-466f-871d-f6b92a26cbb4</Uuid>
+	<Uuid>59acb6fb-561c-4038-b722-a596a748b3c7</Uuid>
+	<Uuid>be7e6726-05c0-4228-821d-a8df91aeb5bc</Uuid>
+	<Uuid>df4a6a60-9ce8-4c6c-91c0-ad5a5d732259</Uuid>
+	<Uuid>47491eb9-4606-42bd-8399-125a2b95fded</Uuid>
+	<Uuid>9b2d1306-5d19-439a-8f2c-b144dd7e22fa</Uuid>
+	<Uuid>ef421152-8732-4f97-9acb-c8e9a6890d5e</Uuid>
+	<Uuid>d48f8080-25b1-44f5-8322-7bf2712ff974</Uuid>
+	<Uuid>6c4de826-daad-4cd4-b703-51dfe803e822</Uuid>
+	<Uuid>01af22d6-6889-4e98-a3df-e6eddc40fc92</Uuid>
+	<Uuid>ea3b3dbe-cca2-4bde-957b-feaef7e18789</Uuid>
+	<Uuid>e737c8c6-b526-4f88-b89e-554e205b0614</Uuid>
+	<Uuid>efd24e87-d7f7-425f-9cb0-3ee17c7b2116</Uuid>
+	<Uuid>a62607e6-047e-4910-a1ec-5426bf9283b5</Uuid>
+	<Uuid>64dceb5b-de05-47c7-8e40-e9b293e80d75</Uuid>
+	<Uuid>8d51c652-6aee-4de8-ba03-47b289a13ec5</Uuid>
+	<Uuid>51d7b5ce-5664-4750-b1a0-fabcdc31e49a</Uuid>
+	<Uuid>6522e3af-aa9e-421c-b667-e11db73cd8ca</Uuid>
+	<Uuid>9ac073a0-7abf-4dff-826f-9c44d4780590</Uuid>
+	<Uuid>2da9c21c-adc7-405a-a36e-46fbd9dfcd42</Uuid>
+	<Uuid>fe4d1053-9c84-4221-bac7-cb489a7064ff</Uuid>
+	<Uuid>1f005f88-e6d7-4bdc-81fa-3acf4c89cf64</Uuid>
+	<Uuid>42dc5a7c-d7b1-4653-92b9-9359b46cc2d4</Uuid>
+	<Uuid>e25721a9-34f9-479c-a4c3-31f5ec9e117d</Uuid>
+	<Uuid>506d1de3-06df-4131-9e88-e43f1768e3d8</Uuid>
+	<Uuid>e6625695-25a2-43d0-9056-1e9a1a594b1e</Uuid>
+	<Uuid>91990287-4edf-4e38-aa6c-66d0e906807b</Uuid>
+	<Uuid>2216cdd0-177c-5678-9e88-dd8b95312234</Uuid>
+</ConvertersApplied>
 </AnyLogicWorkspace>
