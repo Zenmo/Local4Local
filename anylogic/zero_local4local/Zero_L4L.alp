@@ -900,7 +900,7 @@ interface_L4L.grp_prosumer_systemview.setVisible(false);
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 f_createLocal4LocalCompanies(pilot.getCompanies(), energyCoop);
 
-//f_setSliderPresets_L4L();]]></Body>
+]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
@@ -1476,8 +1476,6 @@ J_EAProduction production_asset = new J_EAProduction(parentGC, asset_type, asset
 Interface_L4L interface_L4L = (Interface_L4L)zero_Interface;
 interface_L4L.uI_Results.f_updateResultsUI( energyCoop );
 interface_L4L.f_initializeL4LuI(energyCoop );
-
-f_setSliderPresets_L4L();
 //traceln(energyCoop.v_coopReportIncludeFeedinInOwnConsumption);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1761,9 +1759,10 @@ for (var g : c_householdGroups) {
 	
 	f_setElectricCars(g.getHasChargePoint_r() * 100, c_housesInGroup);
 	
-	if (g.getHasHomeBattery_r() > 0.0) {
+	f_setHouseholdBatteriesPerGroup(g.getHasHomeBattery_r() * 100, c_housesInGroup);
+	/*if (g.getHasHomeBattery_r() > 0.0) {
 	    traceln(RED, "Home battery not supported yet");
-	}
+	}*/
 	
 	group++;
 	c_housesInGroup.clear();
@@ -1796,6 +1795,7 @@ if(!interface_L4L.b_runningMainInterfaceScenarios){
 //PV_pct = 0;
 
 double nbHousesWithPV = count(c_housesInGroup, x -> x.v_liveAssetsMetaData.hasPV == true);
+traceln("Houses with PV: %s", nbHousesWithPV);
 
 if( PV_pct /100.0 < nbHousesWithPV / c_housesInGroup.size() ){
 	while ( PV_pct / 100.0 * energyModel.Houses.size() < nbHousesWithPV ) { // remove excess PV systems
@@ -1837,7 +1837,7 @@ else {
 	}
 }
 
-interface_L4L.f_resetSettings();]]></Body>
+//interface_L4L.f_resetSettings();]]></Body>
 				</Function>
 				<Function AccessType="public" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1920,7 +1920,7 @@ else {
 		} 
 		else {
 			traceln("No more gasburners to replace!");
-			break;
+			return;
 		}	
 	}	
 }]]></Body>
@@ -2099,7 +2099,73 @@ if( nbEVsCurrent > nbEVsGoal){
 }	
 
 //traceln("%s diesel cars and %s EVs: ", nbDieselCarsCurrent, nbEVsCurrent);
-interface_L4L.f_resetSettings();]]></Body>
+//interface_L4L.f_resetSettings();]]></Body>
+				</Function>
+				<Function AccessType="protected" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1751981985195</Id>
+					<Name><![CDATA[f_setHouseholdBatteriesPerGroup]]></Name>
+					<Description><![CDATA[Function that adds or removes photovoltaic production assets to houses. Takes a percentage as a parameter and runs untill that percentage of all the houses has a PV asset. If a new asset is created it takes as its electric capacity a random value between 3 and 6 kW. The variables for amount of installed PV are updated automatically in the zero_engine.
+]]></Description>
+					<X>-960</X><Y>820</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Parameter>
+						<Name><![CDATA[HomeBattery_pct]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[c_housesInGroup]]></Name>
+						<Type><![CDATA[List<GCHouse>]]></Type>
+					</Parameter>
+					<Body><![CDATA[traceln("Adding home batteries to %s %% of households in group", HomeBattery_pct);
+//Update variable to change to custom scenario
+if(!interface_L4L.b_runningMainInterfaceScenarios){
+	interface_L4L.b_changeToCustomScenario = true;
+}
+//PV_pct = 0;
+
+double nbHousesWithHomeBattery = count(c_housesInGroup, x -> x.p_batteryAsset != null);
+
+if( HomeBattery_pct /100.0 < nbHousesWithHomeBattery / c_housesInGroup.size() ){
+	while ( HomeBattery_pct / 100.0 * energyModel.Houses.size() < nbHousesWithHomeBattery ) { // remove excess PV systems
+		GCHouse house = findFirst(c_housesInGroup, x -> x.p_batteryAsset != null);	
+		J_EAStorageElectric battery = house.p_batteryAsset;
+		if (battery != null) {
+			battery.removeEnergyAsset();
+			//interface_L4L.c_orderedPVSystemsHouses.remove( house) ;
+			//interface_L4L.c_orderedPVSystemsHouses.add(0, house) ;
+			nbHousesWithHomeBattery --; 
+		}
+		else {
+			traceln(" cant find battery asset in house that should have battery asset in f_setHouseholdBatteriesPerGroup(Interface)");
+		}
+	}
+ 
+}
+else {
+	while ( HomeBattery_pct / 100.0 > nbHousesWithHomeBattery / c_housesInGroup.size()) {
+		GCHouse house = findFirst(c_housesInGroup, x -> x.p_batteryAsset == null);
+		if (house == null){
+			traceln("No GCHouse without home battery found! Current home battery count: %s", nbHousesWithHomeBattery);
+			break;
+		}
+		else {
+			String assetName = "Rooftop PV";
+			double capacityElectric_kW = 2.0;
+			double storageCapacity_kWh = 4.0;
+			double SOC_init_fr = 0.5;
+			new J_EAStorageElectric(house, capacityElectric_kW, storageCapacity_kWh, SOC_init_fr, energyModel.p_timeStep_h);
+			house.p_batteryOperationMode = OL_BatteryOperationMode.SELF_CONSUMPTION;
+			nbHousesWithHomeBattery ++;	
+		}
+	}
+}
+
+//interface_L4L.f_resetSettings();]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -2267,10 +2333,10 @@ public void f_projectSpecificSettings(){
 	f_projectSpecificSettings_L4L();
 }
 
-/*@Override
+@Override
 public void f_setSliderPresets(){
-	f_setSliderPresets_L4L();
-}*/
+	loader_L4L.f_setSliderPresets_L4L();
+}
 
 @Override
 public void f_projectSpecificStyling(){
