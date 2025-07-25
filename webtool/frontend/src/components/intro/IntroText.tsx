@@ -8,6 +8,7 @@ import {
     local4localLightGreen,
     local4localLightOrange
 } from "../../colors.ts"
+import {ExampleCases} from "./ExampleCases.tsx";
 
 const wikiLink = "https://local4local.notion.site/Hoe-maak-ik-een-grove-berekening-van-de-gelijktijdigheid-van-mijn-energiegemeenschap-17a0306d63c2805ba3c8d60695d662b5"
 
@@ -35,8 +36,8 @@ export const IntroText: FunctionComponent = () => {
                 md: "2",
             }}
             rows={{
-                initial: "repeat(4, auto) 8rem",
-                md: "1fr 1fr 8rem",
+                initial: "repeat(4, auto)",
+                md: "1fr 1fr",
             }}
             gap="4"
             style={{
@@ -92,6 +93,15 @@ export const IntroText: FunctionComponent = () => {
                     aantrekkelijk <strong>energietarief</strong> voor je leden. Probeer het zelf
                     uit, het is makkelijker dan je denkt!
                 </p>
+            </div>
+            <div css={introTextStyle} style={{background: local4localLightGreen + "4A"}}>
+                <h2 style={{color: local4localLightGreen}}>Voorbeeldcasussen</h2>
+
+                <p>
+                    Om een idee te krijgen van hoe de tool te gebruiken, staan er een paar voorbeeldcasussen klaar:
+                </p>
+
+                <ExampleCases />
             </div>
             <div css={introTextStyle} style={{background: local4localDarkOrange + "4A",}}>
                 <p  style={{
