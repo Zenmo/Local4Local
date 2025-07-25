@@ -8,11 +8,28 @@ import {ResourcefullyDialog} from "./resourcefully/dialog.tsx"
 import {useForceUpdate} from "../services/use-force-update.ts"
 import {usePromiseValue} from "../services/use-promise-value.ts"
 import {usePilot} from "../services/use-pilot.ts"
+import {useOnce} from "../services/use-once.ts";
+import {useLoaderData} from "react-router";
 
 export const anylogicElementId = "anylogic"
 
-export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (props) => {
-    const pilotState = usePilot()
+export const ConfigureAndSimulateLoader: FunctionComponent = () => {
+    const {pilot} = useLoaderData()
+
+    return <ConfigureAndSimulate initialPilot={pilot} />
+}
+
+type ConfigAndSimulateProps = {
+    initialPilot?: Pilot,
+    startImmediately?: boolean,
+} & ComponentProps<"div">
+
+export const ConfigureAndSimulate: FunctionComponent<ConfigAndSimulateProps> = ({
+    initialPilot,
+    startImmediately = Boolean(initialPilot),
+    ...props
+}) => {
+    const pilotState = usePilot(initialPilot)
     const [pilot, setPilot] = pilotState
     const [showSimulation, setShowSimulation] = useState(false)
     const [simulation, setSimulation] = useState<AnyLogicCloudClient.Animation>()
@@ -45,6 +62,12 @@ export const ConfigureAndSimulate: FunctionComponent<ComponentProps<"div">> = (p
         await newSimulation.waitForCompletion()
         forceUpdate()
     }
+
+    useOnce(() => {
+        if (startImmediately) {
+            onClickStart()
+        }
+    });
 
     const showResourceFully = usePromiseValue(shouldShowResourcefully(simulation), false)
 
