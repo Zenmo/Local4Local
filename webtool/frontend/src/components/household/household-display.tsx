@@ -1,10 +1,11 @@
-import {FunctionComponent} from "react"
+import {FunctionComponent, useContext} from "react"
 import {Card, DataList, Flex} from "@radix-ui/themes"
 import {HouseholdGroup} from "local4local"
 import {HouseholdHeading} from "./household-heading.tsx"
 import {CardMenu} from "./../card-menu.tsx"
 import {DivWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';
+import {IsDevModeContext} from "../devmode/DevMode.ts"
 
 export const HouseholdDisplay: FunctionComponent<{ 
     householdGroup: HouseholdGroup,
@@ -48,10 +49,14 @@ export const HouseholdDisplay: FunctionComponent<{
                     </DataList.Label>
                     <DataList.Value>{householdGroup.hasChargePoint_r * 100} %</DataList.Value>
                 </DataList.Item>
-                {/*<DataList.Item>*/}
-                {/*    <DataList.Label>Aandeel met thuisbatterij</DataList.Label>*/}
-                {/*    <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>*/}
-                {/*</DataList.Item>*/}
+                {useContext(IsDevModeContext) && (
+                    <DataList.Item>
+                        <DataList.Label>
+                            <DivWithInfo data={titles.hasHomeBattery_r} />
+                        </DataList.Label>
+                        <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>
+                    </DataList.Item>
+                )}
                 <DataList.Item>
                     <DataList.Label>
                         <DivWithInfo data={titles["annualBaseConsumptionAvg_kWh"]} />

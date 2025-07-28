@@ -1,7 +1,20 @@
-import {FunctionComponent} from "react"
+import {FunctionComponent, useContext} from "react"
 import {anylogicElementId} from "./ConfigureAndSimulate.tsx"
+import {css} from "@emotion/react"
+import {IsDevModeContext} from "./devmode/DevMode.ts"
+
+const hideControls = css({
+    "#control-panel, #control-panel-progress": {
+        display: "none",
+    }
+})
 
 export const Simulate: FunctionComponent = () => {
+    let extraStyles = hideControls
+    if (useContext(IsDevModeContext)) {
+        extraStyles = css({})
+    }
+
     return (
         <div id={anylogicElementId} style={{
             width: "100%",
@@ -10,11 +23,6 @@ export const Simulate: FunctionComponent = () => {
             // this makes it relative to this parent element
             position: "relative",
             marginBottom: "-3rem",
-        }} css={{
-            // hide generic AnyLogic Buttons
-            "#control-panel, #control-panel-progress": {
-                display: "none",
-            }
-        }}/>
+        }} css={extraStyles}/>
     )
 }
