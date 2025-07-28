@@ -1,10 +1,11 @@
-import {FormEvent, FunctionComponent} from "react"
+import {FormEvent, FunctionComponent, useContext} from "react"
 import {HouseholdGroup} from "local4local"
 import {Button, Card} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
 import {getWithDefault} from "../default.ts"
 import {LabelWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';
+import {IsDevModeContext} from "../devmode/DevMode.ts"
 
 export const HouseholdForm: FunctionComponent<{
     initialData?: HouseholdGroup | null;
@@ -52,7 +53,7 @@ export const HouseholdForm: FunctionComponent<{
                     <LabelWithInfo data={titles["hasChargePoint_r"]} />
                     <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={getWithDefault(initialData?.hasChargePoint_r, 0.2) * 100} min={0} max={100} />
                 </div>
-                <div className="radix-grid" style={{ display: "none" }}>
+                <div className="radix-grid" style={useContext(IsDevModeContext) ? {} : { display: "none" }}>
                     <LabelWithInfo data={titles["hasHomeBattery_r"]} />
                     <input className="form-input" type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={(initialData?.hasHomeBattery_r || 0.0) * 100} min={0} max={100} />
                 </div>
