@@ -1,13 +1,14 @@
 import { Header } from "./header.tsx";
 import { MainContent } from "./main-content.tsx";
-import { Footer } from "./footer.tsx";
-
+import { Footer } from "./footer/Footer.tsx";
 import '@radix-ui/themes/styles.css';
 import "../style.css"
 import { Theme } from "@radix-ui/themes";
 import { css } from "@emotion/react";
+import {IsDevModeContext, useDevMode} from "./devmode/DevMode.ts"
 
 export function App() {
+    const devModeControl = useDevMode()
     return (
         <Theme
             css={css`
@@ -62,8 +63,10 @@ export function App() {
             `}
         >
             <Header style={{marginTop: "auto"}}/>
-            <MainContent />
-            <Footer style={{marginTop: "auto"}}/>
+            <IsDevModeContext value={devModeControl.isDevMode}>
+                <MainContent />
+            </IsDevModeContext>
+            <Footer style={{marginTop: "auto"}} devModeControl={devModeControl} />
         </Theme>
     );
 }
