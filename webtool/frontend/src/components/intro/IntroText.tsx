@@ -3,7 +3,8 @@ import {ExternalLink} from "../ExternalLink.tsx"
 import {Grid} from "@radix-ui/themes"
 import {css} from "@emotion/react"
 import {
-    local4localDarkOrange,
+    local4localBlue,
+    local4localDarkOrange, local4localGreen,
     local4localLightBlue,
     local4localLightGreen,
     local4localLightOrange
@@ -18,10 +19,11 @@ const introTextStyle = css({
     textAlignLast: "center",
     // border: "1px solid #ccc",
     borderRadius: "28px",
-    "& h2, & h1": {
+    "& h2, & h1, & h3": {
         padding: 0,
         margin: 0,
-        textAlign: "center"
+        textAlign: "center",
+        wordSpacing: ".2em",
     },
     display: "flex",
     flexDirection: "column",
@@ -45,7 +47,7 @@ export const IntroText: FunctionComponent = () => {
                 maxWidth: "80rem",
             }}>
             <div css={introTextStyle} style={{background: local4localLightGreen + "4A"}}>
-                <h1 style={{color: local4localLightGreen}}>Simuleer je energiegemeenschap</h1>
+                <h1 style={{color: local4localGreen}}>Simuleer je energiegemeenschap</h1>
                 <p>
                     Welkom bij de Local 4 Local Coöperatie Configurator. Met deze tool kun je je
                     eigen energiegemeenschap nabouwen en simuleren. Je stelt in
@@ -84,7 +86,7 @@ export const IntroText: FunctionComponent = () => {
                 </p>
             </div>
             <div css={introTextStyle} style={{background: local4localLightBlue + "4A"}}>
-                <h2 style={{color: local4localLightBlue}}>Lokaal samenwerken</h2>
+                <h2 style={{color: local4localBlue}}>Lokaal samenwerken</h2>
                 <p>
                     Dit geeft je de mogelijkheid om jouw optimale <strong>energiegemeenschap</strong> te vormen,
                     zowel
@@ -95,7 +97,7 @@ export const IntroText: FunctionComponent = () => {
                 </p>
             </div>
             <div css={introTextStyle} style={{background: local4localLightGreen + "4A"}}>
-                <h2 style={{color: local4localLightGreen}}>Voorbeeldcasussen</h2>
+                <h2 style={{color: local4localGreen}}>Voorbeeldcasussen</h2>
 
                 <p>
                     Om een idee te krijgen van hoe de tool te gebruiken, staan er een paar voorbeeldcasussen klaar:

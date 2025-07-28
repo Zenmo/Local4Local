@@ -1,12 +1,12 @@
 import {FunctionComponent} from "react"
-import {local4localLightGreen} from "../../colors.ts"
+import {local4localGreen} from "../../colors.ts"
 import {LoadExampleCaseButton} from "./LoadExampleCaseButton.tsx"
 import {solarFarmCase, windFarmCase, windSliceCase} from "local4local"
 import {Flex} from "@radix-ui/themes"
 
 export const ExampleCases: FunctionComponent = () => (
     <>
-        <h3 style={{color: local4localLightGreen}}>
+        <h3 style={{color: local4localGreen}}>
             Coöperatief zonnepark, leden zonder eigen zonnepanelen
         </h3>
 
@@ -20,7 +20,7 @@ export const ExampleCases: FunctionComponent = () => (
             </div>
         </Flex>
 
-        <h3 style={{color: local4localLightGreen}}>
+        <h3 style={{color: local4localGreen}}>
             Coöperatie met windenergie, leden met zonnepanelen
         </h3>
 
@@ -36,7 +36,7 @@ export const ExampleCases: FunctionComponent = () => (
             </div>
         </Flex>
 
-        <h3 style={{color: local4localLightGreen}}>
+        <h3 style={{color: local4localGreen}}>
             Coöperatie met zonnepark en ‘plakje wind’, leden zonder eigen zonnepanelen
         </h3>
 
