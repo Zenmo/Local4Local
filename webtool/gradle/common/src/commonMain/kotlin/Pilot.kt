@@ -25,6 +25,8 @@ data class Pilot(
     val bufferPrice_eurpkWh
         get() = supplierCost.bufferPrice_eurpkWh
 
+    fun hasGenerationAssets() = solarFarms.isNotEmpty() || windFarms.isNotEmpty() || biogasGenerators.isNotEmpty()
+
     fun addHouseHoldGroup(householdGroup: HouseholdGroup) = copy(householdGroups = householdGroups + householdGroup)
     fun addCompany(company: Company) = copy(companies = companies + company)
     fun addSolarFarm(solarFarm: SolarFarm) = copy(solarFarms = solarFarms + solarFarm)

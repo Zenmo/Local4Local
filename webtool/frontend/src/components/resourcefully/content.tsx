@@ -9,6 +9,7 @@ import {getCoopReport} from "./preview.ts"
 import {Local4LocalButton} from "../Local4LocalButton.tsx"
 import {local4localLightGreen} from "../../colors.ts"
 import {PilotState} from "../../services/use-pilot.ts"
+import {DialogButtonRow} from "./DialogButtonRow.tsx"
 
 async function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot, anyLogicAnimation: Animation): Promise<ResourcefullyExport> {
     const form = new FormData(submitEvent.currentTarget)
@@ -62,15 +63,21 @@ export const ResourcefullyDialogContent: FunctionComponent<{
         onSubmit={onSubmit}
         pilotState={pilotState} />
 
+    if (!pilot.hasGenerationAssets()) {
+        return (
+            <>
+                <p>De gevoeligheidsanalyse is alleen mogelijk wanneer de coöperatie eigen opwek heeft.</p>
+                <p>Voeg opwekassets toe en probeer het opnieuw.</p>
+                <DialogButtonRow />
+            </>
+        )
+    }
+
     if (submitted) {
         content = (
             <>
                 <p>Opgestuurd naar Resourcefully</p>
-                <Dialog.Close>
-                    <Local4LocalButton style={{backgroundColor: local4localLightGreen}}>
-                        Sluiten
-                    </Local4LocalButton>
-                </Dialog.Close>
+                <DialogButtonRow />
             </>
         )
     }
@@ -79,11 +86,7 @@ export const ResourcefullyDialogContent: FunctionComponent<{
         content = (
             <>
                 <p>Fout bij het opsturen: {error}</p>
-                <Dialog.Close>
-                    <Local4LocalButton style={{backgroundColor: local4localLightGreen}}>
-                        Sluiten
-                    </Local4LocalButton>
-                </Dialog.Close>
+                <DialogButtonRow />
             </>
         )
     }
