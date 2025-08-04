@@ -1,13 +1,10 @@
 import {FunctionComponent, useState} from "react"
 import {ReactSubmitEvent, ResourcefullyForm, SubmitEventHandeler} from "./form.tsx"
-import {Dialog} from "@radix-ui/themes"
 import {ResourcefullyExport, createExport, ExportMetadata} from "local4local"
 import {Pilot} from "local4local"
 import {createDeeplink} from "../deeplink.ts"
 import Animation = AnyLogicCloudClient.Animation
 import {getCoopReport} from "./preview.ts"
-import {Local4LocalButton} from "../Local4LocalButton.tsx"
-import {local4localLightGreen} from "../../colors.ts"
 import {PilotState} from "../../services/use-pilot.ts"
 import {DialogButtonRow} from "./DialogButtonRow.tsx"
 
