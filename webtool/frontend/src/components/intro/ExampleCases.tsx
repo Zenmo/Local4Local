@@ -29,7 +29,7 @@ export const ExampleCases: FunctionComponent = () => (
                 Een casus waarin 10% van de productie van een 2.5MW windmolen (250kW)
                 wordt gebruikt om stroom te leveren aan 350 klanten.
                 50% van de leden heeft eigen zonnepanelen.
-                Zij ontvangen een terugleververgoeding van 5ct/kWh.
+                Zij ontvangen een teruglever&shy;vergoeding van 5ct/kWh.
             </p>
             <div>
                 <LoadExampleCaseButton exampleCase={windFarmCase.get()} />
