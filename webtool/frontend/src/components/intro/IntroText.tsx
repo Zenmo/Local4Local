@@ -19,15 +19,20 @@ const introTextStyle = css({
     textAlignLast: "center",
     // border: "1px solid #ccc",
     borderRadius: "28px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    gap: "1rem",
+    alignItems: "center",
     "& h2, & h1, & h3": {
         padding: 0,
         margin: 0,
         textAlign: "center",
         wordSpacing: ".2em",
     },
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
+    "& p": {
+        marginTop: 0,
+    }
 })
 
 export const IntroText: FunctionComponent = () => {
@@ -106,11 +111,19 @@ export const IntroText: FunctionComponent = () => {
                 <ExampleCases />
             </div>
             <div css={introTextStyle} style={{background: local4localDarkOrange + "4A",}}>
-                <p  style={{
-                    textAlign: "center",
-                }}>
-                    Meer informatie over deze tool en over local4local is te vinden in de&nbsp;
-                    <ExternalLink href={wikiLink}>local4local kennisbank</ExternalLink>
+                <p>
+                    Deze tool is onderdeel van een stappenplan om een energiegemeenschap op te richten.
+                </p>
+                <img
+                    src="/step-diagram-translucent.png"
+                    style={{
+                        width: "105%",
+                    }}
+                    alt="stappenplan: initiatie, ontwerp, uitwerking, implementatie, exploitatie"
+                />
+                <p style={{textAlign: "center"}}>
+                    Meer informatie over deze tool en over local4local is te vinden in de
+                    <ExternalLink href={wikiLink}>Local4Local kennisbank</ExternalLink>
                 </p>
             </div>
         </Grid>
