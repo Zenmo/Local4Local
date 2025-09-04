@@ -100,6 +100,12 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				<Parameter>
 					<Name><![CDATA[defaultProfiles_data]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localBackendUrl]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_local4localSession]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -905,7 +911,6 @@ Interface_L4L interface_L4L = (Interface_L4L)zero_Interface;
 interface_L4L.grp_prosumer_systemview.setVisible(false);
 f_createLocal4LocalHouseholds(pilot.getHouseholdGroups(), energyCoop);
 f_createLocal4LocalCompanies(pilot.getCompanies(), energyCoop);
-
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -1075,8 +1080,8 @@ if (windFarms.size() == 0) {
 			gridHouse.set_p_ownerID( gridHouse.p_gridConnectionID + "owner" );	
 			gridHouse.v_liveConnectionMetaData.physicalCapacity_kW = 17.0;
 			gridHouse.set_p_floorSurfaceArea_m2(100);
-			gridHouse.v_dayTempSetpoint_degC = 20;
-			gridHouse.v_nightTempSetpoint_degC = 17;
+			//gridHouse.v_dayTempSetpoint_degC = 20;
+			//gridHouse.v_nightTempSetpoint_degC = 17;
 			gridHouse.p_heatingManagement = new J_HeatingManagementSimple(gridHouse, OL_GridConnectionHeatingType.GAS_BURNER);
 		// Owner
 		ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
@@ -1255,7 +1260,7 @@ for (var solarFarmData: solarFarms) {
 		solarFarm.p_gridConnectionID,
 		solarFarmData.getNominalPower_kW(),
 		solarFarmData.getOrientation());
-	
+
 	//Owner
 	ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
 		connectionOwner.p_actorID = "owner_" + connectionOwner.getId();
@@ -1644,7 +1649,7 @@ double yearlyDemandElectricity_kWh = companyData.getAnnualElectricityConsumption
 var newAsset = new J_EAConsumption(
 	gcCompany,
 	OL_EnergyAssetType.ELECTRICITY_DEMAND,
-	"Office_other_electricity",
+	"default_office_electricity_demand_fr",
 	yearlyDemandElectricity_kWh,
 	OL_EnergyCarriers.ELECTRICITY,
 	energyModel.p_timeStep_h,
@@ -1690,6 +1695,7 @@ double[] a_solarValues = new double[argumentsList.size()];
 double[] a_wind_hvh_values = new double[argumentsList.size()];
 double[] a_wind_herwijnen_values = new double[argumentsList.size()];
 double[] a_wind_ell_values = new double[argumentsList.size()];
+double[] a_ones = new double[argumentsList.size()];
      
 for(int i = 0; i < argumentsList.size(); i++) {
        a_arguments[i] = argumentsList.get(i);
@@ -1698,6 +1704,7 @@ for(int i = 0; i < argumentsList.size(); i++) {
        a_wind_hvh_values[i] = wind_hvh_list.get(i);
        a_wind_herwijnen_values[i] = wind_herwijnen_list.get(i);
        a_wind_ell_values[i] = wind_ell_list.get(i);
+       a_ones[i] = 1.0;
 }
 
 J_ProfilePointer profilePointer;
@@ -1705,6 +1712,7 @@ J_ProfilePointer profilePointer;
 f_createEngineProfile("wind_e_prod_normalized_hvh", a_arguments, a_wind_hvh_values);
 f_createEngineProfile("wind_e_prod_normalized_herwijnen", a_arguments, a_wind_herwijnen_values);
 f_createEngineProfile("wind_e_prod_normalized_ell", a_arguments, a_wind_ell_values);
+f_createEngineProfile("FLAT_PROFILE", a_arguments, a_ones);
 
 /*
 TableFunction tf_p_wind_hvh_normalized = new TableFunction(a_arguments, a_wind_hvh_values, TableFunction.InterpolationType.INTERPOLATION_LINEAR, 2, TableFunction.OutOfRangeAction.OUTOFRANGE_REPEAT, 0.0);
@@ -1900,10 +1908,10 @@ else {
 			J_EAConversionHeatPump heatPump;
 			J_EAConsumption heatDemandAsset = findFirst(gc.c_consumptionAssets, j_ea -> j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
 			if (heatDemandAsset != null) { // als house een standaard warmtebehoefte profiel heeft
-				heatPump = new J_EAConversionHeatPump(gc, heatDemandAsset.yearlyDemand_kWh/8760*10 / 3, 0.5, energyModel.p_timeStep_h, 60, energyModel.v_currentAmbientTemperature_degC, 0, 1, OL_AmbientTempType.AMBIENT_AIR);				
+				heatPump = new J_EAConversionHeatPump(gc, heatDemandAsset.yearlyDemand_kWh/8760*10 / 3, 0.5, energyModel.p_timeStep_h, 60, energyModel.pp_ambientTemperature_degC.getCurrentValue(), 0, 1, OL_AmbientTempType.AMBIENT_AIR);				
 			} 
 			else if (gc.p_BuildingThermalAsset != null){ //als huis een building heatmodel heeft
-				heatPump = new J_EAConversionHeatPump(gc, 5.0, 0.5, energyModel.p_timeStep_h, 60, energyModel.v_currentAmbientTemperature_degC, 0, 1, OL_AmbientTempType.AMBIENT_AIR);
+				heatPump = new J_EAConversionHeatPump(gc, 5.0, 0.5, energyModel.p_timeStep_h, 60, energyModel.pp_ambientTemperature_degC.getCurrentValue(), 0, 1, OL_AmbientTempType.AMBIENT_AIR);
 				//J_EAStorageHeat buffer = new J_EAStorageHeat(gc, OL_EAStorageTypes.HEATBUFFER, 10, 0, energyModel.p_timeStep_h, 75, 15, 90, 50, 50000, "AIR" );
 				//Agent parentAgent, OL_EAStorageTypes heatStorageType, double capacityHeat_kW, double lossFactor_WpK, double timestep_h, double initialTemperature_degC, double minTemperature_degC, double maxTemperature_degC, double setTemperature_degC, double heatCapacity_JpK, String ambientTempType 
 				//voeg heatbuffer toe
@@ -1911,7 +1919,7 @@ else {
 			else { //anders moet het huis een heatProfiel krijgen
 				J_EAProfile heatDemandProfile = (J_EAProfile)findFirst(gc.c_profileAssets, x->x instanceof J_EAProfile && x.energyCarrier == OL_EnergyCarriers.HEAT);
 				double peakHeatDemand_kW = Arrays.stream(heatDemandProfile.a_energyProfile_kWh).max().orElseThrow(() -> new RuntimeException());
-				heatPump = new J_EAConversionHeatPump(gc, energyModel.p_timeStep_h, peakHeatDemand_kW / 3, 0.5, energyModel.v_currentAmbientTemperature_degC, 60, 0, 1, OL_AmbientTempType.AMBIENT_AIR);
+				heatPump = new J_EAConversionHeatPump(gc, energyModel.p_timeStep_h, peakHeatDemand_kW / 3, 0.5, energyModel.pp_ambientTemperature_degC.getCurrentValue(), 60, 0, 1, OL_AmbientTempType.AMBIENT_AIR);
 				//J_EAConversionHeatPump(Agent parentAgent, double inputElectricCapacity_kW, double eta_r, double timestep_h, double outputTemperature_degC, double baseTemperature_degC, double sourceAssetHeatPower_kW, double belowZeroHeatpumpEtaReductionFactor, OL_AmbientTempType ambientTempType ) {
 			}
 			nbHeatPumps ++;
@@ -2351,6 +2359,15 @@ energyModel.f_addProfile(profilePointer);
 						<Parameter>
 							<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
 						</Parameter>
+						<Parameter>
+							<Name><![CDATA[b_inEnergyHubSelectionMode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[b_inEnergyHubMode]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[user]]></Name>
+						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
 					<Replication Class="CodeValue">
@@ -2473,6 +2490,30 @@ import java.io.IOException;
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_minSelectedGCForPublicAggregation]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[b_inEnergyHubSelectionMode]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[b_inEnergyHubMode]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[user]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_current]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_2]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_3]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_XXX]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_custom]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -9607,6 +9648,21 @@ public void f_calculateKPIs(){
 				<Parameter>
 					<Name><![CDATA[p_actorSubgroup]]></Name>
 				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_aggregatorBatteryManagement]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[b_fixedAssetTariff]]></Name>
+				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
 			<GenericParameter>
@@ -10413,12 +10469,6 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 			</ExtendsReference>
 			<Parameters>
 				<Parameter>
-					<Name><![CDATA[p_gridConnectionCategory]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_gridConnectionType]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[p_parentNodeElectricID]]></Name>
 				</Parameter>
 				<Parameter>
@@ -10504,6 +10554,9 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_heatingManagement]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_chargingManagement]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
