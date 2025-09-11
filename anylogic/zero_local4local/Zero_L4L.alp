@@ -1058,20 +1058,18 @@ if (windFarms.size() == 0) {
 						<Type><![CDATA[EnergyCoop]]></Type>
 					</Parameter>
 					<Body><![CDATA[for (int g = 0; g < householdGroups.size(); g++) {
-	/*if (g > 0) {
-	    throw new RuntimeException(
-	        "More than 1 household group is not supported yet"
-	        + "because of setting PV ratio per group"
-	    );
-	}*/
 
     var householdGroup = householdGroups.get(g);
-    
-//for (int g = 0; g < 3; g++) {
 
-	//var householdGroup = householdGroups.get(0);
+	double houseScaling_r = 1.0;
+	int nbHouses = householdGroup.getHouseholds_n();
+	if (householdGroup.getHouseholds_n() > 400) { // determine household-scaling, to get approximately 100 real households in model
+		nbHouses = 100;
+		houseScaling_r = (double)householdGroup.getHouseholds_n() / (double)nbHouses;		
+		traceln("HouseScaling_r for householdGroup with %s houses, set to %.2f", householdGroup.getHouseholds_n(), houseScaling_r );
+	}
 	
-	for (int i = 1; i <= householdGroup.getHouseholds_n() ; i += 1) {
+	for (int i = 1; i <= nbHouses ; i += 1) {
 	//for (int i = 1; i <= 1 ; i += 1) {
 		// Grid
 		GCHouse gridHouse = energyModel.add_Houses();
@@ -1079,7 +1077,7 @@ if (windFarms.size() == 0) {
 			//gridHouse.set_p_heatingType( OL_GridConnectionHeatingType.GASBURNER);
 			gridHouse.set_p_ownerID( gridHouse.p_gridConnectionID + "owner" );	
 			gridHouse.v_liveConnectionMetaData.physicalCapacity_kW = 17.0;
-			gridHouse.set_p_floorSurfaceArea_m2(100);
+			gridHouse.set_p_floorSurfaceArea_m2(houseScaling_r*100);
 			//gridHouse.v_dayTempSetpoint_degC = 20;
 			//gridHouse.v_nightTempSetpoint_degC = 17;
 			gridHouse.p_heatingManagement = new J_HeatingManagementSimple(gridHouse, OL_GridConnectionHeatingType.GAS_BURNER);
@@ -1090,7 +1088,7 @@ if (windFarms.size() == 0) {
 			connectionOwner.p_energyCoopID = energyCoop.p_actorID;
 		
 		//Asset
-		f_addLocal4LocalHouseAssets(gridHouse, householdGroup, g*1000+i );
+		f_addLocal4LocalHouseAssets(gridHouse, householdGroup, g*1000+i, houseScaling_r );
 	}
 	Interface_L4L interface_L4L = (Interface_L4L)zero_Interface;
 	c_householdGroups.add(householdGroup);
@@ -1138,10 +1136,14 @@ if (householdGroups.size()==0) {
 						<Name><![CDATA[seed]]></Name>
 						<Type><![CDATA[int]]></Type>
 					</Parameter>
+					<Parameter>
+						<Name><![CDATA[houseScaling_r]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
 					<Body><![CDATA[// Add electricity consumption profiles
 //Random random = new Random(seed);
 
-double yearlyDemandElectricity_kWh = householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.2,1.0);
+double yearlyDemandElectricity_kWh = houseScaling_r * householdGroupData.getAnnualBaseConsumptionAvg_kWh() * normal(0.2,1.0);
 var newAsset = new J_EAConsumption(
 	gcHouse,
 	OL_EnergyAssetType.ELECTRICITY_DEMAND,
@@ -1154,12 +1156,12 @@ var newAsset = new J_EAConsumption(
 
 J_EABuilding buildingAsset = new J_EABuilding(
 	gcHouse, 
-	300.0,
-	normal(20,1.57*100),
+	houseScaling_r * 300.0,
+	houseScaling_r * normal(20,1.57*100),
 	energyModel.p_timeStep_h,
 	normal(1, 17.9),
-	normal(1e6,1e7),
-	normal(1,2)
+	houseScaling_r * normal(1e6,1e7),
+	houseScaling_r * normal(1,2)
 );
 
 /*
@@ -1184,8 +1186,10 @@ if (random.nextDouble() <= householdGroupData.getHasPV_r()) {
 } else {*/
 	new J_EAConversionGasBurner(
 		gcHouse,
-		50, 0.99,
-		energyModel.p_timeStep_h, 90
+		houseScaling_r * 50,
+		0.99,
+		energyModel.p_timeStep_h, 
+		90
 	);
 //};
 
@@ -1206,7 +1210,7 @@ if (random.nextDouble() <= householdGroupData.getHasPV_r()) {
 		gcHouse,
 		0.6, // energyConsumption_kWhpkm,
 		energyModel.p_timeStep_h,
-		1.0, // vehicleScaling
+		houseScaling_r, // vehicleScaling
 		OL_EnergyAssetType.DIESEL_VEHICLE,
 		null);
 //};
@@ -1755,14 +1759,16 @@ for (var g : c_householdGroups) {
 		}
 	}
 	traceln("Houses in group %s: %s", g, c_housesInGroup.size());
+	double houseScaling_r = c_housesInGroup.get(0).c_vehicleAssets.get(0).vehicleScaling;
+	traceln("Derived houseScaling from first vehicle of first GCHouse in group: %.2f", houseScaling_r);
 	
-	f_setPVSystemHousesPerGroup(g.getHasPV_r() * 100, c_housesInGroup);
+	f_setPVSystemHousesPerGroup(g.getHasPV_r() * 100, c_housesInGroup, houseScaling_r);
 	   
-	f_setHeatingSystemsHouseholds(g.getHasHeatPump_r() * 100, c_housesInGroup);  
+	f_setHeatingSystemsHouseholds(g.getHasHeatPump_r() * 100, c_housesInGroup, houseScaling_r);  
 	
-	f_setElectricCars(g.getHasChargePoint_r() * 100, c_housesInGroup);
+	f_setElectricCars(g.getHasChargePoint_r() * 100, c_housesInGroup, houseScaling_r);
 	
-	f_setHouseholdBatteriesPerGroup(g.getHasHomeBattery_r() * 100, c_housesInGroup);
+	f_setHouseholdBatteriesPerGroup(g.getHasHomeBattery_r() * 100, c_housesInGroup, houseScaling_r);
 	/*if (g.getHasHomeBattery_r() > 0.0) {
 	    traceln(RED, "Home battery not supported yet");
 	}*/
@@ -1790,6 +1796,10 @@ for (var g : c_householdGroups) {
 					<Parameter>
 						<Name><![CDATA[c_housesInGroup]]></Name>
 						<Type><![CDATA[List<GCHouse>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[houseScaling_r]]></Name>
+						<Type><![CDATA[double]]></Type>
 					</Parameter>
 					<Body><![CDATA[//Update variable to change to custom scenario
 if(!interface_L4L.b_runningMainInterfaceScenarios){
@@ -1825,11 +1835,9 @@ else {
 		}
 		else {
 			String assetName = "Rooftop PV";
-			double capacityHeat_kW = 0.0;
-			double yearlyProductionHydrogen_kWh = 0.0;
-			double yearlyProductionMethane_kWh = 0.0;
+			
 			double outputTemperature_degC = 0.0;
-			double installedPVCapacity_kW = uniform(3,6);
+			double installedPVCapacity_kW = houseScaling_r * uniform(3,6);
 
 			J_EAProduction productionAsset = new J_EAProduction ( house, OL_EnergyAssetType.PHOTOVOLTAIC, assetName, OL_EnergyCarriers.ELECTRICITY, installedPVCapacity_kW, energyModel.p_timeStep_h, energyModel.pp_PVProduction35DegSouth_fr );
 			interface_L4L.c_orderedPVSystemsHouses.remove(house);
@@ -1861,6 +1869,10 @@ else {
 						<Name><![CDATA[c_housesInGroup]]></Name>
 						<Type><![CDATA[List<GCHouse>]]></Type>
 					</Parameter>
+					<Parameter>
+						<Name><![CDATA[houseScaling_r]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
 					<Body><![CDATA[//Update variable to change to custom scenario
 if(!interface_L4L.b_runningMainInterfaceScenarios){
 	interface_L4L.b_changeToCustomScenario = true;
@@ -1870,6 +1882,8 @@ double nbHeatPumps = count(c_housesInGroup, house -> house.p_heatingManagement.g
 int targetHeatPumpAmount = roundToInt( targetHeatPump_pct / 100.0 *(c_housesInGroup.size()));
 
 if( targetHeatPumpAmount < nbHeatPumps){
+	// This path should never trigger; houses always start with gasBurners, and some will be replaced by heatpumps.
+	/*
 	while ( targetHeatPumpAmount < nbHeatPumps) { // remove excess heatpumps, replace with gasburners.
 		GridConnection gc = findFirst(c_housesInGroup, house -> house.p_heatingManagement.getCurrentHeatingType() == OL_GridConnectionHeatingType.ELECTRIC_HEATPUMP);
 		if (gc != null) {
@@ -1895,7 +1909,7 @@ if( targetHeatPumpAmount < nbHeatPumps){
 			//gc.p_heatingType = OL_GridConnectionHeatingType.GASBURNER;		
 		}
 	}
- 
+ 	*/
 } 
 else { 
 	while ( targetHeatPumpAmount > nbHeatPumps) { // remove gasburners, add heatpumps.
@@ -1907,20 +1921,23 @@ else {
 			
 			J_EAConversionHeatPump heatPump;
 			J_EAConsumption heatDemandAsset = findFirst(gc.c_consumptionAssets, j_ea -> j_ea.energyAssetType == OL_EnergyAssetType.HEAT_DEMAND);
-			if (heatDemandAsset != null) { // als house een standaard warmtebehoefte profiel heeft
+			if (heatDemandAsset != null) { // als house een standaard warmtebehoefte profiel heeft. Housescaling zit al in heatDemandAsset, indien van toepassing.
 				heatPump = new J_EAConversionHeatPump(gc, heatDemandAsset.yearlyDemand_kWh/8760*10 / 3, 0.5, energyModel.p_timeStep_h, 60, energyModel.pp_ambientTemperature_degC.getCurrentValue(), 0, 1, OL_AmbientTempType.AMBIENT_AIR);				
 			} 
 			else if (gc.p_BuildingThermalAsset != null){ //als huis een building heatmodel heeft
-				heatPump = new J_EAConversionHeatPump(gc, 5.0, 0.5, energyModel.p_timeStep_h, 60, energyModel.pp_ambientTemperature_degC.getCurrentValue(), 0, 1, OL_AmbientTempType.AMBIENT_AIR);
+				heatPump = new J_EAConversionHeatPump(gc, 5.0*houseScaling_r, 0.5, energyModel.p_timeStep_h, 60, energyModel.pp_ambientTemperature_degC.getCurrentValue(), 0, 1, OL_AmbientTempType.AMBIENT_AIR);
 				//J_EAStorageHeat buffer = new J_EAStorageHeat(gc, OL_EAStorageTypes.HEATBUFFER, 10, 0, energyModel.p_timeStep_h, 75, 15, 90, 50, 50000, "AIR" );
 				//Agent parentAgent, OL_EAStorageTypes heatStorageType, double capacityHeat_kW, double lossFactor_WpK, double timestep_h, double initialTemperature_degC, double minTemperature_degC, double maxTemperature_degC, double setTemperature_degC, double heatCapacity_JpK, String ambientTempType 
 				//voeg heatbuffer toe
 			}
-			else { //anders moet het huis een heatProfiel krijgen
+			else { //
+				throw new RuntimeException("House doesn't have heat demand or building thermal model!");
+				/*
 				J_EAProfile heatDemandProfile = (J_EAProfile)findFirst(gc.c_profileAssets, x->x instanceof J_EAProfile && x.energyCarrier == OL_EnergyCarriers.HEAT);
 				double peakHeatDemand_kW = Arrays.stream(heatDemandProfile.a_energyProfile_kWh).max().orElseThrow(() -> new RuntimeException());
 				heatPump = new J_EAConversionHeatPump(gc, energyModel.p_timeStep_h, peakHeatDemand_kW / 3, 0.5, energyModel.pp_ambientTemperature_degC.getCurrentValue(), 60, 0, 1, OL_AmbientTempType.AMBIENT_AIR);
 				//J_EAConversionHeatPump(Agent parentAgent, double inputElectricCapacity_kW, double eta_r, double timestep_h, double outputTemperature_degC, double baseTemperature_degC, double sourceAssetHeatPower_kW, double belowZeroHeatpumpEtaReductionFactor, OL_AmbientTempType ambientTempType ) {
+				*/
 			}
 			nbHeatPumps ++;
 			interface_L4L.c_orderedHeatingSystemsHouses.remove(gc);
@@ -1954,6 +1971,10 @@ else {
 					<Parameter>
 						<Name><![CDATA[c_housesInGroup]]></Name>
 						<Type><![CDATA[List<GCHouse>]]></Type>
+					</Parameter>
+					<Parameter>
+						<Name><![CDATA[houseScaling_r]]></Name>
+						<Type><![CDATA[double]]></Type>
 					</Parameter>
 					<Body><![CDATA[//Update variable to change to custom scenario
 if(!interface_L4L.b_runningMainInterfaceScenarios){
@@ -2019,7 +2040,7 @@ if( nbEVsCurrent > nbEVsGoal){
 		
 			// Re-add diesel vehicle
 			double energyConsumption_kWhpkm = energyModel.avgc_data.p_avgDieselConsumptionCar_kWhpkm;
-			double vehicleScaling = 1.0;	
+			double vehicleScaling = houseScaling_r;	
 			J_EADieselVehicle dieselVehicle = new J_EADieselVehicle(gc, energyConsumption_kWhpkm, energyModel.p_timeStep_h, vehicleScaling, OL_EnergyAssetType.DIESEL_VEHICLE, tripTracker);
 			dieselVehicle.available = available;
 			
@@ -2091,7 +2112,7 @@ if( nbEVsCurrent > nbEVsGoal){
 			double storageCapacity_kWh = energyModel.avgc_data.p_avgEVStorageCar_kWh;
 			double initialStateOfCharge_r = 1.0;
 			double energyConsumption_kWhpkm = energyModel.avgc_data.p_avgEVEnergyConsumptionCar_kWhpkm;
-			double vehicleScalingElectric = 1.0;
+			double vehicleScalingElectric = houseScaling_r;
 			J_EAEV ev = new J_EAEV(gc, capacityElectric_kW, storageCapacity_kWh, initialStateOfCharge_r, energyModel.p_timeStep_h, energyConsumption_kWhpkm, vehicleScalingElectric, OL_EnergyAssetType.ELECTRIC_VEHICLE, tripTracker);  
 			ev.available = available;
 			
@@ -2132,6 +2153,10 @@ if( nbEVsCurrent > nbEVsGoal){
 						<Name><![CDATA[c_housesInGroup]]></Name>
 						<Type><![CDATA[List<GCHouse>]]></Type>
 					</Parameter>
+					<Parameter>
+						<Name><![CDATA[houseScaling_r]]></Name>
+						<Type><![CDATA[double]]></Type>
+					</Parameter>
 					<Body><![CDATA[traceln("Adding home batteries to %s %% of households in group", HomeBattery_pct);
 //Update variable to change to custom scenario
 if(!interface_L4L.b_runningMainInterfaceScenarios){
@@ -2166,8 +2191,8 @@ else {
 		}
 		else {
 			String assetName = "Rooftop PV";
-			double capacityElectric_kW = 2.0;
-			double storageCapacity_kWh = 4.0;
+			double capacityElectric_kW = houseScaling_r * 2.0;
+			double storageCapacity_kWh = houseScaling_r * 4.0;
 			double SOC_init_fr = 0.5;
 			new J_EAStorageElectric(house, capacityElectric_kW, storageCapacity_kWh, SOC_init_fr, energyModel.p_timeStep_h);
 			house.p_batteryAlgorithm = new J_BatteryManagementSelfConsumption(house);
@@ -3086,7 +3111,8 @@ if ( b_includeFeedInInCoopProduction ) {
 	return local4localCoop.v_coopReportIncludeFeedinInOwnConsumption;
 } else {
 	return local4localCoop.v_coopReport;
-}]]></Body>
+}
+]]></Body>
 				</Function>
 				<Function AccessType="public" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -3152,7 +3178,10 @@ txt_windpark_expnd_totalProduction_value.setText(roundToInt(windFarmProduction_M
 txt_windpark_systemview_totalProduction_value.setText(roundToInt(windFarmProduction_MWh) + " MWh");
 txt_windpark_systemview_totalProduction_price.setText(roundToInt(windFarmPrice_eurpMWh) + " €/MWh");
 
-f_setSankey();]]></Body>
+boolean centralBatteryPresent = EC.v_rapidRunData.am_assetFlowsAccumulators_kW.keySet().contains(OL_AssetFlowCategories.batteriesChargingPower_kW);
+txt_batterijNettoEnergie.setVisible(centralBatteryPresent);
+txt_batterijNettoEnergie1.setVisible(centralBatteryPresent);
+//f_setSankey();]]></Body>
 				</Function>
 				<Function AccessType="protected" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -8470,6 +8499,50 @@ Klik op dit vlak om verder te gaan.]]></Text>
 
 
 				</Group>
+				<Text>
+					<Id>1757582412205</Id>
+					<Name><![CDATA[txt_batterijNettoEnergie]]></Name>
+					<X>-2700</X><Y>1210</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[batteryIntoEnergy]]></Text>
+					<TextCode><![CDATA[roundToInt(((EnergyCoopL4L)this.energyModel.pop_energyCoops.get(0)).v_nettEnergyIntoBattery_MWh) + " MWh"]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>24</Size>
+						<Style>2</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1757585870379</Id>
+					<Name><![CDATA[txt_batterijNettoEnergie1]]></Name>
+					<X>-2667</X><Y>1180</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Netto energie naar batterij]]></Text>
+					<TextCode><![CDATA["Netto energie naar batterij"]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>24</Size>
+						<Style>2</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
 			</Presentation>
 
 				</Level>
@@ -9222,7 +9295,7 @@ build();
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[//p_local4localSession = "ShHAycHQdY";
+					<Body><![CDATA[//p_local4localSession = "PF6upQV09X";
 //Send settings to the loader
 f_setSettings();
 
@@ -9859,7 +9932,7 @@ public void f_calculateKPIs(){
 				<Variable Class="PlainVariable">
 					<Id>1729691963838</Id>
 					<Name><![CDATA[v_selfConsumptionCoopAssets_MWh]]></Name>
-					<X>40</X><Y>970</Y>
+					<X>60</X><Y>1050</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9881,6 +9954,18 @@ public void f_calculateKPIs(){
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[new J_CoopReport()]]></Code>
 						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1757582587254</Id>
+					<Name><![CDATA[v_nettEnergyIntoBattery_MWh]]></Name>
+					<X>60</X><Y>1070</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[double]]></Type>        
 					</Properties>
 				</Variable>
 				<Variable Class="Parameter">
@@ -10027,7 +10112,6 @@ for (var ci : c_AssetCosts) {
 		totalOwnProduction_MWh += -ci.energyAsset().getEnergyUsed_kWh()/1000;
 		double[] gcBalanceTimeSeries_kW = ((GridConnection)ci.energyAsset().getParentAgent()).v_rapidRunData.am_totalBalanceAccumulators_kW.get(OL_EnergyCarriers.ELECTRICITY).getTimeSeries_kW(); // Relies on every asset having its own GridConnection.
 		double productionEPEXvalue_eur = 0;
-		
 	
 		double SDE_tariff_eurpMWh = 1000*ci.SDE_aanvraagbedrag_eurpkWh();
 		double SDE_lowerLimit_eurpMWh = 1000*ci.SDE_basisenergieprijs_eurpkWh();
@@ -10084,6 +10168,8 @@ for (var ci : c_AssetCosts) {
 	v_coopReport.addAssetCost(ci);
 	
 }
+v_nettEnergyIntoBattery_MWh = 0.001*(batteryLosses_kWh + batteryEnergyDelta_kWh);
+
 double assetAvgLCOE_eurpMWh=0;
 traceln("totalOwnProduction_MWh: %s", totalOwnProduction_MWh);
 if (totalOwnProduction_MWh>0){
