@@ -9,6 +9,7 @@ export const SdeAanvraagBedragFormRow: FunctionComponent<ComponentProps<"input">
                name="sdeAanvraagbedrag_eurpkWh"
                min={0} step={0.001}
                placeholder="€/kWh"
+               defaultValue={0.10}
                 {...props}
         />
     </div>
@@ -21,6 +22,7 @@ export const SdeBasisenergiePrijsFormRow: FunctionComponent<ComponentProps<"inpu
                name="sdeBasisenergieprijs_eurpkWh"
                min={0} step={0.001}
                placeholder="€/kWh"
+               defaultValue={0.04}
                {...props}
         />
     </div>
