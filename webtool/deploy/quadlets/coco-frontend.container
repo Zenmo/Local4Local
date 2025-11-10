@@ -1,0 +1,21 @@
+
+[Container]
+ContainerName=coco-frontend
+Image=ghcr.io/zenmo/coco-frontend:$TAG
+
+Network=main.network
+Label=traefik.enable=true
+Label="traefik.http.routers.coco-frontend.rule=Host(`coco.local4local.nu`) || Host(`cooperatieconfigurator.local4local.nu`)"
+Label=traefik.http.routers.coco-frontend.tls.certResolver=HttpChallenge
+Label=traefik.http.routers.coco-frontend.tls.domains[0].main=coco.local4local.nu
+Label=traefik.http.routers.coco-frontend.tls.domains[1].main=cooperatieconfigurator.local4local.nu
+Label=traefik.http.routers.coco-frontend.middlewares[0]=coco-redirect
+Label=traefik.http.middlewares.coco-redirect.redirectRegex.regex=^https://cooperatieconfigurator.local4local.nu/(.*)
+Label=traefik.http.middlewares.coco-redirect.redirectRegex.replacement=https://coco.local4local.nu/${1}
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

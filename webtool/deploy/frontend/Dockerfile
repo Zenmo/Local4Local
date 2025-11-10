@@ -24,7 +24,6 @@ ARG VITE_ANYLOGIC_CALLBACK_URL=https://local4local-backend.zenmo.com
 
 # Build static site
 COPY frontend /app/frontend
-RUN ls -ahl
 RUN npm run build
 
 # Final image

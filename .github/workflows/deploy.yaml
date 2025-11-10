@@ -4,11 +4,15 @@ on:
   push:
     branches:
       - main
+      - hetzner-deploy-frontend
 #  pull_request:
 #    types: [ opened, synchronize, reopened ]
 
+env:
+    TAG: ${{ github.head_ref || github.ref_name }}-${{ github.run_number }}
+
 jobs:
-  build-deploy-static-site:
+  build-deploy-azure-static-site:
     runs-on: ubuntu-latest
     name: Build and deploy static site
     steps:
@@ -50,6 +54,34 @@ jobs:
             app_location: "/webtool/frontend/dist"
             api_location: "" # Api source code path - optional
             ###### End of Repository/Build Configurations ######
+
+  build-frontend-container:
+      runs-on: ubuntu-24.04
+      steps:
+          -   uses: actions/checkout@v5
+          -   name: Log in to GitHub Container Registry
+              uses: redhat-actions/podman-login@v1
+              with:
+                  username: ${{ github.actor }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+                  registry: ghcr.io
+          -   name: Build container image
+              run: ./webtool/deploy/frontend/build.sh
+          -   name: Push container image
+              run: ./webtool/deploy/frontend/push.sh
+
+  deploy-podhost:
+      runs-on: ubuntu-24.04
+      needs: build-frontend-container
+      steps:
+          -   uses: actions/checkout@v5
+          -   name: Install SSH key
+              uses: shimataro/ssh-key-action@v2
+              with:
+                  key: ${{ secrets.PODHOST_SSH_PRIVATE_KEY }}
+                  known_hosts: podhost.zenmo.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKVeen0rfyMwiAoQCpIUJ/a2tpM35D/BdEDUyfRTxiXm
+          -   name: Deploy podhost
+              run: ./webtool/deploy/quadlets/deploy.sh
 
   deploy-backend:
         runs-on: ubuntu-latest
