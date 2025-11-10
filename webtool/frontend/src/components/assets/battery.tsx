@@ -68,11 +68,11 @@ export const BatteryForm: FunctionComponent<{
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
                     <LabelWithInfo data={titles["capacity_kWh"]} />
-                    <input className="form-input" type="number" id="capacity_kWh" name="capacity_kWh" defaultValue={ initialData?.capacity_kWh || 100} />
+                    <input className="form-input" type="number" id="capacity_kWh" name="capacity_kWh" defaultValue={ initialData?.capacity_kWh || 2000} />
                 </div>
                 <div className="radix-grid">
                     <LabelWithInfo data={titles["peakPower_kW"]} />
-                    <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW || 100} />
+                    <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW || 1000} />
                 </div>
                 <CostSection showCostPerKwh={false} showTotalCostFactors={true} initialData={initialData?.cost}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
