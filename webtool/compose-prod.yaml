@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
     backend:
-        image: ghcr.io/zenmo/local4local-backend:${GITHUB_RUN_NUMBER}
+        image: ghcr.io/zenmo/coco-backend:${TAG}
         networks:
             - caddy_default
         labels:
