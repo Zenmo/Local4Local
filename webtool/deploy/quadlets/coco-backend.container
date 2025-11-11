@@ -1,0 +1,17 @@
+
+[Container]
+ContainerName=coco-backend
+Image=ghcr.io/zenmo/coco-backend:$TAG
+
+Network=main.network
+Label=traefik.enable=true
+Label=traefik.http.routers.coco-backend.rule=Host(`local4local-backend.zenmo.com`)
+Label=traefik.http.routers.coco-backend.tls.certResolver=DNSimpleChallenge
+Label=traefik.http.routers.coco-backend.tls.domains[0].main=*.zenmo.com
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Install]
+WantedBy=default.target

@@ -19,4 +19,5 @@ scp -r $OUTPUT_DIR podman@podhost.zenmo.com:~/.config/containers/systemd/
 # Restart services
 ssh podman@podhost.zenmo.com "\
     systemctl --user daemon-reload \
-    && systemctl --user restart coco-frontend"
+    && systemctl --user restart coco-frontend \
+    && systemctl --user restart coco-backend"
