@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.5.202506190548" AlpVersion="8.9.5">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.6.202509050523" AlpVersion="8.9.6">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -99,6 +99,9 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[defaultProfiles_data]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_remainingTotals]]></Name>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_local4localBackendUrl]]></Name>
@@ -301,12 +304,14 @@ zero_Interface = interface_L4L;
 
 //zero_Interface.gr_uI_Results_presentation.uI_Results_presentation = zero_Interface.uI_Results_presentation
 //Set parameters/pointers in the interface and resultsUI
+
+/*
 zero_Interface.energyModel = energyModel;
 zero_Interface.va_Interface.navigateTo();
 zero_Interface.uI_Results.energyModel = energyModel;
 zero_Interface.p_selectedProjectType = project_data.project_type();
 zero_Interface.settings = settings;
-]]></Body>
+*/]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -462,8 +467,6 @@ Building_data building_data_record = Building_data.builder().
 
 address_id(row.get( buildings.address_id )).
 building_id(row.get( buildings.building_id )).
-pand_nr(row.get( buildings.pand_nr )).
-pandcluster_nr(row.get( buildings.pandcluster_nr )).
 streetname(row.get( buildings.streetname )).
 house_number(row.get( buildings.house_number )).
 house_letter(row.get( buildings.house_letter )).
@@ -1080,7 +1083,7 @@ if (windFarms.size() == 0) {
 			gridHouse.set_p_floorSurfaceArea_m2(houseScaling_r*100);
 			//gridHouse.v_dayTempSetpoint_degC = 20;
 			//gridHouse.v_nightTempSetpoint_degC = 17;
-			gridHouse.p_heatingManagement = new J_HeatingManagementSimple(gridHouse, OL_GridConnectionHeatingType.GAS_BURNER);
+			gridHouse.f_setHeatingManagement(new J_HeatingManagementSimple(gridHouse, OL_GridConnectionHeatingType.GAS_BURNER));
 		// Owner
 		ConnectionOwner	connectionOwner = energyModel.add_pop_connectionOwners();
 			connectionOwner.p_actorID = gridHouse.p_ownerID;
@@ -1353,7 +1356,7 @@ for (var batteryData: batteries) {
         //gridBattery.set_p_heatingType( OL_GridConnectionHeatingType.NONE );
         gridBattery.v_liveConnectionMetaData.contractedFeedinCapacity_kW = batteryData.getPeakPower_kW();
         gridBattery.v_liveConnectionMetaData.contractedDeliveryCapacity_kW = batteryData.getPeakPower_kW();
-        gridBattery.p_batteryAlgorithm = new J_BatteryManagementSelfConsumptionGridNode(gridBattery);
+        gridBattery.f_setBatteryManagement(new J_BatteryManagementSelfConsumptionGridNode(gridBattery));
         //Battery Asset   	
     	f_addStorage(gridBattery, batteryData.getPeakPower_kW(), batteryData.getCapacity_kWh(), OL_EnergyAssetType.STORAGE_ELECTRIC );
     	//f_addStorage(gridBattery, 100, 100, OL_EnergyAssetType.STORAGE_ELECTRIC );
@@ -1801,11 +1804,7 @@ for (var g : c_householdGroups) {
 						<Name><![CDATA[houseScaling_r]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[//Update variable to change to custom scenario
-if(!interface_L4L.b_runningMainInterfaceScenarios){
-	interface_L4L.b_changeToCustomScenario = true;
-}
-//PV_pct = 0;
+					<Body><![CDATA[
 
 double nbHousesWithPV = count(c_housesInGroup, x -> x.v_liveAssetsMetaData.activeAssetFlows.contains(OL_AssetFlowCategories.pvProductionElectric_kW) );
 traceln("Houses with PV: %s", nbHousesWithPV);
@@ -1873,12 +1872,9 @@ else {
 						<Name><![CDATA[houseScaling_r]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[//Update variable to change to custom scenario
-if(!interface_L4L.b_runningMainInterfaceScenarios){
-	interface_L4L.b_changeToCustomScenario = true;
-}
+					<Body><![CDATA[
 
-double nbHeatPumps = count(c_housesInGroup, house -> house.p_heatingManagement.getCurrentHeatingType() == OL_GridConnectionHeatingType.ELECTRIC_HEATPUMP);
+double nbHeatPumps = count(c_housesInGroup, house -> house.f_getHeatingManagement().getCurrentHeatingType() == OL_GridConnectionHeatingType.ELECTRIC_HEATPUMP);
 int targetHeatPumpAmount = roundToInt( targetHeatPump_pct / 100.0 *(c_housesInGroup.size()));
 
 if( targetHeatPumpAmount < nbHeatPumps){
@@ -1913,7 +1909,7 @@ if( targetHeatPumpAmount < nbHeatPumps){
 } 
 else { 
 	while ( targetHeatPumpAmount > nbHeatPumps) { // remove gasburners, add heatpumps.
-		GCHouse gc = (GCHouse)findFirst(c_housesInGroup, house -> house.p_heatingManagement.getCurrentHeatingType() == OL_GridConnectionHeatingType.GAS_BURNER);
+		GCHouse gc = (GCHouse)findFirst(c_housesInGroup, house -> house.f_getHeatingManagement().getCurrentHeatingType() == OL_GridConnectionHeatingType.GAS_BURNER);
 		if (gc != null) {			
 			
 			J_EA gasBurner = findFirst(gc.c_heatingAssets, j_ea -> j_ea instanceof J_EAConversionGasBurner);
@@ -1942,7 +1938,7 @@ else {
 			nbHeatPumps ++;
 			interface_L4L.c_orderedHeatingSystemsHouses.remove(gc);
 			interface_L4L.c_orderedHeatingSystemsHouses.add(0, (GCHouse)gc);
-			gc.p_heatingManagement.initializeAssets();
+			gc.f_getHeatingManagement().initializeAssets();
 			//traceln("Heating type: %s", gc.p_heatingManagement.getCurrentHeatingType());
 			//gc.p_heatingType = OL_GridConnectionHeatingType.HEATPUMP_AIR;
 		} 
@@ -1976,10 +1972,7 @@ else {
 						<Name><![CDATA[houseScaling_r]]></Name>
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
-					<Body><![CDATA[//Update variable to change to custom scenario
-if(!interface_L4L.b_runningMainInterfaceScenarios){
-	interface_L4L.b_changeToCustomScenario = true;
-}
+					<Body><![CDATA[
 int v_totalNumberOfGhostVehicle_Cars = 0;
 int nbEVsCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.ELECTRIC_VEHICLE && !(p.getParentAgent() instanceof GCPublicCharger) && ((GridConnection)p.getParentAgent()).v_isActive && c_housesInGroup.contains(p.getParentAgent()) ) + v_totalNumberOfGhostVehicle_Cars;
 int nbDieselCarsCurrent = count(energyModel.f_getEnergyAssets(), p->p.energyAssetType == OL_EnergyAssetType.DIESEL_VEHICLE && ((GridConnection)p.getParentAgent()).v_isActive  && c_housesInGroup.contains(p.getParentAgent()) );
@@ -2158,11 +2151,6 @@ if( nbEVsCurrent > nbEVsGoal){
 						<Type><![CDATA[double]]></Type>
 					</Parameter>
 					<Body><![CDATA[traceln("Adding home batteries to %s %% of households in group", HomeBattery_pct);
-//Update variable to change to custom scenario
-if(!interface_L4L.b_runningMainInterfaceScenarios){
-	interface_L4L.b_changeToCustomScenario = true;
-}
-//PV_pct = 0;
 
 double nbHousesWithHomeBattery = count(c_housesInGroup, x -> x.p_batteryAsset != null);
 
@@ -2195,7 +2183,7 @@ else {
 			double storageCapacity_kWh = houseScaling_r * 4.0;
 			double SOC_init_fr = 0.5;
 			new J_EAStorageElectric(house, capacityElectric_kW, storageCapacity_kWh, SOC_init_fr, energyModel.p_timeStep_h);
-			house.p_batteryAlgorithm = new J_BatteryManagementSelfConsumption(house);
+			house.f_setBatteryManagement(new J_BatteryManagementSelfConsumption(house));
 			nbHousesWithHomeBattery ++;	
 		}
 	}
@@ -2343,37 +2331,10 @@ energyModel.f_addProfile(profilePointer);
 					</GenericParameterSubstitute>
 					<Parameters>
 						<Parameter>
-							<Name><![CDATA[t_scenario_current]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[t_scenario_2]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[t_scenario_3]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[t_scenario_XXX]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[t_scenario_custom]]></Name>
-						</Parameter>
-						<Parameter>
 							<Name><![CDATA[energyModel]]></Name>
 						</Parameter>
 						<Parameter>
-							<Name><![CDATA[map_centre_latitude]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[map_centre_longitude]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[p_selectedProjectType]]></Name>
-						</Parameter>
-						<Parameter>
 							<Name><![CDATA[settings]]></Name>
-						</Parameter>
-						<Parameter>
-							<Name><![CDATA[map_scale]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[p_currentActiveInfoBubble]]></Name>
@@ -2392,6 +2353,36 @@ energyModel.f_addProfile(profilePointer);
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[user]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[project_data]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[uI_Company]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[uI_Hydrogen]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[uI_Battery]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[uI_EnergyHub]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[rb_scenarios]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[t_scenario_current]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[t_scenario_future]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[t_scenario_custom]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_residentialScenario_Current]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -2496,19 +2487,7 @@ import org.jfree.graphics2d.svg.SVGUnits;
 					<Name><![CDATA[energyModel]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[map_centre_latitude]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[map_centre_longitude]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_selectedProjectType]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[settings]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[map_scale]]></Name>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_maxNrSelectedGCForExport]]></Name>
@@ -2529,16 +2508,31 @@ import org.jfree.graphics2d.svg.SVGUnits;
 					<Name><![CDATA[user]]></Name>
 				</Parameter>
 				<Parameter>
+					<Name><![CDATA[project_data]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[uI_Company]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[uI_Hydrogen]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[uI_Battery]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[uI_EnergyHub]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[rb_scenarios]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[t_scenario_future]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_residentialScenario_Current]]></Name>
+				</Parameter>
+				<Parameter>
 					<Name><![CDATA[t_scenario_current]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_2]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_3]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[t_scenario_custom]]></Name>
@@ -2666,130 +2660,6 @@ import org.jfree.graphics2d.svg.SVGUnits;
 						</InitialValue>
 					</Properties>
 				</Variable>
-				<Variable Class="Parameter">
-					<Id>1724419523225</Id>
-					<Name><![CDATA[t_scenario_current]]></Name>
-					<X>-1005</X><Y>85</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[String]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA["Het huidige scenario bevat de energie dynamieken van dit moment. \n" +
-"Dit omvat o.a. de huidige zonnepanelen op de daken van gebouwen, \n" +
-"het aantal elektrische voertuigen, de energie- \n" + 
-"consumptie van de panden, en de huidige gasconsumptie \n" + 
-"voor verwarming."]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1724419523223</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>SEPARATE_SECTION</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1724419523232</Id>
-					<Name><![CDATA[t_scenario_2]]></Name>
-					<X>-1000</X><Y>140</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[String]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA["WORDT NOG NIET ONDERSTEUND"]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1724419523230</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1724419604919</Id>
-					<Name><![CDATA[t_scenario_3]]></Name>
-					<X>-1000</X><Y>195</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[String]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA["WORDT NOG NIET ONDERSTEUND"]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1724419604917</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1724419829732</Id>
-					<Name><![CDATA[t_scenario_XXX]]></Name>
-					<X>-1000</X><Y>245</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[String]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA["WORDT NOG NIET ONDERSTEUND"]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1724419829730</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
-				<Variable Class="Parameter">
-					<Id>1724420385230</Id>
-					<Name><![CDATA[t_scenario_custom]]></Name>
-					<X>-1000</X><Y>295</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Properties SaveInSnapshot="true" ModificatorType="STATIC">
-						<Type><![CDATA[String]]></Type>
-						<UnitType><![CDATA[NONE]]></UnitType>
-						<SdArray>false</SdArray>
-						<DefaultValue Class="CodeValue">
-							<Code><![CDATA[""]]></Code>
-						</DefaultValue>
-						<ParameterEditor>
-							<Id>1724420385228</Id>
-							<EditorContolType>TEXT_BOX</EditorContolType>
-							<MinSliderValue><![CDATA[0]]></MinSliderValue>
-							<MaxSliderValue><![CDATA[100]]></MaxSliderValue>
-							<DelimeterType>NO_DELIMETER</DelimeterType>
-						</ParameterEditor>
-					</Properties>                 
-				</Variable>
 			</Variables>
 			<Functions>
 				<Function AccessType="default" StaticFunction="false">
@@ -2803,89 +2673,7 @@ import org.jfree.graphics2d.svg.SVGUnits;
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[//Project specific interface initialization settings
-
-//Disable the default scenario buttons
-rb_scenarios.setEnabled(false);
-rb_scenarios.setVisible(false);
-
 ]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1724419523222</Id>
-					<Name><![CDATA[f_setScenario_2]]></Name>
-					<X>-1020</X><Y>120</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[setScenario]]></Name>
-						<Type><![CDATA[int]]></Type>
-					</Parameter>
-					<Body><![CDATA[
-//Set the scenario text
-t_scenarioDescription.setText(t_scenario_2);]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1724419535513</Id>
-					<Name><![CDATA[f_setScenario_Current]]></Name>
-					<X>-1020</X><Y>65</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Parameter>
-						<Name><![CDATA[setScenario]]></Name>
-						<Type><![CDATA[int]]></Type>
-					</Parameter>
-					<Body><![CDATA[for (UI_company companyUI : ui_companies){
-	companyUI.getRb_scenariosPrivateUI().setValue(setScenario, true);
-} 
-
-//Set the scenario text
-t_scenarioDescription.setText(t_scenario_current);]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1724419592217</Id>
-					<Name><![CDATA[f_setScenario_3]]></Name>
-					<X>-1020</X><Y>175</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[
-
-
-
-
-
-
-//Set the scenario text
-t_scenarioDescription.setText(t_scenario_3);]]></Body>
-				</Function>
-				<Function AccessType="default" StaticFunction="false">
-					<ReturnModificator>VOID</ReturnModificator>
-					<ReturnType><![CDATA[double]]></ReturnType>
-					<Id>1724419810437</Id>
-					<Name><![CDATA[f_setScenario_XXX]]></Name>
-					<X>-1020</X><Y>225</Y>
-					<Label><X>10</X><Y>0</Y></Label>
-					<PublicFlag>false</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[
-
-
-
-
-//Set the scenario text
-t_scenarioDescription.setText(t_scenario_XXX);]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -2937,7 +2725,6 @@ for (var g : c_householdGroups) {
 					<Body><![CDATA[//Project specific styling
 
 //Interface colors
-v_themeColor = new Color(208, 208, 245);
 v_backgroundColor = white;
 
 //Grid node sizes
@@ -3653,7 +3440,7 @@ gr_sankey.setVisible(true);]]></Body>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1733846842865</Id>
 					<Name><![CDATA[btn_toSystemView]]></Name>
-					<X>-1460</X><Y>1110</Y>
+					<X>-1460</X><Y>1210</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3800,7 +3587,7 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 				<Oval>
 					<Id>1730900136677</Id>
 					<Name><![CDATA[ovl_gemiddeld_tarief]]></Name>
-					<X>-850</X><Y>1810</Y>
+					<X>-850</X><Y>1910</Y>
 					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -3820,69 +3607,10 @@ viewAreaL4L.navigateTo();]]></ActionCode>
 					<FillColor>-3896</FillColor>
 					<FillMaterial>null</FillMaterial>
 				</Oval>
-				<Control Type="RadioButtons">
-				 	<EmbeddedIcon>false</EmbeddedIcon>				
-					<Id>1724415643323</Id>
-					<Name><![CDATA[rb_scenarios_L4L]]></Name>
-					<X>20</X><Y>145</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
-					<BasicProperties Width="380" Height="135">
-                        <EmbeddedIcon>false</EmbeddedIcon>	
-						<TextColor>-16777216</TextColor>
-						<Enabled>true</Enabled>
-						<ActionCode><![CDATA[//Set selected scenario string
-String selected_scenario = "";
-
-//Disable traceln
-PrintStream originalPrintStream = f_disableTraceln();
-
-switch(rb_scenarios_L4L.getValue()){
-	
-	case 0:
-		selected_scenario = "2024: huidige situatie";
-		f_setScenario_Current(rb_scenarios_L4L.getValue());
-
-	break;
-	
-	case 1: // ???
-		selected_scenario = "???? : NOG NIET WERKEND!!!!";
-		f_setScenario_XXX();
-	break;
-	
-	case 2:
-		selected_scenario = "Custom";
-		t_scenarioDescription.setText(t_scenario_custom);
-	break;
-	
-	default:
-		traceln("Unsupported scenario selected");
-}
-
-//Enable traceln
-f_enableTraceln(originalPrintStream);
-
-//Set scenario name text to the correct scenario
-t_scenarioName.setText("Scenario: " + selected_scenario);
-traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
-					</BasicProperties>
-					<ExtendedProperties>
-						<Font Name="Dialog" Size="14" Style="0"/>
-						<DefaultValueCode><![CDATA[0]]></DefaultValueCode>
-						<Orientation>VERTICAL</Orientation>
-						<Button><![CDATA[2024: huidige situatie]]></Button>
-						<Button><![CDATA[????]]></Button>
-						<Button><![CDATA[Custom]]></Button>
-						<LinkTo>false</LinkTo>
-					</ExtendedProperties>
-				</Control>
 				<Group>
 					<Id>1729595620037</Id>
 					<Name><![CDATA[table]]></Name>
-					<X>-600</X><Y>1610</Y>
+					<X>-600</X><Y>1710</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -4776,7 +4504,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672318520</Id>
 					<Name><![CDATA[grp_solarpark]]></Name>
-					<X>-660</X><Y>1160</Y>
+					<X>-660</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -4902,7 +4630,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672325154</Id>
 					<Name><![CDATA[grp_windpark]]></Name>
-					<X>-260</X><Y>1160</Y>
+					<X>-260</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -5028,7 +4756,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672367443</Id>
 					<Name><![CDATA[grp_windpark_expnd]]></Name>
-					<X>-260</X><Y>1160</Y>
+					<X>-260</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5280,7 +5008,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Group>
 					<Id>1729672425523</Id>
 					<Name><![CDATA[grp_households]]></Name>
-					<X>-1060</X><Y>1160</Y>
+					<X>-1060</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -5406,7 +5134,7 @@ traceln("Selected scenario: \"" + selected_scenario + "\"");]]></ActionCode>
 				<Text>
 					<Id>1729673517119</Id>
 					<Name><![CDATA[txt_graph_title]]></Name>
-					<X>-1630</X><Y>1115</Y>
+					<X>-1630</X><Y>1215</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5428,7 +5156,7 @@ Opwek en Levering]]></Text>
 				<Text>
 					<Id>1729690631528</Id>
 					<Name><![CDATA[txt_table_title]]></Name>
-					<X>-600</X><Y>1420</Y>
+					<X>-600</X><Y>1520</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5470,7 +5198,7 @@ Opwek en Levering]]></Text>
 				<Text>
 					<Id>1729690755597</Id>
 					<Name><![CDATA[txt_gemiddeld_tarief_highlight]]></Name>
-					<X>-850</X><Y>1885</Y>
+					<X>-850</X><Y>1985</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5492,7 +5220,7 @@ Opwek en Levering]]></Text>
 				<Text>
 					<Id>1729690783826</Id>
 					<Name><![CDATA[txt_local4local_tarief_value]]></Name>
-					<X>-850</X><Y>1790</Y>
+					<X>-850</X><Y>1890</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5543,7 +5271,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Group>
 					<Id>1730730050427</Id>
 					<Name><![CDATA[grp_solarpark_expnd]]></Name>
-					<X>-660</X><Y>1160</Y>
+					<X>-660</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -5795,7 +5523,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Group>
 					<Id>1730730115139</Id>
 					<Name><![CDATA[grp_households_expnd]]></Name>
-					<X>-1060</X><Y>1160</Y>
+					<X>-1060</X><Y>1260</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6089,7 +5817,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Line>
 					<Id>1730898950049</Id>
 					<Name><![CDATA[ln_content1]]></Name>
-					<X>-1320</X><Y>1120</Y>
+					<X>-1320</X><Y>1220</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6113,7 +5841,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Line>
 					<Id>1730898967934</Id>
 					<Name><![CDATA[ln_content2]]></Name>
-					<X>-1290</X><Y>1400</Y>
+					<X>-1290</X><Y>1500</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -6182,7 +5910,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();]]></ActionCode>
 				<Group>
 					<Id>1733827501249</Id>
 					<Name><![CDATA[grp_header]]></Name>
-					<X>-960</X><Y>1020</Y>
+					<X>-960</X><Y>1120</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8350,7 +8078,7 @@ SPOT markt]]></Text>
 				<Text>
 					<Id>1736851346533</Id>
 					<Name><![CDATA[txt_kostprijs_plus_highlight1]]></Name>
-					<X>-430</X><Y>1884</Y>
+					<X>-430</X><Y>1984</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8372,7 +8100,7 @@ SPOT markt]]></Text>
 				<Oval>
 					<Id>1736851346535</Id>
 					<Name><![CDATA[ovl_kostprijs_plus1]]></Name>
-					<X>-430</X><Y>1809</Y>
+					<X>-430</X><Y>1909</Y>
 					<Label><X>0</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8395,7 +8123,7 @@ SPOT markt]]></Text>
 				<Text>
 					<Id>1736851346537</Id>
 					<Name><![CDATA[txt_benchmarkprijs_value]]></Name>
-					<X>-430</X><Y>1789</Y>
+					<X>-430</X><Y>1889</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -8417,7 +8145,7 @@ SPOT markt]]></Text>
 				<Group>
 					<Id>1730998285479</Id>
 					<Name><![CDATA[grp_balanceWarning]]></Name>
-					<X>-1700</X><Y>2220</Y>
+					<X>-1700</X><Y>2320</Y>
 					<Label><X>7.559</X><Y>0</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>false</PresentationFlag>
@@ -8551,7 +8279,7 @@ Klik op dit vlak om verder te gaan.]]></Text>
 				<Area>
 					<Id>1722364205380</Id>
 					<Name><![CDATA[viewAreaL4L]]></Name>
-					<X>-1930</X><Y>990</Y>
+					<X>-1930</X><Y>1090</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9275,7 +9003,7 @@ total_electricity_consumption_companies_kWh_p_yr(total_electricity_consumption_c
 total_gas_consumption_companies_m3_p_yr(total_gas_consumption_companies_m3_p_yr).
 avg_electricity_consumption_house_kWh_p_yr(avg_electricity_consumption_house_kWh_p_yr).
 avg_gas_consumption_house_m3_p_yr(avg_gas_consumption_house_m3_p_yr).
-total_cars_houses(total_cars_houses).
+//total_cars_houses(total_cars_houses).
 total_vans_companies(total_vans_companies).
 total_trucks_companies(total_trucks_companies).
 build();
@@ -9451,6 +9179,9 @@ return svgId;]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[user]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_remainingTotals]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -9809,18 +9540,6 @@ public void f_calculateKPIs(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_aggregatorBatteryManagement]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[b_fixedAssetTariff]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -10678,9 +10397,6 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 					<Name><![CDATA[p_ownerID]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[p_chargingAttitudeVehicles]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[p_batteryAsset]]></Name>
 				</Parameter>
 				<Parameter>
@@ -10741,16 +10457,10 @@ public void f_batteryManagementBalanceSupply(double SOC) {
 					<Name><![CDATA[p_isSliderGC]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[p_batteryAlgorithm]]></Name>
-				</Parameter>
-				<Parameter>
 					<Name><![CDATA[v_isActive]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[p_heatingManagement]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_chargingManagement]]></Name>
+					<Name><![CDATA[p_uid]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -11378,6 +11088,7 @@ public void f_updateUIresultsEnergyCoop(AreaCollection AC, EnergyCoop EC) {
 	<FixedTimeStep>1.0</FixedTimeStep>
 	<RelativeAccuracy>1.0</RelativeAccuracy>
 	<TimeAccuracy>0.1</TimeAccuracy>
+	<InspectionWindowColorTheme>DEFAULT</InspectionWindowColorTheme>
 	<Frame>
 		<Id>1658477089984</Id>
 		<Width>1920</Width>
@@ -12131,5 +11842,7 @@ public abstract class ActorMixin implements Serializable {
 	<Uuid>e6625695-25a2-43d0-9056-1e9a1a594b1e</Uuid>
 	<Uuid>91990287-4edf-4e38-aa6c-66d0e906807b</Uuid>
 	<Uuid>2216cdd0-177c-5678-9e88-dd8b95312234</Uuid>
+	<Uuid>1737c8c6-b526-4dd8-589e-ee4e205b06f4</Uuid>
+	<Uuid>6a43bef6-8b70-4253-a828-82c3ab399655</Uuid>
 </ConvertersApplied>
 </AnyLogicWorkspace>
