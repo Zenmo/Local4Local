@@ -131,7 +131,14 @@ data class AssetCost(
     val interest_r: Double? = 0.0,
     val depreciationPeriod_y: Double? = 0.0,
     val OPEX_eurpy: Double? = 0.0,
-)
+) {
+    companion object {
+        fun createForGenerationAsset(): AssetCost = AssetCost(
+            sdeAanvraagbedrag_eurpkWh = 0.10,
+            sdeBasisenergieprijs_eurpkWh = 0.04,
+        )
+    }
+}
 
 @JsExport
 @Serializable
@@ -190,11 +197,11 @@ enum class PVOrientation(val displayName: String) {
 @JsExport
 @Serializable
 data class SolarFarm(
-    val nominalPower_kW: Double,
+    val nominalPower_kW: Double = 1000.0,
     val orientation: PVOrientation = PVOrientation.SOUTH,
-    val cost: AssetCost,
+    val cost: AssetCost = AssetCost.createForGenerationAsset(),
     val curtailment: Boolean = false,
-    val id: String = "SolarFarm_${idCounter++}"
+    val id: String = "SolarFarm_${idCounter++}",
 ) {
     fun withSdeAanvraagbedrag_eurpkWh(sdeAanvraagbedrag_eurpkWh: Double) = copy(
         cost = cost.copy(
@@ -263,9 +270,14 @@ enum class WindFarmLocation(val displayName: String) {
 @JsExport
 @Serializable
 data class Battery(
-    val capacity_kWh: Double,
-    val peakPower_kW: Double,
-    val cost: AssetCost,
+    val capacity_kWh: Double = 2000.0,
+    val peakPower_kW: Double = 1000.0,
+    val cost: AssetCost = AssetCost(
+        CAPEX_eur = 400_000.0,
+        interest_r = 0.06,
+        depreciationPeriod_y = 15.0,
+        OPEX_eurpy = 8000.0,
+    ),
     val id: String = "Battery_${idCounter++}"
 )
 

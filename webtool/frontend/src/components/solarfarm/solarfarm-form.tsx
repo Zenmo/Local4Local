@@ -8,10 +8,10 @@ import {LabelWithInfo} from "../info/label-with-info.tsx"
 import {solarFarmTitles, titles} from "../info/titles.tsx"
 
 export const SolarFarmForm: FunctionComponent<{
-    initialData?: SolarFarm | null;
+    initialData?: SolarFarm | null
     save: (solarFarm: SolarFarm) => void
     hide: () => void
-}> = ({initialData, save, hide}) => {
+}> = ({initialData = new SolarFarm, save, hide}) => {
     const onSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
         const form = event.currentTarget
@@ -41,7 +41,7 @@ export const SolarFarmForm: FunctionComponent<{
             <form onSubmit={onSubmit}>
                 <div className="radix-grid">
                     <LabelWithInfo data={solarFarmTitles["nominalPower_kW"]} />
-                    <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW || 1000}/>
+                    <input className="form-input" type="number" id="nominalPower_kW" name="nominalPower_kW" defaultValue={ initialData?.nominalPower_kW }/>
                 </div>
                 <div className="radix-grid">
                     <LabelWithInfo data={solarFarmTitles.curtailment} />

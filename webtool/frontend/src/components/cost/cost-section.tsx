@@ -95,6 +95,8 @@ const CostHeading = () => (
     </Heading>
 );
 
+const defaultGenerationCost = AssetCost.Companion.createForGenerationAsset()
+
 export const CostSection: FunctionComponent<{
     showCostPerKwh?: boolean
     showTotalCostFactors?: boolean
@@ -124,16 +126,16 @@ export const CostSection: FunctionComponent<{
                             <input className="form-input" type="number" id="LCOE_eurpkWh" name="LCOE_eurpkWh"
                                    min={0} step={0.001}
                                    placeholder="€/kWh"
-                                   defaultValue={initialData?.LCOE_eurpkWH || 0}
+                                   defaultValue={initialData?.LCOE_eurpkWH || defaultGenerationCost.LCOE_eurpkWH || ""}
                             />
                         </div>
                         : null}
                     {ppaType === PPAType.FLOOR_CAP_PPA ?
                         <>
                             <SdeAanvraagBedragFormRow
-                                defaultValue={initialData?.sdeAanvraagbedrag_eurpkWh || 0} />
+                                defaultValue={initialData?.sdeAanvraagbedrag_eurpkWh || defaultGenerationCost.sdeAanvraagbedrag_eurpkWh || ""} />
                             <SdeBasisenergiePrijsFormRow
-                                defaultValue={initialData?.sdeBasisenergieprijs_eurpkWh || 0} />
+                                defaultValue={initialData?.sdeBasisenergieprijs_eurpkWh || defaultGenerationCost.sdeBasisenergieprijs_eurpkWh || ""} />
                         </>
                         : null}
                 </>
