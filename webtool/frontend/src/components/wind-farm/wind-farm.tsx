@@ -88,7 +88,7 @@ export const WindFarmForm: FunctionComponent<{
                     <LabelWithInfo data={windFarmTitles.curtailment} />
                     <input type="checkbox" id="curtailment" name="curtailment" defaultChecked={initialData?.curtailment} />
                 </div>
-                <CostSection initialData={initialData?.cost ?? AssetCost.Companion.createForGenerationAsset()}/>
+                <CostSection initialData={initialData?.cost ?? AssetCost.createForGenerationAsset()}/>
                 <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>

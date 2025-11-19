@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlin.js.JsExport
 import kotlin.js.JsName
+import kotlin.js.JsStatic
 import kotlin.math.roundToInt
 
 var idCounter = 1
@@ -133,6 +134,7 @@ data class AssetCost(
     val OPEX_eurpy: Double? = 0.0,
 ) {
     companion object {
+        @JsStatic
         fun createForGenerationAsset(): AssetCost = AssetCost(
             sdeAanvraagbedrag_eurpkWh = 0.10,
             sdeBasisenergieprijs_eurpkWh = 0.04,

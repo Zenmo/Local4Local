@@ -95,7 +95,7 @@ const CostHeading = () => (
     </Heading>
 );
 
-const defaultGenerationCost = AssetCost.Companion.createForGenerationAsset()
+const defaultGenerationCost = AssetCost.createForGenerationAsset()
 
 export const CostSection: FunctionComponent<{
     showCostPerKwh?: boolean
