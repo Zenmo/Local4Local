@@ -3,6 +3,7 @@ package nu.local4local.common.resourcefully
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import nu.local4local.common.*
+import nu.local4local.common.coopreport.HouseholdGroupReport
 import kotlin.js.JsExport
 
 /**
@@ -50,11 +51,7 @@ data class ResourcefullyExport(
     /** Simulation output */
     var coopReport: AnnualCoopReport? = null,
 ) {
-    fun toJson(): String =
-        Json {
-            encodeDefaults = true
-            prettyPrint = true
-        }.encodeToString(this)
+    fun toJson(): String = json.encodeToString(this)
 }
 
 @JsExport
@@ -80,13 +77,26 @@ data class HouseholdGroup(
      * Simulation results.
      * I don't think we have these available yet on a per-group basis.
      */
+
+    // ratio of household with a home battery but no PV
+    val batt_ratio: Double,
+    // ratio of household with a home battery and PV
+    val batt_pv_ratio: Double,
+    // kW
+    val batt_power: Double,
+    // kWh
+    val batt_capacity: Double,
     //val annualElectricityConsumption_kWh: Double,
     //val annualElectricityProduction_kWh: Double,
     //val annualElectricityDelivery_kWh: Double,
     //val annualElectricityFeedIn_kWh: Double,
 ) {
     companion object {
-        fun create(householdGroup: nu.local4local.common.HouseholdGroup) = with(householdGroup) {
+        fun create(
+            householdGroup: nu.local4local.common.HouseholdGroup,
+            reports: List<HouseholdGroupReport>,
+        ) = with(householdGroup) {
+            val report = reports.first { it.id == householdGroup.id }
             HouseholdGroup(
                 description = type,
                 households_n = households_n,
@@ -94,6 +104,10 @@ data class HouseholdGroup(
                 hasHeatPump_n = hasHeatPump_n(),
                 hasChargePoint_n = hasChargePoint_n(),
                 annualBaseConsumptionAvg_kWh = annualBaseConsumptionAvg_kWh,
+                batt_ratio = report.nonPvHouseholdsWithHomeBattery_fr,
+                batt_pv_ratio = report.pvHouseholdsWithHomeBattery_fr,
+                batt_power = report.avgHomeBatteryPower_kW,
+                batt_capacity = report.avgHomeBatteryCapacity_kWh,
             )
         }
     }

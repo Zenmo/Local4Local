@@ -21,7 +21,7 @@ kotlin {
         binaries.library()
         compilations["main"].packageJson {
             // hack hack hack
-            types = "kotlin/local4local-common.d.ts"
+            types = "kotlin/local4local-common.d.mts"
         }
         browser {
         }
@@ -33,7 +33,7 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
             }
         }
     }

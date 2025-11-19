@@ -8,7 +8,7 @@ rootProject.name = "local4local"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
-            version("kotlin", "2.1.20")
+            version("kotlin", "2.2.21")
         }
     }
 }
