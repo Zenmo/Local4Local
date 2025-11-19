@@ -1,6 +1,7 @@
 package nu.local4local.common.resourcefully
 
 import nu.local4local.common.Pilot
+import nu.local4local.common.coopreport.HouseholdGroupReport
 import kotlin.js.collections.JsArray
 import kotlin.js.collections.toList
 
@@ -24,7 +25,9 @@ fun createAssetCostReport(anyLogicAssetCostReport: AnyLogicAssetCostReport): Ass
 
 @OptIn(ExperimentalJsCollectionsApi::class)
 @JsExport
-fun createExport(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String, coopReport: dynamic) = with(pilot) {
+fun createExport(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String, coopReport: dynamic, householdGroupReports: List<HouseholdGroupReport>) = with(pilot) {
+    console.log(householdGroupReports)
+
     val assetList: AssetList = (coopReport.assetList as JsArray<AnyLogicAssetCostReport>)
         .toList()
         .map { createAssetCostReport(it) }
@@ -36,7 +39,7 @@ fun createExport(pilot: Pilot, metadata: ExportMetadata, scenarioUrl: String, co
         email = metadata.email,
         scenarioUrl = scenarioUrl,
         supplierCost = supplierCost,
-        householdGroups = householdGroups.map { HouseholdGroup.create(it) },
+        householdGroups = householdGroups.map { HouseholdGroup.create(it, householdGroupReports) },
         companies = companies.map { Company.create(it) },
         windFarms = windFarms.map { WindFarm.create(it, assetList) },
         solarFarms = solarFarms.map { SolarFarm.create(it, assetList) },

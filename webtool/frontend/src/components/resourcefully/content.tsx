@@ -4,7 +4,7 @@ import {ResourcefullyExport, createExport, ExportMetadata} from "local4local"
 import {Pilot} from "local4local"
 import {createDeeplink} from "../deeplink.ts"
 import Animation = AnyLogicCloudClient.Animation
-import {getCoopReport} from "./preview.ts"
+import {getCoopReport, getHouseholdGroupReports} from "./preview.ts"
 import {PilotState} from "../../services/use-pilot.ts"
 import {DialogButtonRow} from "./DialogButtonRow.tsx"
 
@@ -18,8 +18,9 @@ async function createExportObject(submitEvent: ReactSubmitEvent, pilot: Pilot, a
     );
 
     const coopReport = await getCoopReport(anyLogicAnimation)
+    const householdGroupReports = await getHouseholdGroupReports(anyLogicAnimation)
 
-    return createExport(pilot, exportMetadata, createDeeplink(pilot), coopReport)
+    return createExport(pilot, exportMetadata, createDeeplink(pilot), coopReport, householdGroupReports)
 }
 
 export const ResourcefullyDialogContent: FunctionComponent<{

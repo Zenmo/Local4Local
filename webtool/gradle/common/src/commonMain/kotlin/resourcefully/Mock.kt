@@ -30,6 +30,10 @@ val mockExport = ResourcefullyExport(
             hasHeatPump_n = 30,
             hasChargePoint_n = 20,
             annualBaseConsumptionAvg_kWh = 4500.0,
+            batt_ratio = 0.0,
+            batt_pv_ratio = 0.0,
+            batt_power = 0.0,
+            batt_capacity = 0.0,
         )
     ),
     companies = listOf(
