@@ -53,7 +53,7 @@ export const HouseholdForm: FunctionComponent<{
                     <LabelWithInfo data={titles["hasChargePoint_r"]} />
                     <input className="form-input" type="number" id="hasChargePoint_r" name="hasChargePoint_r" defaultValue={getWithDefault(initialData?.hasChargePoint_r, 0.2) * 100} min={0} max={100} />
                 </div>
-                <div className="radix-grid" style={useContext(IsDevModeContext) ? {} : { display: "none" }}>
+                <div className="radix-grid">
                     <LabelWithInfo data={titles["hasHomeBattery_r"]} />
                     <input className="form-input" type="number" id="hasHomeBattery_r" name="hasHomeBattery_r" defaultValue={getWithDefault(initialData?.hasHomeBattery_r, 0.01) * 100} min={0} max={100} />
                 </div>

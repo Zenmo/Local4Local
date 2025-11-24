@@ -49,14 +49,12 @@ export const HouseholdDisplay: FunctionComponent<{
                     </DataList.Label>
                     <DataList.Value>{householdGroup.hasChargePoint_r * 100} %</DataList.Value>
                 </DataList.Item>
-                {useContext(IsDevModeContext) && (
-                    <DataList.Item>
-                        <DataList.Label>
-                            <DivWithInfo data={titles.hasHomeBattery_r} />
-                        </DataList.Label>
-                        <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>
-                    </DataList.Item>
-                )}
+                <DataList.Item>
+                    <DataList.Label>
+                        <DivWithInfo data={titles.hasHomeBattery_r} />
+                    </DataList.Label>
+                    <DataList.Value>{householdGroup.hasHomeBattery_r * 100} %</DataList.Value>
+                </DataList.Item>
                 <DataList.Item>
                     <DataList.Label>
                         <DivWithInfo data={titles["annualBaseConsumptionAvg_kWh"]} />
