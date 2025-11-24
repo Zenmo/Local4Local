@@ -12,49 +12,6 @@ env:
     TAG: ${{ github.head_ref || github.ref_name }}-${{ github.run_number }}
 
 jobs:
-  build-deploy-azure-static-site:
-    runs-on: ubuntu-latest
-    name: Build and deploy static site
-    steps:
-      -   uses: actions/checkout@v3
-      -   uses: actions/setup-java@v4
-          with:
-            distribution: temurin
-            java-version: 21
-      -   name: Setup Gradle
-          uses: gradle/actions/setup-gradle@v3
-      -   name: gradle jsBrowserProductionLibraryDistribution
-          working-directory: webtool/gradle/common
-          run: gradle jsBrowserProductionLibraryDistribution
-      -   uses: actions/setup-node@v4
-          with:
-              node-version: 22
-              cache: npm
-              cache-dependency-path: ./webtool/frontend/package-lock.json
-      -   run: npm install
-          working-directory: ./webtool/frontend
-      -   run: npm run build
-          working-directory: ./webtool/frontend
-          env:
-              VITE_BACKEND_URL: https://local4local-backend.zenmo.com
-              VITE_ANYLOGIC_CALLBACK_URL: https://local4local-backend.zenmo.com
-      -   name: Copy Azure settings
-          run: cp webtool/frontend/staticwebapp.config.json webtool/frontend/dist/.
-      -   name: Build And Deploy
-          id: builddeploy
-          uses: Azure/static-web-apps-deploy@v1
-          with:
-            azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_DEPLOY_TOKEN }}
-            repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-            action: "upload"
-            ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
-            # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
-            # We build in previous steps, because a build failure at this step doesn't block the deploy.
-            skip_app_build: true
-            app_location: "/webtool/frontend/dist"
-            api_location: "" # Api source code path - optional
-            ###### End of Repository/Build Configurations ######
-
   build-backend-container:
       runs-on: ubuntu-24.04
       steps:
