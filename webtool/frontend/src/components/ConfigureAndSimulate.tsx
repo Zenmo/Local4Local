@@ -24,6 +24,23 @@ type ConfigAndSimulateProps = {
     startImmediately?: boolean,
 } & ComponentProps<"div">
 
+/**
+ * AnyLogic capture mouse wheel and trackpad scroll.
+ * In our case we want to scroll the page like normal.
+ */
+function reEnableScroll() {
+    const anyLogicElement = document.querySelector(`#${anylogicElementId} #svg-container`)
+    if (!anyLogicElement) {
+        console.error("Could not find AnyLogic element to re-enable scroll.")
+        return
+    }
+
+    // @ts-expect-error I don't know why this doesn't type check
+    anyLogicElement.addEventListener("wheel", (e: WheelEvent) => {
+        window.scrollBy(e.deltaX, e.deltaY)
+    })
+}
+
 export const ConfigureAndSimulate: FunctionComponent<ConfigAndSimulateProps> = ({
     initialPilot,
     startImmediately = Boolean(initialPilot),
@@ -58,6 +75,7 @@ export const ConfigureAndSimulate: FunctionComponent<ConfigAndSimulateProps> = (
         const sessionId = await savePilot(pilot)
         setShowSimulation(true)
         const newSimulation = await startSimulation(anylogicElementId, sessionId)
+        reEnableScroll()
         setSimulation(newSimulation)
         await newSimulation.waitForCompletion()
         forceUpdate()
