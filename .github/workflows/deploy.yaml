@@ -105,18 +105,3 @@ jobs:
                   known_hosts: podhost.zenmo.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKVeen0rfyMwiAoQCpIUJ/a2tpM35D/BdEDUyfRTxiXm
           -   name: Deploy podhost
               run: ./webtool/deploy/quadlets/deploy.sh
-
-  deploy-swarm:
-        runs-on: ubuntu-latest
-        needs: build-backend-container
-        steps:
-            -   uses: actions/checkout@v5
-            -   name: Deploy to swarm
-                uses: sagebind/docker-swarm-deploy-action@v2
-                env:
-                    TAG: ${{ env.TAG }}
-                with:
-                    remote_host: ssh://root@server.zenmo.com
-                    ssh_private_key: ${{ secrets.SWARM_SSH_PRIVATE_KEY }}
-                    ssh_public_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ1E4LUG22qgzc8U7oNYGWCn0cyA31+iyX2pck9wcPMS
-                    args: stack deploy --compose-file ./webtool/compose-prod.yaml local4local
