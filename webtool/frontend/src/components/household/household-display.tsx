@@ -1,11 +1,10 @@
-import {FunctionComponent, useContext} from "react"
+import {FunctionComponent} from "react"
 import {Card, DataList, Flex} from "@radix-ui/themes"
 import {HouseholdGroup} from "local4local"
 import {HouseholdHeading} from "./household-heading.tsx"
 import {CardMenu} from "./../card-menu.tsx"
 import {DivWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';
-import {IsDevModeContext} from "../devmode/DevMode.ts"
 
 export const HouseholdDisplay: FunctionComponent<{ 
     householdGroup: HouseholdGroup,
