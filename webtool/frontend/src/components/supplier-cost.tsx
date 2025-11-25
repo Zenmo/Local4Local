@@ -106,7 +106,7 @@ export const SupplierCostForm: FunctionComponent<{
                            min={0}
                            step={0.001}/>
                 </div>
-                <Button onClick={hide} style={{marginRight: '10px'}} highContrast variant="soft">Annuleren</Button>
+                <Button type="button" onClick={hide} style={{marginRight: '10px'}} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>

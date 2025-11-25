@@ -63,7 +63,7 @@ export const SolarFarmForm: FunctionComponent<{
                     </RadioGroup.Root>
                 </div>
                 <CostSection initialData={ initialData?.cost } />
-                <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
+                <Button type="button" onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
