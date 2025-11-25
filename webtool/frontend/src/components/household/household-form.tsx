@@ -60,7 +60,7 @@ export const HouseholdForm: FunctionComponent<{
                     <LabelWithInfo data={titles["annualBaseConsumptionAvg_kWh"]} />
                     <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={initialData?.annualBaseConsumptionAvg_kWh || 3000} min={0} />
                 </div>
-                <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
+                <Button type="button" onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
                 <Button type="submit">Opslaan</Button>
             </form>
         </Card>
