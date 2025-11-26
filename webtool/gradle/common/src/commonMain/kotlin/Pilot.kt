@@ -94,15 +94,7 @@ fun pilotFromJson(json: String) = Json.decodeFromString<Pilot>(json)
 fun createDefaultStartPilot() = Pilot(
     name = "start",
     householdGroups = listOf(
-        HouseholdGroup(
-            type = "Huishoudens",
-            households_n = 200,
-            hasPV_r = 0.2,
-            hasHeatPump_r = 0.1,
-            hasChargePoint_r = 0.2,
-            hasHomeBattery_r = 0.0,
-            annualBaseConsumptionAvg_kWh = 3000.0,
-        )
+        HouseholdGroup(),
     )
 )
 
@@ -145,14 +137,14 @@ data class AssetCost(
 @JsExport
 @Serializable
 data class HouseholdGroup(
-    val type: String,
-    val households_n: Int,
-    val hasPV_r: Double,
-    val hasHeatPump_r: Double,
-    val hasChargePoint_r: Double,
-    val hasHomeBattery_r: Double,
+    val type: String = "Huishoudens",
+    val households_n: Int = 400,
+    val hasPV_r: Double = .3,
+    val hasHeatPump_r: Double = .1,
+    val hasChargePoint_r: Double = .2,
+    val hasHomeBattery_r: Double = .01,
      /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
-    val annualBaseConsumptionAvg_kWh: Double,
+    val annualBaseConsumptionAvg_kWh: Double = 3000.0,
     val id: String = "HouseholdGroup_${idCounter++}"
 ) {
     fun hasPV_n() = (hasPV_r * households_n).roundToInt()
