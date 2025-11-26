@@ -62,14 +62,20 @@ tasks {
 
 dependencies {
     val http4kVersion = "6.4.1.0"
+    val junitVersion = "6.0.1"
 
     implementation(project(":common"))
     implementation("org.http4k:http4k-core:${http4kVersion}")
     implementation("org.http4k:http4k-format-kotlinx-serialization:${http4kVersion}")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:${libs.versions.kotlin}")
+    implementation("org.postgresql:postgresql:42.7.7")
     testImplementation("org.http4k:http4k-testing-approval:${http4kVersion}")
     testImplementation("org.http4k:http4k-testing-hamkrest:${http4kVersion}")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.12.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.12.1")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    // Required for JUnit test discovery and execution with Gradle
+    // Without this, Gradle cannot find or run JUnit Jupiter tests
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:${junitVersion}")
 }
 
