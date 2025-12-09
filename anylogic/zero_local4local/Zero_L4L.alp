@@ -4,7 +4,7 @@
 	         AnyLogic Project File
 *************************************************
 -->
-<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.6.202509050523" AlpVersion="8.9.6">
+<AnyLogicWorkspace WorkspaceVersion="1.9" AnyLogicVersion="8.9.7.202512010504" AlpVersion="8.9.7">
 <Model>
 	<Id>1658477103134</Id>
 	<Name><![CDATA[Zero_L4L]]></Name>
@@ -79,7 +79,8 @@ public void f_addMixins() {
 public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType asset_type, String asset_name, double installedPower_kW){
 	f_addEnergyProduction_L4L(parentGC, asset_type, asset_name, installedPower_kW);
 }*/]]></AdditionalClassCode>
-			<Import><![CDATA[import nu.local4local.common.WindFarmLocation;]]></Import>
+			<Import><![CDATA[import nu.local4local.common.WindFarmLocation;
+import nu.local4local.common.coopreport.HouseholdGroupReport;]]></Import>
 			<ExtendsReference>
 				<PackageName><![CDATA[zerointerfaceloader]]></PackageName>
 				<ClassName><![CDATA[Zero_Loader]]></ClassName>
@@ -104,10 +105,7 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 					<Name><![CDATA[p_remainingTotals]]></Name>
 				</Parameter>
 				<Parameter>
-					<Name><![CDATA[p_local4localBackendUrl]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_local4localSession]]></Name>
+					<Name><![CDATA[p_userIdToken]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -223,6 +221,21 @@ public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType as
 					<ShowLabel>true</ShowLabel>
 					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
 						<Type><![CDATA[List<nu.local4local.common.HouseholdGroup>]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA[new ArrayList<>()]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1763565377219</Id>
+					<Name><![CDATA[c_householdGroupGCs]]></Name>
+					<X>-680</X><Y>730</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[List<List<GCHouse>>]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[new ArrayList<>()]]></Code>
 						</InitialValue>
@@ -483,7 +496,7 @@ annotation(row.get( buildings.annotation )).
 extra_info(row.get( buildings.extra_info )).
 contracted_capacity_kw(row.get( buildings.contracted_capacity_kw )).
 electricity_consumption_kwhpa(row.get( buildings.electricity_consumption_kwhpa )).
-gas_consumption_kwhpa(row.get( buildings.gas_consumption_kwhpa )).
+//gas_consumption_m3pa(row.get( buildings.gas_consumption_m3pa )).
 //energy_label(row.get( buildings.energy_label )).
 gridnode_id(row.get( buildings.trafo_id )).
 latitude(row.get( buildings.latitude )).
@@ -744,7 +757,7 @@ for(Tuple row : rows){
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
 					<ShowLabel>true</ShowLabel>
-					<Body><![CDATA[List<Tuple> rows = selectFrom(neighbourhoods).list();
+					<Body><![CDATA[/*List<Tuple> rows = selectFrom(neighbourhoods).list();
 		
 for(Tuple row: rows){
 	c_neighbourhood_data.add(Neighbourhood_data.builder().
@@ -756,7 +769,7 @@ for(Tuple row: rows){
 	latitude(row.get( neighbourhoods.latitude )).
 	longitude(row.get( neighbourhoods.longitude )).
 	polygon(row.get( neighbourhoods.polygon )).build());
-}]]></Body>
+}*/]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
 					<ReturnModificator>VOID</ReturnModificator>
@@ -1071,7 +1084,7 @@ if (windFarms.size() == 0) {
 		houseScaling_r = (double)householdGroup.getHouseholds_n() / (double)nbHouses;		
 		traceln("HouseScaling_r for householdGroup with %s houses, set to %.2f", householdGroup.getHouseholds_n(), houseScaling_r );
 	}
-	
+	List<GCHouse> groupGcList = new ArrayList<>();
 	for (int i = 1; i <= nbHouses ; i += 1) {
 	//for (int i = 1; i <= 1 ; i += 1) {
 		// Grid
@@ -1092,9 +1105,12 @@ if (windFarms.size() == 0) {
 		
 		//Asset
 		f_addLocal4LocalHouseAssets(gridHouse, householdGroup, g*1000+i, houseScaling_r );
+		groupGcList.add(gridHouse);
 	}
+	
 	Interface_L4L interface_L4L = (Interface_L4L)zero_Interface;
 	c_householdGroups.add(householdGroup);
+	c_householdGroupGCs.add(groupGcList);
 	interface_L4L.txt_households_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
 	interface_L4L.txt_households_expnd_value.setText(String.format("%s", householdGroup.getHouseholds_n()));
 	interface_L4L.txt_households_expnd_hasPV_value.setText(String.format("%s"+" %%", roundToInt(householdGroup.getHasPV_r()*100)));
@@ -2271,6 +2287,71 @@ energyModel.f_addProfile(profilePointer);
 					<ShowLabel>true</ShowLabel>
 					<Body><![CDATA[v_objectMapper.addMixIn(Actor.class, ActorMixin.class);  // For EnergyCoop_L4L agent]]></Body>
 				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[List<HouseholdGroupReport>]]></ReturnType>
+					<Id>1763562537010</Id>
+					<Name><![CDATA[f_getHouseholdPVandBatteryStats]]></Name>
+					<Description><![CDATA[Executed on simulation end to export data.
+
+@author: JorritvandenHouten
+@since: Sprint 6]]></Description>
+					<X>-678</X><Y>711</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<HouseholdGroupReport> householdGroupReports = new ArrayList<>();
+
+for (int i = 0; i < c_householdGroups.size(); i++){
+
+	nu.local4local.common.HouseholdGroup householdGroup = c_householdGroups.get(i);
+	List<GCHouse> houseList = c_householdGroupGCs.get(i);
+	int nbHouseholds = 0;
+	int nbHouseHoldsWithPV = 0;
+	int nbHouseHoldsWithBattery = 0;
+	int nbHouseHoldsWithPVandBattery = 0;
+	double totalPvPower_kW = 0;
+	double totalHomeBatteryCapacity_kWh = 0;
+	double totalHomeBatteryPower_kW = 0;
+	
+	for (GridConnection GC : houseList) {
+		if (GC instanceof GCHouse house) {
+			nbHouseholds++;
+			if (house.v_rapidRunData.assetsMetaData.totalInstalledPVPower_kW>0) {
+				nbHouseHoldsWithPV++;
+				totalPvPower_kW += house.v_rapidRunData.assetsMetaData.totalInstalledPVPower_kW;
+				if (house.p_batteryAsset != null) {
+					nbHouseHoldsWithPVandBattery++;
+				}
+			}
+			if (house.p_batteryAsset != null) {
+				nbHouseHoldsWithBattery++;
+				totalHomeBatteryCapacity_kWh+= house.p_batteryAsset.getStorageCapacity_kWh();
+				totalHomeBatteryPower_kW+= house.p_batteryAsset.getCapacityElectric_kW();
+			}
+		}
+	}
+	HouseholdGroupReport report = new HouseholdGroupReport.Builder()
+	.id(householdGroup.getId())
+	.avgHomeBatteryCapacity_kWh(nbHouseHoldsWithBattery == 0 ? 0 : totalHomeBatteryCapacity_kWh / (double)nbHouseHoldsWithBattery)
+	.avgHomeBatteryPower_kW(nbHouseHoldsWithBattery == 0 ? 0 : totalHomeBatteryPower_kW / (double)nbHouseHoldsWithBattery)
+	.avgPvSystemPower_kWp(nbHouseHoldsWithPV == 0 ? 0 : totalPvPower_kW / (double)nbHouseHoldsWithPV)
+	.pvHouseholdsWithHomeBattery_fr(nbHouseholds == 0 ? 0 : (double)nbHouseHoldsWithPVandBattery / (double)nbHouseholds)
+	.nonPvHouseholdsWithHomeBattery_fr(nbHouseholds == 0 ? 0 : (double)(nbHouseHoldsWithBattery - nbHouseHoldsWithPVandBattery) / (double)nbHouseholds)
+	.build();
+	
+	/*report.id = householdGroup.getId();
+	report.avgHomeBatteryCapacity_kWh = totalHomeBatteryCapacity_kWh / (double)nbHouseHoldsWithBattery;
+	report.avgHomeBatteryPower_kW = totalHomeBatteryPower_kW / (double)nbHouseHoldsWithBattery;
+	report.avgPVsystemPower_kW = totalPvPower_kW / (double)nbHouseHoldsWithPV;
+	report.PVhouseholdsWithHomeBattery_fr = (double)nbHouseHoldsWithPVandBattery / (double)nbHouseHoldsWithPV;
+	report.nonPVhouseholdsWithHomeBattery_fr = (double)(nbHouseHoldsWithBattery - nbHouseHoldsWithPVandBattery) / (double)(nbHouseholds-nbHouseHoldsWithPV);
+	*/
+	householdGroupReports.add(report);
+}
+return householdGroupReports;]]></Body>
+				</Function>
 			</Functions>
 			<AgentLinks>
 				<AgentLink>
@@ -2383,6 +2464,12 @@ energyModel.f_addProfile(profilePointer);
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[p_residentialScenario_Current]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[map_filterOptionUINames]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[map_UINamesFilterOption]]></Name>
 						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
@@ -2536,6 +2623,12 @@ import org.jfree.graphics2d.svg.SVGUnits;
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[t_scenario_custom]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[map_filterOptionUINames]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[map_UINamesFilterOption]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -2867,6 +2960,7 @@ gr_uI_Results_presentation.setY(+1200);
 
 //uI_Results.f_setRadioButtons(null,null,false);
 uI_Results.f_setChartBalance_Presentation(null,null,false);
+uI_Results.f_setChartBars_Presentation(null,null,false);
 uI_Results.f_setChartGelijktijdigheid_Presentation(null,null,true);
 uI_Results.chartGelijktijdigheid.f_setCharts();
 
@@ -8298,6 +8392,7 @@ Klik op dit vlak om verder te gaan.]]></Text>
 			<Description><![CDATA[Root object of the Simulation]]></Description>
 			<Import><![CDATA[import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import nu.local4local.common.coopreport.HouseholdGroupReport;
 /*
 import java.io.IOException;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -9033,6 +9128,9 @@ f_setProject_data();
 //Project specific initialize functions
 f_projectSpecificInitializeFunctions();
 
+//Set 'empty' user
+f_setUser();
+
 //Startup loader
 loader_L4L.p_local4localBackendUrl=p_local4localBackendUrl;
 loader_L4L.p_local4localSession=p_local4localSession;
@@ -9106,7 +9204,7 @@ return coopReport;]]></Body>
 					<Id>1742390719382</Id>
 					<Name><![CDATA[f_getChartGroupSVGId]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>560</X><Y>460</Y>
+					<X>560</X><Y>480</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9114,6 +9212,45 @@ return coopReport;]]></Body>
 					<Body><![CDATA[String svgId = Long.toString(loader_L4L.interface_L4L.uI_Results.chartGelijktijdigheid.f_getChartGroupSVGId());
 //traceln("Production chart SVG id: %s", pl_consumptionChartYear.getSVGId());
 return svgId;]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[String]]></ReturnType>
+					<Id>1763565886692</Id>
+					<Name><![CDATA[f_getHouseholdGroupAssets]]></Name>
+					<X>560</X><Y>450</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<HouseholdGroupReport> householdGroupReports = loader_L4L.f_getHouseholdPVandBatteryStats();
+
+/*String coopReportJson = "";
+ObjectMapper mapper = new ObjectMapper();
+try {
+	coopReportJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString( coopReport );
+} catch(IOException e) {
+	e.printStackTrace();
+}
+
+traceln("coopReportJson: %s", coopReportJson);
+*/
+
+return HouseholdGroupReport.listToJson(householdGroupReports);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>VOID</ReturnModificator>
+					<ReturnType><![CDATA[double]]></ReturnType>
+					<Id>1765295472924</Id>
+					<Name><![CDATA[f_setUser]]></Name>
+					<X>580</X><Y>210</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[//Set the user
+loader_L4L.user = User.builder().
+build(); ]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -9179,6 +9316,9 @@ return svgId;]]></Body>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[user]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_userIdToken]]></Name>
 						</Parameter>
 						<Parameter>
 							<Name><![CDATA[p_remainingTotals]]></Name>
@@ -9449,7 +9589,7 @@ return svgId;]]></Body>
 				 	<EmbeddedIcon>false</EmbeddedIcon>				
 					<Id>1741079901546</Id>
 					<Name><![CDATA[button]]></Name>
-					<X>560</X><Y>490</Y>
+					<X>560</X><Y>510</Y>
 					<Label><X>0</X><Y>-10</Y></Label>
 					<PublicFlag>true</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9464,6 +9604,38 @@ return svgId;]]></Body>
 					<ExtendedProperties>
 						<Font Name="Dialog" Size="11" Style="0"/>
 						<LabelText><![CDATA[printCoopReport]]></LabelText>
+					</ExtendedProperties>
+				</Control>
+				<Control Type="Button">
+				 	<EmbeddedIcon>false</EmbeddedIcon>				
+					<Id>1763567393989</Id>
+					<Name><![CDATA[button1]]></Name>
+					<X>560</X><Y>560</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<BasicProperties Width="100" Height="30">
+                        <EmbeddedIcon>false</EmbeddedIcon>	
+						<TextColor>-16777216</TextColor>
+						<Enabled>true</Enabled>
+						<ActionCode><![CDATA[String householdGroupReportsJson = f_getHouseholdGroupAssets();
+/*
+String householdGroupReportsJson = "";
+ObjectMapper mapper = new ObjectMapper();
+try {
+	householdGroupReportsJson = mapper.writerWithDefaultPrettyPrinter().writeValueAsString( householdGroupReports );
+} catch(IOException e) {
+	e.printStackTrace();
+}
+*/
+traceln("householdGroupReports: %s", householdGroupReportsJson);
+]]></ActionCode>
+					</BasicProperties>
+					<ExtendedProperties>
+						<Font Name="Dialog" Size="11" Style="0"/>
+						<LabelText><![CDATA[printHouseholdGroupAssets]]></LabelText>
 					</ExtendedProperties>
 				</Control>
 			</Presentation>
@@ -9540,6 +9712,18 @@ public void f_calculateKPIs(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_aggregatorBatteryManagement]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[b_fixedAssetTariff]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -9636,7 +9820,7 @@ public void f_calculateKPIs(){
 				<Variable Class="PlainVariable">
 					<Id>1729601818209</Id>
 					<Name><![CDATA[v_coopReport]]></Name>
-					<X>1190</X><Y>910</Y>
+					<X>1130</X><Y>930</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9663,7 +9847,7 @@ public void f_calculateKPIs(){
 				<Variable Class="PlainVariable">
 					<Id>1730121166984</Id>
 					<Name><![CDATA[v_coopReportIncludeFeedinInOwnConsumption]]></Name>
-					<X>1190</X><Y>930</Y>
+					<X>1130</X><Y>950</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9690,7 +9874,7 @@ public void f_calculateKPIs(){
 				<Variable Class="Parameter">
 					<Id>1729495881792</Id>
 					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
-					<X>1190</X><Y>840</Y>
+					<X>1130</X><Y>860</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9714,7 +9898,7 @@ public void f_calculateKPIs(){
 				<Variable Class="Parameter">
 					<Id>1730297167530</Id>
 					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
-					<X>1190</X><Y>860</Y>
+					<X>1130</X><Y>880</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9738,7 +9922,7 @@ public void f_calculateKPIs(){
 				<Variable Class="Parameter">
 					<Id>1730304641116</Id>
 					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
-					<X>1190</X><Y>880</Y>
+					<X>1130</X><Y>900</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9763,7 +9947,7 @@ public void f_calculateKPIs(){
 					<Id>1741258840495</Id>
 					<Name><![CDATA[b_fixedAssetTariff]]></Name>
 					<ExcludeFromBuild>true</ExcludeFromBuild>
-					<X>1190</X><Y>770</Y>
+					<X>1130</X><Y>770</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9787,7 +9971,7 @@ public void f_calculateKPIs(){
 				<Variable Class="CollectionVariable">
 					<Id>1729007310573</Id>
 					<Name><![CDATA[c_AssetCosts]]></Name>
-					<X>1194</X><Y>815</Y>
+					<X>1134</X><Y>835</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -9810,7 +9994,7 @@ public void f_calculateKPIs(){
 
 @author: JorritvandenHouten
 @since: Sprint 6]]></Description>
-					<X>1193</X><Y>792</Y>
+					<X>1133</X><Y>792</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
 					<PresentationFlag>true</PresentationFlag>
@@ -10064,6 +10248,7 @@ coopReport.totalDelivery(J_AccountingLine.fromPricePerMWh(v_totalCustomerDeliver
 coopReport.onbalans(J_AccountingLine.fromTotalPrice(v_rapidRunData.getTotalImport_MWh(OL_EnergyCarriers.ELECTRICITY)+v_rapidRunData.getTotalExport_MWh(OL_EnergyCarriers.ELECTRICITY), onbalansCosts_eur));
 coopReport.totalFeedin(J_AccountingLine.fromPricePerMWh(v_totalCustomerFeedIn_MWh, p_feedinCompensation_eurpMWh));
 v_coopReportIncludeFeedinInOwnConsumption = coopReport;
+
 for (var ci : c_AssetCosts) {
 	v_coopReportIncludeFeedinInOwnConsumption.addAssetCost(ci);
 }
@@ -11536,7 +11721,18 @@ public class J_CoopReport implements Serializable {
 	J_AccountingLine benchmark = J_AccountingLine.NaN();
 	@JsonSerialize
 	List<J_AssetCost> assetList = new ArrayList<J_AssetCost>();
-	
+	/*
+	@JsonSerialize
+	public double avgPVsystemPower_kW;
+	@JsonSerialize
+	public double avgHomeBatteryCapacity_kWh;
+	@JsonSerialize
+	public double avgHomeBatteryPower_kW;
+	@JsonSerialize
+	public double PVhouseholdsWithHomeBattery_fr;
+	@JsonSerialize
+	public double nonPVhouseholdsWithHomeBattery_fr;
+	*/
 	@JsonSerialize
 	public void addAssetCost(J_AssetCost asset) {
 		assetList.add(asset);
@@ -11654,6 +11850,37 @@ public abstract class ActorMixin implements Serializable {
 	 */ 
 	private static final long serialVersionUID = 1L;
 
+}]]></Text>
+		</JavaClass>
+		<!--   =========   Java Class   ========  -->
+		<JavaClass>
+			<Id>1763566155425</Id>
+			<Name><![CDATA[HouseholdGroupReport]]></Name>
+			<ExcludeFromBuild>true</ExcludeFromBuild>
+			<Text><![CDATA[/**
+ * HouseholdGroupReport
+ */	
+
+import lombok.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+@lombok.Data
+@lombok.experimental.Accessors(fluent = true)
+
+public class HouseholdGroupReport implements Serializable {
+	
+	@JsonSerialize
+	public String id;
+	@JsonSerialize
+	public double avgPVsystemPower_kW;
+	@JsonSerialize
+	public double avgHomeBatteryCapacity_kWh;
+	@JsonSerialize
+	public double avgHomeBatteryPower_kW;
+	@JsonSerialize
+	public double PVhouseholdsWithHomeBattery_fr;
+	@JsonSerialize
+	public double nonPVhouseholdsWithHomeBattery_fr;
 }]]></Text>
 		</JavaClass>
 	</JavaClasses>
@@ -11844,5 +12071,6 @@ public abstract class ActorMixin implements Serializable {
 	<Uuid>2216cdd0-177c-5678-9e88-dd8b95312234</Uuid>
 	<Uuid>1737c8c6-b526-4dd8-589e-ee4e205b06f4</Uuid>
 	<Uuid>6a43bef6-8b70-4253-a828-82c3ab399655</Uuid>
+	<Uuid>0a27038a-0f3a-48bb-b235-4a44066a1402</Uuid>
 </ConvertersApplied>
 </AnyLogicWorkspace>
