@@ -54,15 +54,14 @@ services:
         volumes:
             - gradle-backend-home:/home/gradle/.gradle
 
-    # To connect from remote AnyLogic cloud to locally running backend.
-    # Somehow only works with run and not with up.
+    # Use `docker compose attach ngrok` to view status
     ngrok:
         image: ngrok/ngrok
         command:
             -   http
             -   --domain=${NGROK_DOMAIN:-piranha-equipped-molly.ngrok-free.app}
             -   backend:9000
-
+        tty: true
         env_file:
             -   ngrok.env
         ports:

@@ -71,6 +71,13 @@ export const titles = {
     "hasHomeBattery_r": {
         name: "hasHomeBattery_r",
         title: "Aandeel met thuisbatterij",
+        infoText: `
+            Het percentage van deze huishoudgroep dat thuisbatterij heeft. 
+            Een thuisbatterij heeft een opslagcapaciteit van 4kWh en een vermogen van 2kW. 
+            De thuisbatterijen worden éérst toegekend aan de huizen met zonnepanelen. 
+            De thuisbatterij wordt ingezet om zelfverbruik achter de meter per huishouden te maximaliseren. 
+            Dit zal de levering én teruglevering van huishoudens met een thuisbatterij verlagen.
+        `.trim()
     },
     "annualBaseConsumptionAvg_kWh": {
         name: "annualBaseConsumptionAvg_kWh",
