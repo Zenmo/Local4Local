@@ -1,5 +1,6 @@
 package nu.local4local.backend
 
+import nu.local4local.backend.resourcefully.ResourcefullyController
 import org.http4k.core.HttpHandler
 import org.http4k.core.Method
 import org.http4k.core.Method.GET

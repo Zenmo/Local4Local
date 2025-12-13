@@ -9,7 +9,7 @@ OUTPUT_DIR=coco
 mkdir -p $OUTPUT_DIR
 
 # Prepare Quadlet files
-for filename in *.container; do
+for filename in *.container *.env; do
     envsubst < "$filename" > "$OUTPUT_DIR/$filename"
 done
 

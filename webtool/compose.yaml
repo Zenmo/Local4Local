@@ -44,6 +44,21 @@ services:
         volumes:
             - gradle-client-shadowjar-home:/home/gradle/.gradle
 
+    postgres:
+      image: postgres:18
+      env_file:
+        - compose.env
+
+      environment:
+        POSTGRES_DB: ${POSTGRES_DB:-local4local}
+        POSTGRES_USER: ${POSTGRES_USER}
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      ports:
+        - "127.0.0.1:5432:5432"
+      volumes:
+        - postgres-data:/var/lib/postgresql
+
+
     backend:
         extends:
             service: gradle-base
@@ -51,6 +66,15 @@ services:
         ports:
             -   target: 9000
                 published: 9000
+        env_file:
+          - compose.env
+
+        environment:
+          POSTGRES_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-local4local}
+          POSTGRES_USER: ${POSTGRES_USER}
+          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        depends_on:
+          - postgres
         volumes:
             - gradle-backend-home:/home/gradle/.gradle
 
@@ -85,3 +109,4 @@ volumes:
     gradle-backend-home:
     gradle-client-test-home:
     gradle-client-shadowjar-home:
+    postgres-data:
