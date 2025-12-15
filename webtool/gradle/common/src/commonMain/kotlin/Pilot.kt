@@ -142,7 +142,7 @@ data class HouseholdGroup(
     val hasPV_r: Double = .3,
     val hasHeatPump_r: Double = .1,
     val hasChargePoint_r: Double = .2,
-    val hasHomeBattery_r: Double = .01,
+    val hasHomeBattery_r: Double = 0.0,
      /**Jaarlijks gemiddeld basisverbruik zonder warmtepomp, elektrische voertuigen en zonnepanelen */
     val annualBaseConsumptionAvg_kWh: Double = 3000.0,
     val id: String = "HouseholdGroup_${idCounter++}"
