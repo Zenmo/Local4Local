@@ -6,7 +6,7 @@ import {PilotState} from "../../services/use-pilot.ts"
 import {SdeSupplementForm} from "./SdeSupplementForm.tsx"
 import {DialogButtonRow} from "./DialogButtonRow.tsx"
 import {DataSharingButton} from "./DataSharingButton.tsx"
-import {ArrowRightIcon} from "@radix-ui/react-icons"
+import {FaArrowRight} from "react-icons/fa6"
 
 export type ReactSubmitEvent = SyntheticEvent<HTMLFormElement, SubmitEvent>
 export type SubmitEventHandeler = EventHandler<ReactSubmitEvent>
@@ -52,7 +52,7 @@ export const ResourcefullyForm: FunctionComponent<{
             <Local4LocalButton name="action" value="preview" style={{backgroundColor: local4localLightBlue}} size="1">Bericht bekijken</Local4LocalButton>
             <Local4LocalButton name="action" value="send" style={{backgroundColor: local4localDarkOrange}}>
                 Opsturen
-                <ArrowRightIcon />
+                <FaArrowRight />
             </Local4LocalButton>
         </DialogButtonRow>
     </form>
