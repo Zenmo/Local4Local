@@ -230,6 +230,6 @@ export const biogasGeneratorTitles = {
     curtailment: {
         name: "curtailment",
         title: "Curtailment",
-        infoText: "Windpark afschakelen wanneer de marktprijs negatief is. Dit vermindert de energieopwek, maar bespaart kosten."
+        infoText: "Als curtailment is ingeschakeld wordt deze biogasmotor afgeschakeld wanneer de marktprijs negatief is."
     },
 }
