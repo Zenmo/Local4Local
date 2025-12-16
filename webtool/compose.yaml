@@ -48,11 +48,9 @@ services:
       image: postgres:18
       env_file:
         - compose.env
-
       environment:
-        POSTGRES_DB: ${POSTGRES_DB:-local4local}
-        POSTGRES_USER: ${POSTGRES_USER}
-        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        POSTGRES_DB: coco
+        POSTGRES_USER: coco
       ports:
         - "127.0.0.1:5432:5432"
       volumes:
@@ -68,11 +66,9 @@ services:
                 published: 9000
         env_file:
           - compose.env
-
         environment:
-          POSTGRES_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-local4local}
-          POSTGRES_USER: ${POSTGRES_USER}
-          POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+          POSTGRES_URL: jdbc:postgresql://postgres:5432/coco
+          POSTGRES_USER: coco
         depends_on:
           - postgres
         volumes:
