@@ -1,5 +1,5 @@
 import {FormEvent, FunctionComponent, useState} from "react"
-import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {Flex, Card, DataList, Heading} from "@radix-ui/themes"
 import {Pilot, BiogasGenerator} from "local4local"
 import {CardMenu} from "../card-menu.tsx"
 import {CostSection, CostDisplay} from "../cost/cost-section.tsx"
@@ -7,6 +7,7 @@ import {ImFire} from "react-icons/im"
 import {costFromFormData} from "../cost/cost-from-form-data.ts"
 import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
 import {biogasGeneratorTitles, titles} from "../info/titles.tsx"
+import {AssetButtonRow} from "./AssetButtonRow.tsx"
 
 export const BiogasGeneratorDisplay: FunctionComponent<{
     biogasGenerator: BiogasGenerator,
@@ -74,8 +75,7 @@ export const BiogasGeneratorForm: FunctionComponent<{
                     <input type="checkbox" id="curtailment" name="curtailment" defaultChecked={initialData?.curtailment} />
                 </div>
                 <CostSection initialData={initialData?.cost}/>
-                <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
-                <Button type="submit">Opslaan</Button>
+                <AssetButtonRow onClickCancel={hide} />
             </form>
         </Card>
     )

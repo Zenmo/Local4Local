@@ -1,9 +1,10 @@
 import {FormEvent, FunctionComponent} from "react"
 import {HouseholdGroup} from "local4local"
-import {Button, Card} from "@radix-ui/themes"
+import {Card} from "@radix-ui/themes"
 import {HouseholdHeading} from "./household-heading.tsx"
 import {LabelWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';
+import {AssetButtonRow} from "../assets/AssetButtonRow.tsx"
 
 export const HouseholdForm: FunctionComponent<{
     initialData?: HouseholdGroup,
@@ -59,8 +60,7 @@ export const HouseholdForm: FunctionComponent<{
                     <LabelWithInfo data={titles["annualBaseConsumptionAvg_kWh"]} />
                     <input className="form-input" type="number" id="annualBaseConsumptionAvg_kWh" name="annualBaseConsumptionAvg_kWh" defaultValue={initialData.annualBaseConsumptionAvg_kWh} min={0} />
                 </div>
-                <Button type="button" onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
-                <Button type="submit">Opslaan</Button>
+                <AssetButtonRow onClickCancel={hide} />
             </form>
         </Card>
     )

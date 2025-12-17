@@ -1,11 +1,12 @@
 import {FormEvent, FunctionComponent} from "react"
 import {HeatStorage} from "local4local"
-import {Button, Card} from "@radix-ui/themes"
+import {Card} from "@radix-ui/themes"
 import {HeatStorageHeading} from "./heat-storage-heading.tsx"
 import {CostSection} from "../cost/cost-section.tsx"
 import {costFromFormData} from "../cost/cost-from-form-data.ts"
 import {LabelWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';
+import {AssetButtonRow} from "../assets/AssetButtonRow.tsx"
 
 export const HeatStorageForm: FunctionComponent<{
     initialData?: HeatStorage | null;
@@ -52,8 +53,7 @@ export const HeatStorageForm: FunctionComponent<{
 
                 <CostSection initialData={initialData?.cost}/>
 
-                <Button type="button" onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
-                <Button type="submit">Opslaan</Button>
+                <AssetButtonRow onClickCancel={hide} />
             </form>
         </Card>
     )

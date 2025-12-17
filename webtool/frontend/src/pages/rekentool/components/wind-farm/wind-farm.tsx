@@ -1,5 +1,5 @@
 import {FormEvent, FunctionComponent, useState} from "react"
-import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {Flex, Card, DataList, Heading} from "@radix-ui/themes"
 import {Pilot, WindFarm, WindFarmLocation, AssetCost} from "local4local"
 import { GiWindTurbine } from "react-icons/gi";
 import {CostSection, CostDisplay} from "../cost/cost-section.tsx"
@@ -8,6 +8,7 @@ import {costFromFormData} from "../cost/cost-from-form-data.ts"
 import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
 import {windFarmTitles} from "../info/titles.tsx"
 import {LocationRadioButtons} from "./location-radio-buttons.tsx"
+import {AssetButtonRow} from "../assets/AssetButtonRow.tsx"
 
 export const WindFarmDisplay: FunctionComponent<{
     windFarm: WindFarm,
@@ -89,8 +90,7 @@ export const WindFarmForm: FunctionComponent<{
                     <input type="checkbox" id="curtailment" name="curtailment" defaultChecked={initialData?.curtailment} />
                 </div>
                 <CostSection initialData={initialData?.cost ?? AssetCost.createForGenerationAsset()}/>
-                <Button onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
-                <Button type="submit">Opslaan</Button>
+                <AssetButtonRow onClickCancel={hide} />
             </form>
         </Card>
     )

@@ -1,5 +1,5 @@
 import {FormEvent, FunctionComponent, useState} from "react"
-import {Flex, Button, Card, DataList, Heading} from "@radix-ui/themes"
+import {Flex, Card, DataList, Heading} from "@radix-ui/themes"
 import {Pilot, Battery} from "local4local"
 import {PiCarBatteryLight} from "react-icons/pi"
 import {CostSection, CostDisplay} from "../cost/cost-section.tsx"
@@ -7,6 +7,7 @@ import {CardMenu} from "../card-menu.tsx"
 import {costFromFormData} from "../cost/cost-from-form-data.ts"
 import {DivWithInfo, LabelWithInfo} from "../info/label-with-info.tsx"
 import { titles } from '../info/titles.tsx';
+import {AssetButtonRow} from "./AssetButtonRow.tsx"
 
 export const BatteryDisplay: FunctionComponent<{
     battery: Battery,
@@ -75,8 +76,7 @@ export const BatteryForm: FunctionComponent<{
                     <input className="form-input" type="number" id="peakPower_kW" name="peakPower_kW" defaultValue={ initialData?.peakPower_kW } />
                 </div>
                 <CostSection showCostPerKwh={false} showTotalCostFactors={true} initialData={initialData?.cost}/>
-                <Button type="button" onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
-                <Button type="submit">Opslaan</Button>
+                <AssetButtonRow onClickCancel={hide} />
             </form>
         </Card>
     )

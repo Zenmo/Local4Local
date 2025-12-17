@@ -1,11 +1,12 @@
 import {FormEvent, FunctionComponent} from "react"
-import {Button, Card, RadioGroup} from "@radix-ui/themes"
+import {Card, RadioGroup} from "@radix-ui/themes"
 import {SolarFarm, PVOrientation } from "local4local"
 import {CostSection} from "../cost/cost-section.tsx"
 import {costFromFormData} from "../cost/cost-from-form-data.ts"
 import {SolarFarmHeading} from "./solarfarm-heading.tsx"
 import {LabelWithInfo} from "../info/label-with-info.tsx"
 import {solarFarmTitles, titles} from "../info/titles.tsx"
+import {AssetButtonRow} from "../assets/AssetButtonRow.tsx"
 
 export const SolarFarmForm: FunctionComponent<{
     initialData?: SolarFarm | null
@@ -63,8 +64,7 @@ export const SolarFarmForm: FunctionComponent<{
                     </RadioGroup.Root>
                 </div>
                 <CostSection initialData={ initialData?.cost } />
-                <Button type="button" onClick={hide} style={{ marginRight: '10px' }} highContrast variant="soft">Annuleren</Button>
-                <Button type="submit">Opslaan</Button>
+                <AssetButtonRow onClickCancel={hide} />
             </form>
         </Card>
     )

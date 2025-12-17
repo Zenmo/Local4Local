@@ -1,9 +1,10 @@
 import {FormEvent, FunctionComponent} from "react"
 import {Company} from "local4local"
-import {Button, Card} from "@radix-ui/themes"
+import {Card} from "@radix-ui/themes"
 import {CompanyHeading} from "./company-heading.tsx"
 import { titles } from '../info/titles.tsx';
 import {LabelWithInfo} from "../info/label-with-info.tsx"
+import {AssetButtonRow} from "../assets/AssetButtonRow.tsx"
 
 export const CompanyForm: FunctionComponent<{
     initialData?: Company | null;
@@ -52,8 +53,7 @@ export const CompanyForm: FunctionComponent<{
                 {/*    <input className="form-input" type="number" id="chargePoints_n" name="chargePoints_n"*/}
                 {/*           defaultValue={initialData?.chargePoints_n} min={0} />*/}
                 {/*</div>*/}
-                <Button onClick={hide} style={{marginRight: '10px'}} highContrast variant="soft">Annuleren</Button>
-                <Button type="submit">Opslaan</Button>
+                <AssetButtonRow onClickCancel={hide} />
             </form>
         </Card>
     )
