@@ -20,7 +20,6 @@
 @font-face {
     font-family: 'rubik-regular';
     src: url('/rubik-regular.woff2') format('woff2');
-    font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
@@ -28,7 +27,6 @@
 @font-face {
     font-family: 'rubik-light';
     src: url('/rubik-light.woff2') format('woff2');
-    font-weight: light;
     font-style: normal;
     font-display: swap;
 }

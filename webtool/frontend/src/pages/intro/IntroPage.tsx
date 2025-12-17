@@ -1,6 +1,5 @@
 import {FunctionComponent} from "react"
 import {IntroText} from "./components/IntroText.tsx"
-import {UnderDevelopmentNotice} from "./components/UnderDevelopmentNotice.tsx"
 import {StartButton} from "../../shared-components/buttons/StartButton.tsx"
 import { Layout } from "../../layout/Layout.tsx"
 import {VideoTutorialButton} from "./components/VideoTutorialButton.tsx"
@@ -25,11 +24,13 @@ export const IntroPage: FunctionComponent = () => {
                 gap: "1rem",
             }}>
                 <IntroText/>
-                <UnderDevelopmentNotice/>
                 <div style={{
                     display: "flex",
                     justifyContent: "center",
                     gap: "2rem",
+                    padding: "1rem",
+                    position: "sticky",
+                    bottom: "1rem",
                 }}>
                     <VideoTutorialButton />
                     <StartButton/>

@@ -3,26 +3,14 @@ import {FunctionComponent} from "react"
 import Animation = AnyLogicCloudClient.Animation
 
 import {ResourcefullyDialogContent} from "./content.tsx"
-import {Local4LocalButton} from "../../../../shared-components/buttons/Local4LocalButton.tsx"
-import {local4localLightGreen} from "../../../../colors.ts"
 import {PilotState} from "../../services/use-pilot.ts"
 import {FaArrowRight} from "react-icons/fa6"
+import {BigButton} from "../../../../shared-components/buttons/BigButton.tsx"
 
 const Button: FunctionComponent = () => (
-    <Local4LocalButton
-        style={{
-            height: "unset",
-            fontSize: "1.3rem",
-            padding: "1.7rem 3rem",
-            margin: "0 4rem",
-            backgroundColor: local4localLightGreen,
-            alignSelf: "center",
-            color: "black",
-            zIndex: 99,
-        }}
-    >
-        Ga naar gevoeligheidsanalyse <FaArrowRight />
-    </Local4LocalButton>
+    <BigButton style={{zIndex: 99}}>
+        Gevoeligheidsanalyse <FaArrowRight />
+    </BigButton>
 )
 
 export const ResourcefullyDialog: FunctionComponent<{

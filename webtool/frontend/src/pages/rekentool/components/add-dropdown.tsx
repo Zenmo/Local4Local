@@ -1,7 +1,7 @@
 import {DropdownMenu} from "@radix-ui/themes"
 import {CSSProperties, FunctionComponent} from "react"
 import {PlusIcon} from "@radix-ui/react-icons"
-import {local4localLightGreen} from "../../../colors.ts"
+import {local4localGreen} from "../../../colors.ts"
 import {Local4LocalButton} from "../../../shared-components/buttons/Local4LocalButton.tsx"
 
 export const AddDropdown: FunctionComponent<{
@@ -28,7 +28,7 @@ export const AddDropdown: FunctionComponent<{
     <DropdownMenu.Root>
         <DropdownMenu.Trigger>
             <Local4LocalButton style={{
-                backgroundColor: local4localLightGreen,
+                backgroundColor: local4localGreen,
                 ...style,
             }}>
                 <PlusIcon style={{ width: "1.2rem", height: "1.2rem" }}  />

@@ -7,6 +7,7 @@ export const Local4LocalButton: FunctionComponent<ComponentProps<typeof Button>>
             cursor: "pointer",
             paddingRight: "1rem",
             borderRadius: "100rem",
+            fontWeight: "bold",
             ...style,
         }}
         {...props} />
