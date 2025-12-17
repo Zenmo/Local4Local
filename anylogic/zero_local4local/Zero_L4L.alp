@@ -69,11 +69,11 @@ public void f_setEngineProfiles() {
 	f_setEngineProfilesL4L();
 }
 
-@Override
+/*@Override
 public void f_addMixins() {
 	super.f_addMixins();
 	f_addMixinsOverride();
-}
+}*/
 
 /*@Override
 public void f_addEnergyProduction(GridConnection parentGC, OL_EnergyAssetType asset_type, String asset_name, double installedPower_kW){
@@ -2270,6 +2270,7 @@ energyModel.f_addProfile(profilePointer);
 					<ReturnType><![CDATA[double]]></ReturnType>
 					<Id>1753451218486</Id>
 					<Name><![CDATA[f_addMixinsOverride]]></Name>
+					<ExcludeFromBuild>true</ExcludeFromBuild>
 					<X>1366</X><Y>609</Y>
 					<Label><X>10</X><Y>0</Y></Label>
 					<PublicFlag>false</PublicFlag>
@@ -2461,6 +2462,24 @@ return householdGroupReports;]]></Body>
 						<Parameter>
 							<Name><![CDATA[map_UINamesFilterOption]]></Name>
 						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_defaultMainSliderGCName_solarfarm]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_defaultMainSliderGCName_windfarm]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_defaultMainSliderGCName_battery]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_defaultEnergyHubSliderGCName_solarfarm]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_defaultEnergyHubSliderGCName_windfarm]]></Name>
+						</Parameter>
+						<Parameter>
+							<Name><![CDATA[p_defaultEnergyHubSliderGCName_battery]]></Name>
+						</Parameter>
 					</Parameters>
 					<ReplicationFlag>false</ReplicationFlag>
 					<Replication Class="CodeValue">
@@ -2539,6 +2558,11 @@ public void f_projectSpecificStyling(){
 @Override
 public void f_setStartView() {
 	f_setStartView_L4L();
+}
+
+@Override
+public List<GridConnection> f_getMainInterfaceSliderEAGCs() {
+	return f_getMainInterfaceSliderEAGCsOverride();
 }
 ]]></AdditionalClassCode>
 			<Import><![CDATA[//Possibility to turn of traceln
@@ -2619,6 +2643,24 @@ import org.jfree.graphics2d.svg.SVGUnits;
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[map_UINamesFilterOption]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_defaultMainSliderGCName_solarfarm]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_defaultMainSliderGCName_windfarm]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_defaultMainSliderGCName_battery]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_defaultEnergyHubSliderGCName_solarfarm]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_defaultEnergyHubSliderGCName_windfarm]]></Name>
+				</Parameter>
+				<Parameter>
+					<Name><![CDATA[p_defaultEnergyHubSliderGCName_battery]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -2740,6 +2782,21 @@ import org.jfree.graphics2d.svg.SVGUnits;
 						<Type><![CDATA[boolean]]></Type>        
 						<InitialValue Class="CodeValue">
 							<Code><![CDATA[true]]></Code>
+						</InitialValue>
+					</Properties>
+				</Variable>
+				<Variable Class="PlainVariable">
+					<Id>1765980553455</Id>
+					<Name><![CDATA[infoTextBenchmarkPrijs]]></Name>
+					<X>-1060</X><Y>960</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Properties SaveInSnapshot="true" Constant="false" AccessType="public" StaticVariable="false">
+						<Type><![CDATA[String]]></Type>        
+						<InitialValue Class="CodeValue">
+							<Code><![CDATA["De Benchmarkprijs is een indicatie van het energietarief dat een conventionele leverancier zou bieden aan het gekozen klantenbestand, op basis van de day-ahead energiemarkt."]]></Code>
 						</InitialValue>
 					</Properties>
 				</Variable>
@@ -2962,7 +3019,7 @@ uI_Results.chartGelijktijdigheid.f_setCharts();
 
 pauseSimulation();
 this.viewAreaL4L.navigateTo();
-
+v_currentViewArea = viewAreaL4L;
 ]]></Body>
 				</Function>
 				<Function AccessType="default" StaticFunction="false">
@@ -3453,6 +3510,20 @@ svgObject.setVisible(true);
 
 gr_sankey.add(svgObject); // Need to add ShapeSVG object to group on canvas for it to become visible!
 gr_sankey.setVisible(true);]]></Body>
+				</Function>
+				<Function AccessType="default" StaticFunction="false">
+					<ReturnModificator>RETURNS_VALUE</ReturnModificator>
+					<ReturnType><![CDATA[List<GridConnection>]]></ReturnType>
+					<Id>1765976745714</Id>
+					<Name><![CDATA[f_getMainInterfaceSliderEAGCsOverride]]></Name>
+					<X>-650</X><Y>640</Y>
+					<Label><X>10</X><Y>0</Y></Label>
+					<PublicFlag>false</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>true</ShowLabel>
+					<Body><![CDATA[List<GridConnection> electricityTabEASliderGCs = new ArrayList<GridConnection>();
+
+return electricityTabEASliderGCs;]]></Body>
 				</Function>
 			</Functions>
 			<AgentLinks>
@@ -8283,6 +8354,73 @@ SPOT markt]]></Text>
 
 
 				</Group>
+				<Text>
+					<Id>1757582412205</Id>
+					<Name><![CDATA[txt_batterijNettoEnergie]]></Name>
+					<X>-2700</X><Y>1210</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[batteryIntoEnergy]]></Text>
+					<TextCode><![CDATA[roundToInt(((EnergyCoopL4L)this.energyModel.pop_energyCoops.get(0)).v_nettEnergyIntoBattery_MWh) + " MWh"]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>24</Size>
+						<Style>2</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Text>
+					<Id>1757585870379</Id>
+					<Name><![CDATA[txt_batterijNettoEnergie1]]></Name>
+					<X>-2667</X><Y>1180</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D</DrawMode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Rotation>0.0</Rotation>
+					<Color>-16777216</Color>
+					<Text><![CDATA[Netto energie naar batterij]]></Text>
+					<TextCode><![CDATA["Netto energie naar batterij"]]></TextCode>
+					<Font>
+						<Name>Calibri</Name>
+						<Size>24</Size>
+						<Style>2</Style>
+					</Font>
+					<Alignment>RIGHT</Alignment>
+				</Text>
+				<Image>
+					<Id>1765979862650</Id>
+					<Name><![CDATA[i_benchmarkPrijs]]></Name>
+					<X>-331.8</X><Y>1854.6</Y>
+					<Label><X>0</X><Y>-10</Y></Label>
+					<PublicFlag>true</PublicFlag>
+					<PresentationFlag>true</PresentationFlag>
+					<ShowLabel>false</ShowLabel>
+					<DrawMode>SHAPE_DRAW_2D3D</DrawMode>
+					<OnClickCode><![CDATA[f_setInfoText(i_benchmarkPrijs, infoTextBenchmarkPrijs, i_benchmarkPrijs.getX() + 0*viewAreaL4L.getX(), i_benchmarkPrijs.getY() + 0*viewAreaL4L.getY());]]></OnClickCode>
+					<EmbeddedIcon>false</EmbeddedIcon>
+					<Z>0</Z>
+					<Width>20</Width>
+					<Height>20</Height>
+					<Rotation>0.0</Rotation>
+					<ImageFiles>
+						<ImageResourceReference>
+							<PackageName><![CDATA[zerol4l]]></PackageName>
+							<ClassName><![CDATA[icon_i.png]]></ClassName>
+						</ImageResourceReference>
+					</ImageFiles>
+					<OriginalSize>false</OriginalSize>
+				</Image>
 				<Group>
 					<Id>1730998285479</Id>
 					<Name><![CDATA[grp_balanceWarning]]></Name>
@@ -8353,50 +8491,6 @@ Klik op dit vlak om verder te gaan.]]></Text>
 			</Presentation>
 
 				</Group>
-				<Text>
-					<Id>1757582412205</Id>
-					<Name><![CDATA[txt_batterijNettoEnergie]]></Name>
-					<X>-2700</X><Y>1210</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[batteryIntoEnergy]]></Text>
-					<TextCode><![CDATA[roundToInt(((EnergyCoopL4L)this.energyModel.pop_energyCoops.get(0)).v_nettEnergyIntoBattery_MWh) + " MWh"]]></TextCode>
-					<Font>
-						<Name>Calibri</Name>
-						<Size>24</Size>
-						<Style>2</Style>
-					</Font>
-					<Alignment>RIGHT</Alignment>
-				</Text>
-				<Text>
-					<Id>1757585870379</Id>
-					<Name><![CDATA[txt_batterijNettoEnergie1]]></Name>
-					<X>-2667</X><Y>1180</Y>
-					<Label><X>0</X><Y>-10</Y></Label>
-					<PublicFlag>true</PublicFlag>
-					<PresentationFlag>true</PresentationFlag>
-					<ShowLabel>false</ShowLabel>
-					<DrawMode>SHAPE_DRAW_2D</DrawMode>
-					<EmbeddedIcon>false</EmbeddedIcon>
-					<Z>0</Z>
-					<Rotation>0.0</Rotation>
-					<Color>-16777216</Color>
-					<Text><![CDATA[Netto energie naar batterij]]></Text>
-					<TextCode><![CDATA["Netto energie naar batterij"]]></TextCode>
-					<Font>
-						<Name>Calibri</Name>
-						<Size>24</Size>
-						<Style>2</Style>
-					</Font>
-					<Alignment>RIGHT</Alignment>
-				</Text>
 			</Presentation>
 
 				</Level>
@@ -9744,18 +9838,6 @@ public void f_calculateKPIs(){
 				</Parameter>
 				<Parameter>
 					<Name><![CDATA[p_aggregatorBatteryManagement]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_bufferPrice_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_feedinCompensation_eurpMWh]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[p_onbalansMarkup_r]]></Name>
-				</Parameter>
-				<Parameter>
-					<Name><![CDATA[b_fixedAssetTariff]]></Name>
 				</Parameter>
 			</Parameters>
 			<Generic>false</Generic>
@@ -12005,6 +12087,12 @@ public class HouseholdGroupReport implements Serializable {
 			<Id>1751285937562</Id>
 			<Path><![CDATA[data_Generic/inputTruckTripPatterns.csv]]></Path>
 			<ReferencedFromUserCode>true</ReferencedFromUserCode>
+			<Location>FILE_SYSTEM</Location>
+		</Resource>
+		<Resource>
+			<Id>1765979862662</Id>
+			<Path><![CDATA[icon_i.png]]></Path>
+			<ReferencedFromUserCode>false</ReferencedFromUserCode>
 			<Location>FILE_SYSTEM</Location>
 		</Resource>
 	</ModelResources>
