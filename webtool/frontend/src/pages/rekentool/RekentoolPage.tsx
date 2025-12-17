@@ -10,13 +10,18 @@ import {usePromiseValue} from "./services/use-promise-value.ts"
 import {usePilot} from "./services/use-pilot.ts"
 import {useOnce} from "./services/use-once.ts";
 import {useLoaderData} from "react-router";
+import { Layout } from "../../layout/Layout.tsx"
 
 export const anylogicElementId = "anylogic"
 
 export const RekentoolPage: FunctionComponent = () => {
     const {pilot} = useLoaderData()
 
-    return <ConfigureAndSimulate initialPilot={pilot} />
+    return (
+        <Layout>
+            <ConfigureAndSimulate initialPilot={pilot} />
+        </Layout>
+    )
 }
 
 type ConfigAndSimulateProps = {

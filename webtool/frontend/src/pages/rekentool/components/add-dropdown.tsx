@@ -2,7 +2,7 @@ import {DropdownMenu} from "@radix-ui/themes"
 import {CSSProperties, FunctionComponent} from "react"
 import {PlusIcon} from "@radix-ui/react-icons"
 import {local4localLightGreen} from "../../../colors.ts"
-import {Local4LocalButton} from "../../../shared-components/Local4LocalButton.tsx"
+import {Local4LocalButton} from "../../../shared-components/buttons/Local4LocalButton.tsx"
 
 export const AddDropdown: FunctionComponent<{
     addHouseholdGroup: () => void

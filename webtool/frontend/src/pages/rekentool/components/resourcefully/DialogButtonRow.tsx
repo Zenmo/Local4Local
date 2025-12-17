@@ -1,5 +1,5 @@
 import {FunctionComponent, PropsWithChildren} from "react"
-import {Local4LocalButton} from "../../../../shared-components/Local4LocalButton.tsx"
+import {Local4LocalButton} from "../../../../shared-components/buttons/Local4LocalButton.tsx"
 import {Dialog, Flex} from "@radix-ui/themes"
 import {local4localLightOrange} from "../../../../colors.ts"
 import {Cross1Icon} from "@radix-ui/react-icons"

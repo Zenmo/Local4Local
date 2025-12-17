@@ -6,6 +6,7 @@ import {
     RouterProvider,
 } from "react-router";
 import {pilotFromJson} from "local4local"
+import {VideoTutorialPage} from "./pages/video-tutorial/VideoTutorialPage.tsx"
 
 const router = createBrowserRouter([
     {
@@ -32,7 +33,11 @@ const router = createBrowserRouter([
             }
             return result
         }
-    }
+    },
+    {
+        path: "/video-tutorial",
+        Component: VideoTutorialPage,
+    },
 ]);
 
 export const Router: FunctionComponent = () => {

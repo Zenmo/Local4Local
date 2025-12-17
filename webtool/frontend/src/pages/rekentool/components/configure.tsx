@@ -17,7 +17,7 @@ import {CompanyForm} from "./company/company-form.tsx"
 import {SaveButton} from "./save.tsx"
 import {PlayIcon} from "@radix-ui/react-icons"
 import {local4localDarkOrange} from "../../../colors.ts"
-import {Local4LocalButton} from "../../../shared-components/Local4LocalButton.tsx"
+import {Local4LocalButton} from "../../../shared-components/buttons/Local4LocalButton.tsx"
 
 export const PlayButton: FunctionComponent<ComponentProps<typeof Button>> = (props) => (
     <Local4LocalButton {...props} style={{backgroundColor: local4localDarkOrange}}>

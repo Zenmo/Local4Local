@@ -1,6 +1,6 @@
 import {EventHandler, FunctionComponent, SyntheticEvent} from "react"
 import {Flex, Text, TextField} from "@radix-ui/themes"
-import {Local4LocalButton} from "../../../../shared-components/Local4LocalButton.tsx"
+import {Local4LocalButton} from "../../../../shared-components/buttons/Local4LocalButton.tsx"
 import {local4localDarkOrange, local4localLightBlue} from "../../../../colors.ts"
 import {PilotState} from "../../services/use-pilot.ts"
 import {SdeSupplementForm} from "./SdeSupplementForm.tsx"

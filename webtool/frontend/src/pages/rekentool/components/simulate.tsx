@@ -1,7 +1,7 @@
-import {FunctionComponent, useContext} from "react"
+import {FunctionComponent} from "react"
 import {anylogicElementId} from "../RekentoolPage.tsx"
 import {css} from "@emotion/react"
-import {IsDevModeContext} from "../../../shared-components/devmode/DevMode.ts"
+import {useIsDevMode} from "../../../shared-components/devmode/DevMode.ts"
 
 const hideControls = css({
     "#control-panel, #control-panel-progress": {
@@ -11,7 +11,7 @@ const hideControls = css({
 
 export const Simulate: FunctionComponent = () => {
     let extraStyles = hideControls
-    if (useContext(IsDevModeContext)) {
+    if (useIsDevMode()) {
         extraStyles = css({})
     }
 

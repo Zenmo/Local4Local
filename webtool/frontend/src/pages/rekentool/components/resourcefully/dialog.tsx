@@ -3,7 +3,7 @@ import {FunctionComponent} from "react"
 import Animation = AnyLogicCloudClient.Animation
 
 import {ResourcefullyDialogContent} from "./content.tsx"
-import {Local4LocalButton} from "../../../../shared-components/Local4LocalButton.tsx"
+import {Local4LocalButton} from "../../../../shared-components/buttons/Local4LocalButton.tsx"
 import {local4localLightGreen} from "../../../../colors.ts"
 import {PilotState} from "../../services/use-pilot.ts"
 import {FaArrowRight} from "react-icons/fa6"

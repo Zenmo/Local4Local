@@ -1,7 +1,7 @@
 import {FunctionComponent} from "react";
 import {Pilot} from "local4local"
 import {local4localDarkOrange} from "../../../colors.ts";
-import {Local4LocalButton} from "../../../shared-components/Local4LocalButton.tsx";
+import {Local4LocalButton} from "../../../shared-components/buttons/Local4LocalButton.tsx";
 import {NavLink} from "react-router";
 import {FaArrowRight} from "react-icons/fa6"
 

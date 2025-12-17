@@ -1,6 +1,6 @@
 import { Popover } from "@radix-ui/themes"
 import {FunctionComponent} from "react"
-import {Local4LocalButton} from "../../../../shared-components/Local4LocalButton.tsx"
+import {Local4LocalButton} from "../../../../shared-components/buttons/Local4LocalButton.tsx"
 import {InfoCircledIcon} from "@radix-ui/react-icons"
 
 export const DataSharingButton: FunctionComponent = () => (

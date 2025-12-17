@@ -6,7 +6,7 @@ import {FunctionComponent} from "react"
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {createDeeplink} from "./deeplink.ts"
 import {local4localDarkOrange, local4localLightBlue} from "../../../colors.ts"
-import {Local4LocalButton} from "../../../shared-components/Local4LocalButton.tsx"
+import {Local4LocalButton} from "../../../shared-components/buttons/Local4LocalButton.tsx"
 
 export const SaveButton: FunctionComponent<{pilot: Pilot}> = ({pilot}) => {
     const deeplinkUrl = createDeeplink(pilot)

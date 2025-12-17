@@ -1,6 +1,14 @@
-import {useState, createContext} from "react"
+import {useState, createContext, useContext} from "react"
 
-export const IsDevModeContext = createContext(false)
+export const DevModeContext = createContext<DevModeControl>({
+    isDevMode: false,
+    toggleDevMode: () => {},
+})
+
+/**
+ * Use this to read if dev mode is enabled.
+ */
+export const useIsDevMode = () => useContext(DevModeContext).isDevMode
 
 export type DevModeControl = {
     isDevMode: boolean,
